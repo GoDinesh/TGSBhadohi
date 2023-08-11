@@ -1,0 +1,373 @@
+<mat-stepper linear #stepper>
+    
+    <mat-step [stepControl]="studentgroup">
+            <div class="grid-card-container card-bottom-margin form-bg">
+                <form [formGroup]="studentgroup" class="grid-form">
+                  <ng-template matStepLabel>Student Details</ng-template>
+                          
+                                  <!-- begin::Student Name -->
+                                  <div class="form-group">
+                                      <label class="form-label required">Student Name</label>
+                                      <input class="form-control form-control-sm" formControlName="studentName" autocomplete="off">
+                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.studentName,"Student Name")}}</div>
+                                  </div>
+                                  <!-- end::Student Name -->
+
+                                  <!-- begin:: gender -->
+                                  <div class="form-group">
+                                    <label class="form-label required">Gender</label>
+                                      <div class="mt-2">
+                                        <mat-radio-group aria-label="Select an option">
+                                          <mat-radio-button value="M">Male</mat-radio-button>&nbsp;
+                                          <mat-radio-button value="F">Female</mat-radio-button>&nbsp;
+                                          <mat-radio-button value="O">Others</mat-radio-button>&nbsp;
+                                        </mat-radio-group>
+                                      </div>
+                                  </div>
+                                  <!-- end:: gender -->
+
+                                  <!-- begin DOB -->
+                                  <div class="form-group">
+                                      <label class="form-label required">Date Of Birth</label>
+                                      <!-- <input matInput [matDatepicker]="picker">
+                                      <mat-hint>MM/DD/YYYY</mat-hint>
+                                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                      <mat-datepicker #picker></mat-datepicker> -->
+                                  </div>
+                                  <!-- end:: DOB -->
+
+                                  
+                                  <!-- begin::Standard -->
+                                  <div class="form-group">
+                                      <label class="form-label required">Standard</label>
+                                      <input class="form-control form-control-sm" formControlName="standard" autocomplete="off">
+                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.standard,"Standard")}}</div>
+                                  </div>
+                                
+                                  <!-- end::Standard -->
+
+                                   <!-- begin::section -->
+                                   <div class="form-group">
+                                    <label class="form-label required">Section</label>
+                                    <input class="form-control form-control-sm" formControlName="section" autocomplete="off">
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.section,"Section")}}</div>
+                                   </div>
+                                  <!-- end::Section -->
+          
+                                  <!-- begin::academic year -->
+                                  <div class="form-group">
+                                      <label class="form-label required">Academic Year</label>
+                                      <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off">
+                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.academicYear,"Academic Year")}}</div>
+                                  </div>
+                                  <!-- end::academic year -->
+
+                                  <!-- begin::Aadhaar number  -->
+                                  <div class="form-group">
+                                    <label class="form-label required">Aadhaar Number </label>
+                                    <input class="form-control form-control-sm" formControlName="aadhaarNumber " autocomplete="off">
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.aadhaarNumber,"Aadhaar Number ")}}</div>
+                                  </div>
+                                  <!-- end::Aadhaar number  -->
+
+                                <!-- begin::Religion -->
+                                <div class="form-group">
+                                  <label class="form-label required">Religion</label>
+                                  <input class="form-control form-control-sm" formControlName="religion" autocomplete="off">
+                                  <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}</div>
+                              </div>
+                              <!-- end::Religion -->
+
+                              <!-- begin::Category -->
+                              <div class="form-group">
+                                <label class="form-label required">Category</label>
+                                <input class="form-control form-control-sm" formControlName="category" autocomplete="off">
+                                <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.category,"Category")}}</div>
+                              </div>
+                              <!-- end::Category -->
+          
+                                  <!-- begin::Registration No -->
+                                  <div class="form-group">
+                                      <label class="form-label required">Registration No</label>
+                                      <input class="form-control form-control-sm" formControlName="registrationNo" autocomplete="off">
+                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.registrationNo,"Registration No")}}</div>
+                                  </div>
+                                  <!-- end::Registration No -->
+                </form>
+              </div>
+              <div>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+    </mat-step>
+
+
+    <mat-step [stepControl]="parentgroup">
+        <div class="grid-card-container card-bottom-margin form-bg" >
+            <form [formGroup]="parentgroup" class="grid-form">
+              <ng-template matStepLabel>Parent</ng-template>
+                      
+                              <!-- begin::Father Name -->
+                              <div class="form-group">
+                                  <label class="form-label required">Father Name</label>
+                                  <input class="form-control form-control-sm" formControlName="fatherName" autocomplete="off">
+                                  <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherName,"Father Name")}}</div>
+                              </div>
+                              <!-- end::Father Name -->
+
+                              <!-- begin::Father Aadhar No -->
+                              <div class="form-group">
+                                <label class="form-label required">Father Aadhar No</label>
+                                <input class="form-control form-control-sm" formControlName="fatherAadharNo" autocomplete="off">
+                                <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherAadharNo,"Father Aadhar No")}}</div>
+                            </div>
+                            <!-- end::Father Aadhar No -->
+
+                             <!-- begin::Father Contact No -->
+                             <div class="form-group">
+                              <label class="form-label required">Father Contact No</label>
+                              <input class="form-control form-control-sm" formControlName="fatherContactNo" autocomplete="off">
+                              <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherContactNo,"Father Contact No")}}</div>
+                          </div>
+                          <!-- end::Father Contact No -->
+
+                          <!-- begin:: Father Qualification -->
+                          <div class="form-group">
+                            <label class="form-label required"> Father Qualification</label>
+                            <input class="form-control form-control-sm" formControlName="fatherQualification" autocomplete="off">
+                            <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherQualification,"Father Qualification")}}</div>
+                        </div>
+                        <!-- end:: Father Qualification -->
+
+                          <!-- begin:: Father Profession -->
+                          <div class="form-group">
+                              <label class="form-label required">Father Profession</label>
+                              <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off">
+                              <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherProfession,"Father Profession")}}</div>
+                          </div>
+                          <!-- end:: Father Profession -->
+
+                          <!-- begin::Father Email Id -->
+                          <div class="form-group">
+                            <label class="form-label required">Father Email Id</label>
+                            <input class="form-control form-control-sm" formControlName="fatherEmailId" autocomplete="off">
+                            <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Father Email Id")}}</div>
+                        </div>
+                        <!-- end::Father Email Id -->
+
+
+                               <!-- begin:: Mother Name -->
+                               <div class="form-group">
+                                <label class="form-label required">Mother Name</label>
+                                <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off">
+                                <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}</div>
+                            </div>
+                            <!-- end:: Mother Name -->
+
+                            <!-- begin:: Mother Aadhar Number -->
+                              <div class="form-group">
+                                  <label class="form-label required">Mother Aadhar Number</label>
+                                  <input class="form-control form-control-sm" formControlName="motherAadharNumber" autocomplete="off">
+                                  <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherAadharNumber,"Mother Aadhar Number")}}</div>
+                              </div>
+                            <!-- end:: Mother Name -->
+
+                            <!-- begin:: Mother Contact Number -->
+                            <div class="form-group">
+                              <label class="form-label required">Mother Contact Number</label>
+                              <input class="form-control form-control-sm" formControlName="motherContactNumber" autocomplete="off">
+                              <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherContactNumber,"Mother Contact Number")}}</div>
+                            </div>
+                            <!-- end:: Mother Name -->
+
+
+                                <!-- begin:: Mother Profession -->
+                                <div class="form-group">
+                                    <label class="form-label required">Mother Profession</label>
+                                    <input class="form-control form-control-sm" formControlName="motherProfession" autocomplete="off">
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherProfession,"Mother Profession")}}</div>
+                                </div>
+                                <!-- end:: Mother Profession-->
+
+                                <!-- begin:: Guardian Name -->
+                                <div class="form-group">
+                                    <label class="form-label required">Guardian Name</label>
+                                    <input class="form-control form-control-sm" formControlName="guardianName" autocomplete="off">
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.guardianName,"Guardian Name")}}</div>
+                                </div>
+                                <!-- end:: Guardian Name-->
+                                
+            </form>
+          </div>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+    </mat-step>
+
+    <mat-step [stepControl]="addressgroup">
+      <div class="grid-card-container card-bottom-margin form-bg" >
+        <form [formGroup]="addressgroup" class="grid-form">
+          <ng-template matStepLabel>Address</ng-template>
+            <!-- begin:: Country -->
+            <div class="form-group">
+                <label class="form-label required">Country</label>
+                <input class="form-control form-control-sm" formControlName="country" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.country,"Country")}}</div>
+            </div>
+            <!-- end:: Country-->
+
+            <!-- begin:: State -->
+            <div class="form-group">
+              <label class="form-label required">State</label>
+              <input class="form-control form-control-sm" formControlName="state" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.state,"State")}}</div>
+            </div>
+            <!-- end:: Country-->
+
+            <!-- begin:: City -->
+            <div class="form-group">
+              <label class="form-label required">City</label>
+              <input class="form-control form-control-sm" formControlName="city" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.city,"City")}}</div>
+            </div>
+            <!-- end:: Country-->
+
+            <!-- begin:: Pincode -->
+            <div class="form-group">
+              <label class="form-label required">City</label>
+              <input class="form-control form-control-sm" formControlName="pincode" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.pincode,"CitPincodey")}}</div>
+            </div>
+            <!-- end:: Pincode-->
+
+
+            <!-- begin:: Area -->
+            <div class="form-group">
+                <label class="form-label required">Area</label>
+                <input class="form-control form-control-sm" formControlName="area" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.area,"Area")}}</div>
+            </div>
+            <!-- end:: Area-->
+        </form>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="emergencyContactFormGroup">
+      <div class="grid-card-container card-bottom-margin form-bg" >
+        <form [formGroup]="emergencyContactFormGroup" class="grid-form">
+          <ng-template matStepLabel>Emergency Contact</ng-template>
+            <!-- begin:: Emergency Contact Person -->
+            <div class="form-group">
+                <label class="form-label required">Emergency Contact Person</label>
+                <input class="form-control form-control-sm" formControlName="emergencyContactPerson" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(emergencyContactFormControll.emergencyContactPerson,"Emergency Contact Person")}}</div>
+            </div>
+            <!-- end:: Emergency Contact Person-->
+
+            <!-- begin:: Emergency number -->
+              <div class="form-group">
+                <label class="form-label required">Emergency Number</label>
+                <input class="form-control form-control-sm" formControlName="emergencyNumber" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(emergencyContactFormControll.emergencyNumber,"Emergency Number")}}</div>
+            </div>
+            <!-- end:: Emergency number-->
+
+            <div class="form-group"></div>
+      </form>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+  </mat-step>
+
+     
+
+    <mat-step [stepControl]="lastSchoolFormGroup">
+        <div class="grid-card-container card-bottom-margin form-bg" >
+          <form [formGroup]="lastSchoolFormGroup" class="grid-form">
+          <ng-template matStepLabel>Previous School</ng-template>
+              <!-- begin:: School Name -->
+              <div class="form-group">
+                  <label class="form-label required">School Name</label>
+                  <input class="form-control form-control-sm" formControlName="schoolName" autocomplete="off">
+                  <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolName,"School Name")}}</div>
+              </div>
+              <!-- end:: School Name-->
+
+              <!-- begin:: TC Number -->
+              <div class="form-group">
+                <label class="form-label required">TC Number</label>
+                <input class="form-control form-control-sm" formControlName="tcNumber" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.tcNumber,"TC Number")}}</div>
+              </div>
+              <!-- end:: TC Number-->
+
+              <!-- begin:: last Class Pass -->
+              <div class="form-group">
+                <label class="form-label required">Last Class Pass </label>
+                <input class="form-control form-control-sm" formControlName="lastClassPass" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.lastClassPass,"last Class Pass")}}</div>
+              </div>
+              <!-- end:: last Class Pass -->
+
+              <!-- begin:: last Class Marks -->
+              <div class="form-group">
+                <label class="form-label required">Last Class Marks </label>
+                <input class="form-control form-control-sm" formControlName="lastClassMarks" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.lastClassMarks,"last Class Marks")}}</div>
+              </div>
+              <!-- end:: last Class Marks -->
+
+              <!-- begin:: School Address -->
+              <div class="form-group">
+                <label class="form-label required">School Address</label>
+                <input class="form-control form-control-sm" formControlName="schoolAddress" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolAddress,"School Address")}}</div>
+              </div>
+              <!-- end:: School Address -->
+
+
+          </form>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+
+    <mat-step [stepControl]="uploadDocumentForm">
+                <ng-template matStepLabel>Upload Document</ng-template>
+                <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
+                  <div class="form-group">
+                    <label for="file">File</label>
+                    <input  id="file" type="file" multiple  class="form-control" (change)="onFileChange($event)">
+                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
+                  </div>                    
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+          <table>
+            <tr *ngFor="let file of myFiles">
+            <td>{{file}}</td>
+          </tr>
+          </table>
+      
+    </mat-step>
+    
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper>

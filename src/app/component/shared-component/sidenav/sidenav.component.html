@@ -1,0 +1,48 @@
+<div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
+    <div class="logo-container">
+        <button class="logo" *ngIf="!collapsed" (click)="toggleCollapse()">
+            <i class="fa fa-angle-double-right"></i>
+        </button>
+        <!-- <div class="logo-text" *ngIf="collapsed">Qartpay</div> -->
+        <button class="btn-close" *ngIf="collapsed" (click)="closeSidenav()">
+            <i class="fa fa-angle-double-left close-icon">&nbsp;Collapse</i>
+        </button>
+    </div>
+    <div class="scrollwrap scrollwrap_delayed">
+        <ul class="sidenav-nav">
+            <li class="sidenav-nav-item" *ngFor="let data of navData">
+                <a  (click)="handleClick(data)" class="sidenav-nav-link" *ngIf="data.children && data.children.length>0">
+                    <i class="sidenav-link-icon text-center" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
+                    <i [ngClass]="!data.expanded? 'fa fa-angle-down': 'fa fa-angle-up'" *ngIf="data.children && collapsed" class="menu-collapse-icon"></i>
+                </a>
+    
+                <a class="sidenav-nav-link" 
+                    *ngIf="!data.children || (data.children && data.children.length === 0)"
+                    (click)="shrinkItem(data)"
+                    [routerLink]="data.routerLink"
+                    routerLinkActive = "active"
+                    [routerLinkActiveOptions]="{exact: true}"
+                >
+                    <i class="sidenav-link-icon" [class]="data.icon"></i>
+                    <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
+                </a>
+    
+                <div *ngIf="collapsed && data.children && data.children.length > 0">
+                    <app-sublevel-menu
+                        [data]="data"
+                        [collapsed]="collapsed"
+                        [multiple]="multiple"
+                        [expanded]="data.expanded"
+                    ></app-sublevel-menu>
+                </div>
+            </li>
+            <div class="sidenav-nav-item px-1">
+                <a class="sidenav-nav-link" (click)="logout()">
+                        <i class="sidenav-link-icon fa fa-power-off pr-2" aria-hidden="true"></i>
+                    <span class="sidenav-link-text" *ngIf="collapsed">Sign Out</span>
+                </a>
+              </div>
+        </ul>
+    </div>
+</div>

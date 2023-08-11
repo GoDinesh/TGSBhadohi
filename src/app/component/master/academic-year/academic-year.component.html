@@ -1,0 +1,66 @@
+<!-- begin:: first card -->
+<div class="grid-card-container card-bottom-margin">
+    <form [formGroup]="formgroup" class="grid-form">
+        <!-- begin::Academic Year -->
+        <div class="form-group">
+            <label class="form-label required">Academic Year</label>
+            <input class="form-control form-control-sm" formControlName="academicYear" placeholder="Ex.. 2022-2023" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYear,"Academic Year")}}</div>
+        </div>
+        <!-- end::Academic Year-->
+        <!-- begin::Academic Year code-->
+        <div class="form-group">
+            <label class="form-label required">Academic Year Code</label>
+            <input class="form-control form-control-sm" formControlName="academicYearCode" placeholder="Ex.. 20222023" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year Code")}}</div>
+        </div>
+        <!-- end::Academic Year code-->
+        <!-- begin::Buttons -->
+        <div class="grid-button-inline form-group pt-4">
+            <ng-container *ngIf="actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+            </ng-container>
+            <ng-container *ngIf="!actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+            </ng-container>
+            
+            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+        <!-- end::Buttons -->
+    </form>
+</div>
+<!-- end:: first card -->
+
+<!--begin::second Card body-->
+<div class="grid-card-container card-bottom-padding pt-2" *ngIf="posts.length">    
+    <!--end::table-->
+    <table id='table' datatable [dtOptions]="dtOptions">    
+     <thead>
+       <tr>
+         <th>S.No</th> 
+         <th>Acadenic Year Code</th>
+         <th>Academic Year</th>
+         <th>Status</th>
+         <th>Action</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let post of posts;let i=index">
+         <td class="td-sno">{{i+1}}</td>  
+         <td class="td-large">{{ post.academicYearCode }}</td>
+         <td class="td-auto">{{ post.academicYear }}</td>
+         <td class="td-status">
+               <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+               </mat-slide-toggle>
+         </td>
+         <td class="td-action">  
+           <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+   <!--end::table-->
+   </div>
+   <!--end::second Card body-->
+
+

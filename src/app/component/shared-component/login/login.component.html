@@ -1,0 +1,68 @@
+<!-- begin::background-image -->
+<div class="auth-bg-image bgi-no-repeat">
+  <!-- begin::login-card -->
+    <div class="login-form  position-relative overflow-hidden bg-white rounded shadow-sm mx-auto">
+      <h1 class="mb-3 text-bold text-center">Login</h1>
+      <!-- begin::form -->
+      <form [formGroup]="loginForm" class="example-form bg" autocomplete="off">
+        <!-- begin::usertype -->
+        <mat-label>User Type</mat-label>
+          <mat-form-field appearance="outline"  class="w-100">
+            <mat-select formControlName="userType" [disableOptionCentering]="true" panelClass="myPanelClass" placeholder="User Type">
+              <mat-option value="admin">Admin</mat-option>
+              <mat-option value="user">User</mat-option>
+            </mat-select>
+            <mat-error>
+              {{this.errorMsgService.getErrorMessage(loginFormControl.userType ,"User Type")}}
+            </mat-error>
+          </mat-form-field>
+          <!-- end::usertype -->
+
+          
+          <!-- <mat-form-field appearance="fill" class="w-100">
+            <mat-label class="required">User Type</mat-label>
+              <mat-select formControlName="userTyp" [disableOptionCentering]="true" panelClass="myPanelClass" placeholder="Select API">
+                <mat-option value="admin">Admin</mat-option>
+                <mat-option value="user">User</mat-option>
+              </mat-select>
+              <mat-error>
+                {{this.errorMsgService.getErrorMessage(loginFormControl.userType ,"User Type")}}
+              </mat-error>
+          </mat-form-field> -->
+
+          <!-- begin::username -->
+            <mat-label>Username</mat-label>
+              <mat-form-field appearance="outline" class="w-100">
+              <input matInput placeholder="Username" [(ngModel)]="username" formControlName="userName" autocomplete="off">
+                <mat-error>
+                    {{this.errorMsgService.getErrorMessage(loginFormControl.userName ,"User Name")}}
+                </mat-error>
+            </mat-form-field>
+            <!-- end::username -->
+
+            <!-- begin::password -->
+            <mat-label>Password</mat-label>
+          <mat-form-field appearance="outline" class="w-100">
+            <input matInput [ngClass]="{'form-password-hide' : !showPassword}"  placeholder="Password" [(ngModel)]="password" formControlName="password" autocomplete="off">
+            <span class="eye-span" (click)="toggleShowPassword()">
+              <i class="fa fa-eye"*ngIf="showPassword" ></i>
+              <i class="fa fa-eye-slash"*ngIf="!showPassword"></i>
+          </span>
+            <mat-error>
+                {{this.errorMsgService.getErrorMessage(loginFormControl.password,"Password")}}
+            </mat-error>
+          </mat-form-field>
+          <!-- end::password -->
+    </form>
+    <!-- end::form -->
+
+    <!-- begin::button -->
+    <mat-card-actions>
+      <button mat-raised-button  [disabled]="!loginForm.valid" (click)="login()" color="primary" class="w-100">Login</button>
+    </mat-card-actions>
+    <!-- end::button -->
+  </div>
+  <!-- end::login-card -->
+</div>
+<!-- end::background-image -->
+ 

@@ -1,0 +1,36 @@
+export const msgTypes = {
+
+    APP_SECRET_KEY: "bXVzdGJlMTZieXRlc2tleQ==",
+    
+    SUCCESS: "success",
+    ERROR : "error",
+    OK_KEY: 'OK',
+
+    SUCCESS_MESSAGE: "SUCCESS",
+    ERROR_MESSAGE: "ERROR",
+
+    COPIED : "Text Copied Successful",
+    //Status Update
+    STATUS_UPDATE: "Status Updated",
+    UPDATE_MESSAGE: "Data Updated Successfully",
+    
+    LOGIN_MESSAGE : "Login Successfully",
+    INVALID_CREDENTIALS: "Invalid Credentials",
+
+    USER_TYPE: 'userType',
+    ADMIN: 'admin',
+    USER: 'user',
+
+    LOGOUT: 'Logout',
+    LOGOUT_MESSAGE: 'Logout Successfully',
+
+    CONTENT_TYPE: {
+        APPLICATION_JSON: "application/json"
+    },
+
+    STATE: 'state',
+
+    TOKEN_EXPIRE_ERROR: 'TokenExpiredError',
+    TOKEN_EXPIRED: 'Token is expired',
+    UNAUTHORIZE: 'Unauthorize'
+}

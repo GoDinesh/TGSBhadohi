@@ -1,0 +1,21 @@
+<div class="header">
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>Time Global School</span>
+          <span class="example-spacer"></span>
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon>facebook</mat-icon>
+          </button>
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+           <mat-icon>share</mat-icon>
+         </button>
+    </mat-toolbar>
+</div>
+
+<app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-nav-menu>

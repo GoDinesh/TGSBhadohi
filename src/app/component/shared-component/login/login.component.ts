@@ -1,0 +1,106 @@
+import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { msgTypes } from 'src/app/constants/common/msgType';
+import { routeType } from 'src/app/constants/common/routeType';
+import { Auth } from 'src/app/model/auth.model';
+import { AuthService } from 'src/app/service/common/auth.service';
+import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
+import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
+import { CustomValidation } from 'src/app/validators/customValidation';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent {
+  constructor(
+          private router: Router,
+          private formBuilder: FormBuilder,
+          public  errorMsgService: ValidationErrorMessageService,
+          private authService: AuthService,
+          private sweetAlertService: SweetAlertService,
+          private httpClient: HttpClient,
+  ) { }
+
+  username!: string;
+  password!: string;
+  authModel: Auth =new Auth();
+  ipAddress: string ='';
+  showPassword = false;
+
+  loginForm = new FormGroup({
+    userType: new FormControl(),
+    userName: new FormControl(),
+    password: new FormControl(),
+  })
+
+  ngOnInit(){
+      this.createForm();
+      this.loginForm.reset();
+      //this.getIPAddress();
+  }
+
+  createForm() {
+    this.loginForm = this.formBuilder.group({
+      userType: ['',[Validators.required]],
+      userName: ['',[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.secretKey]],
+      password: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32), CustomValidation.secretKey]],
+    });
+  }
+
+  get loginFormControl(){
+    return this.loginForm.controls;
+  }
+
+  login() : void {
+    let data = this.preparedata();
+    this.authService.authanticate(data).subscribe((res: any)=>{
+      if(res.authanticate === 'true'){
+        this.router.navigate([routeType.DASHBOARD]);
+        const encryptedUserType = this.authService.getEncryptText(res.userType);
+        localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
+        
+        const encryptdState = this.authService.getEncryptText(res.authanticate);
+        localStorage.setItem(msgTypes.STATE, JSON.stringify(encryptdState));
+        
+        this.authService.generateToken().subscribe((token: any)=>{
+        const encryptedAccessToken = this.authService.getEncryptText(token)
+          localStorage.setItem('access_token', encryptedAccessToken)
+        })
+
+        this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGIN_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
+       }else{
+        this.sweetAlertService.showAlert(msgTypes.ERROR_MESSAGE, msgTypes.INVALID_CREDENTIALS, msgTypes.ERROR, msgTypes.OK_KEY);
+      }
+    });
+
+    // if(this.username == 'admin' && this.password == 'admin'){
+    //  this.router.navigate(["navmenu"]);
+    // }else {
+    //   alert("Invalid credentials");
+    // }
+  }
+
+  preparedata(){
+    this.authModel.userName = this.loginFormControl.userName.value;
+    this.authModel.password = this.loginFormControl.password.value;
+    this.authModel.userType = this.loginFormControl.userType.value;
+    return this.authModel;
+  }
+  
+ // For Hide/Show Password Field
+ toggleShowPassword() {
+  this.showPassword = !this.showPassword;
+}
+
+  // getIPAddress()
+  // {
+  //   this.httpClient.get("http://api.ipify.org/?format=json").subscribe((res:any)=>{
+  //     this.ipAddress = res.ip;
+      
+  //   });
+  // }
+}

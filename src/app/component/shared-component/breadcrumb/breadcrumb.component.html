@@ -1,0 +1,6 @@
+<xng-breadcrumb separator="/" id="titleCase" [autoGenerate]="false">
+    <ng-container *xngBreadcrumbItem="let breadcrumb;let info = info">
+        <mat-icon *ngIf="info">{{ info }}</mat-icon>
+        {{ breadcrumb }}
+    </ng-container>
+  </xng-breadcrumb>

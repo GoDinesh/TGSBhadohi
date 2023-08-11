@@ -1,0 +1,79 @@
+<div class="grid-card-container card-bottom-margin">
+    <form [formGroup]="formgroup" class="grid-form">
+        <!-- begin::Fees Type -->
+        <div class="form-group">
+            <label class="form-label required">Fees Type</label>
+            <input class="form-control form-control-sm" formControlName="feesType" placeholder="Enter Fees Type" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.feesType,"Fees Type")}}</div>
+        </div>
+        <!-- end::Fees Type-->
+
+        <!-- begin::Fees Type Code -->
+        <div class="form-group">
+            <label class="form-label required">Fees Type Code</label>
+            <input class="form-control form-control-sm" formControlName="feesTypeCode" placeholder="Enter Fees Type Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.feesTypeCode,"Fees Type Code")}}</div>
+        </div>
+        <!-- end::Fees Type Code-->
+    
+        <!-- begin::Description-->
+        <div class="form-group">
+            <label class="form-label required">Description</label>
+            <input class="form-control form-control-sm" formControlName="feesTypeDesc" placeholder="Enter Description" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.feesTypeDesc,"Description")}}</div>
+        </div>
+        <!-- end::Description-->
+        
+         <!-- begin::Buttons -->
+         <div class="grid-button form-group pt-4">
+            <ng-container *ngIf="actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+            </ng-container>
+            <ng-container *ngIf="!actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+            </ng-container>
+            
+            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+        <!-- end::Buttons -->
+    </form>
+</div>
+
+<!--begin::second Card body-->
+<div class="grid-card-container card-bottom-padding pt-2" *ngIf="posts.length">    
+    <!--end::table-->
+    <table id='table' datatable [dtOptions]="dtOptions">    
+     <thead>
+       <tr>
+         <th>S.No</th> 
+         <th>Fees Type Code</th>
+         <th>Fees Type</th>
+         <th>Fees Type Description</th>
+         <th>Status</th>
+         <th>Action</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let post of posts;let i=index">
+         <td class="td-sno">{{i+1}}</td>  
+         <td class="td-large">{{ post.feesTypeCode }}</td>
+         <td class="td-large">{{ post.feesType }}</td>
+         <td class="td-auto">{{ post.feesTypeDesc }}</td>
+         <td class="td-status">
+               <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+               </mat-slide-toggle>
+         </td>
+         <td class="td-action">  
+           <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+   <!--end::table-->
+   </div>
+   <!--end::second Card body-->
+
+
+
+
+

@@ -1,0 +1,102 @@
+
+<div class="my-app-container py-2">
+    <h2 class="header-bg-color">Update API</h2>
+<form [formGroup]="apiForm" class="example-form mt-4">
+    <!-- begin::Select API -->
+    <div class="form-group">
+        <label class="form-label required">Select API</label>
+        <!-- <mat-form-field appearance="outline" class="w-100"> -->
+        <mat-select #filename formControlName="fileName" class="form-control form-control-sm" [disableOptionCentering]="true" placeholder="Select API" (selectionChange)="selectionChange(filename.value)">
+            <div class="mat-select-mat-input">
+                <div class="padding-search-input">
+                    <input matInput #searchcurrencyCode type="search" autocomplete="off" placeholder="Search..." class="input-mat">
+                </div>
+                <span class="search-icon-dropdown"><i class="fa fa-search  p-0" aria-hidden="true"></i></span>
+            </div>
+            <mat-option *ngFor="let list of fileList" value={{list.value}}>{{list.key}}</mat-option>
+        </mat-select>
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.fileName,"API")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Select API -->
+
+    <!-- begin::Details -->
+    <div class="form-group">
+        <label class="form-label">Details</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <textarea formControlName="details" class="form-control form-control-sm" cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" placeholder="Enter Details" autocomplete="off"></textarea>
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.details,"")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Details -->
+
+    <!-- begin::Https Method -->
+    <div class="form-group">
+        <label class="form-label required">Https Method</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <input class="form-control form-control-sm" formControlName="httpMethod" placeholder="Enter Https Method" autocomplete="off">
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.httpMethod,"Https Method")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Https Method -->
+
+    <!-- begin::Url -->
+    <div class="form-group">
+        <label class="form-label required">Url</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <input class="form-control form-control-sm" formControlName="url" placeholder="Enter Url" autocomplete="off">
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.url,"Url")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Url -->
+
+    <!-- begin::Description -->
+    <div class="form-group">
+        <label class="form-label">Description</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <textarea class="form-control form-control-sm" formControlName="description"  cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" placeholder="Enter Description" autocomplete="off"></textarea>
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.description,"")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Description -->
+
+    <!-- begin::Request -->
+    <div class="form-group">
+        <label class="form-label required">Request</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <textarea class="form-control form-control-sm" formControlName="request"  cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="10" placeholder="Enter Request" autocomplete="off"></textarea>
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.request,"Request")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Request -->
+
+    <!-- begin::Response -->
+    <div class="form-group">
+        <label class="form-label required">Response</label>
+        <!-- <mat-form-field appearance="outline" class="full-width"> -->
+        <textarea class="form-control form-control-sm" formControlName="response"  cdkTextareaAutosize cdkAutosizeMinRows="5" cdkAutosizeMaxRows="20" cdk placeholder="Enter Response" autocomplete="off"></textarea>
+        <div class="invalid-feedback">
+            {{this.errorMsgService.getErrorMessage(apiFormControl.response,"Response")}}
+        </div>
+        <!-- </mat-form-field> -->
+    </div>
+    <!-- end::Response -->
+  
+    <!-- begin::Buttons -->
+    <button class="mb-3" mat-raised-button color="primary" [disabled]="!apiForm.valid" (click)="update(filename.value)">Update</button>
+    <button class="mx-3" mat-raised-button color="warn" (click)="resetForm()">Reset</button>
+    <!-- end::Buttons -->
+</form>
+</div>
