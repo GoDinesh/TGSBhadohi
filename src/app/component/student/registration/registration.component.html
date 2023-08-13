@@ -27,13 +27,10 @@
                                   <!-- end:: gender -->
 
                                   <!-- begin DOB -->
-                                  <div class="form-group">
-                                      <label class="form-label required">Date Of Birth</label>
-                                      <!-- <input matInput [matDatepicker]="picker">
-                                      <mat-hint>MM/DD/YYYY</mat-hint>
-                                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                      <mat-datepicker #picker></mat-datepicker> -->
-                                  </div>
+                                  <mat-form-field appearance="fill" class="form-group">
+                                    <mat-label>Date Of Birth</mat-label>
+                                    <input matInput type="date" class="form-control" id="date" placeholder="Choose a date">
+                                  </mat-form-field>                                  
                                   <!-- end:: DOB -->
 
                                   
@@ -55,33 +52,51 @@
                                   <!-- end::Section -->
           
                                   <!-- begin::academic year -->
-                                  <div class="form-group">
-                                      <label class="form-label required">Academic Year</label>
-                                      <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off">
-                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.academicYear,"Academic Year")}}</div>
-                                  </div>
+                                  <mat-form-field appearance="fill" class="form-group">
+                                    <mat-label>Academic Year</mat-label>
+                                    <input matInput class="form-control form-control-sm" formControlName="academicYear" autocomplete="off">
+                                    <mat-error *ngIf="studentFormControll.academicYear.invalid">
+                                      {{validationMsg.getErrorMessage(studentFormControll.academicYear,"Academic Year")}}
+                                    </mat-error>
+                                  </mat-form-field>
                                   <!-- end::academic year -->
 
                                   <!-- begin::Aadhaar number  -->
                                   <div class="form-group">
                                     <label class="form-label required">Aadhaar Number </label>
                                     <input class="form-control form-control-sm" formControlName="aadhaarNumber" autocomplete="off">
-                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.aadhaarNumber,"Aadhaar Number")}}</div>
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.aadhaarNumber,"Aadhaar Number ")}}</div>
                                   </div>
                                   <!-- end::Aadhaar number  -->
 
                                 <!-- begin::Religion -->
-                                <div class="form-group">
-                                  <label class="form-label required">Religion</label>
-                                  <input class="form-control form-control-sm" formControlName="religion" autocomplete="off">
-                                  <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}</div>
-                              </div>
+                                <mat-form-field appearance="fill" class="form-group">
+                                  <mat-label>Religion</mat-label>
+                                  <mat-select formControlName="religion" autocomplete="off" required>
+                                    <mat-option value="" disabled>Select one</mat-option>
+                                    <mat-option value="hinduism">Hinduism</mat-option>
+                                    <mat-option value="islam">Islam</mat-option>
+                                    <mat-option value="christianity">Christianity</mat-option>
+                                    <mat-option value="buddhism">Buddhism</mat-option>
+                                  </mat-select>
+                                  <mat-error *ngIf="studentFormControll.religion.invalid">
+                                    {{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}
+                                  </mat-error>
+                                </mat-form-field>
+                                
                               <!-- end::Religion -->
 
                               <!-- begin::Category -->
                               <div class="form-group">
                                 <label class="form-label required">Category</label>
-                                <input class="form-control form-control-sm" formControlName="category" autocomplete="off">
+                                <!-- <input class="form-control form-control-sm" formControlName="category" autocomplete="off"> -->
+                                <select class="form-control form-control-sm" formControlName="category" autocomplete="off">
+                                  <option value="" disabled selected>Select one</option>
+                                  <option value="general">GENERAL</option>
+                                  <option value="obc">OBC</option>
+                                  <option value="sc">SC</option>
+                                  <option value="st">ST</option>
+                                </select>
                                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.category,"Category")}}</div>
                               </div>
                               <!-- end::Category -->
@@ -108,7 +123,7 @@
                       
                               <!-- begin::Father Name -->
                               <div class="form-group">
-                                  <label class="form-label required">Father Name</label>
+                                  <label class="form-label">Father Name</label>
                                   <input class="form-control form-control-sm" formControlName="fatherName" autocomplete="off">
                                   <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherName,"Father Name")}}</div>
                               </div>
@@ -116,7 +131,7 @@
 
                               <!-- begin::Father Aadhar No -->
                               <div class="form-group">
-                                <label class="form-label required">Father Aadhar No</label>
+                                <label class="form-label">Father Aadhar No</label>
                                 <input class="form-control form-control-sm" formControlName="fatherAadharNo" autocomplete="off">
                                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherAadharNo,"Father Aadhar No")}}</div>
                             </div>
@@ -124,7 +139,7 @@
 
                              <!-- begin::Father Contact No -->
                              <div class="form-group">
-                              <label class="form-label required">Father Contact No</label>
+                              <label class="form-label">Father Contact No</label>
                               <input class="form-control form-control-sm" formControlName="fatherContactNo" autocomplete="off">
                               <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherContactNo,"Father Contact No")}}</div>
                           </div>
@@ -132,7 +147,7 @@
 
                           <!-- begin:: Father Qualification -->
                           <div class="form-group">
-                            <label class="form-label required"> Father Qualification</label>
+                            <label class="form-label"> Father Qualification</label>
                             <input class="form-control form-control-sm" formControlName="fatherQualification" autocomplete="off">
                             <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherQualification,"Father Qualification")}}</div>
                         </div>
@@ -140,7 +155,7 @@
 
                           <!-- begin:: Father Profession -->
                           <div class="form-group">
-                              <label class="form-label required">Father Profession</label>
+                              <label class="form-label">Father Profession</label>
                               <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off">
                               <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherProfession,"Father Profession")}}</div>
                           </div>
@@ -148,7 +163,7 @@
 
                           <!-- begin::Father Email Id -->
                           <div class="form-group">
-                            <label class="form-label required">Father Email Id</label>
+                            <label class="form-label">Father Email Id</label>
                             <input class="form-control form-control-sm" formControlName="fatherEmailId" autocomplete="off">
                             <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Father Email Id")}}</div>
                         </div>
@@ -157,7 +172,7 @@
 
                                <!-- begin:: Mother Name -->
                                <div class="form-group">
-                                <label class="form-label required">Mother Name</label>
+                                <label class="form-label">Mother Name</label>
                                 <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off">
                                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}</div>
                             </div>
@@ -165,7 +180,7 @@
 
                             <!-- begin:: Mother Aadhar Number -->
                               <div class="form-group">
-                                  <label class="form-label required">Mother Aadhar Number</label>
+                                  <label class="form-label">Mother Aadhar Number</label>
                                   <input class="form-control form-control-sm" formControlName="motherAadharNumber" autocomplete="off">
                                   <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherAadharNumber,"Mother Aadhar Number")}}</div>
                               </div>
@@ -173,7 +188,7 @@
 
                             <!-- begin:: Mother Contact Number -->
                             <div class="form-group">
-                              <label class="form-label required">Mother Contact Number</label>
+                              <label class="form-label">Mother Contact Number</label>
                               <input class="form-control form-control-sm" formControlName="motherContactNumber" autocomplete="off">
                               <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherContactNumber,"Mother Contact Number")}}</div>
                             </div>
@@ -182,7 +197,7 @@
 
                                 <!-- begin:: Mother Profession -->
                                 <div class="form-group">
-                                    <label class="form-label required">Mother Profession</label>
+                                    <label class="form-label">Mother Profession</label>
                                     <input class="form-control form-control-sm" formControlName="motherProfession" autocomplete="off">
                                     <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherProfession,"Mother Profession")}}</div>
                                 </div>
@@ -190,7 +205,7 @@
 
                                 <!-- begin:: Guardian Name -->
                                 <div class="form-group">
-                                    <label class="form-label required">Guardian Name</label>
+                                    <label class="form-label">Guardian Name</label>
                                     <input class="form-control form-control-sm" formControlName="guardianName" autocomplete="off">
                                     <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.guardianName,"Guardian Name")}}</div>
                                 </div>
@@ -210,7 +225,7 @@
           <ng-template matStepLabel>Address</ng-template>
             <!-- begin:: Country -->
             <div class="form-group">
-                <label class="form-label required">Country</label>
+                <label class="form-label">Country</label>
                 <input class="form-control form-control-sm" formControlName="country" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.country,"Country")}}</div>
             </div>
@@ -218,7 +233,7 @@
 
             <!-- begin:: State -->
             <div class="form-group">
-              <label class="form-label required">State</label>
+              <label class="form-label">State</label>
               <input class="form-control form-control-sm" formControlName="state" autocomplete="off">
               <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.state,"State")}}</div>
             </div>
@@ -226,7 +241,7 @@
 
             <!-- begin:: City -->
             <div class="form-group">
-              <label class="form-label required">City</label>
+              <label class="form-label">City</label>
               <input class="form-control form-control-sm" formControlName="city" autocomplete="off">
               <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.city,"City")}}</div>
             </div>
@@ -234,7 +249,7 @@
 
             <!-- begin:: Pincode -->
             <div class="form-group">
-              <label class="form-label required">City</label>
+              <label class="form-label">City</label>
               <input class="form-control form-control-sm" formControlName="pincode" autocomplete="off">
               <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.pincode,"CitPincodey")}}</div>
             </div>
@@ -243,7 +258,7 @@
 
             <!-- begin:: Area -->
             <div class="form-group">
-                <label class="form-label required">Area</label>
+                <label class="form-label">Area</label>
                 <input class="form-control form-control-sm" formControlName="area" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.area,"Area")}}</div>
             </div>
@@ -262,7 +277,7 @@
           <ng-template matStepLabel>Emergency Contact</ng-template>
             <!-- begin:: Emergency Contact Person -->
             <div class="form-group">
-                <label class="form-label required">Emergency Contact Person</label>
+                <label class="form-label">Emergency Contact Person</label>
                 <input class="form-control form-control-sm" formControlName="emergencyContactPerson" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(emergencyContactFormControll.emergencyContactPerson,"Emergency Contact Person")}}</div>
             </div>
@@ -270,7 +285,7 @@
 
             <!-- begin:: Emergency number -->
               <div class="form-group">
-                <label class="form-label required">Emergency Number</label>
+                <label class="form-label">Emergency Number</label>
                 <input class="form-control form-control-sm" formControlName="emergencyNumber" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(emergencyContactFormControll.emergencyNumber,"Emergency Number")}}</div>
             </div>
@@ -293,7 +308,7 @@
           <ng-template matStepLabel>Previous School</ng-template>
               <!-- begin:: School Name -->
               <div class="form-group">
-                  <label class="form-label required">School Name</label>
+                  <label class="form-label">School Name</label>
                   <input class="form-control form-control-sm" formControlName="schoolName" autocomplete="off">
                   <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolName,"School Name")}}</div>
               </div>
@@ -301,7 +316,7 @@
 
               <!-- begin:: TC Number -->
               <div class="form-group">
-                <label class="form-label required">TC Number</label>
+                <label class="form-label">TC Number</label>
                 <input class="form-control form-control-sm" formControlName="tcNumber" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.tcNumber,"TC Number")}}</div>
               </div>
@@ -317,7 +332,7 @@
 
               <!-- begin:: last Class Marks -->
               <div class="form-group">
-                <label class="form-label required">Last Class Marks </label>
+                <label class="form-label">Last Class Marks </label>
                 <input class="form-control form-control-sm" formControlName="lastClassMarks" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.lastClassMarks,"last Class Marks")}}</div>
               </div>
@@ -325,7 +340,7 @@
 
               <!-- begin:: School Address -->
               <div class="form-group">
-                <label class="form-label required">School Address</label>
+                <label class="form-label">School Address</label>
                 <input class="form-control form-control-sm" formControlName="schoolAddress" autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolAddress,"School Address")}}</div>
               </div>
@@ -342,23 +357,59 @@
 
     <mat-step [stepControl]="uploadDocumentForm">
                 <ng-template matStepLabel>Upload Document</ng-template>
-                <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
+                <!-- <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
                   <div class="form-group">
                     <label for="file">File</label>
                     <input  id="file" type="file" multiple  class="form-control" (change)="onFileChange($event)">
                     <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
                   </div>                    
                   <button class="btn btn-primary" type="submit">Submit</button>
+                </form> -->
+                <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
+                  <div class="form-group">
+                    <label for="file">File</label>
+                    <div class="d-flex">
+                      <div class="custom-file">
+                        <input id="file" type="file" multiple class="custom-file-input" (change)="onFileChange($event)">
+                        <label class="custom-file-label" for="file">{{selectedFileName}}</label>
+                      </div>
+                      <div class="ml-2">
+                        <button class="btn btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
+                      </div>
+                    </div>
+                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
+                  </div>
+                  <div *ngIf="documents.length > 0">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>File Name</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let doc of documents; let i = index">
+                          <td>{{doc.name}}</td>
+                          <td>
+                            <button class="btn btn-warning btn-sm mr-2" (click)="previewDocument(doc)"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                            <button class="btn btn-danger btn-sm" (click)="deleteDocument(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                  </div>
                 </form>
+                
           <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
           </div>
-          <table>
+          <!-- <table>
             <tr *ngFor="let file of myFiles">
             <td>{{file}}</td>
           </tr>
-          </table>
+          </table> -->
       
     </mat-step>
     

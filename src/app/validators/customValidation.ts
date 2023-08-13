@@ -7,7 +7,15 @@ export class CustomValidation {
   
     static alphabets(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
+            const minLengthValue = 3;
+            const maxLengthValue = 50;
             const regex = /^[a-zA-Z ]*$/ ;
+            if (fc.value.length < minLengthValue) {
+                return ({ minLength: true });
+            }
+            if (fc.value.length > maxLengthValue) {
+                return ({ maxLength: true });
+            }
             if (fc.value==='' || regex.test(fc.value)) {
                 return (null);
             } else {
@@ -83,18 +91,52 @@ export class CustomValidation {
         }
     }
 
-    static aadharValidation(fc: FormControl) {
+    // static minLength(fc: FormControl) {
+    //     if (fc.value != undefined || fc.value != '') {
+    //         const minLengthValue = 3;
+    //         if (fc.value.length < minLengthValue) {
+    //             return ({ minLength: true });
+    //         }
+    //         else {
+    //             return (null);
+    //         }
+          
+    //     } else {
+    //         return ({ minLength: true });
+    //     }
+    
+    // }
+
+    // static maxLength(fc: FormControl) {
+    //     if (fc.value != undefined || fc.value != '') {
+    //         const maxLengthValue = 50;
+    //         if (fc.value.length > maxLengthValue) {
+    //             return ({ maxLength: true });
+    //         }
+    //         else {
+    //             return (null);
+    //         }
+          
+    //     } else {
+    //         return ({ maxLength: true });
+    //     }
+    
+    // }
+
+    static aadhaarValidation(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
             const regex=/^[0-9]{4}[0-9]{4}[0-9]{4}$/;
             if (fc.value==='' || regex.test(fc.value)) {
                 return (null);
             } else {
-                return ({aadharValidation: true });
+                return ({aadhaarValidation: true });
             }
         } else {
-            return ({ aadharValidation: true });
+            return ({ aadhaarValidation: true });
         }
     }
+
+    
 
   
   }

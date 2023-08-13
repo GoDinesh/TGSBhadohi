@@ -5,11 +5,11 @@ export const validationMessage = [
     },
     {
         key: 'maxlength',
-        value: 'Max. length $ is allowed'
+        value: 'Max. length 50 is allowed'
     },
     {
         key: 'minlength',
-        value: 'Min. length $ is required'
+        value: 'Min. length 2 is required'
     },
     {
         key: 'alphanumaric',
@@ -36,10 +36,9 @@ export const validationMessage = [
         value: 'Only [a-z A-Z - ] and space allowed'
     },
     {
-        key: 'aadharValidation',
-        value: 'Aadhar number is not valid'
+        key: 'aadhaarValidation',
+        value: 'Adhar Number is not valid'
     }
-    
     
     
    
