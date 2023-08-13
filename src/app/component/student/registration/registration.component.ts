@@ -102,7 +102,7 @@ uploadDocumentForm = new FormGroup({
       standard: ['',],
       section:['', ],
       academicYear: ['', ],
-      aadhaarNumber: ['', ],
+      aadhaarNumber: ['', [Validators.required, Validators.minLength(5), CustomValidation.aadharValidation] ],
       religion: ['', ],
       category: ['', ],
       registrationNo: ['', ],
