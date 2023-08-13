@@ -3,17 +3,22 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Class } from 'src/app/model/master/class.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { ClassService } from 'src/app/service/masters/class.service';
+import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent {
 title = 'angular-material-file-upload-app';
 standard:Class[] = [];
-myFiles:string [] = [];
+// myFiles:string [] = [];
 
+//Upload Documents
+selectedFile: File | null = null;
+selectedFileName = 'Choose file';
+documents: File[] = [];
 
 studentgroup = new FormGroup({
     studentName         : new FormControl(),
@@ -76,7 +81,8 @@ uploadDocumentForm = new FormGroup({
   constructor(private formBuilder: FormBuilder,
               public validationMsg: ValidationErrorMessageService,
               private classService: ClassService
-  ) {}
+  ) {
+  }
 
   //load ngOnInit
   ngOnInit(){
@@ -91,9 +97,9 @@ uploadDocumentForm = new FormGroup({
 
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
-      studentName: ['', ],
+      studentName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50) ] ],
       parentContactNumber: ['', ],
-      standard: ['', ],
+      standard: ['',],
       section:['', ],
       academicYear: ['', ],
       aadhaarNumber: ['', ],
@@ -194,17 +200,44 @@ uploadDocumentForm = new FormGroup({
       })
   }
 
-  onFileChange(event:any) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-        this.myFiles.push(event.target.files[i]);
+  //File Upload
+
+  // onFileChange(event:any) {
+  //   for (var i = 0; i < event.target.files.length; i++) { 
+  //       this.myFiles.push(event.target.files[i]);
+  //   }
+  // }
+
+  onFileChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name;
     }
+  }
+
+  addDocument() {
+    if (this.selectedFile) {
+      this.documents.push(this.selectedFile);
+      this.selectedFile = null;
+      this.selectedFileName = 'Choose file';
+    }
+  }
+
+  previewDocument(doc: File) {
+    const fileURL = URL.createObjectURL(doc);
+    window.open(fileURL, '_blank');
+  }  
+
+  deleteDocument(index: number) {
+    this.documents.splice(index, 1);
   }
   
   submit(){
         const formData = new FormData();
-        for (var i = 0; i < this.myFiles.length; i++) { 
-            formData.append("file[]", this.myFiles[i]);
-            console.log(this.myFiles[i]);
+        for (var i = 0; i < this.documents.length; i++) { 
+            formData.append("file[]", this.documents[i]);
+            console.log(this.documents[i]);
         }
   }
 
