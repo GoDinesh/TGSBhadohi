@@ -34,6 +34,10 @@ export const validationMessage = [
     {
         key: 'alphanumaricSpace',
         value: 'Only [a-z A-Z - ] and space allowed'
+    },
+    {
+        key: 'aadharValidation',
+        value: 'Aadhar number is not valid'
     }
     
     

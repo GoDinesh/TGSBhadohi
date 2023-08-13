@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Class } from 'src/app/model/master/class.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { ClassService } from 'src/app/service/masters/class.service';
+import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
   selector: 'app-registration',
@@ -96,7 +97,7 @@ uploadDocumentForm = new FormGroup({
       standard: ['', ],
       section:['', ],
       academicYear: ['', ],
-      aadhaarNumber: ['', ],
+      aadhaarNumber: ['', [Validators.required, Validators.minLength(5), CustomValidation.aadharValidation] ],
       religion: ['', ],
       category: ['', ],
       registrationNo: ['', ],

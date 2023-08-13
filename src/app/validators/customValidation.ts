@@ -83,6 +83,19 @@ export class CustomValidation {
         }
     }
 
+    static aadharValidation(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+            const regex=/^[0-9]{4}[0-9]{4}[0-9]{4}$/;
+            if (fc.value==='' || regex.test(fc.value)) {
+                return (null);
+            } else {
+                return ({aadharValidation: true });
+            }
+        } else {
+            return ({ aadharValidation: true });
+        }
+    }
+
   
   }
   
