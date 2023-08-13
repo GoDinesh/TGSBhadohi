@@ -9,3 +9,16 @@
     height: 35px;
   }
   
+  .action-buttons {
+    text-align: center;
+  }
+
+  .fa {
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .custom-select-option{
+    border: 1px solid rgb(206, 204, 204);
+  }
+  

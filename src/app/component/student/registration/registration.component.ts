@@ -97,7 +97,7 @@ uploadDocumentForm = new FormGroup({
 
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
-      studentName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50) ] ],
+      studentName: ['', ],
       parentContactNumber: ['', ],
       standard: ['',],
       section:['', ],
