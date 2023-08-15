@@ -17,7 +17,7 @@
                                   <div class="form-group">
                                     <label class="form-label required">Gender</label>
                                       <div class="mt-2">
-                                        <mat-radio-group aria-label="Select an option">
+                                        <mat-radio-group aria-label="Select an option" formControlName="gender">
                                           <mat-radio-button value="M">Male</mat-radio-button>&nbsp;
                                           <mat-radio-button value="F">Female</mat-radio-button>&nbsp;
                                           <mat-radio-button value="O">Others</mat-radio-button>&nbsp;
@@ -92,7 +92,7 @@
                               <div class="form-group">
                                 <label class="form-label required">Category</label>
                                 <!-- <input class="form-control form-control-sm" formControlName="category" autocomplete="off"> -->
-                                <mat-select class="custom-select-option form-control form-control-sm" formControlName="religion" autocomplete="off">
+                                <mat-select class="custom-select-option form-control form-control-sm" formControlName="category" autocomplete="off">
                                   <mat-option value="" disabled>Select Category</mat-option>
                                   <mat-option value="hinduism">GENERAL</mat-option>
                                   <mat-option value="islam">OBC</mat-option>
@@ -251,7 +251,7 @@
 
             <!-- begin:: Pincode -->
             <div class="form-group">
-              <label class="form-label">City</label>
+              <label class="form-label">Pincode</label>
               <input class="form-control form-control-sm" formControlName="pincode" autocomplete="off">
               <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.pincode,"CitPincodey")}}</div>
             </div>
@@ -326,17 +326,17 @@
 
               <!-- begin:: last Class Pass -->
               <div class="form-group">
-                <label class="form-label">Last Class Pass </label>
-                <input class="form-control form-control-sm" formControlName="lastClassPass" autocomplete="off">
-                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.lastClassPass,"last Class Pass")}}</div>
+                <label class="form-label">Passed Class </label>
+                <input class="form-control form-control-sm" formControlName="passedClass" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.passedClass,"last Class Pass")}}</div>
               </div>
               <!-- end:: last Class Pass -->
 
               <!-- begin:: last Class Marks -->
               <div class="form-group">
-                <label class="form-label">Last Class Marks </label>
-                <input class="form-control form-control-sm" formControlName="lastClassMarks" autocomplete="off">
-                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.lastClassMarks,"last Class Marks")}}</div>
+                <label class="form-label">Passed Class Marks </label>
+                <input class="form-control form-control-sm" formControlName="passedClassMarks" autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.passedClassMarks,"last Class Marks")}}</div>
               </div>
               <!-- end:: last Class Marks -->
 
@@ -367,10 +367,10 @@
                   </div>                    
                   <button class="btn btn-primary" type="submit">Submit</button>
                 </form> -->
-                <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
+                <form [formGroup]="uploadDocumentForm">
                   <div class="form-group">
                     <label for="file">File</label>
-                    <div class="d-flex">
+                    <div class="d-flex w-50">
                       <div class="custom-file">
                         <input id="file" type="file" multiple class="custom-file-input" (change)="onFileChange($event)">
                         <label class="custom-file-label" for="file">{{selectedFileName}}</label>
@@ -381,16 +381,16 @@
                     </div>
                     <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
                   </div>
-                  <div *ngIf="documents.length > 0">
-                    <table class="table table-striped w-75">
-                      <thead>
+                  <div *ngIf="documents.length > 0" class="w-50 mt-4">
+                    <table class="table table-striped custom-table">
+                      <thead class="custom-header">
                         <tr>
-                          <th>File Name</th>
-                          <th>Actions</th>
+                          <th scope="col">File Name</th>
+                          <th scope="col" class="action-header">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let doc of documents; let i = index">
+                        <tr *ngFor="let doc of documents; let i = index" class="document-row">
                           <td>{{doc.name}}</td>
                           <td>
                             <i class="fa fa-eye mr-3" (click)="previewDocument(doc)" aria-hidden="true"></i>
@@ -399,11 +399,10 @@
                         </tr>
                       </tbody>
                     </table>
-                    <button class="btn btn-primary" type="submit">Submit</button>
+                    <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
                   </div>
                 </form>
-                
-          <div>
+            <div>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
           </div>
@@ -416,11 +415,189 @@
     </mat-step>
     
     <mat-step>
+      <form>
       <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
+      <!-- <div class="grid-card-container card-bottom-margin"> -->
+        <!-- Preview Modal (PDF-like preview) -->
+        <!-- <div *ngIf="showPreview" class="preview-modal"> -->
+          <div class="preview-content">
+            <!-- Filled details Preview -->
+            <div class="preview-details">
+              <!-- Student Details -->
+              <div class="preview-section">
+                <h4 class="detail-heading">Student Details</h4>
+                <div class="row">
+                  <div *ngIf="studentFormControll.studentName.value" class="col-md-4">
+                    <strong>Student Name:</strong> {{studentFormControll.studentName.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.gender.value" class="col-md-4">
+                    <strong>Gender:</strong> {{studentFormControll.gender.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.standard.value" class="col-md-4">
+                    <strong>Standard:</strong> {{studentFormControll.standard.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.academicYear.value" class="col-md-4">
+                    <strong>Academic Year:</strong> {{studentFormControll.academicYear.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.aadhaarNumber.value" class="col-md-4">
+                    <strong>Adhar Number:</strong> {{studentFormControll.aadhaarNumber.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.religion.value" class="col-md-4">
+                    <strong>Religion:</strong> {{studentFormControll.religion.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.category.value" class="col-md-4">
+                    <strong>Category:</strong> {{studentFormControll.category.value}}
+                  </div>
+                  <div *ngIf="studentFormControll.registrationNo.value" class="col-md-4">
+                    <strong>Registration Number:</strong> {{studentFormControll.registrationNo.value}}
+                  </div>
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+
+              <!-- Parent Details -->
+              <div class="preview-section">
+                <h4 class="detail-heading">Parent Details</h4>
+                <div class="row">
+                  <div class="col-md-4">
+                    <strong>Father Name:</strong> {{parentFormControll.fatherName.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Father Adhar No:</strong> {{parentFormControll.fatherAadharNo.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Father Contact No:</strong> {{parentFormControll.fatherContactNo.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Father Qualification:</strong> {{parentFormControll.fatherQualification.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Father Profession:</strong> {{parentFormControll.fatherProfession.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Father Email Id:</strong> {{parentFormControll.fatherEmailId.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Mother Name:</strong> {{parentFormControll.motherName.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Mother Adhar No:</strong> {{parentFormControll.motherAadharNumber.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Mother Contact No:</strong> {{parentFormControll.motherContactNumber.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Mother Profession:</strong> {{parentFormControll.motherProfession.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Guardian Name:</strong> {{parentFormControll.guardianName.value}}
+                  </div>
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+              <!-- Address Details -->
+              <div class="preview-section">
+                <h4 class="detail-heading">Address Details</h4>
+                <div class="row">
+                  <div class="col-md-4">
+                    <strong>Country:</strong> {{addressFormControll.country.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>State:</strong> {{addressFormControll.state.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>City:</strong> {{addressFormControll.city.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Pincode:</strong> {{addressFormControll.pincode.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Area:</strong> {{addressFormControll.area.value}}
+                  </div>
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+              <!-- Emergency Details -->
+              <div class="preview-section">
+                <h4 class="detail-heading">Emergency Details</h4>
+                <div class="row">
+                  <div class="col-md-4">
+                    <strong>Emergency Contact Person:</strong> {{emergencyContactFormControll.emergencyContactPerson.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Emergency Number:</strong> {{emergencyContactFormControll.emergencyNumber.value}}
+                  </div>
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+             <!-- Last School Details -->
+             <div class="preview-section">
+                <h4 class="detail-heading">Previous School Details</h4>
+                <div class="row">
+                  <div class="col-md-4">
+                    <strong>School Name:</strong> {{lastSchoolFormControll.schoolName.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>TC Number:</strong> {{lastSchoolFormControll.tcNumber.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Passed Class:</strong> {{lastSchoolFormControll.passedClass.value}}
+                  </div>
+                  <div class="col-md-4">
+                    <strong>Passed Class Marks:</strong> {{lastSchoolFormControll.passedClassMarks.value}}
+                  </div>
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+              <!-- Uploaded Documents -->
+              <div class="preview-section">
+                <h4 class="detail-heading">Uploaded Documents</h4>
+                <div *ngIf="documents.length > 0">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th scope="col">File Name</th>
+                        <th scope="col">File Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let doc of documents">
+                        <td>{{doc.name}}</td>
+                        <td>{{doc.type}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div *ngIf="documents.length === 0">
+                  No documents uploaded.
+                </div>
+              </div>
+              <hr> <!-- Horizontal Line -->
+
+            </div>
+        </div>
+      <!-- </div> -->
+      
+      <!-- <div class="mt-2"> -->
+        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+        <!-- <button mat-button (click)="openPreview()">Preview</button> -->
+        <div class="preview-actions mt-2">
+          <button mat-button matStepperPrevious>Back</button>
+          <label class="form-label">
+            <input type="checkbox" #confirm>
+            I confirm the details
+          </label>
+          <div>
+            <!-- <button mat-button (click)="closePreview()">cancel</button> -->
+            <button mat-button [disabled]="!confirm.value.length" (click)="finalSubmit()">Final Submit</button>
+          </div>
+        </div>
+      <!-- </div> -->
+    </form>
     </mat-step>
   </mat-stepper>
