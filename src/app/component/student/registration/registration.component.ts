@@ -22,6 +22,7 @@ documents: File[] = [];
 
 studentgroup = new FormGroup({
     studentName         : new FormControl(),
+    gender              : new FormControl(),
     parentContactNumber : new FormControl(),
     standard            : new FormControl(),
     section             : new FormControl(),
@@ -63,17 +64,16 @@ studentgroup = new FormGroup({
  lastSchoolFormGroup= new FormGroup({
     schoolName  : new FormControl(),
     tcNumber         : new FormControl(),
-    lastClassPass         : new FormControl(),
-    lastClassMarks         : new FormControl(),
+    passedClass         : new FormControl(),
+    passedClassMarks         : new FormControl(),
     schoolAddress         : new FormControl(),
 });
  
 uploadDocumentForm = new FormGroup({
-  name: new FormControl(),
   file: new FormControl()
 });
  
-
+finalSubmission = new FormGroup({});
   secondFormGroup = this.formBuilder.group({
     secondCtrl: ['',],
   });
@@ -98,11 +98,13 @@ uploadDocumentForm = new FormGroup({
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
       studentName: ['', ],
+      gender: ['',],
       parentContactNumber: ['', ],
       standard: ['',],
       section:['', ],
       academicYear: ['', ],
-      aadhaarNumber: ['', [Validators.required, Validators.minLength(5), CustomValidation.aadhaarValidation] ],
+      // aadhaarNumber: ['', [Validators.required, Validators.minLength(5), CustomValidation.aadhaarValidation] ],
+      aadhaarNumber:[''],
       religion: ['', ],
       category: ['', ],
       registrationNo: ['', ],
@@ -147,16 +149,15 @@ uploadDocumentForm = new FormGroup({
     this.lastSchoolFormGroup = this.formBuilder.group({
         schoolName          : ['', ],
         tcNumber            : ['', ],
-        lastClassPass       : ['', ],
-        lastClassMarks      : ['', ],
+        passedClass       : ['', ],
+        passedClassMarks      : ['', ],
         schoolAddress       : ['', ],
     })
   }
 
   createUploadDocumentForm(){
       this.uploadDocumentForm = this.formBuilder.group({
-        name  :([Validators.required, Validators.minLength(3)]),
-        file  :([Validators.required])
+        file  :('')
       });
   }
 
@@ -239,6 +240,32 @@ uploadDocumentForm = new FormGroup({
             formData.append("file[]", this.documents[i]);
             console.log(this.documents[i]);
         }
+  }
+
+  showPreview = false;
+  confirmDetails = false;
+  submitButtonEnabled = false;
+
+  // open the preview modal
+  openPreview() {
+    this.showPreview = true;
+  }
+
+  // close the preview modal
+  closePreview() {
+    this.showPreview = false;
+  }
+
+  // toggle the final submit button based on the checkbox
+  toggleSubmitButton() {
+    // this.confirmDetails = !this.confirmDetails;
+    // console.log('Confirm Details:', this.confirmDetails);
+    this.submitButtonEnabled = this.confirmDetails;
+  }
+
+  //  handle the final submission
+  finalSubmit() {
+    
   }
 
 }
