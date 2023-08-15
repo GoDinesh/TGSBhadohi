@@ -1,1 +1,126 @@
-<p>fees-structure works!</p>
+
+<div class="grid-card-container card-bottom-margin">
+    <form [formGroup]="formgroup" class="grid-form">
+        <!-- begin::Class Name -->
+        <div class="form-group">
+            <label class="form-label required">Class / Standard</label>
+            <input class="form-control form-control-sm" formControlName="className" placeholder="Enter Class" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.className,"Class")}}</div>
+        </div>
+        <!-- end::Class Name -->
+    
+        <!-- begin::Enrollment Type -->
+        <div class="form-group">
+            <label class="form-label required">Select Enrollment Type</label>
+            <input class="form-control form-control-sm" formControlName="enrollmentType" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}</div>
+        </div>
+        <!-- end::Enrollment Type -->
+
+        <!-- begin::Academic Year -->
+        <div class="form-group">
+            <label class="form-label required">Academic Year</label>
+            <input class="form-control form-control-sm" formControlName="Academic Year" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYear,"Academic Year")}}</div>
+        </div>
+        <!-- end::Academic Year -->
+
+
+        <!-- begin::Payment Type -->
+        <div class="form-group">
+            <label class="form-label required">Payment Type</label>
+            <input class="form-control form-control-sm" formControlName="paymentType" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.paymentType,"Payment Type")}}</div>
+        </div>
+        <!-- end:: Payment Type -->
+
+        <!-- begin::Validiti Start Date -->
+        <div class="form-group">
+            <label class="form-label required">Validity Start Date</label>
+            <input class="form-control form-control-sm" formControlName="validityStartDate " placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.validityStartDate,"Validity Start Date")}}</div>
+        </div>
+        <!-- end:: Validity Start Date -->
+
+        <!-- begin::Validity End Date -->
+        <div class="form-group">
+            <label class="form-label required">Validity End Date</label>
+            <input class="form-control form-control-sm" formControlName="validityEndDate " placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.validityEndDate,"Validity End Date")}}</div>
+        </div>
+        <!-- end:: Validity End Date-->
+
+        <!-- begin::Remarks-->
+        <div class="form-group">
+            <label class="form-label required">Remarks</label>
+            <input class="form-control form-control-sm" formControlName="remarks" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.remarks,"Remarks")}}</div>
+        </div>
+        <!-- end:: Remarks -->
+
+        <!-- begin::Total Fees-->
+        <div class="form-group">
+            <label class="form-label required">Total Fees</label>
+            <input class="form-control form-control-sm" formControlName="totalFees" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.totalFees,"Total Fees")}}</div>
+        </div>
+        <!-- end:: Remarks -->
+
+         <!-- begin::Discount-->
+         <div class="form-group">
+            <label class="form-label required">Select Discount Reason</label>
+            <input class="form-control form-control-sm" formControlName="discountReason" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountReason,"Discount Reason")}}</div>
+        </div>
+        <!-- end:: Discount -->
+
+        <!-- begin::Net Amount-->
+        <div class="form-group">
+            <label class="form-label required">Net Amount (After Discount)</label>
+            <input class="form-control form-control-sm" formControlName="netAmountAfterDiscount" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
+        </div>
+        <!-- end:: Net Amount -->
+
+        <!-- begin::Registration Fees-->
+        <div class="form-group">
+            <label class="form-label required">Registration Fees</label>
+            <input class="form-control form-control-sm" formControlName="registrationFees" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.registrationFees,"Resgistration Fees")}}</div>
+        </div>
+        <!-- end::Registration Fees -->
+
+        <!-- begin::Annual Fees-->
+        <div class="form-group">
+            <label class="form-label required">Annual Fees</label>
+            <input class="form-control form-control-sm" formControlName="annualFees" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFees,"Annual Fees")}}</div>
+        </div>
+        <!-- end::Annual Fees -->
+
+        <!-- begin::Annual Fees Date-->
+        <div class="form-group">
+            <label class="form-label required">Annual Fees Date</label>
+            <input class="form-control form-control-sm" formControlName="annualFeesDate" placeholder="Enter Code" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFeesDate,"Annual Fees Date")}}</div>
+        </div>
+        <!-- end::Annual Fees Date-->
+
+
+
+
+
+        <!-- begin::Buttons -->
+        <div class="grid-button-inline form-group pt-4">
+            <ng-container *ngIf="actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+            </ng-container>
+            <ng-container *ngIf="!actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+            </ng-container>
+            
+            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+        <!-- end::Buttons -->
+    </form>
+</div>
