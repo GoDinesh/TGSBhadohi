@@ -27,6 +27,7 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,8 +41,8 @@ import { BreadcrumbComponent } from './component/shared-component/breadcrumb/bre
 
     DisplayContentComponent,
     UnauthorizedAttemptComponent,
-    BreadcrumbComponent
-    
+    BreadcrumbComponent,   
+   
   ],
   imports: [
     BrowserModule,
@@ -60,13 +61,15 @@ import { BreadcrumbComponent } from './component/shared-component/breadcrumb/bre
     
 
     SharedModule,
-    CoreModule
+    CoreModule,
 
     
     
   ],
   exports:[
-      SharedModule
+      SharedModule,
+      
+     
   ],
   providers: [
     {

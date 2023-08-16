@@ -14,14 +14,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatRadioModule} from '@angular/material/radio';
 import { DataTablesModule } from 'angular-datatables';
-// import {MatDatepickerModule} from '@angular/material/datepicker';
-// import {MatNativeDateModule} from '@angular/material/core';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { FilterDataPipe } from './core/pipes/filter-data.pipe';
+//import {MatDatepickerModule} from '@angular/material/datepicker';
+//import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
+    FilterDataPipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -40,11 +42,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
+   // MatDatepickerModule,
+   // MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule
+    
   ],
   exports: [
     ReactiveFormsModule,
@@ -63,11 +66,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
+   // MatDatepickerModule,
+    //MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
-    FormsModule
+    FormsModule,
+    FilterDataPipe
+  
   ],
   providers: [],
 })
