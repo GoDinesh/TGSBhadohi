@@ -4,25 +4,52 @@
         <!-- begin::Class Name -->
         <div class="form-group">
             <label class="form-label required">Class / Standard</label>
-            <input class="form-control form-control-sm" formControlName="className" placeholder="Enter Class" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.className,"Class")}}</div>
-        </div>
+            <mat-select class="form-control form-control-sm">
+                <input type="text"
+                class="form-control  form-control-sm"
+                formControlName="classCode"
+                #filterClassName>
+                <div *ngIf="allClassList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'" [value]="data.classCode">
+                    {{data.className}}
+                    </mat-option>
+                </div>
+            </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.classCode,"Class")}}
+            </div>
+          </div>
         <!-- end::Class Name -->
     
         <!-- begin::Enrollment Type -->
         <div class="form-group">
             <label class="form-label required">Select Enrollment Type</label>
-            <input class="form-control form-control-sm" formControlName="enrollmentType" placeholder="Enter Code" autocomplete="off">
+            <mat-select class="form-control form-control-sm">
+                    <mat-option value="new">New Student</mat-option>
+                    <mat-option value="enrolled">Already Enrolled</mat-option>
+            </mat-select>
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}</div>
-        </div>
+          </div>
         <!-- end::Enrollment Type -->
 
         <!-- begin::Academic Year -->
         <div class="form-group">
             <label class="form-label required">Academic Year</label>
-            <input class="form-control form-control-sm" formControlName="Academic Year" placeholder="Enter Code" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYear,"Academic Year")}}</div>
-        </div>
+            <mat-select class="form-control form-control-sm">
+                <input type="text"
+                class="form-control  form-control-sm"
+                formControlName="academicYearCode"
+                #filterAcademicYear>
+                <div *ngIf="academicYearList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
+                    {{data.academicYear}}
+                    </mat-option>
+                </div>
+            </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year")}}
+            </div>
+          </div>
         <!-- end::Academic Year -->
 
 
@@ -40,6 +67,15 @@
             <input class="form-control form-control-sm" formControlName="validityStartDate " placeholder="Enter Code" autocomplete="off">
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.validityStartDate,"Validity Start Date")}}</div>
         </div>
+        <!-- <mat-form-field class="example-full-width">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
         <!-- end:: Validity Start Date -->
 
         <!-- begin::Validity End Date -->
@@ -67,11 +103,23 @@
         <!-- end:: Remarks -->
 
          <!-- begin::Discount-->
-         <div class="form-group">
+        <div class="form-group">
             <label class="form-label required">Select Discount Reason</label>
-            <input class="form-control form-control-sm" formControlName="discountReason" placeholder="Enter Code" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountReason,"Discount Reason")}}</div>
-        </div>
+            <mat-select class="form-control form-control-sm">
+                <input type="text"
+                class="form-control  form-control-sm"
+                formControlName="discountReasonCode"
+                #filterDiscountReason>
+                <div *ngIf="discountReasonList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterDiscountReason.value : 'discountReason'" [value]="data.discountReasonCode">
+                    {{data.discountReason}}
+                    </mat-option>
+                </div>
+            </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.discountReasonCode,"Discount Reason")}}
+            </div>
+          </div>
         <!-- end:: Discount -->
 
         <!-- begin::Net Amount-->

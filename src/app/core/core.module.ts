@@ -5,9 +5,13 @@ import { httpInterceptorProviders } from './interceptors/httpInterceptorProvider
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+  ],
+  exports:[
   ],
   providers:[httpInterceptorProviders]
 })
