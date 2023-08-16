@@ -7,15 +7,7 @@ export class CustomValidation {
   
     static alphabets(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
-            const minLengthValue = 3;
-            const maxLengthValue = 50;
             const regex = /^[a-zA-Z ]*$/ ;
-            if (fc.value.length < minLengthValue) {
-                return ({ minLength: true });
-            }
-            if (fc.value.length > maxLengthValue) {
-                return ({ maxLength: true });
-            }
             if (fc.value==='' || regex.test(fc.value)) {
                 return (null);
             } else {
@@ -23,6 +15,20 @@ export class CustomValidation {
             }
         } else {
             return ({ alphabets: true });
+        }
+    }
+
+    static alphabetsWithSpace(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+            const regex = /^[a-zA-Z]+(\s[a-zA-Z]+)*$/;
+            
+            if (fc.value==='' || regex.test(fc.value)) {
+                return (null);
+            } else {
+                return ({ alphabetsWithSpace: true });
+            }
+        } else {
+            return ({ alphabetsWithSpace: true });
         }
     }
 
@@ -107,21 +113,21 @@ export class CustomValidation {
     
     // }
 
-    // static maxLength(fc: FormControl) {
-    //     if (fc.value != undefined || fc.value != '') {
-    //         const maxLengthValue = 50;
-    //         if (fc.value.length > maxLengthValue) {
-    //             return ({ maxLength: true });
-    //         }
-    //         else {
-    //             return (null);
-    //         }
+    static emailId(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+            const regex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
+            if (fc.value==='' || regex.test(fc.value)) {
+                return (null);
+            }
+            else {
+                return ({emailId: true});
+            }
           
-    //     } else {
-    //         return ({ maxLength: true });
-    //     }
+        } else {
+            return ({emailId: true});
+        }
     
-    // }
+    }
 
     static aadhaarValidation(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
@@ -135,6 +141,18 @@ export class CustomValidation {
             return ({ aadhaarValidation: true });
         }
     }
+
+    static fileTypeValidator(fc: FormControl) {
+        const file = fc.value;
+        if (file) {
+          const allowedExtensions = ['doc', 'docx', 'pdf', 'jpg', 'jpeg', 'png', 'gif'];
+          const fileExtension = file.name.split('.').pop().toLowerCase();
+          if (!allowedExtensions.includes(fileExtension)) {
+            return ({ fileTypeValidator: true });
+          }
+        }
+        return (null);
+      }
 
     
 

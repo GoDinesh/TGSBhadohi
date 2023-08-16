@@ -5,11 +5,11 @@ export const validationMessage = [
     },
     {
         key: 'maxlength',
-        value: 'Max. length 50 is allowed'
+        value: 'Max. length $ is allowed'
     },
     {
         key: 'minlength',
-        value: 'Min. length 2 is required'
+        value: 'Min. length $ is required'
     },
     {
         key: 'alphanumaric',
@@ -18,6 +18,10 @@ export const validationMessage = [
     {
         key: 'alphabets',
         value: 'Only (A-Z, a-z) is allowed'
+    },
+    {
+        key: 'alphabetsWithSpace',
+        value: 'Only (A-Z, a-z) and space is allowed'
     },
     {
         key: 'secretKey',
@@ -36,8 +40,16 @@ export const validationMessage = [
         value: 'Only [a-z A-Z - ] and space allowed'
     },
     {
+        key: 'emailId',
+        value: 'Invalid email Id'
+    },
+    {
         key: 'aadhaarValidation',
         value: 'Adhar Number is not valid'
+    },
+    {
+        key: 'fileTypeValidator',
+        value: 'File is not valid (Only pdf, docx, and images are allowed)'
     }
     
     

@@ -23,7 +23,7 @@ documents: File[] = [];
 studentgroup = new FormGroup({
     studentName         : new FormControl(),
     gender              : new FormControl(),
-    parentContactNumber : new FormControl(),
+    // parentContactNumber : new FormControl(),
     standard            : new FormControl(),
     section             : new FormControl(),
     academicYear        : new FormControl(),
@@ -97,33 +97,32 @@ finalSubmission = new FormGroup({});
 
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
-      studentName: ['', ],
-      gender: ['',],
-      parentContactNumber: ['', ],
-      standard: ['',],
-      section:['', ],
-      academicYear: ['', ],
-      // aadhaarNumber: ['', [Validators.required, Validators.minLength(5), CustomValidation.aadhaarValidation] ],
-      aadhaarNumber:[''],
-      religion: ['', ],
-      category: ['', ],
-      registrationNo: ['', ],
+      studentName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      gender: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      // parentContactNumber: ['', ],
+      standard: ['', [Validators.required]],
+      section:['', [Validators.required]],
+      academicYear: ['', [Validators.required]],
+      aadhaarNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
+      religion: ['', [Validators.required]],
+      category: ['', [Validators.required]],
+      registrationNo: ['', [Validators.required]],
     });
   }
 
   createParentForm(){
     this.parentgroup = this.formBuilder.group({
-      fatherName          : ['', ],
-      fatherAadharNo      : ['', ],
-      fatherContactNo     : ['', ],
-      fatherQualification : ['', ],
-      fatherProfession    : ['', ],
-      fatherEmailId       : ['', ],
-      motherName          : ['', ],
-      motherAadharNumber  : ['', ],
-      motherContactNumber : ['', ],
-      motherProfession    : ['', ],
-      guardianName        : ['', ],
+      fatherName          : ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      fatherAadharNo      : ['', [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      fatherContactNo     : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      fatherQualification : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherProfession    : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherEmailId       : ['', [CustomValidation.emailId]],
+      motherName          : ['', [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
+      motherAadharNumber  : ['', [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      motherContactNumber : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      motherProfession    : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      guardianName        : ['', [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
       
     });
   }
@@ -133,31 +132,31 @@ finalSubmission = new FormGroup({});
       country             : ['', ],
       state               : ['', ],
       city                : ['', ],
-      pincode             : ['', ],
-      area                : ['', ],
+      pincode             : ['', [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
+      area                : ['', [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
    });
   }
 
   createEmergencyContactForm(){
     this.emergencyContactFormGroup = this.formBuilder.group({
-      emergencyContactPerson  : ['', ],
-      emergencyNumber         : ['', ],
+      emergencyContactPerson  : ['', [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      emergencyNumber         : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
    });
   }
 
   createLastSchoolForm(){
     this.lastSchoolFormGroup = this.formBuilder.group({
-        schoolName          : ['', ],
-        tcNumber            : ['', ],
-        passedClass       : ['', ],
-        passedClassMarks      : ['', ],
-        schoolAddress       : ['', ],
+        schoolName          : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+        tcNumber            : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
+        passedClass       : ['', [Validators.minLength(1), CustomValidation.numeric]],
+        passedClassMarks      : ['', [Validators.minLength(2), CustomValidation.numeric]],
+        schoolAddress       : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
     })
   }
 
   createUploadDocumentForm(){
       this.uploadDocumentForm = this.formBuilder.group({
-        file  :('')
+        file  :['', [CustomValidation.fileTypeValidator]]
       });
   }
 
