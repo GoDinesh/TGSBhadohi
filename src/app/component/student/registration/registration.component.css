@@ -1,5 +1,9 @@
 
+
   
+  .registration-no {
+    background-color: rgb(216, 216, 168);
+  }
   
   .custom-file-input {
     height: 38px;
@@ -102,6 +106,7 @@
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 2px ;
     width: 100%;
+    font-weight: bold;
     padding: 0.2rem;
   }
   .preview-actions {

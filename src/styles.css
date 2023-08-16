@@ -11,7 +11,9 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
+.mat-horizontal-content-container {
+    height : 70vh;
+  }
 /*begin Common CSS  begin*/
 
 .mat-drawer-content {
