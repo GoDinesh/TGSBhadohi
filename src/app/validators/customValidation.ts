@@ -152,8 +152,24 @@ export class CustomValidation {
           }
         }
         return (null);
-      }
+    }
 
+
+    static amountValidation(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+            const regex=/^\d+(\.\d{1,2})?$/;
+            if (fc.value==='' || regex.test(fc.value)) {
+                return (null);
+            } else {
+                return ({amountValidation: true });
+            }
+        } else {
+            return ({ amountValidation: true });
+        }
+    }
+    
+
+      
     
 
   
