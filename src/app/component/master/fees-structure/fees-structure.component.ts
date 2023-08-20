@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
@@ -9,6 +9,7 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { DiscountReasonService } from 'src/app/service/masters/discount-reason.service';
+import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
   selector: 'app-fees-structure',
@@ -51,19 +52,19 @@ export class FeesStructureComponent {
 
    createForm() {
     this.formgroup = this.formBuilder.group({
-      classCode: [''],
-      enrollmentType: [''],
-      academicYearCode: [''],
-      paymentType: [''],
-      validityStartDate: [''],
-      validityEndDate: [''],
-      remarks: [''],
-      totalFees: [''],
+      classCode: ['',[Validators.required]],
+      enrollmentType: ['',[Validators.required]],
+      academicYearCode: ['',[Validators.required]],
+      paymentType: ['',[Validators.required]],
+      validityStartDate: ['',[Validators.required]],
+      validityEndDate: ['',[Validators.required]],
+      remarks: ['',[Validators.minLength(3), Validators.maxLength(150), CustomValidation.alphabetsWithSpace]],
+      totalFees: ['',[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [''],
-      netAmountAfterDiscount: [''],
-      registrationFees: [''],
-      annualFees: [''],
-      annualFeesDate: [''],
+      netAmountAfterDiscount: ['',[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      registrationFees: ['',[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      annualFees: ['',[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      annualFeesDate: ['', [Validators.required]],
     });
 }
 

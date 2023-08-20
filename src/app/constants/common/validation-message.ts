@@ -50,6 +50,10 @@ export const validationMessage = [
     {
         key: 'fileTypeValidator',
         value: 'File is not valid (Only pdf, docx, and images are allowed)'
+    },
+    {
+        key: 'amountValidation',
+        value: 'Given amount is not valid.'
     }
     
     
