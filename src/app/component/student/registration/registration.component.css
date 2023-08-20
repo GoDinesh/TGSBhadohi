@@ -1,6 +1,5 @@
 
 
-  
   .registration-no {
     background-color: rgb(216, 216, 168);
   }
@@ -26,40 +25,52 @@
     border: 1px solid rgb(206, 204, 204);
   }
 
+  /* student photo */
+  .student-photo {
+    width: 200px;
+    height: 250px;
+    object-fit: cover; /* This will ensure that the image maintains its aspect ratio */
+  }
+  
+  .image-container {
+    width: 200px;
+    height: 250px;
+    overflow: hidden; /* This will prevent the image from flowing outside the div */
+  }
+  
+
+  .table-container {
+    width: 100%;
+  }
+
   .custom-table {
     border-collapse: separate;
     border-spacing: 0;
     width: 100%;
     border-radius: 10px;
-    overflow: hidden;
+    table-layout: fixed; /* Enable fixed layout */
+    margin: 0;
+    padding: 0;
   }
-  
-  /* .custom-table th,
-  .custom-table td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #f0f0f0;
-  } */
-  
-  /* .custom-table thead {
-    background-color: #007bff;
-    color: #ffffff;
-  } */
   
   .action-buttons {
     text-align: center;
   }
   
-  .table-responsive {
-    margin-bottom: 20px;
-  }
-  
   .custom-header {
     height: 35px; 
-    background-color: #f0f0f0; 
-    font-weight: bold; 
-    /* text-align: center; */
+    font-weight: bold;
     border-bottom: 2px solid #ccc;
+    position: sticky; /* Enable sticky positioning */
+    top: 0; /* Set the top position */
+    background-color: #f5f5f5; /* Set the background color */
+    z-index: 1; /* Set the z-index to ensure the header stays on top */
+  }
+
+  .table-body-container {
+    max-height: 20vh; /* Set the maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    width: 100%;
   }
 
   .action-header {
@@ -110,18 +121,10 @@
     padding: 0.2rem;
   }
   .preview-actions {
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  .preview-actions div {
-    display: flex;
-    justify-content: start;
-  }
-  
-  .preview-actions button {
-    margin-left: 10px; /* Space between buttons */
   }
 
   .preview-actions button[disabled] {
@@ -143,9 +146,6 @@
     margin-bottom: 10px;
   }
   
-  .preview-section strong {
-    /* font-weight: bold; */
-  }
   
   
   

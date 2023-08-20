@@ -13,7 +13,7 @@
                   <h2 class="mt-1 mb-5 pb-1">Time Global School Bhadohi</h2>
                 </div>
 
-                <form [formGroup]="loginForm" class="example-form bg" autocomplete="off">
+                <form [formGroup]="loginForm" class="example-form bg" (ngSubmit)="login()" autocomplete="off">
                   <!-- begin user type -->
                   <div class="form-outline mb-4">
                   <label>User Type</label>
@@ -56,7 +56,7 @@
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button [disabled]="!loginForm.valid" (click)="login()" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Login</button>
+                    <button [disabled]="!loginForm.valid" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Login</button>
                     <a class="text-muted" href="#!">Forgot password?</a>
                   </div>
                 </form>

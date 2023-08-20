@@ -23,6 +23,7 @@
                                           <mat-radio-button value="O">Others</mat-radio-button>&nbsp;
                                         </mat-radio-group>
                                       </div>
+                                      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.gender,"Gender")}}</div>
                                   </div>
                                   <!-- end:: gender -->
 
@@ -30,6 +31,7 @@
                                   <div class="form-group">
                                     <label class="form-label required">Date of Birth</label>
                                     <input type="date" class="form-control" formControlName="dateOfBirth" placeholder="Select Date of Birth">
+                                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth,"Date Of Birth")}}</div>
                                   </div>                              
                                   <!-- end:: DOB -->
 
@@ -37,7 +39,17 @@
                                   <!-- begin::Standard -->
                                   <div class="form-group">
                                       <label class="form-label required">Standard</label>
-                                      <input class="form-control form-control-sm" formControlName="standard" autocomplete="off">
+                                      <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
+                                      <mat-select class="form-control form-control-sm" formControlName="standard">
+                                        <input type="text"
+                                        class="form-control  form-control-sm"
+                                        #filterClassName>
+                                        <div *ngIf="allClassList | async as postdata ">
+                                            <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'" [value]="data.classCode">
+                                            {{data.className}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
                                       <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.standard,"Standard")}}</div>
                                   </div>
                                 
@@ -54,9 +66,19 @@
                                   <!-- begin::academic year -->
                                   <div class="form-group">
                                     <label class="form-label required">Academic Year</label>
-                                    <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off">
+                                    <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
+                                    <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
+                                      <input type="text"
+                                      class="form-control  form-control-sm"
+                                      #filterAcademicYear>
+                                      <div *ngIf="academicYearList | async as postdata ">
+                                          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
+                                          {{data.academicYear}}
+                                          </mat-option>
+                                      </div>
+                                    </mat-select>
                                     <div class="invalid-feedback">
-                                      {{validationMsg.getErrorMessage(studentFormControll.academicYear,"Academic Year")}}
+                                      {{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}}
                                     </div>
                                   </div>
                                   <!-- end::academic year -->
@@ -106,7 +128,7 @@
                                 <label class="form-label required">Registration No</label>
                                 <div class="d-flex">
                                   <div class="mr-3">
-                                    <button class="btn btn-primary btn-sm form-control">Generate</button>
+                                    <button class="btn btn-primary btn-sm form-control" (click)="generateRegistrationNumber(123)">Generate</button>
                                   </div>                                  
                                   <div>
                                     <input class="form-control form-control-sm registration-no" formControlName="registrationNo" autocomplete="off" readonly>
@@ -363,29 +385,69 @@
 
     <mat-step [stepControl]="uploadDocumentForm">
                 <ng-template matStepLabel>Upload Document</ng-template>
-                <!-- <form [formGroup]="uploadDocumentForm" (ngSubmit)="submit()">
-                  <div class="form-group">
-                    <label for="file">File</label>
-                    <input  id="file" type="file" multiple  class="form-control" (change)="onFileChange($event)">
-                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
-                  </div>                    
-                  <button class="btn btn-primary" type="submit">Submit</button>
-                </form> -->
                 <form [formGroup]="uploadDocumentForm">
-                  <div class="form-group">
-                    <label class="mb-2" for="file">File</label>
-                    <div class="d-flex w-50">
-                      <div class="custom-file">
-                        <input id="file" type="file" multiple formControlName="file" class="custom-file-input" accept=".doc,.docx,.pdf,image/*" (change)="onFileChange($event)">
-                        <label class="custom-file-label" for="file">{{selectedFileName}}</label>
-                      </div>
-                      <div class="ml-2">
-                        <button class="btn btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
+                  
+                  <div class="row">
+                    <!-- Student Photo Column -->
+                    <div class="col-md-6 shadow-sm">
+                      <div class="form-group">
+                        <!-- begin::upload student photo -->
+                        <label class="mb-2" for="studentPhoto">Upload Student Photo :</label>
+                        <div class="custom-file">
+                          <input id="file" type="file" multiple formControlName="studentPhoto" class="custom-file-input" accept="image/*" (change)="onStudentPhotoFileChange($event)">
+                          <label class="custom-file-label" for="studentPhoto">{{selectedStudentPhotoName}}</label>
+                        </div>
+                        <!-- end::upload student photo -->
+                        <!-- begin::student photo preview -->
+                        <div class="mt-2 image-container" *ngIf="selectedStudentPhoto">
+                          <img [src]="selectedStudentPhoto" alt="Student Photo" class="img-thumbnail">
+                        </div>
+                        <!-- end::student photo preview -->
                       </div>
                     </div>
-                    <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
+                  
+                    <!-- Upload Documents Column -->
+                    <div class="col-md-6 shadow-sm">
+                      <div class="form-group">
+                        <!-- begin::upload documents -->
+                        <label class="mb-2" for="file">Upload Documents :</label>
+                        <div class="d-flex">
+                          <div class="custom-file">
+                            <input id="file" type="file" multiple formControlName="file" class="custom-file-input" accept=".doc,.docx,.pdf,image/*" (change)="onFileChange($event)">
+                            <label class="custom-file-label" for="file">{{selectedFileName}}</label>
+                          </div>
+                          <div class="ml-2">
+                            <button class="btn btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
+                          </div>
+                        </div>
+                        <!-- end::upload documents -->
+                        <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
+                      </div>
+                      <!-- begin::documents table -->
+                      <div *ngIf="documents.length > 0" class="table-container mt-4">
+                        <table class="table table-striped custom-table">
+                          <thead class="custom-header">
+                            <tr>
+                              <th scope="col">File Name</th>
+                              <th scope="col" class="action-header">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let doc of documents; let i = index" class="document-row">
+                              <td>{{doc.name}}</td>
+                              <td class="action-header">
+                                <i class="fa fa-eye mr-3" (click)="previewDocument(doc)" aria-hidden="true"></i>
+                                <i class="fa fa-trash" (click)="deleteDocument(i)" aria-hidden="true"></i>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!-- end::documents table -->
+                    </div>
                   </div>
-                  <div *ngIf="documents.length > 0" class="w-50 mt-4">
+                  
+                  <!-- <div *ngIf="documents.length > 0" class="table-container w-50 mt-4">
                     <table class="table table-striped custom-table">
                       <thead class="custom-header">
                         <tr>
@@ -393,28 +455,27 @@
                           <th scope="col" class="action-header">Actions</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr *ngFor="let doc of documents; let i = index" class="document-row">
-                          <td>{{doc.name}}</td>
-                          <td>
-                            <i class="fa fa-eye mr-3" (click)="previewDocument(doc)" aria-hidden="true"></i>
-                            <i class="fa fa-trash" (click)="deleteDocument(i)" aria-hidden="true"></i>
-                          </td>
-                        </tr>
-                      </tbody>
                     </table>
+                    <div class="table-body-container">
+                      <table class="table table-striped custom-table">
+                        <tbody>
+                          <tr *ngFor="let doc of documents; let i = index" class="document-row">
+                            <td>{{doc.name}}</td>
+                            <td class="action-header">
+                              <i class="fa fa-eye mr-3" (click)="previewDocument(doc)" aria-hidden="true"></i>
+                              <i class="fa fa-trash" (click)="deleteDocument(i)" aria-hidden="true"></i>
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div> -->
                     <!-- <button class="btn btn-primary" type="submit">Submit</button> -->
-                  </div>
+                  <!-- </div> -->
                 </form>
             <div class="mat-step-footer-button">
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
           </div>
-          <!-- <table>
-            <tr *ngFor="let file of myFiles">
-            <td>{{file}}</td>
-          </tr>
-          </table> -->
       
     </mat-step>
     
@@ -427,6 +488,39 @@
           <div class="preview-content">
             <!-- Filled details Preview -->
             <div class="preview-details">
+              <!-- student details with photo -->
+              <ng-container *ngIf="parentgroup.dirty" class="preview-section">
+                <h4 class="detail-heading">Student Data Preview</h4>
+                <div class="row">
+                  <!-- begin::student photo preview -->
+                  <div *ngIf="selectedStudentPhoto" class="col-md-3">
+                    <div class="mt-2 image-container">
+                      <img [src]="selectedStudentPhoto" alt="Student Photo" class="img-thumbnail">
+                    </div>
+                  </div>
+                  <!-- end::student photo preview -->
+                  <div class="col-md-4 p-1">
+                  <div class="row w-100">
+                    <div class="col">
+                      <div *ngIf="studentFormControll.studentName.value" class="row">
+                        <strong>Student Name : </strong> {{studentFormControll.studentName.value}}
+                      </div>
+                      <div *ngIf="studentFormControll.academicYearCode.value" class="row">
+                        <strong>Academic Year : </strong> {{studentFormControll.academicYearCode.value}}
+                      </div>
+                      <div *ngIf="studentFormControll.standard.value" class="row">
+                        <strong>Standard : </strong> {{studentFormControll.standard.value}}
+                      </div>
+                      <div *ngIf="studentFormControll.registrationNo.value" class="row">
+                        <strong>Registration Number : </strong> {{studentFormControll.registrationNo.value}}
+                      </div>
+                  </div>
+                </div>
+                  </div>
+                </div>
+                <hr> <!-- Horizontal Line -->
+              </ng-container>
+
               <!-- Student Details -->
               <ng-container *ngIf="studentgroup.dirty" class="preview-section">
                 <h4 class="detail-heading">Student Details</h4>
@@ -440,8 +534,8 @@
                   <div *ngIf="studentFormControll.standard.value" class="col-md-4">
                     <strong>Standard:</strong> {{studentFormControll.standard.value}}
                   </div>
-                  <div *ngIf="studentFormControll.academicYear.value" class="col-md-4">
-                    <strong>Academic Year:</strong> {{studentFormControll.academicYear.value}}
+                  <div *ngIf="studentFormControll.academicYearCode.value" class="col-md-4">
+                    <strong>Academic Year:</strong> {{studentFormControll.academicYearCode.value}}
                   </div>
                   <div *ngIf="studentFormControll.aadhaarNumber.value" class="col-md-4">
                     <strong>Adhar Number:</strong> {{studentFormControll.aadhaarNumber.value}}
@@ -591,22 +685,13 @@
             </div>
         </div>
       <!-- </div> -->
-      
-      <!-- <div class="mt-2"> -->
-        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
-        <!-- <button mat-button (click)="openPreview()">Preview</button> -->
         <div class="preview-actions mt-2 mat-step-footer-button">
           <button mat-button matStepperPrevious>Back</button>
-          <label class="form-label">
-            <input type="checkbox" #confirm>
-            I confirm the details
-          </label>
-          <div>
-            <!-- <button mat-button (click)="closePreview()">cancel</button> -->
-            <button mat-button [disabled]="!confirm.value.length" (click)="finalSubmit()">Final Submit</button>
-          </div>
+          <mat-slide-toggle (change)="toggleConfirm($event)">I confirm the details</mat-slide-toggle>
+          <p></p>
+          <button mat-button [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
         </div>
-      <!-- </div> -->
+        
     </form>
     </mat-step>
   </mat-stepper>

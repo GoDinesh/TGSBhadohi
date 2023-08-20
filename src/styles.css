@@ -11,21 +11,138 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-horizontal-content-container {
-    height : 62vh;
-  }
+/* Customize the scrollbar for Webkit browsers (e.g., Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 2px;
+    /* Set the width of the scrollbar */
+}
 
-  .mat-step-footer-button {
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Set the background color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Set the background color of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Set the background color of the thumb on hover */
+}
+
+/* Customize the scrollbar for Firefox */
+* {
+    scrollbar-width: thin;
+    /* Set the width of the scrollbar */
+    scrollbar-color: #888 #f1f1f1;
+    /* Set the color of the thumb and track */
+}
+
+/* mat-stepper CSS begin */
+
+/* fix the height of mat-step */
+.mat-horizontal-content-container {
+    height: 62vh;
+}
+
+/* set button at bottom on every page */
+.mat-step-footer-button {
     position: absolute;
     bottom: 2rem;
-  }
+}
 
-  .mat-step-footer-button button{
+/* Extra Small (XS) - Mobile Portrait */
+@media (max-width: 575px) {
+    .mat-horizontal-content-container {
+        height: auto;
+        /* Allow the height to adjust automatically */
+    }
+
+    .mat-step-footer-button {
+        position: static;
+        /* Reset to the default positioning */
+        margin-top: 1rem;
+        /* Add some spacing above the buttons */
+    }
+}
+
+/* Small (SM) - Mobile Landscape */
+@media (min-width: 576px) and (max-width: 767px) {
+    .mat-horizontal-content-container {
+        height: auto;
+        /* Allow the height to adjust automatically */
+    }
+
+    .mat-step-footer-button {
+        position: static;
+        /* Reset to the default positioning */
+        margin-top: 1rem;
+        /* Add some spacing above the buttons */
+    }
+}
+
+/* Medium (MD) - Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+    .mat-horizontal-content-container {
+        height: auto;
+        /* Allow the height to adjust automatically */
+    }
+
+    .mat-step-footer-button {
+        position: static;
+        /* Reset to the default positioning */
+        margin-top: 1rem;
+        /* Add some spacing above the buttons */
+    }
+}
+
+/* Large (LG) - Laptops and Desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .mat-horizontal-content-container {
+        height: auto;
+        /* Allow the height to adjust automatically */
+    }
+
+    .mat-step-footer-button {
+        position: static;
+        /* Reset to the default positioning */
+        margin-top: 1rem;
+        /* Add some spacing above the buttons */
+    }
+}
+
+/* Extra Large (XL) - Large Desktops */
+@media (min-width: 1200px) {
+    
+}
+
+/* Styles for tablets and smaller screens */
+/* @media (max-width: 1080px) {
+
+} */
+
+/* Styles for tablets and smaller screens */
+/* @media (max-width: 768px) {
+    
+  } */
+
+/* Styles for mobile devices in portrait orientation */
+/* @media (max-width: 480px) and (orientation: portrait) {
+    
+  } */
+
+/* design the mat-step button at bottom on every page */
+.mat-step-footer-button button {
     color: #000;
     background-color: #e3e5e7;
     border-color: #f8f9fa;
     margin-left: 1rem;
-  }
+}
+
+/* mat-stepper-end */
+
 /*begin Common CSS  begin*/
 
 .mat-drawer-content {
@@ -93,13 +210,15 @@ th {
     height: 30px;
 }
 
-.form-control{
+.form-control {
     margin: 5px 0 0 0;
 }
+
 .form-group {
     margin-bottom: 1.6rem;
     position: relative;
 }
+
 /* .h1,
 .h2,
 .h3,
@@ -486,8 +605,9 @@ h6 {
     top: 12rem;
     /* height: 50vh; */
 }
-@media screen and (min-width:776px){
-    .login-form{
+
+@media screen and (min-width:776px) {
+    .login-form {
         margin-right: 9rem !important;
     }
 }
@@ -813,17 +933,18 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
     color: unset !important;
 }
- /* End::Dropdown search-icon */
 
- #swal2-html-container{
+/* End::Dropdown search-icon */
+
+#swal2-html-container {
     margin-top: 0;
     font-size: 15px;
     font-weight: 500;
- }
+}
 
- #swal2-title{
+#swal2-title {
     margin-bottom: 5px;
- }
+}
 
 .mat-option:hover {
     background-color: #4cb3eeec !important;
@@ -842,7 +963,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     -webkit-text-security: disc;
 }
 
- /* begin::Hide password */
+/* begin::Hide password */
 .eye-span-integration {
     float: right;
     padding-left: 10px;
@@ -860,9 +981,10 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     background-color: #ffffff;
     padding-left: 10px;
 }
- /* end::Hide password */
 
- .min-max-width{
+/* end::Hide password */
+
+.min-max-width {
     min-width: 96px;
     max-width: 98px;
 }
@@ -872,7 +994,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 
 
-.grid-card-container{
+.grid-card-container {
     background-color: rgb(255, 255, 255);
     padding-left: 16px;
     padding-right: 16px;
@@ -883,7 +1005,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     margin-bottom: 13px;
 }
 
-.card-bottom-padding{
+.card-bottom-padding {
     padding-bottom: 15px;
 }
 
@@ -891,13 +1013,13 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     min-height: calc(100vh - 13.8rem);
 }
 
-.grid-full-width{
+.grid-full-width {
     grid-column: 1/-1
 }
 
-.grid-form{
+.grid-form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px),1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     grid-column-gap: 19px;
     padding-bottom: 7px;
 }
@@ -908,19 +1030,19 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     margin-top: 1rem;
 }
 
-.grid-button{
+.grid-button {
     grid-column: 1/-1;
     justify-self: end;
 }
 
-.grid-inline{
+.grid-inline {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin-bottom: 14px;
     grid-column-gap: 19px;
 }
 
-.grid-button-inline{
+.grid-button-inline {
     justify-self: end;
     margin-top: 16px;
 }
@@ -929,87 +1051,100 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 /* data table css */
 
-tr td{
+tr td {
     height: 0.2rem !important;
-    padding: 0.2rem !important;    
+    padding: 0.2rem !important;
 }
-th{
+
+th {
     height: 0.3rem;
     background-color: rgb(219, 218, 218);
 }
-table{
+
+table {
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
 }
-.dataTable{
+
+.dataTable {
     padding: 0;
 
 }
 
-.align-table-buttons{
+.align-table-buttons {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 0.5rem;
 }
 
-.dt-buttons button{
+.dt-buttons button {
     border-color: #cac6c6;
     border-radius: 3px;
     padding: 0.2rem 0.8rem 0.2rem 0.8rem;
 }
 
-.datatable-row-wrapper:nth-child(2n){
+.datatable-row-wrapper:nth-child(2n) {
     background-color: red;
 }
 
-.datatable-row-wrapper:nth-child(2n+1){
+.datatable-row-wrapper:nth-child(2n+1) {
     background-color: blue;
 }
 
 .td-action {
     width: 80px;
-    text-align:center;
+    text-align: center;
 }
-.td-status{
+
+.td-status {
     width: 80px;
-    text-align:center;
+    text-align: center;
 }
-.td-sno{
+
+.td-sno {
     width: 60px;
-    text-align:center;
+    text-align: center;
 }
-.td-small{
+
+.td-small {
     width: 100px;
 }
-.td-medium{
+
+.td-medium {
     width: 150px;
 }
-.td-large{
+
+.td-large {
     width: 200px;
 }
-.td-xlarge{
+
+.td-xlarge {
     width: 300px;
 }
-.td-auto{
+
+.td-auto {
     width: auto;
 }
+
 /* end data table css */
 
 
 
 /* begin :: fa fa  */
-.fa-pencil-square-o:hover{
- color: rgb(49, 81, 239);
- font-size:1.3rem; 
- transition: ease-out;
- cursor: pointer;
+.fa-pencil-square-o:hover {
+    color: rgb(49, 81, 239);
+    font-size: 1.3rem;
+    transition: ease-out;
+    cursor: pointer;
 }
+
 /* end:: fa fa  */
 
 
 /* begin radio button */
-.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+.mat-mdc-radio-button~.mat-mdc-radio-button {
     margin-left: 16px;
-  }
+}
+
 /* end radio button */

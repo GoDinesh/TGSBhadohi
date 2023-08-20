@@ -1,9 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
 import { Class } from 'src/app/model/master/class.model';
+import { map } from 'rxjs/operators';
+import { AcademicYear } from 'src/app/model/master/academic-year.model';
+import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-registration',
@@ -13,7 +18,16 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 export class RegistrationComponent {
 title = 'angular-material-file-upload-app';
 standard:Class[] = [];
+confirmDetails: boolean = false;
+allClassList: Observable<Class[]> = new Observable();
+academicYearList: Observable<AcademicYear[]> = new Observable();
+registrationNumber: string = "";
 // myFiles:string [] = [];
+
+//Upload Student Photo
+// selectedStudentPhoto: File | null = null;
+selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
+selectedStudentPhotoName = 'Choose Photo';
 
 //Upload Documents
 selectedFile: File | null = null;
@@ -24,9 +38,10 @@ studentgroup = new FormGroup({
     studentName         : new FormControl(),
     gender              : new FormControl(),
     // parentContactNumber : new FormControl(),
+    dateOfBirth : new FormControl(),
     standard            : new FormControl(),
     section             : new FormControl(),
-    academicYear        : new FormControl(),
+    academicYearCode        : new FormControl(),
     aadhaarNumber       : new FormControl(),
     religion            : new FormControl(),
     category            : new FormControl(),
@@ -70,7 +85,8 @@ studentgroup = new FormGroup({
 });
  
 uploadDocumentForm = new FormGroup({
-  file: new FormControl()
+  file: new FormControl(),
+  studentPhoto: new FormControl()
 });
  
 finalSubmission = new FormGroup({});
@@ -80,7 +96,8 @@ finalSubmission = new FormGroup({});
   
   constructor(private formBuilder: FormBuilder,
               public validationMsg: ValidationErrorMessageService,
-              private classService: ClassService
+              private classService: ClassService,
+              private academicYearService: AcademicYearService
   ) {
   }
 
@@ -93,16 +110,36 @@ finalSubmission = new FormGroup({});
     this.createLastSchoolForm();
     this.createUploadDocumentForm();
     this.loadDropdowns();
+    this.customInit();
   }
+
+  customInit(){
+    this.loadClass();
+    this.loadAcademicyear();
+  }
+
+  loadClass(){
+    this.allClassList = this.classService.getAllClass().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
+  
+  loadAcademicyear(){
+    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
       studentName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: ['', [Validators.required]],
-      // parentContactNumber: ['', ],
+      dateOfBirth: ['', [Validators.required]],
       standard: ['', [Validators.required]],
       section:['', [Validators.required]],
-      academicYear: ['', [Validators.required]],
+      academicYearCode: ['', [Validators.required]],
       aadhaarNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
       religion: ['', [Validators.required]],
       category: ['', [Validators.required]],
@@ -156,6 +193,7 @@ finalSubmission = new FormGroup({});
 
   createUploadDocumentForm(){
       this.uploadDocumentForm = this.formBuilder.group({
+        studentPhoto: ['', ],
         file  :['', [CustomValidation.fileTypeValidator]]
       });
   }
@@ -200,13 +238,40 @@ finalSubmission = new FormGroup({});
       })
   }
 
+  // generate registration number
+  generateRegistrationNumber(existingStudents: number) {
+  // Get the values from the form group
+  const academicYear = this.studentFormControll.academicYearCode.value;
+  const standard = this.studentFormControll.standard.value;
+  const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
+  
+  this.registrationNumber = academicYear + standard + uniqueIdentifier;
+  this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+
+}
+
   //File Upload
 
-  // onFileChange(event:any) {
-  //   for (var i = 0; i < event.target.files.length; i++) { 
-  //       this.myFiles.push(event.target.files[i]);
-  //   }
-  // }
+  logConfirmDetails() {
+    console.log('confirmDetails:', this.confirmDetails); // Log the value
+  }
+  toggleConfirm(event: MatSlideToggleChange) {
+    this.confirmDetails = event.checked;
+    console.log('confirmDetails:', this.confirmDetails); // Log the value
+  }
+
+  onStudentPhotoFileChange(event:any) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      // this.selectedStudentPhoto = input.files[0];
+      this.selectedStudentPhotoName = input.files[0].name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedStudentPhoto = reader.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -239,27 +304,6 @@ finalSubmission = new FormGroup({});
             formData.append("file[]", this.documents[i]);
             console.log(this.documents[i]);
         }
-  }
-
-  showPreview = false;
-  confirmDetails = false;
-  submitButtonEnabled = false;
-
-  // open the preview modal
-  openPreview() {
-    this.showPreview = true;
-  }
-
-  // close the preview modal
-  closePreview() {
-    this.showPreview = false;
-  }
-
-  // toggle the final submit button based on the checkbox
-  toggleSubmitButton() {
-    // this.confirmDetails = !this.confirmDetails;
-    // console.log('Confirm Details:', this.confirmDetails);
-    this.submitButtonEnabled = this.confirmDetails;
   }
 
   //  handle the final submission
