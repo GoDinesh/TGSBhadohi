@@ -12,7 +12,19 @@ body {
 }
 
 .mat-horizontal-content-container {
-    height : 70vh;
+    height : 62vh;
+  }
+
+  .mat-step-footer-button {
+    position: absolute;
+    bottom: 2rem;
+  }
+
+  .mat-step-footer-button button{
+    color: #000;
+    background-color: #e3e5e7;
+    border-color: #f8f9fa;
+    margin-left: 1rem;
   }
 /*begin Common CSS  begin*/
 

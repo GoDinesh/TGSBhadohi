@@ -98,7 +98,7 @@ finalSubmission = new FormGroup({});
   createStudentForm(){
     this.studentgroup = this.formBuilder.group({
       studentName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      gender: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      gender: ['', [Validators.required]],
       // parentContactNumber: ['', ],
       standard: ['', [Validators.required]],
       section:['', [Validators.required]],
@@ -106,7 +106,7 @@ finalSubmission = new FormGroup({});
       aadhaarNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
       religion: ['', [Validators.required]],
       category: ['', [Validators.required]],
-      registrationNo: ['', [Validators.required]],
+      registrationNo: ['', []],
     });
   }
 
