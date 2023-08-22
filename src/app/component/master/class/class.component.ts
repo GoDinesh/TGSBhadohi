@@ -15,7 +15,7 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./class.component.css']
 })
 export class ClassComponent{
-  displayedColumns = ["sNo","classCode","className","active"];
+  //displayedColumns = ["sNo","classCode","className","active"];
   classmodel: Class = new  Class();
   dataSource = new MatTableDataSource < Class > ();
   dtOptions: any = {};
@@ -55,17 +55,15 @@ export class ClassComponent{
 
   //load the table
   loadTable(){
-      this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            processing: true,
-            scrollY: "300px",
-            scrollCollapse: true,
-            dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
-            buttons: [
-              'copy', 'csv', 'excel', 'print'
-            ]
-      };
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
   }
 
   //To get class list

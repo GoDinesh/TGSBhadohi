@@ -5,7 +5,10 @@ export const appurl={
                 master_academicyear: '/academicyear',
                 master_feestype: '/feestype',
                 master_discountreason: '/discountreason',
-
+        
+        menuurl_student: '/student',
+                student_registration: '/registration',
+                student_list: '/studentList',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

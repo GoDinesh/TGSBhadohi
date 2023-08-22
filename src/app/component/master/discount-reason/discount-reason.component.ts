@@ -16,7 +16,7 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class DiscountReasonComponent {
 
-  displayedColumns = ["sNo","discountReasonCode","discountReason","active"];
+ // displayedColumns = ["sNo","discountReasonCode","discountReason","active"];
   discountReasonModel: DiscountReason = new  DiscountReason();
   dataSource = new MatTableDataSource < DiscountReason > ();
   dtOptions: any = {};
@@ -56,17 +56,15 @@ export class DiscountReasonComponent {
 
   //load the table
   loadTable(){
-      this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            processing: true,
-            scrollY: "300px",
-            scrollCollapse: true,
-            dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
-            buttons: [
-              'copy', 'csv', 'excel', 'print'
-            ]
-      };
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
   }
 
   //To get record list

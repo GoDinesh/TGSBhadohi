@@ -9,6 +9,9 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { ClassService } from 'src/app/service/masters/class.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Registration } from 'src/app/model/student/registration.model';
+import { RegistrationService } from 'src/app/service/student/registration.service';
+import { msgTypes } from 'src/app/constants/common/msgType';
 
 @Component({
   selector: 'app-registration',
@@ -22,6 +25,7 @@ confirmDetails: boolean = false;
 allClassList: Observable<Class[]> = new Observable();
 academicYearList: Observable<AcademicYear[]> = new Observable();
 registrationNumber: string = "";
+reg: Registration = new Registration();
 // myFiles:string [] = [];
 
 //Upload Student Photo
@@ -97,7 +101,8 @@ finalSubmission = new FormGroup({});
   constructor(private formBuilder: FormBuilder,
               public validationMsg: ValidationErrorMessageService,
               private classService: ClassService,
-              private academicYearService: AcademicYearService
+              private academicYearService: AcademicYearService,
+              private registrationService: RegistrationService
   ) {
   }
 
@@ -308,7 +313,28 @@ finalSubmission = new FormGroup({});
 
   //  handle the final submission
   finalSubmit() {
-    
-  }
+      this.reg.studentInfo = {...this.reg.studentInfo , ...this.studentgroup.value};
+      this.reg.parentInfo = {...this.reg.parentInfo , ...this.parentgroup.value};
+      this.reg.addresInfo = {...this.reg.addresInfo, ...this.addressgroup.value};
+      this.reg.emergencyContactInfo = {...this.reg.emergencyContactInfo, ...this.emergencyContactFormGroup.value};
+      this.reg.previousSchoolInfo = {...this.reg.previousSchoolInfo, ...this.lastSchoolFormGroup.value};
+
+      this.registrationService.studentRegistration(this.reg).subscribe(res=>{
+        if(res.status === msgTypes.SUCCESS_MESSAGE){
+          this.resetForm();
+        }
+      });
+}
+
+resetForm(){
+  this.studentgroup.reset();
+  this.parentgroup.reset();
+  this.emergencyContactFormGroup.reset();
+  this.lastSchoolFormGroup.reset();
+  this.uploadDocumentForm.reset();
+  this.addressgroup.reset();
+  this.selectedStudentPhoto = '';
+  this.documents = [];
+}
 
 }
