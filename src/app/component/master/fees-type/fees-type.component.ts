@@ -15,7 +15,7 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./fees-type.component.css']
 })
 export class FeesTypeComponent {
-  displayedColumns = ["sNo","feesTypeCode","feesType","feesTypeDesc","active"];
+  //displayedColumns = ["sNo","feesTypeCode","feesType","feesTypeDesc","active"];
   feesTypeModel: FeesType = new  FeesType();
   dataSource = new MatTableDataSource < FeesType > ();
   dtOptions: any = {};
@@ -57,17 +57,15 @@ export class FeesTypeComponent {
 
   //load the table
   loadTable(){
-      this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            processing: true,
-            scrollY: "300px",
-            scrollCollapse: true,
-            dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
-            buttons: [
-              'copy', 'csv', 'excel', 'print'
-            ]
-      };
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
   }
 
   //To get table records

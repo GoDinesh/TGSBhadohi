@@ -11,4 +11,5 @@ export const pageTitle = {
         
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',
+                STUDENT_LIST    : 'Student List',
 }

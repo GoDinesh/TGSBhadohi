@@ -58,6 +58,11 @@ export const menuListAdmin: INavbarData[]=[
             "icon": "fa fa-user-circle-o",
             "routerLink": student + "/registration",
         },
+        {
+            "text": "Student List",
+            "icon": "fa fa-user-circle-o",
+            "routerLink": student + "/studentList",
+        },
     ]},
 
 ]
