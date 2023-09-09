@@ -41,6 +41,11 @@ export const menuListAdmin: INavbarData[]=[
         "icon": "fa fa-reddit-alien",
         "routerLink": masters + "/fees-structure",
     },
+    {
+        "text": "Register User",
+        "icon": "fa fa-user-circle",
+        "routerLink": masters + "/register-user",
+    },
 ]},
 //student
 {

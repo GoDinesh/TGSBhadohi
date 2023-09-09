@@ -7,6 +7,7 @@ export const pageTitle = {
                 FEES_TYPE       : 'Fees Type',
                 DISCOUNT_REASON : 'Discount Reason',
                 FEES_STRUCTURE  : 'Fees Structure',
+                REGISTER_USER   : 'Register User',
         
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',

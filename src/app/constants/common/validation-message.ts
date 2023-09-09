@@ -44,6 +44,10 @@ export const validationMessage = [
         value: 'Invalid email Id'
     },
     {
+        key: 'invalidPassword',
+        value: 'Strong Password Required'
+    },
+    {
         key: 'aadhaarValidation',
         value: 'Adhar Number is not valid'
     },
@@ -54,6 +58,10 @@ export const validationMessage = [
     {
         key: 'amountValidation',
         value: 'Given amount is not valid.'
+    },
+    {
+        key: 'confirmedValidator',
+        value: 'Password does not match.'
     }
     
     

@@ -489,7 +489,7 @@
             <!-- Filled details Preview -->
             <div class="preview-details">
               <!-- student details with photo -->
-              <ng-container *ngIf="parentgroup.dirty" class="preview-section">
+              <ng-container *ngIf="selectedStudentPhoto" class="preview-section">
                 <h4 class="detail-heading">Student Data Preview</h4>
                 <div class="row">
                   <!-- begin::student photo preview -->
@@ -499,23 +499,23 @@
                     </div>
                   </div>
                   <!-- end::student photo preview -->
-                  <div class="col-md-4 p-1">
-                  <div class="row w-100">
-                    <div class="col">
-                      <div *ngIf="studentFormControll.studentName.value" class="row">
+                  <div class="col-md-3 p-1">
+                  <div>
+                    <div class="d-flex flex-column">
+                      <div *ngIf="studentFormControll.studentName.value">
                         <strong>Student Name : </strong> {{studentFormControll.studentName.value}}
                       </div>
-                      <div *ngIf="studentFormControll.academicYearCode.value" class="row">
+                      <div *ngIf="studentFormControll.academicYearCode.value">
                         <strong>Academic Year : </strong> {{studentFormControll.academicYearCode.value}}
                       </div>
-                      <div *ngIf="studentFormControll.standard.value" class="row">
+                      <div *ngIf="studentFormControll.standard.value">
                         <strong>Standard : </strong> {{studentFormControll.standard.value}}
                       </div>
-                      <div *ngIf="studentFormControll.registrationNo.value" class="row">
+                      <div *ngIf="studentFormControll.registrationNo.value">
                         <strong>Registration Number : </strong> {{studentFormControll.registrationNo.value}}
                       </div>
+                    </div>
                   </div>
-                </div>
                   </div>
                 </div>
                 <hr> <!-- Horizontal Line -->

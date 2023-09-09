@@ -9,6 +9,7 @@ import { AcademicYearComponent } from './academic-year/academic-year.component';
 import { FeesTypeComponent } from './fees-type/fees-type.component';
 import { DiscountReasonComponent } from './discount-reason/discount-reason.component';
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 const routes: Routes = [
     {
@@ -63,7 +64,17 @@ const routes: Routes = [
                       title: pageTitle.FEES_STRUCTURE,
                       role: Object.values(ROLE_ADMIN)
                 }
-          }
+          },
+          {
+            path: 'register-user',
+            component: RegisterUserComponent,
+            canActivate: [AuthGuard],
+            data: {
+                  breadcrumb: breadcrumb.REGISTER_USER,
+                  title: pageTitle.REGISTER_USER,
+                  role: Object.values(ROLE_ADMIN)
+            }
+      }
       ]
     }
 ];

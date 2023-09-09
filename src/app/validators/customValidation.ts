@@ -129,6 +129,36 @@ export class CustomValidation {
     
     }
 
+    //Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
+    static password(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+          const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      
+          if (fc.value === '' || regex.test(fc.value)) {
+            return null;
+          } else {
+            return { invalidPassword: true };
+          }
+        } else {
+          return { invalidPassword: true };
+        }
+      }
+
+      static confirmedValidator(controlName: string, matchingControlName: string) {
+        return (formGroup: FormGroup) => {
+          const control = formGroup.controls[controlName];
+          const matchingControl = formGroup.controls[matchingControlName];
+        //   if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+        //     return;
+        //   }
+          if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ confirmedValidator: true });
+          } else {
+            matchingControl.setErrors(null);
+          }
+        };
+      }
+
     static aadhaarValidation(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
             const regex=/^[0-9]{4}[0-9]{4}[0-9]{4}$/;
