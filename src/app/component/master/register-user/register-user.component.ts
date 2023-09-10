@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
+import { PermissionGroup } from 'src/app/model/master/permission-group.model';
+import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
+import { PermissionGroupService } from 'src/app/service/permission-group.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { User } from 'src/app/model/master/user.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
-import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { UserService } from 'src/app/service/masters/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 
@@ -15,6 +19,8 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class RegisterUserComponent {
 
+  allPermissionGroupList: Observable<PermissionGroup[]> = new Observable();
+  
   userModel: User = new User();
   posts:User[]=[];
   dtOptions: any = {};
@@ -23,6 +29,7 @@ export class RegisterUserComponent {
   formGroup = new FormGroup({
     id: new FormControl(),
     role: new FormControl(),
+    group: new FormControl(),
     email: new FormControl(),
     password: new FormControl(),
     confirmPassword: new FormControl(),
@@ -31,16 +38,17 @@ export class RegisterUserComponent {
 
 constructor(private formBuilder: FormBuilder,
   public validationMsg: ValidationErrorMessageService,
+  private permissionGroupService: PermissionGroupService,
   private userService: UserService,
   private alerService: SweetAlertService
   ){
 }
 
 ngOnInit(){
+this.loadPermissionGroup();
 this.createForm(new User());
 this.loadTable();
 this.getTableRecord();
-
 }
 
 createForm(usermodel: User) {
@@ -57,6 +65,13 @@ createForm(usermodel: User) {
 get formControll(){
   return this.formGroup.controls;
 }
+
+loadPermissionGroup(){
+  this.allPermissionGroupList = this.permissionGroupService.getAllPermissionGroup().pipe(
+    map((res)=>{
+        return res.data;
+    })
+)};
 
 getTableRecord(){
   this.userService.getAllUsers().subscribe(res=>{

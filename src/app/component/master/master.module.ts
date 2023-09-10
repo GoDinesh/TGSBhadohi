@@ -9,6 +9,8 @@ import { DiscountReasonComponent } from './discount-reason/discount-reason.compo
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { SharedModule } from 'src/app/shared-module';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import { PermissionGroupComponent } from './permission-group/permission-group.component';
+import { AssignPermissionToGroupComponent } from './assign-permission-to-group/assign-permission-to-group.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { RegisterUserComponent } from './register-user/register-user.component';
     FeesTypeComponent,
     DiscountReasonComponent,
     FeesStructureComponent,
-    RegisterUserComponent
+    RegisterUserComponent,
+    PermissionGroupComponent,
+    AssignPermissionToGroupComponent
   ],
   imports: [
     CommonModule,

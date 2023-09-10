@@ -12,7 +12,27 @@
             </mat-select>
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.role,"Role")}} </div>
           </div>
-        <!-- end::Password -->
+        <!-- end::Role -->
+
+        <!-- begin::Permission Group -->
+        <div class="form-group" *ngIf="formControll.role.value === 'USER'">
+            <label class="form-label required">Group</label>
+            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Enrollment Type">
+              <input type="text"
+              class="form-control  form-control-sm"
+              formControlName="group"
+              #filterPermissionGroup>
+              <div *ngIf="allPermissionGroupList | async as postdata ">
+                  <mat-option *ngFor="let data of postdata | filterData: filterPermissionGroup.value : 'group'" [value]="data.group">
+                  {{data.group}}
+                  </mat-option>
+              </div>
+          </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.group,"Group")}}
+            </div>
+          </div>
+        <!-- end::Permission Group -->
 
         <!-- begin::Email -->
         <div class="form-group">

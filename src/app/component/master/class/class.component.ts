@@ -32,7 +32,7 @@ export class ClassComponent{
   constructor( private formBuilder: FormBuilder,
       public validationMsg: ValidationErrorMessageService,
       private classService: ClassService,
-      private alerService: SweetAlertService){
+      private alertService: SweetAlertService){
   }
   //load ngOnInit
   ngOnInit(){
@@ -101,7 +101,7 @@ export class ClassComponent{
 
   //change the status
   async slideToggleChange(element: MatSlideToggleChange, data:Class) {
-    const flag = await this.alerService.updateAlert()
+    const flag = await this.alertService.updateAlert()
     if(flag)  {
           data.active = !data.active;
           this.classService.insertClass(data).subscribe();
@@ -111,7 +111,7 @@ export class ClassComponent{
   }
   
   //set value in formfield to update
-  setVlaueToUpdate(data:Class){
+  setValueToUpdate(data:Class){
       this.createForm(data);
       this.actionFlag = false;
   }

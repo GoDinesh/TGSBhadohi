@@ -8,6 +8,8 @@ export const pageTitle = {
                 DISCOUNT_REASON : 'Discount Reason',
                 FEES_STRUCTURE  : 'Fees Structure',
                 REGISTER_USER   : 'Register User',
+                PERMISSION_GROUP : 'Permission Group',
+                ASSIGN_PERMISSION_TO_GROUP : 'Assign Permission',
         
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',
