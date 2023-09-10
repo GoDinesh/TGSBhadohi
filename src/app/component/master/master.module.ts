@@ -8,6 +8,7 @@ import { FeesTypeComponent } from './fees-type/fees-type.component';
 import { DiscountReasonComponent } from './discount-reason/discount-reason.component';
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { SharedModule } from 'src/app/shared-module';
+import { RegisterUserComponent } from './register-user/register-user.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SharedModule } from 'src/app/shared-module';
     ClassComponent,
     FeesTypeComponent,
     DiscountReasonComponent,
-    FeesStructureComponent
+    FeesStructureComponent,
+    RegisterUserComponent
   ],
   imports: [
     CommonModule,

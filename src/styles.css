@@ -11,40 +11,17 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-/* Customize the scrollbar for Webkit browsers (e.g., Chrome, Safari) */
-::-webkit-scrollbar {
-    width: 2px;
-    /* Set the width of the scrollbar */
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    /* Set the background color of the track */
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-    /* Set the background color of the thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    /* Set the background color of the thumb on hover */
-}
-
-/* Customize the scrollbar for Firefox */
-* {
-    scrollbar-width: thin;
-    /* Set the width of the scrollbar */
-    scrollbar-color: #888 #f1f1f1;
-    /* Set the color of the thumb and track */
-}
-
 /* mat-stepper CSS begin */
 
 /* fix the height of mat-step */
+mat-stepper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .mat-horizontal-content-container {
-    height: 62vh;
+    /* height: 100%; */
 }
 
 /* set button at bottom on every page */

@@ -29,7 +29,7 @@ export class LoginComponent {
   password!: string;
   authModel: Auth =new Auth();
   ipAddress: string ='';
-  showPassword = false;
+  showPassword: boolean = false;
 
   loginForm = new FormGroup({
     roles: new FormControl(),
