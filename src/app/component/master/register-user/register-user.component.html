@@ -5,18 +5,36 @@
         <!-- begin::Role -->
         <div class="form-group">
             <label class="form-label required">Role</label>
-            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Academic Year" >
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="role" disableOptionCentering placeholder="Select Role" >
                 <mat-option value="" disabled>Select one</mat-option>
-                <mat-option value="admin">Admin</mat-option>
-                <mat-option value="user">User</mat-option>
-                <mat-option value="teacher">Teacher</mat-option>
-                <mat-option value="staff">Staff</mat-option>
+                <mat-option value="ADMIN">Admin</mat-option>
+                <mat-option value="USER">User</mat-option>
             </mat-select>
             <div class="invalid-feedback">
               {{validationMsg.getErrorMessage(formControll.role,"Role")}}
             </div>
           </div>
-        <!-- end::Password -->
+        <!-- end::Role -->
+
+        <!-- begin::Permission Group -->
+        <div class="form-group" *ngIf="formControll.role.value === 'USER'">
+            <label class="form-label required">Group</label>
+            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Enrollment Type">
+              <input type="text"
+              class="form-control  form-control-sm"
+              formControlName="group"
+              #filterPermissionGroup>
+              <div *ngIf="allPermissionGroupList | async as postdata ">
+                  <mat-option *ngFor="let data of postdata | filterData: filterPermissionGroup.value : 'group'" [value]="data.group">
+                  {{data.group}}
+                  </mat-option>
+              </div>
+          </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.group,"Group")}}
+            </div>
+          </div>
+        <!-- end::Permission Group -->
 
         <!-- begin::Email -->
         <div class="form-group">

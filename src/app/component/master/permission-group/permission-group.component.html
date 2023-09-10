@@ -1,0 +1,55 @@
+
+<div class="grid-card-container card-bottom-margin">
+    <form [formGroup]="formGroup" class="grid-form">
+
+        <!-- begin::Create Group -->
+        <div class="form-group">
+            <label class="form-label required">New Group</label>
+            <input class="form-control form-control-sm" formControlName="newGroup" placeholder="Enter New Group" autocomplete="off">
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.group,"New Group")}}
+            </div>            
+          </div>
+        <!-- end::Create Group -->
+
+        <!-- begin::Buttons -->
+        <div class="grid-button form-group pt-4">
+            <ng-container>
+                <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="save()">Save</button>
+            </ng-container>
+            
+            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+        <!-- end::Buttons -->
+    </form>
+</div>
+
+ <!--begin::second Card body-->
+ <div class="grid-card-container card-bottom-padding pt-2">    
+    <table id='table' datatable [dtOptions]="dtOptions">    
+     <thead>
+       <tr>
+         <th>S.No</th> 
+         <th>Permission Group</th>
+         <th>Status</th>
+         <th>Action</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let group of permissionGroup;let i=index">
+         <td class="td-sno">{{i+1}}</td>  
+         <td class="td-small">{{ group.group }}</td>
+         <td class="td-status">
+               <mat-slide-toggle [checked]="group.active"  (change)="slideToggleChange($event, group)">
+               </mat-slide-toggle>
+         </td>
+         <td class="td-action">  
+           <a (click)="setValueToUpdate(group)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+   <!--end::table-->
+      
+   </div>
+   <!--end::second Card body-->

@@ -18,6 +18,7 @@ import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FilterDataPipe } from './core/pipes/filter-data.pipe';
+import { CdkDrag, CdkDropList ,CdkDropListGroup } from '@angular/cdk/drag-drop';
 //import {MatDatepickerModule} from '@angular/material/datepicker';
 //import {MatNativeDateModule} from '@angular/material/core';
 
@@ -46,7 +47,10 @@ import { FilterDataPipe } from './core/pipes/filter-data.pipe';
    // MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
-    FormsModule
+    FormsModule,
+    // CdkDrag,
+    // CdkDropList,
+    // CdkDropListGroup,
     
   ],
   exports: [
@@ -71,7 +75,10 @@ import { FilterDataPipe } from './core/pipes/filter-data.pipe';
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
-    FilterDataPipe
+    FilterDataPipe,
+    // CdkDrag,
+    // CdkDropList,
+    // CdkDropListGroup,
   
   ],
   providers: [],

@@ -1,0 +1,67 @@
+
+<div class="grid-card-container card-bottom-margin">
+    <form [formGroup]="formGroup" class="grid-form">
+
+        <!-- begin::Permission Group -->
+        <div class="form-group">
+            <label class="form-label required">Group</label>
+            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Enrollment Type">
+              <input type="text"
+              class="form-control  form-control-sm"
+              formControlName="group"
+              #filterPermissionGroup>
+              <div *ngIf="allPermissionGroupList | async as postdata ">
+                  <mat-option *ngFor="let data of postdata | filterData: filterPermissionGroup.value : 'group'" [value]="data.group">
+                  {{data.group}}
+                  </mat-option>
+              </div>
+          </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(formControll.group,"Group")}}
+            </div>
+          </div>
+        <!-- end::Permission Group -->
+
+        <!-- begin::Buttons -->
+        <div class="grid-button form-group pt-4">
+            <ng-container>
+                <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="save()">Save</button>
+            </ng-container>
+            
+            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+        <!-- end::Buttons -->
+    </form>
+</div>
+
+<!--begin::second Card body-->
+<div class="grid-card-container card-bottom-padding pt-2">    
+ 
+    {# <div cdkDropListGroup>
+        <div class="example-container">
+          <h2>Available items</h2>
+      
+          <div
+            cdkDropList
+            [cdkDropListData]="items"
+            class="example-list"
+            cdkDropListSortingDisabled
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of items" cdkDrag>{{item}}</div>
+          </div>
+        </div>
+      
+        <div class="example-container">
+          <h2>Shopping basket</h2>
+      
+          <div
+            cdkDropList
+            [cdkDropListData]="basket"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let item of basket" cdkDrag>{{item}}</div>
+          </div>
+        </div>
+      </div> #}
+</div>
+<!--end::second Card body-->

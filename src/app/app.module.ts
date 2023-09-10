@@ -58,8 +58,6 @@ import { BreadcrumbComponent } from './component/shared-component/breadcrumb/bre
     MatListModule,
     MatMenuModule,
     BreadcrumbModule,
-    
-
     SharedModule,
     CoreModule,
 

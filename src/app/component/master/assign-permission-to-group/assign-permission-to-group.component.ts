@@ -1,27 +1,23 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { PermissionGroup } from 'src/app/model/master/permission-group.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { PermissionGroupService } from 'src/app/service/permission-group.service';
-import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
-  selector: 'app-register-user',
-  templateUrl: './register-user.component.html',
-  styleUrls: ['./register-user.component.css']
+  selector: 'app-assign-permission-to-group',
+  templateUrl: './assign-permission-to-group.component.html',
+  styleUrls: ['./assign-permission-to-group.component.css'],
 })
-export class RegisterUserComponent {
+export class AssignPermissionToGroupComponent {
 
   allPermissionGroupList: Observable<PermissionGroup[]> = new Observable();
   
   formGroup = new FormGroup({
-    role: new FormControl(),
-    group: new FormControl(),
-    email: new FormControl(),
-    password: new FormControl(),
-    confirmPassword: new FormControl(),
+    group : new FormControl(),
+    permission : new FormControl(),
 })
 
 constructor(private formBuilder: FormBuilder,
@@ -37,12 +33,9 @@ this.loadPermissionGroup();
 
 createForm() {
   this.formGroup = this.formBuilder.group({
-    role: ['',[Validators.required]],
-    group: ['',[Validators.required]],
-    email: ['',[Validators.required, CustomValidation.emailId]],
-    password: ['',[Validators.required, CustomValidation.password]],
-    confirmPassword: ['',[Validators.required]],
-  },{ validator: CustomValidation.confirmedValidator('password', 'confirmPassword') });
+    group: ['', [Validators.required]],
+    permission: ['',[Validators.required]],
+  });
 }
 
 get formControll(){
@@ -56,12 +49,14 @@ loadPermissionGroup(){
     })
 )};
 
-  register(){
+
+  save(){
 
   }
 
   resetForm(){
 
   }
+
 
 }

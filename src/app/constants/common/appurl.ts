@@ -5,6 +5,7 @@ export const appurl={
                 master_academicyear: '/academicyear',
                 master_feestype: '/feestype',
                 master_discountreason: '/discountreason',
+                master_permissionGroup: '/permissionGroup',
         
         menuurl_student: '/student',
                 student_registration: '/registration',

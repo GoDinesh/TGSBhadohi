@@ -46,6 +46,16 @@ export const menuListAdmin: INavbarData[]=[
         "icon": "fa fa-user-circle",
         "routerLink": masters + "/register-user",
     },
+    {
+        "text": "Permission Group",
+        "icon": "fa fa-group",
+        "routerLink": masters + "/permission-group",
+    },
+    {
+        "text": "Assign Permission To Group",
+        "icon": "fa fa-lock",
+        "routerLink": masters + "/assign-permission-to-group",
+    },
 ]},
 //student
 {
