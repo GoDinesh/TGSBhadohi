@@ -18,12 +18,12 @@ export class AcademicYearService {
   
   getAllAcademicYear(){
     const url = this.requestUrl + appurl.endpoint_findall;
-    return this.httpClient.post<ResponseModel>(url, '')
+    return this.httpClient.get<ResponseModel>(url)
   }
  
-  updateAcademicYear(academicYearModel: AcademicYear){
-   const url = this.requestUrl + appurl.endpoint_update;
-   return this.httpClient.post<ResponseModel>(url, JSON.stringify(academicYearModel));
- }
+//   updateAcademicYear(academicYearModel: AcademicYear){
+//    const url = this.requestUrl + appurl.endpoint_update;
+//    return this.httpClient.post<ResponseModel>(url, JSON.stringify(academicYearModel));
+//  }
  
  }

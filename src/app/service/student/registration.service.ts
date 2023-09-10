@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { appurl } from 'src/app/constants/common/appurl';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { Registration } from 'src/app/model/student/registration.model';
-import { StudentInfo } from 'src/app/model/student/student-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +13,19 @@ export class RegistrationService {
   constructor(private httpClient: HttpClient) { }
  
   studentRegistration(registrationModel: Partial<Registration>){
-     const url = this.requestUrl + appurl.student_registration + appurl.endpoint_insert;
+    console.log(registrationModel);
+    
+     const url = this.requestUrl + appurl.student_registration ;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(registrationModel))
   }
 
-  studentList(studentInfo: StudentInfo){
-    const url = this.requestUrl + appurl.student_list;
+  studentList(studentInfo: Registration){
+    const url = this.requestUrl + appurl.endpoint_filter;
     return this.httpClient.post<ResponseModel>(url, JSON.stringify(studentInfo))
- }
+  }
+
+  // updateStudentRegistration(requestData: Registration){
+  //   const url = this.requestUrl + appurl.student_registration + appurl.endpoint_update;
+  //   return this.httpClient.post<ResponseModel>(url, JSON.stringify(requestData))
+  // }
 }

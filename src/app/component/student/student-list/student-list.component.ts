@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
+import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
-import { StudentInfo } from 'src/app/model/student/student-info.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
@@ -20,7 +21,7 @@ import { RegistrationService } from 'src/app/service/student/registration.servic
 })
 export class StudentListComponent {
   //displayedColumns = ["sNo","registrationNo","studentName","gender","dateOfBirth","standard","aadhaarNumber"];
-  studentInfo: StudentInfo = new  StudentInfo();
+  studentInfo: Registration = new  Registration();
   dataSource = new MatTableDataSource < Registration > ();
   dtOptions: any = {};
   posts:Registration[]=[];
@@ -30,15 +31,20 @@ export class StudentListComponent {
   studentgroup = new FormGroup({
         standard            : new FormControl(),
         academicYearCode        : new FormControl(),
+        registrationNo : new FormControl(),
+        fatherContactNo: new FormControl(),
+        studentName: new FormControl()
   });
 
   constructor(
+              private router: Router,
               private formBuilder: FormBuilder, 
               private registrationService: RegistrationService,
               private classService: ClassService,
               private academicYearService: AcademicYearService,
               private alerService: SweetAlertService,
               public validationMsg: ValidationErrorMessageService,
+              private sweetAlertService: SweetAlertService,
                ){
   }
 
@@ -53,15 +59,19 @@ export class StudentListComponent {
   }
 
   customInit(){
-    this.createStudentForm();
+    this.createStudentForm(new Registration());
     this.loadClass();
     this.loadAcademicyear();
+    this.getTableRecord();
   }
 
-  createStudentForm(){
+  createStudentForm(registartion: Registration){
     this.studentgroup = this.formBuilder.group({
-      standard: [''],
-      academicYearCode: [''],
+      registrationNo: [registartion.registrationNo],
+      standard: [registartion.standard],
+      academicYearCode: [registartion.academicYearCode],
+      fatherContactNo: [registartion.fatherContactNo],
+      studentName: [registartion.studentName]
     });
   }
 
@@ -95,19 +105,29 @@ export class StudentListComponent {
 
   //To get Student List
   async getTableRecord() {
-    const studentInfo: StudentInfo = new StudentInfo();
-    studentInfo.academicYearCode = this.studentgroup.controls.academicYearCode.value ;
-    studentInfo.standard = this.studentgroup.controls.standard.value
+    const studentInfo: Registration = new Registration();
+    studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value ;
+    studentInfo.standard = this.studentFormControll.standard.value;
+    studentInfo.registrationNo = this.studentFormControll.registrationNo.value;
+    studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
+    studentInfo.studentName = this.studentFormControll.studentName.value;
 
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
+          if(res.data.length == 0){
+            this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
+          }
         }
     });
   }
 
+  setVlaueToUpdate(stuDetails: Registration){
+    this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_registration, { state: { studetails: stuDetails } });
+  }
+
   resetForm(){
-    this.studentgroup.reset();
+    this.createStudentForm(new Registration())
     this.posts = [];
   }
 }

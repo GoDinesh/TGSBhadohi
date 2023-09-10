@@ -17,32 +17,32 @@
                   <!-- begin user type -->
                   <div class="form-outline mb-4">
                   <label>User Type</label>
-                    <select class="form-control user-type custom-select" formControlName="userType">
+                    <select class="form-control user-type custom-select" formControlName="roles">
                       <option [ngValue]="null" disabled selected>Select User</option>
                       <option value="admin">Admin</option>
                       <option value="user">User</option>
                     </select>
-                  <div class="invalid-feedback">{{this.errorMsgService.getErrorMessage(loginFormControl.userType ,"User Type")}} </div>
+                  <div class="invalid-feedback">{{this.errorMsgService.getErrorMessage(loginFormControl.roles ,"User Type")}} </div>
                   </div>
                   <!-- end::usertype -->
 
 
                   <div class="form-outline mb-4">
-                    <label class="form-label" for="form2Example11">Username</label>
+                    <label class="form-label" for="form2Example11">Username / Email</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <span class="form-control input-group-text" id="username"><i class="fa fa-user"></i></span>
+                        <span class="form-control input-group-text" id="email"><i class="fa fa-user"></i></span>
                       </div>
-                      <input formControlName="userName" autocomplete="off" id="username" class="form-control"  placeholder="Enter User Name" aria-describedby="username"/>                    
+                      <input formControlName="email" autocomplete="off" id="email" class="form-control"  placeholder="Enter User Name" aria-describedby="email"/>                    
                     </div>
-                    <div class="invalid-feedback">{{this.errorMsgService.getErrorMessage(loginFormControl.userName ,"User Name")}}</div>
+                    <div class="invalid-feedback">{{this.errorMsgService.getErrorMessage(loginFormControl.email ,"User Name / Email")}}</div>
                   </div>
 
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form2Example22">Password</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <span class="form-control input-group-text" id="username"><i class="fa fa-lock"></i></span>
+                        <span class="form-control input-group-text" id="email"><i class="fa fa-lock"></i></span>
                       </div>
                     <input type="password" [ngClass]="{'form-password-hide' : !showPassword}" [(ngModel)]="password" formControlName="password" placeholder="Enter Password" autocomplete="off" id="form2Example22" class="form-control" />
                     <div class="input-group-append">

@@ -22,7 +22,7 @@
                     <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
                 </ng-container>
                 <ng-container *ngIf="!actionFlag">
-                    <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+                    <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Update</button>
                 </ng-container>
                 
                 <button  class="btn btn-danger" (click)="resetForm()">Reset</button>

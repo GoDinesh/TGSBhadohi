@@ -12,6 +12,8 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Registration } from 'src/app/model/student/registration.model';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { msgTypes } from 'src/app/constants/common/msgType';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { appurl } from 'src/app/constants/common/appurl';
 
 @Component({
   selector: 'app-registration',
@@ -26,8 +28,8 @@ allClassList: Observable<Class[]> = new Observable();
 academicYearList: Observable<AcademicYear[]> = new Observable();
 registrationNumber: string = "";
 reg: Registration = new Registration();
+updateFlag: boolean = false;
 // myFiles:string [] = [];
-
 //Upload Student Photo
 // selectedStudentPhoto: File | null = null;
 selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
@@ -39,13 +41,14 @@ selectedFileName = 'Choose file';
 documents: File[] = [];
 
 studentgroup = new FormGroup({
+    id                  : new FormControl(), 
     studentName         : new FormControl(),
     gender              : new FormControl(),
     // parentContactNumber : new FormControl(),
     dateOfBirth : new FormControl(),
     standard            : new FormControl(),
     section             : new FormControl(),
-    academicYearCode        : new FormControl(),
+    academicYearCode    : new FormControl(),
     aadhaarNumber       : new FormControl(),
     religion            : new FormControl(),
     category            : new FormControl(),
@@ -98,21 +101,30 @@ finalSubmission = new FormGroup({});
     secondCtrl: ['',],
   });
   
-  constructor(private formBuilder: FormBuilder,
+  constructor(public activatedRoute: ActivatedRoute,
+              private formBuilder: FormBuilder,
               public validationMsg: ValidationErrorMessageService,
               private classService: ClassService,
               private academicYearService: AcademicYearService,
-              private registrationService: RegistrationService
+              private registrationService: RegistrationService,
+              private router: Router
   ) {
   }
 
   //load ngOnInit
   ngOnInit(){
-    this.createStudentForm();
-    this.createParentForm();
-    this.createAddressForm();
-    this.createEmergencyContactForm();
-    this.createLastSchoolForm();
+    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res=>{
+        if(res.studetails.registrationNo.length>0){
+          this.reg = res.studetails;
+          this.updateFlag = true;
+        }
+    })
+
+    this.createStudentForm(this.reg);
+    this.createParentForm(this.reg);
+    this.createAddressForm(this.reg);
+    this.createEmergencyContactForm(this.reg);
+    this.createLastSchoolForm(this.reg);
     this.createUploadDocumentForm();
     this.loadDropdowns();
     this.customInit();
@@ -137,62 +149,63 @@ finalSubmission = new FormGroup({});
       })
   )};
 
-  createStudentForm(){
+  createStudentForm(stuInfo: Registration){
     this.studentgroup = this.formBuilder.group({
-      studentName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      gender: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required]],
-      standard: ['', [Validators.required]],
-      section:['', [Validators.required]],
-      academicYearCode: ['', [Validators.required]],
-      aadhaarNumber: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
-      religion: ['', [Validators.required]],
-      category: ['', [Validators.required]],
-      registrationNo: ['', []],
+      id: [stuInfo.id],
+      studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      gender: [stuInfo.gender, [Validators.required]],
+      dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
+      standard: [stuInfo.standard, [Validators.required]],
+      section:[stuInfo.section, [Validators.required]],
+      academicYearCode: [stuInfo.academicYearCode, [Validators.required]],
+      aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
+      religion: [stuInfo.religion, [Validators.required]],
+      category: [stuInfo.category, [Validators.required]],
+      registrationNo: [stuInfo.registrationNo, []],
     });
   }
 
-  createParentForm(){
+  createParentForm(parentInfo: Registration){
     this.parentgroup = this.formBuilder.group({
-      fatherName          : ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      fatherAadharNo      : ['', [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
-      fatherContactNo     : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      fatherQualification : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      fatherProfession    : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      fatherEmailId       : ['', [CustomValidation.emailId]],
-      motherName          : ['', [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
-      motherAadharNumber  : ['', [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
-      motherContactNumber : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      motherProfession    : ['', [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      guardianName        : ['', [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherName          : [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      fatherAadharNo      : [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      fatherContactNo     : [parentInfo.fatherContactNo, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      fatherQualification : [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherProfession    : [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherEmailId       : [parentInfo.fatherEmailId, [CustomValidation.emailId]],
+      motherName          : [parentInfo.motherName, [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
+      motherAadharNumber  : [parentInfo.motherAadharNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      motherContactNumber : [parentInfo.motherContactNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      motherProfession    : [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      guardianName        : [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
       
     });
   }
 
-  createAddressForm(){
+  createAddressForm(addressInfo: Registration){
     this.addressgroup = this.formBuilder.group({
-      country             : ['', ],
-      state               : ['', ],
-      city                : ['', ],
-      pincode             : ['', [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
-      area                : ['', [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+      country             : [addressInfo.country, ],
+      state               : [addressInfo.state, ],
+      city                : [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+      pincode             : [addressInfo.pincode, [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
+      area                : [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
    });
   }
 
-  createEmergencyContactForm(){
+  createEmergencyContactForm(contactInfo: Registration){
     this.emergencyContactFormGroup = this.formBuilder.group({
-      emergencyContactPerson  : ['', [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      emergencyNumber         : ['', [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      emergencyContactPerson  : [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      emergencyNumber         : [contactInfo.emergencyNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
    });
   }
 
-  createLastSchoolForm(){
+  createLastSchoolForm(lastSchoolInfo: Registration){
     this.lastSchoolFormGroup = this.formBuilder.group({
-        schoolName          : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-        tcNumber            : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
-        passedClass       : ['', [Validators.minLength(1), CustomValidation.numeric]],
-        passedClassMarks      : ['', [Validators.minLength(2), CustomValidation.numeric]],
-        schoolAddress       : ['', [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+        schoolName          : [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+        tcNumber            : [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
+        passedClass       : [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.numeric]],
+        passedClassMarks      : [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
+        schoolAddress       : [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.alphabetsWithSpace]],
     })
   }
 
@@ -307,23 +320,24 @@ finalSubmission = new FormGroup({});
         const formData = new FormData();
         for (var i = 0; i < this.documents.length; i++) { 
             formData.append("file[]", this.documents[i]);
-            console.log(this.documents[i]);
         }
   }
 
   //  handle the final submission
   finalSubmit() {
-      this.reg.studentInfo = {...this.reg.studentInfo , ...this.studentgroup.value};
-      this.reg.parentInfo = {...this.reg.parentInfo , ...this.parentgroup.value};
-      this.reg.addresInfo = {...this.reg.addresInfo, ...this.addressgroup.value};
-      this.reg.emergencyContactInfo = {...this.reg.emergencyContactInfo, ...this.emergencyContactFormGroup.value};
-      this.reg.previousSchoolInfo = {...this.reg.previousSchoolInfo, ...this.lastSchoolFormGroup.value};
-
-      this.registrationService.studentRegistration(this.reg).subscribe(res=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.resetForm();
-        }
-      });
+      this.reg = new Registration();
+      this.reg = {...this.reg , ...this.studentgroup.value};
+      this.reg = {...this.reg , ...this.parentgroup.value};
+      this.reg = {...this.reg, ...this.addressgroup.value};
+      this.reg = {...this.reg, ...this.emergencyContactFormGroup.value};
+      this.reg = {...this.reg, ...this.lastSchoolFormGroup.value};
+          this.registrationService.studentRegistration(this.reg).subscribe(res=>{
+            if(res.status === msgTypes.SUCCESS_MESSAGE){
+                this.resetForm();
+                this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
+            }
+          });
+      
 }
 
 resetForm(){

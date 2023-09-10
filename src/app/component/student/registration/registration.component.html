@@ -85,7 +85,7 @@
 
                                   <!-- begin::Aadhaar number  -->
                                   <div class="form-group">
-                                    <label class="form-label required">Aadhaar Number </label>
+                                    <label class="form-label">Aadhaar Number </label>
                                     <input class="form-control form-control-sm" formControlName="aadhaarNumber" autocomplete="off">
                                     <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.aadhaarNumber,"Aadhaar Number ")}}</div>
                                   </div>
@@ -114,10 +114,10 @@
                                 <!-- <input class="form-control form-control-sm" formControlName="category" autocomplete="off"> -->
                                 <mat-select class="custom-select-option form-control form-control-sm" formControlName="category" autocomplete="off">
                                   <mat-option value="" disabled>Select Category</mat-option>
-                                  <mat-option value="hinduism">GENERAL</mat-option>
-                                  <mat-option value="islam">OBC</mat-option>
-                                  <mat-option value="christianity">SC</mat-option>
-                                  <mat-option value="buddhism">ST</mat-option>
+                                  <mat-option value="GN">GENERAL</mat-option>
+                                  <mat-option value="OBC">OBC</mat-option>
+                                  <mat-option value="SC">SC</mat-option>
+                                  <mat-option value="ST">ST</mat-option>
                                 </mat-select>
                                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.category,"Category")}}</div>
                               </div>
@@ -502,16 +502,16 @@
                   <div class="col-md-4 p-1">
                   <div class="row w-100">
                     <div class="col">
-                      <div *ngIf="studentFormControll.studentName.value" class="row">
+                      <div class="row">
                         <strong>Student Name : </strong> {{studentFormControll.studentName.value}}
                       </div>
-                      <div *ngIf="studentFormControll.academicYearCode.value" class="row">
+                      <div class="row">
                         <strong>Academic Year : </strong> {{studentFormControll.academicYearCode.value}}
                       </div>
-                      <div *ngIf="studentFormControll.standard.value" class="row">
+                      <div class="row">
                         <strong>Standard : </strong> {{studentFormControll.standard.value}}
                       </div>
-                      <div *ngIf="studentFormControll.registrationNo.value" class="row">
+                      <div class="row">
                         <strong>Registration Number : </strong> {{studentFormControll.registrationNo.value}}
                       </div>
                   </div>
@@ -522,31 +522,31 @@
               </ng-container>
 
               <!-- Student Details -->
-              <ng-container *ngIf="studentgroup.dirty" class="preview-section">
+              <ng-container  class="preview-section">
                 <h4 class="detail-heading">Student Details</h4>
                 <div class="row">
-                  <div *ngIf="studentFormControll.studentName.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Student Name:</strong> {{studentFormControll.studentName.value}}
                   </div>
-                  <div *ngIf="studentFormControll.gender.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Gender:</strong> {{studentFormControll.gender.value}}
                   </div>
-                  <div *ngIf="studentFormControll.standard.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Standard:</strong> {{studentFormControll.standard.value}}
                   </div>
-                  <div *ngIf="studentFormControll.academicYearCode.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Academic Year:</strong> {{studentFormControll.academicYearCode.value}}
                   </div>
-                  <div *ngIf="studentFormControll.aadhaarNumber.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Adhar Number:</strong> {{studentFormControll.aadhaarNumber.value}}
                   </div>
-                  <div *ngIf="studentFormControll.religion.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Religion:</strong> {{studentFormControll.religion.value}}
                   </div>
-                  <div *ngIf="studentFormControll.category.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Category:</strong> {{studentFormControll.category.value}}
                   </div>
-                  <div *ngIf="studentFormControll.registrationNo.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>Registration Number:</strong> {{studentFormControll.registrationNo.value}}
                   </div>
                 </div>
@@ -556,40 +556,40 @@
 
 
               <!-- Parent Details -->
-              <ng-container *ngIf="parentgroup.dirty" class="preview-section">
+              <ng-container  class="preview-section">
                 <h4 class="detail-heading">Parent Details</h4>
                 <div class="row">
-                  <div *ngIf="parentFormControll.fatherName.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Name:</strong> {{parentFormControll.fatherName.value}}
                   </div>
-                  <div *ngIf="parentFormControll.fatherAadharNo.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Adhar No:</strong> {{parentFormControll.fatherAadharNo.value}}
                   </div>
-                  <div *ngIf="parentFormControll.fatherContactNo.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Contact No:</strong> {{parentFormControll.fatherContactNo.value}}
                   </div>
-                  <div *ngIf="parentFormControll.fatherQualification.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Qualification:</strong> {{parentFormControll.fatherQualification.value}}
                   </div>
-                  <div *ngIf="parentFormControll.fatherProfession.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Profession:</strong> {{parentFormControll.fatherProfession.value}}
                   </div>
-                  <div *ngIf="parentFormControll.fatherEmailId.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Father Email Id:</strong> {{parentFormControll.fatherEmailId.value}}
                   </div>
-                  <div *ngIf="parentFormControll.motherName.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Mother Name:</strong> {{parentFormControll.motherName.value}}
                   </div>
-                  <div *ngIf="parentFormControll.motherAadharNumber.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Mother Adhar No:</strong> {{parentFormControll.motherAadharNumber.value}}
                   </div>
-                  <div *ngIf="parentFormControll.motherContactNumber.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Mother Contact No:</strong> {{parentFormControll.motherContactNumber.value}}
                   </div>
-                  <div *ngIf="parentFormControll.motherProfession.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Mother Profession:</strong> {{parentFormControll.motherProfession.value}}
                   </div>
-                  <div *ngIf="parentFormControll.guardianName.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Guardian Name:</strong> {{parentFormControll.guardianName.value}}
                   </div>
                 </div>
@@ -598,22 +598,22 @@
               
 
               <!-- Address Details -->
-              <ng-container *ngIf="addressgroup.dirty" class="preview-section">
+              <ng-container  class="preview-section">
                 <h4 class="detail-heading">Address Details</h4>
                 <div class="row">
-                  <div *ngIf="addressFormControll.country.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>Country:</strong> {{addressFormControll.country.value}}
                   </div>
-                  <div *ngIf="addressFormControll.state.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>State:</strong> {{addressFormControll.state.value}}
                   </div>
-                  <div *ngIf="addressFormControll.city.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>City:</strong> {{addressFormControll.city.value}}
                   </div>
-                  <div *ngIf="addressFormControll.pincode.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>Pincode:</strong> {{addressFormControll.pincode.value}}
                   </div>
-                  <div *ngIf="addressFormControll.area.value" class="col-md-4">
+                  <div class="col-md-4">
                     <strong>Area:</strong> {{addressFormControll.area.value}}
                   </div>
                 </div>
@@ -622,13 +622,13 @@
               
 
               <!-- Emergency Details -->
-              <ng-container *ngIf="emergencyContactFormGroup.dirty" class="preview-section">
+              <ng-container class="preview-section">
                 <h4 class="detail-heading">Emergency Details</h4>
                 <div class="row">
-                  <div *ngIf="emergencyContactFormControll.emergencyContactPerson.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Emergency Contact Person:</strong> {{emergencyContactFormControll.emergencyContactPerson.value}}
                   </div>
-                  <div *ngIf="emergencyContactFormControll.emergencyNumber.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Emergency Number:</strong> {{emergencyContactFormControll.emergencyNumber.value}}
                   </div>
                 </div>
@@ -637,19 +637,19 @@
               
 
              <!-- Last School Details -->
-             <ng-container *ngIf="lastSchoolFormGroup.dirty" class="preview-section">
+             <ng-container  class="preview-section">
                 <h4 class="detail-heading">Previous School Details</h4>
                 <div class="row">
-                  <div *ngIf="lastSchoolFormControll.schoolName.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>School Name:</strong> {{lastSchoolFormControll.schoolName.value}}
                   </div>
-                  <div *ngIf="lastSchoolFormControll.tcNumber.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>TC Number:</strong> {{lastSchoolFormControll.tcNumber.value}}
                   </div>
-                  <div *ngIf="lastSchoolFormControll.passedClass.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Passed Class:</strong> {{lastSchoolFormControll.passedClass.value}}
                   </div>
-                  <div *ngIf="lastSchoolFormControll.passedClassMarks.value" class="col-md-4">
+                  <div  class="col-md-4">
                     <strong>Passed Class Marks:</strong> {{lastSchoolFormControll.passedClassMarks.value}}
                   </div>
                 </div>
@@ -658,7 +658,7 @@
               
 
               <!-- Uploaded Documents -->
-              <ng-container *ngIf="documents.length > 0" class="preview-section">
+              <ng-container class="preview-section">
                 <h4 class="detail-heading">Uploaded Documents</h4>
                 <div *ngIf="documents.length > 0">
                   <table class="table table-sm">

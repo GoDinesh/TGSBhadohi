@@ -56,7 +56,10 @@
         <!-- begin::Payment Type -->
         <div class="form-group">
             <label class="form-label required">Payment Type</label>
-            <input class="form-control form-control-sm" formControlName="paymentType" placeholder="Enter Payment Type" autocomplete="off">
+            <mat-select formControlName="paymentType" disableOptionCentering  placeholder="Select Payment Type" class="form-control form-control-sm myPanelClass">
+                    <mat-option value="Instalment">Instalment</mat-option>
+                    <mat-option value="Lumpsum">Lumpsum</mat-option>
+            </mat-select>
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.paymentType,"Payment Type")}}</div>
         </div>
         <!-- end:: Payment Type -->

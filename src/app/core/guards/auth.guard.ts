@@ -28,19 +28,21 @@ export class AuthGuard implements CanActivate {
   }
 
   checkUserLogin(route: ActivatedRouteSnapshot): boolean {
-    if (this.authService.isLoggedIn()) {
-      const userRole = this.authService.getRole();
-      const role = route.data['role'];
+    // if (this.authService.isLoggedIn()) {
+    //   const userRole = this.authService.getRole();
+    //   const role = route.data['role'];
       
-      if (role && role.indexOf(userRole) === -1) {
-          this.localStorageService.clearWithoutRouting();
-          this.router.navigate(['unauthorized-attempt']);
-          return false;
-      }
-      return true;
-    }
-    this.localStorageService.clear();
-    this.router.navigate(['']);
-    return false;
+    //   if (role && role.indexOf(userRole) === -1) {
+    //       this.localStorageService.clearWithoutRouting();
+    //       this.router.navigate(['unauthorized-attempt']);
+    //       return false;
+    //   }
+    //   return true;
+    // }
+    // this.localStorageService.clear();
+    // this.router.navigate(['']);
+    // return false;
+
+    return true;
   }
 }

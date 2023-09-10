@@ -9,11 +9,11 @@
         <!-- end::Fees Type-->
 
         <!-- begin::Fees Type Code -->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label class="form-label required">Fees Type Code</label>
             <input class="form-control form-control-sm" formControlName="feesTypeCode" placeholder="Enter Fees Type Code" autocomplete="off">
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.feesTypeCode,"Fees Type Code")}}</div>
-        </div>
+        </div> -->
         <!-- end::Fees Type Code-->
     
         <!-- begin::Description-->
@@ -25,7 +25,7 @@
         <!-- end::Description-->
         
          <!-- begin::Buttons -->
-         <div class="grid-button form-group pt-4">
+         <div class="grid-button-inline form-group pt-4">
             <ng-container *ngIf="actionFlag">
                 <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
             </ng-container>
@@ -46,7 +46,7 @@
      <thead>
        <tr>
          <th>S.No</th> 
-         <th>Fees Type Code</th>
+         <!-- <th>Fees Type Code</th> -->
          <th>Fees Type</th>
          <th>Fees Type Description</th>
          <th>Status</th>
@@ -56,7 +56,7 @@
      <tbody>
        <tr *ngFor="let post of posts;let i=index">
          <td class="td-sno">{{i+1}}</td>  
-         <td class="td-large">{{ post.feesTypeCode }}</td>
+         <!-- <td class="td-large">{{ post.feesTypeCode }}</td> -->
          <td class="td-large">{{ post.feesType }}</td>
          <td class="td-auto">{{ post.feesTypeDesc }}</td>
          <td class="td-status">

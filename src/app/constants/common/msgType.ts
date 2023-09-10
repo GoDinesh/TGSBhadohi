@@ -32,5 +32,6 @@ export const msgTypes = {
 
     TOKEN_EXPIRE_ERROR: 'TokenExpiredError',
     TOKEN_EXPIRED: 'Token is expired',
-    UNAUTHORIZE: 'Unauthorize'
+    UNAUTHORIZE: 'Unauthorize',
+    NO_RECORD_FOUND: 'No Record Found',
 }

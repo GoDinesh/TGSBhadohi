@@ -24,7 +24,8 @@ export class DiscountReasonComponent {
   actionFlag = true;
   
   formgroup = new FormGroup({
-    discountReasonCode    : new FormControl(),
+   // discountReasonCode    : new FormControl(),
+    id: new FormControl(),
     discountReason: new FormControl(),
     active: new FormControl(),
   });
@@ -37,7 +38,7 @@ export class DiscountReasonComponent {
   }
   //load ngOnInit
   ngOnInit(){
-    this.createForm();
+    this.createForm(new DiscountReason);
     this.customInit();
   }
 
@@ -46,11 +47,12 @@ export class DiscountReasonComponent {
     await this.getTableRecord();
   }
 
-  createForm() {
+  createForm(discountReason: DiscountReason) {
       this.formgroup = this.formBuilder.group({
-            discountReason: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-            discountReasonCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
-            active: [false,[Validators.required]]
+            id: [discountReason.id],
+            discountReason: [discountReason.discountReason,[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+            //discountReasonCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
+            active: [discountReason.active,[Validators.required]]
       });
   }
 
@@ -95,7 +97,7 @@ export class DiscountReasonComponent {
   
 
   resetForm(){
-    this.formgroup.reset();
+    this.createForm(new DiscountReason())
     this.actionFlag = true;
   }
 
@@ -104,7 +106,7 @@ export class DiscountReasonComponent {
     const flag = await this.alerService.updateAlert()
     if(flag)  {
           data.active = !data.active;
-          this.discountReasonService.updateDiscountReason(data).subscribe();
+          this.discountReasonService.insertDiscountReason(data).subscribe();
     }else{
           element.source.checked = data.active;
     }
@@ -112,16 +114,14 @@ export class DiscountReasonComponent {
   
   //set value in formfield to update
   setVlaueToUpdate(data: DiscountReason){
-      this.formgroup.patchValue(data);
+      this.createForm(data);
       this.actionFlag = false;
-      this.discountReasonModel.discountReasonCode = data.discountReasonCode;
-    
   }
 
   //update the record
   update(){
       this.discountReasonModel = {...this.discountReasonModel,...this.formgroup.value}
-      this.discountReasonService.updateDiscountReason(this.discountReasonModel).subscribe((res)=>{
+      this.discountReasonService.insertDiscountReason(this.discountReasonModel).subscribe((res)=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.getTableRecord();
           this.resetForm();

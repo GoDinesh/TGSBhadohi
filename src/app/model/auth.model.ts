@@ -1,12 +1,12 @@
 export class Auth {
-    userType: string;
-    userName: string;
+    roles: string;
+    email: string;
     password: string;
 
 
     constructor(){
-        this.userType = '';
-        this.userName = '';
+        this.roles = '';
+        this.email = '';
         this.password = '';
     }
 }

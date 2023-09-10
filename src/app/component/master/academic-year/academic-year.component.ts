@@ -24,6 +24,7 @@ export class AcademicYearComponent {
   actionFlag = true;
   
   formgroup = new FormGroup({
+      id: new FormControl(),
       academicYearCode: new FormControl(),
       academicYear: new FormControl(),
       active: new FormControl(),
@@ -37,7 +38,7 @@ export class AcademicYearComponent {
   }
   //load ngOnInit
   ngOnInit(){
-    this.createForm();
+    this.createForm(new AcademicYear());
     this.customInit();
   }
 
@@ -46,11 +47,12 @@ export class AcademicYearComponent {
     await this.getTableRecord();
   }
 
-  createForm() {
+  createForm(academicYear: AcademicYear) {
       this.formgroup = this.formBuilder.group({
-            academicYearCode: ['',[Validators.required, Validators.minLength(8), Validators.maxLength(8), CustomValidation.alphanumaric]],
-            academicYear: ['',[Validators.required, Validators.minLength(9), Validators.maxLength(9), CustomValidation.academicYear]],
-            active: [false,[Validators.required]]
+            id: [academicYear.id],
+            academicYearCode: [academicYear.academicYearCode,[Validators.required, Validators.minLength(8), Validators.maxLength(8), CustomValidation.alphanumaric]],
+            academicYear: [academicYear.academicYear,[Validators.required, Validators.minLength(9), Validators.maxLength(9), CustomValidation.academicYear]],
+            active: [academicYear.active,[Validators.required]]
       });
   }
 
@@ -95,7 +97,7 @@ export class AcademicYearComponent {
   
 
   resetForm(){
-    this.formgroup.reset();
+    this.createForm(new AcademicYear())
     this.actionFlag = true;
   }
 
@@ -104,7 +106,7 @@ export class AcademicYearComponent {
     const flag = await this.alerService.updateAlert()
     if(flag)  {
           data.active = !data.active;
-          this.academicYearService.updateAcademicYear(data).subscribe();
+          this.academicYearService.insertAcademicYear(data).subscribe();
     }else{
           element.source.checked = data.active;
     }
@@ -112,15 +114,14 @@ export class AcademicYearComponent {
   
   //set value in formfield to update
   setVlaueToUpdate(data:AcademicYear){
-      this.formgroup.patchValue(data);
+      this.createForm(data);
       this.actionFlag = false;
-      this.academicYearmodel.academicYearCode = data.academicYearCode;
   }
 
   //update the record
   update(){
       this.academicYearmodel = {...this.academicYearmodel,...this.formgroup.value}
-      this.academicYearService.updateAcademicYear(this.academicYearmodel).subscribe((res)=>{
+      this.academicYearService.insertAcademicYear(this.academicYearmodel).subscribe((res)=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.getTableRecord();
           this.resetForm();

@@ -9,11 +9,11 @@
         <!-- end::Discount Reason-->
     
         <!-- begin::Discount Reason Code-->
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label class="form-label required">Discount Reason Code</label>
             <input class="form-control form-control-sm" formControlName="discountReasonCode" placeholder="Enter Code" autocomplete="off">
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountReasonCode,"Discount Reason Code")}}</div>
-        </div>
+        </div> -->
         <!-- end::Discount Reason Code-->
         
         <!-- begin::Buttons -->
@@ -37,7 +37,7 @@
      <thead>
        <tr>
          <th>S.No</th> 
-         <th>Discount Reason Code</th>
+         <!-- <th>Discount Reason Code</th> -->
          <th>Discount Reason</th>         
          <th>Status</th>
          <th>Action</th>
@@ -46,7 +46,7 @@
      <tbody>
        <tr *ngFor="let post of posts;let i=index">
          <td class="td-sno">{{i+1}}</td>  
-         <td class="td-large">{{ post.discountReasonCode }}</td>
+         <!-- <td class="td-large">{{ post.discountReasonCode }}</td> -->
          <td class="td-auto">{{ post.discountReason }}</td>
         
          <td class="td-status">

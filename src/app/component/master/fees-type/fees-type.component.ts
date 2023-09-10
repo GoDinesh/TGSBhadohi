@@ -23,7 +23,8 @@ export class FeesTypeComponent {
   actionFlag = true;
   
   formgroup = new FormGroup({
-      feesTypeCode: new FormControl(),
+      //feesTypeCode: new FormControl(),
+      id: new FormControl(),
       feesType: new FormControl(),
       feesTypeDesc: new FormControl(),
       active: new FormControl(),
@@ -37,7 +38,7 @@ export class FeesTypeComponent {
   }
   //load ngOnInit
   ngOnInit(){
-    this.createForm();
+    this.createForm(new FeesType());
     this.customInit();
   }
 
@@ -46,12 +47,13 @@ export class FeesTypeComponent {
     await this.getTableRecord();
   }
 
-  createForm() {
+  createForm(feesType: FeesType) {
       this.formgroup = this.formBuilder.group({
-            feesTypeCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
-            feesType: ['',[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-            feesTypeDesc: ['',[Validators.required, Validators.minLength(5), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
-            active: [false,[Validators.required]]
+           // feesTypeCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
+            id: [feesType.id],
+            feesType: [feesType.feesType,[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+            feesTypeDesc: [feesType.feesTypeDesc,[Validators.required, Validators.minLength(5), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+            active: [feesType.active,[Validators.required]]
       });
   }
 
@@ -96,7 +98,7 @@ export class FeesTypeComponent {
   
 
   resetForm(){
-    this.formgroup.reset();
+    this.createForm(new FeesType());
     this.actionFlag = true;
   }
 
@@ -105,7 +107,7 @@ export class FeesTypeComponent {
     const flag = await this.alerService.updateAlert()
     if(flag)  {
           data.active = !data.active;
-          this.feesTypeService.updateFeesType(data).subscribe();
+          this.feesTypeService.insertFeesType(data).subscribe();
     }else{
           element.source.checked = data.active;
     }
@@ -113,15 +115,14 @@ export class FeesTypeComponent {
   
   //set value in formfield to update
   setVlaueToUpdate(data: FeesType){
-      this.formgroup.patchValue(data);
+      this.createForm(data);
       this.actionFlag = false;
-      this.feesTypeModel.feesTypeCode = data.feesTypeCode;
   }
 
   //update the record
   update(){
       this.feesTypeModel = {...this.feesTypeModel,...this.formgroup.value}
-      this.feesTypeService.updateFeesType(this.feesTypeModel).subscribe((res)=>{
+      this.feesTypeService.insertFeesType(this.feesTypeModel).subscribe((res)=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.getTableRecord();
           this.resetForm();

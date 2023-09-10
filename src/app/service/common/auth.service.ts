@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { msgTypes } from 'src/app/constants/common/msgType';
@@ -14,7 +14,8 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   authanticate(credentials: Auth){
-    return this.httpClient.post<string>('/authanticate', JSON.stringify(credentials));
+    const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+    return this.httpClient.post('/auth/login', JSON.stringify(credentials), {headers: headers});
   }
   
   getToken(){
@@ -79,7 +80,8 @@ isLoggedIn(){
 }
 
 getRole() {
-  const role = JSON.parse(''+localStorage.getItem('userType'));
-  return this.getDecryptText(role);
+  // const role = JSON.parse(''+localStorage.getItem('userType'));
+  // return this.getDecryptText(role);
+  return "admin"
 }
 }

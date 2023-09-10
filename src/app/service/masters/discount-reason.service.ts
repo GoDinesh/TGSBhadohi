@@ -19,12 +19,12 @@ export class DiscountReasonService {
  
  getAllDiscountReason(){
    const url = this.requestUrl + appurl.endpoint_findall;
-   return this.httpClient.post<ResponseModel>(url, '')
+   return this.httpClient.get<ResponseModel>(url)
  }
 
- updateDiscountReason(discountReasonModel: DiscountReason){
-  const url = this.requestUrl + appurl.endpoint_update;
-  return this.httpClient.post<ResponseModel>(url, JSON.stringify(discountReasonModel));
-}
+//  updateDiscountReason(discountReasonModel: DiscountReason){
+//   const url = this.requestUrl + appurl.endpoint_update;
+//   return this.httpClient.post<ResponseModel>(url, JSON.stringify(discountReasonModel));
+// }
 
 }

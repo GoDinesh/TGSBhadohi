@@ -15,7 +15,6 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./class.component.css']
 })
 export class ClassComponent{
-  //displayedColumns = ["sNo","classCode","className","active"];
   classmodel: Class = new  Class();
   dataSource = new MatTableDataSource < Class > ();
   dtOptions: any = {};
@@ -23,6 +22,7 @@ export class ClassComponent{
   actionFlag = true;
   
   formgroup = new FormGroup({
+     id: new FormControl(),
      className    : new FormControl(),
      classCode: new FormControl(),
      active: new FormControl(),
@@ -36,7 +36,7 @@ export class ClassComponent{
   }
   //load ngOnInit
   ngOnInit(){
-    this.createForm();
+    this.createForm(new Class());
     this.customInit();
   }
 
@@ -45,10 +45,11 @@ export class ClassComponent{
     await this.getTableRecord();
   }
 
-  createForm() {
+  createForm(classModel: Class) {
       this.formgroup = this.formBuilder.group({
-            className: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-            classCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
+            id:[classModel.id],
+            className: [classModel.className,[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+            classCode: [classModel.classCode,[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
             active: [false,[Validators.required]]
       });
   }
@@ -69,7 +70,7 @@ export class ClassComponent{
   //To get class list
   async getTableRecord() {
       this.classService.getAllClass().subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
+        if(res.status === msgTypes.SUCCESS_MESSAGE){
             this.posts = res.data;
           }
       });
@@ -94,7 +95,7 @@ export class ClassComponent{
   
 
   resetForm(){
-    this.formgroup.reset();
+    this.createForm(new Class());
     this.actionFlag = true;
   }
 
@@ -103,7 +104,7 @@ export class ClassComponent{
     const flag = await this.alerService.updateAlert()
     if(flag)  {
           data.active = !data.active;
-          this.classService.updateClass(data).subscribe();
+          this.classService.insertClass(data).subscribe();
     }else{
           element.source.checked = data.active;
     }
@@ -111,20 +112,18 @@ export class ClassComponent{
   
   //set value in formfield to update
   setVlaueToUpdate(data:Class){
-      this.formgroup.patchValue(data);
+      this.createForm(data);
       this.actionFlag = false;
-      this.classmodel.classCode = data.classCode;
-    
   }
 
   //update the record
-  update(){
-      this.classmodel = {...this.classmodel,...this.formgroup.value}
-      this.classService.updateClass(this.classmodel).subscribe((res)=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.getTableRecord();
-          this.resetForm();
-        }
-      });
-  }
+  // update(){
+  //     this.classmodel = {...this.classmodel,...this.formgroup.value}
+  //     this.classService.insertClass(this.classmodel).subscribe((res)=>{
+  //       if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //         this.getTableRecord();
+  //         this.resetForm();
+  //       }
+  //     });
+  // }
 }

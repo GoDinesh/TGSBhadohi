@@ -1,6 +1,23 @@
 <div class="grid-card-container card-bottom-margin form-bg">
     <form [formGroup]="studentgroup" class="grid-form">
  
+          <!-- begin::academic year -->
+          <div class="form-group">
+            <label class="form-label required">Academic Year</label>
+            <mat-select formControlName="academicYearCode" class="form-control form-control-sm" placeholder="Select Academic Year">
+                <input type="text"
+                class="form-control  form-control-sm"
+                #filterAcademicYear>
+                <div *ngIf="academicYearList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
+                    {{data.academicYear}}
+                    </mat-option>
+                </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}} </div>
+            </div>
+            <!-- end::academic year -->
+
             <!-- begin::Standard -->
             <div class="form-group">
                 <label class="form-label required">Standard</label>
@@ -17,26 +34,33 @@
             </mat-select>
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.standard,"Standard")}}</div>
             </div>
-
             <!-- end::Standard -->
 
-            <!-- begin::academic year -->
+            <!-- begin:: registration number -->
             <div class="form-group">
-            <label class="form-label required">Academic Year</label>
-            <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
-            <mat-select formControlName="academicYearCode" class="form-control form-control-sm" placeholder="Select Academic Year">
-                <input type="text"
-                class="form-control  form-control-sm"
-                #filterAcademicYear>
-                <div *ngIf="academicYearList | async as postdata ">
-                    <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
-                    {{data.academicYear}}
-                    </mat-option>
-                </div>
-            </mat-select>
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}} </div>
+              <label class="form-label">Registration Number </label>
+              <input class="form-control form-control-sm" formControlName="registrationNo"  placeholder="Enter Registartion Number" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.registrationNo,"Registration Number")}}</div>
             </div>
-            <!-- end::academic year -->
+            <!-- end:: Registration number -->
+
+            <!-- begin:: Mobile Number -->
+            <div class="form-group">
+              <label class="form-label">Mobile Number </label>
+              <input class="form-control form-control-sm" formControlName="fatherContactNo" placeholder="Enter Mobile Number" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.fatherContactNo,"Mobile Number")}}</div>
+            </div>
+            <!-- end:: Mobile Number -->
+
+            <!-- begin:: Student Name -->
+            <div class="form-group">
+              <label class="form-label">Student Name </label>
+              <input class="form-control form-control-sm" formControlName="studentName" placeholder="Enter Student Name" autocomplete="off">
+              <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.studentName,"Student Name")}}</div>
+            </div>
+            <!-- end:: Student Name -->
+
+            
 
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
@@ -63,21 +87,22 @@
          <th>Academic Year</th>
          <th>Gender</th>
          <th>DOB</th>
+         <th>Action</th>
        </tr>
      </thead>
      <tbody>
        <tr *ngFor="let post of posts;let i=index">
          <td class="td-sno">{{i+1}}</td>  
-         <td class="td-medium">{{ post.studentInfo.registrationNo }}</td>
-         <td class="td-medium">{{ post.studentInfo.aadhaarNumber }}</td>
-         <td class="td-large">{{ post.studentInfo.studentName}}</td>
-         <td class="td-small">{{ post.studentInfo.standard}}</td>
-         <td class="td-medium">{{ post.studentInfo.academicYearCode}}</td>
-         <td class="td-small">{{ post.studentInfo.gender}}</td>
-         <td class="td-small">{{ post.studentInfo.dateOfBirth}}</td>
-         <!-- <td class="td-action">  
+         <td class="td-large">{{ post.registrationNo }}</td>
+         <td class="td-medium">{{ post.aadhaarNumber }}</td>
+         <td class="td-large">{{ post.studentName}}</td>
+         <td class="td-small">{{ post.standard}}</td>
+         <td class="td-medium">{{ post.academicYearCode}}</td>
+         <td class="td-small">{{ post.gender}}</td>
+         <td class="td-small">{{ post.dateOfBirth}}</td>
+         <td class="td-action">  
            <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-         </td> -->
+         </td>
        </tr>
      </tbody>
    </table>

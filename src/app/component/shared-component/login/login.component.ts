@@ -25,15 +25,15 @@ export class LoginComponent {
           private httpClient: HttpClient,
   ) { }
 
-  username!: string;
+  email!: string;
   password!: string;
   authModel: Auth =new Auth();
   ipAddress: string ='';
   showPassword = false;
 
   loginForm = new FormGroup({
-    userType: new FormControl(),
-    userName: new FormControl(),
+    roles: new FormControl(),
+    email: new FormControl(),
     password: new FormControl(),
   })
 
@@ -45,8 +45,8 @@ export class LoginComponent {
 
   createForm() {
     this.loginForm = this.formBuilder.group({
-      userType: ['',[Validators.required]],
-      userName: ['',[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.secretKey]],
+      roles: ['',[Validators.required]],
+      email: ['',[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.secretKey]],
       password: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32), CustomValidation.secretKey]],
     });
   }
@@ -56,20 +56,21 @@ export class LoginComponent {
   }
 
   login() : void {
+    //this.router.navigate([routeType.DASHBOARD]);
     let data = this.preparedata();
     this.authService.authanticate(data).subscribe((res: any)=>{
-      if(res.authanticate === 'true'){
+      if(res.username === data.email){
         this.router.navigate([routeType.DASHBOARD]);
-        const encryptedUserType = this.authService.getEncryptText(res.userType);
-        localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
+        //const encryptedUserType = this.authService.getEncryptText(res.roles);
+        //localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
         
-        const encryptdState = this.authService.getEncryptText(res.authanticate);
-        localStorage.setItem(msgTypes.STATE, JSON.stringify(encryptdState));
+        // const encryptdState = this.authService.getEncryptText(res.authanticate);
+        // localStorage.setItem(msgTypes.STATE, JSON.stringify(encryptdState));
         
-        this.authService.generateToken().subscribe((token: any)=>{
-        const encryptedAccessToken = this.authService.getEncryptText(token)
-          localStorage.setItem('access_token', encryptedAccessToken)
-        })
+       // this.authService.generateToken().subscribe((token: any)=>{
+        //const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken)
+          localStorage.setItem('access_token', res.jwtToken)
+        //})
 
         this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGIN_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
        }else{
@@ -77,17 +78,13 @@ export class LoginComponent {
       }
     });
 
-    // if(this.username == 'admin' && this.password == 'admin'){
-    //  this.router.navigate(["navmenu"]);
-    // }else {
-    //   alert("Invalid credentials");
-    // }
+    
   }
 
   preparedata(){
-    this.authModel.userName = this.loginFormControl.userName.value;
+    this.authModel.email = this.loginFormControl.email.value;
     this.authModel.password = this.loginFormControl.password.value;
-    this.authModel.userType = this.loginFormControl.userType.value;
+    this.authModel.roles = this.loginFormControl.roles.value;
     return this.authModel;
   }
   

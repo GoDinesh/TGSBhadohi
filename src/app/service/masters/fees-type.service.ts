@@ -18,12 +18,12 @@ export class FeesTypeService {
   
   getAllFeesType(){
     const url = this.requestUrl + appurl.endpoint_findall;
-    return this.httpClient.post<ResponseModel>(url, '')
+    return this.httpClient.get<ResponseModel>(url)
   }
  
-  updateFeesType(feesTypeModel: FeesType){
-   const url = this.requestUrl + appurl.endpoint_update;
-   return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesTypeModel));
- }
+//   updateFeesType(feesTypeModel: FeesType){
+//    const url = this.requestUrl + appurl.endpoint_update;
+//    return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesTypeModel));
+//  }
  
 }
