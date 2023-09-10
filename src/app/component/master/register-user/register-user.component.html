@@ -5,16 +5,12 @@
         <!-- begin::Role -->
         <div class="form-group">
             <label class="form-label required">Role</label>
-            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Academic Year" >
-                <mat-option value="" disabled>Select one</mat-option>
-                <mat-option value="admin">Admin</mat-option>
-                <mat-option value="user">User</mat-option>
-                <mat-option value="teacher">Teacher</mat-option>
-                <mat-option value="staff">Staff</mat-option>
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="role" disableOptionCentering placeholder="Select Role" >
+                <mat-option value="" disabled>Select Role</mat-option>
+                <mat-option value="ADMIN">Admin</mat-option>
+                <mat-option value="USER">User</mat-option>
             </mat-select>
-            <div class="invalid-feedback">
-              {{validationMsg.getErrorMessage(formControll.role,"Role")}}
-            </div>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.role,"Role")}} </div>
           </div>
         <!-- end::Password -->
 
@@ -48,7 +44,7 @@
         <!-- begin::Buttons -->
         <div class="grid-button form-group pt-4">
             <ng-container>
-                <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="register()">Register</button>
+                <button class="btn btn-success mx-3"  (click)="register()">Register</button>
             </ng-container>
             
             <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
@@ -56,3 +52,38 @@
         <!-- end::Buttons -->
     </form>
 </div>
+
+
+<!--begin::second Card body-->
+<div class="grid-card-container card-bottom-padding pt-2" *ngIf="posts.length">    
+  <!--end::table-->
+  <table id='table' datatable [dtOptions]="dtOptions">    
+   <thead>
+     <tr>
+       <th>S.No</th> 
+       <th>User Name</th>
+       <th>Role</th>
+       <th>Password</th>
+       <th>Status</th>
+       <th>Action</th>
+     </tr>
+   </thead>
+   <tbody>
+     <tr *ngFor="let post of posts;let i=index">
+       <td class="td-sno">{{i+1}}</td>  
+       <td class="td-large">{{ post.email }}</td>
+       <td class="td-auto">{{ post.role }}</td>
+       <td class="td-auto">{{ post.password }}</td>
+       <td class="td-status">
+             <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+             </mat-slide-toggle>
+       </td>
+       <td class="td-action">  
+         <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+       </td>
+     </tr>
+   </tbody>
+ </table>
+ <!--end::table-->
+ </div>
+ <!--end::second Card body-->
