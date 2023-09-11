@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
@@ -13,6 +13,7 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
+import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
   selector: 'app-student-list',
@@ -67,11 +68,11 @@ export class StudentListComponent {
 
   createStudentForm(registartion: Registration){
     this.studentgroup = this.formBuilder.group({
-      registrationNo: [registartion.registrationNo],
+      registrationNo: [registartion.registrationNo,[CustomValidation.alphanumaricSpace]],
       standard: [registartion.standard],
       academicYearCode: [registartion.academicYearCode],
-      fatherContactNo: [registartion.fatherContactNo],
-      studentName: [registartion.studentName]
+      fatherContactNo: [registartion.fatherContactNo,[CustomValidation.numeric]],
+      studentName: [registartion.studentName,[CustomValidation.alphanumaricSpace]]
     });
   }
 

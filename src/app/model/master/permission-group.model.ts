@@ -1,12 +1,12 @@
 export class PermissionGroup {
     id: string;
-    group: string;
+    usergroup: string;
     active: boolean;
     
 
     constructor(){
         this.id ='';
-        this.group = '';
+        this.usergroup = '';
         this.active = false;
 
     }

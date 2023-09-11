@@ -16,99 +16,99 @@ import { PermissionGroupService } from 'src/app/service/permission-group.service
 export class PermissionGroupComponent {
 
   permissionGroupModel: PermissionGroup = new PermissionGroup();
-  permissionGroup: PermissionGroup[]=[];
-  dataSource = new MatTableDataSource < PermissionGroup > ();
+  permissionGroup: PermissionGroup[] = [];
+  dataSource = new MatTableDataSource<PermissionGroup>();
   dtOptions: any = {};
   actionFlag = true;
 
   formGroup = new FormGroup({
     id: new FormControl(),
-    group: new FormControl(),
+    usergroup: new FormControl(),
     active: new FormControl()
-})
+  })
 
-constructor(private formBuilder: FormBuilder,
-  public validationMsg: ValidationErrorMessageService,
-  private permissionGroupService: PermissionGroupService,
-  private alertService: SweetAlertService,
-  ){
-}
+  constructor(private formBuilder: FormBuilder,
+    public validationMsg: ValidationErrorMessageService,
+    private permissionGroupService: PermissionGroupService,
+    private alertService: SweetAlertService,
+  ) {
+  }
 
-ngOnInit(){
-this.createForm(new PermissionGroup());
-this.customInit();
-}
+  ngOnInit() {
+    this.createForm(new PermissionGroup());
+    this.customInit();
+  }
 
-async customInit(){
-  this.loadTable();
-  await this.getTableRecord();
-}
+  async customInit() {
+    this.loadTable();
+    await this.getTableRecord();
+  }
 
-createForm(permissionGroupModel: PermissionGroup) {
-  this.formGroup = this.formBuilder.group({
-    id: [permissionGroupModel.id],
-    group: ['',[Validators.required]],
-    active: [false,[Validators.required]]
-  });
-}
+  createForm(permissionGroupModel: PermissionGroup) {
+    this.formGroup = this.formBuilder.group({
+      id: [permissionGroupModel.id],
+      usergroup: [permissionGroupModel.usergroup, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      active: [permissionGroupModel.active, [Validators.required]]
+    });
+  }
 
-get formControll(){
-  return this.formGroup.controls;
-}
+  get formControll() {
+    return this.formGroup.controls;
+  }
 
-//load the table
-loadTable(){
-  this.dtOptions = {
-    processing: true,
-    scrollY: "300px",
-    scrollCollapse: true,
-    dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
-    buttons: [
-      'copy', 'csv', 'excel', 'print'
-    ]
-  };
-}
+  //load the table
+  loadTable() {
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
+  }
 
-//To get class list
-async getTableRecord() {
-  this.permissionGroupService.getAllPermissionGroup().subscribe(res=>{
-    if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //To get class list
+  async getTableRecord() {
+    this.permissionGroupService.getAllPermissionGroup().subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.permissionGroup = res.data;
       }
-  });
-}
-
-//change the status
-async slideToggleChange(element: MatSlideToggleChange, data:PermissionGroup) {
-  const flag = await this.alertService.updateAlert()
-  if(flag)  {
-        data.active = !data.active;
-        this.permissionGroupService.insertPermissionGroup(data).subscribe();
-  }else{
-        element.source.checked = data.active;
-  }
-}
-
-  save(){
-    this.permissionGroupModel = {...this.permissionGroupModel,...this.formGroup.value}
-    try{
-            this.permissionGroupService.insertPermissionGroup(this.permissionGroupModel).subscribe(res=>{
-              if(res.status === msgTypes.SUCCESS_MESSAGE)
-              this.getTableRecord();
-              this.resetForm();
-            });
-      }catch(error){}
+    });
   }
 
-  resetForm(){
+  //change the status
+  async slideToggleChange(element: MatSlideToggleChange, data: PermissionGroup) {
+    const flag = await this.alertService.updateAlert()
+    if (flag) {
+      data.active = !data.active;
+      this.permissionGroupService.insertPermissionGroup(data).subscribe();
+    } else {
+      element.source.checked = data.active;
+    }
+  }
+
+  save() {
+    this.permissionGroupModel = { ...this.permissionGroupModel, ...this.formGroup.value }
+    try {
+      this.permissionGroupService.insertPermissionGroup(this.permissionGroupModel).subscribe(res => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE)
+          this.getTableRecord();
+        this.resetForm();
+      });
+    } catch (error) { }
+  }
+
+  resetForm() {
     this.createForm(new PermissionGroup());
     this.actionFlag = true;
   }
 
   //set value in formfield to update
-  setValueToUpdate(data:PermissionGroup){
+  setValueToUpdate(data: PermissionGroup) {
     this.createForm(data);
     this.actionFlag = false;
-}
+  }
 }
 
