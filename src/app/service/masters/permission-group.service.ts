@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { appurl } from '../constants/common/appurl';
+import { appurl } from '../../constants/common/appurl';
 import { HttpClient } from '@angular/common/http';
-import { PermissionGroup } from '../model/master/permission-group.model';
-import { ResponseModel } from '../model/shared/response-model.model';
+import { PermissionGroup } from '../../model/master/permission-group.model';
+import { ResponseModel } from '../../model/shared/response-model.model';
 
 @Injectable({
   providedIn: 'root'

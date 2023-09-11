@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { PermissionGroup } from 'src/app/model/master/permission-group.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
-import { PermissionGroupService } from 'src/app/service/permission-group.service';
+import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { User } from 'src/app/model/master/user.model';
