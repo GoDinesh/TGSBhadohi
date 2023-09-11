@@ -63,8 +63,11 @@
 
         <!-- begin::Buttons -->
         <div class="grid-button form-group pt-4">
-            <ng-container>
-                <button class="btn btn-success mx-3"  (click)="register()">Register</button>
+            <ng-container *ngIf="actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="register()">Register</button>
+            </ng-container>
+            <ng-container *ngIf="!actionFlag">
+                <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="register()">Update</button>
             </ng-container>
             
             <button  class="btn btn-danger" (click)="resetForm()">Reset</button>

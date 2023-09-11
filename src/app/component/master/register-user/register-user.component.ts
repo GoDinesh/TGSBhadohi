@@ -107,7 +107,8 @@ register(){
 }
 
 resetForm(){
-
+    this.createForm(new User())
+    this.actionFlag = true;
 }
 
 //change the status
