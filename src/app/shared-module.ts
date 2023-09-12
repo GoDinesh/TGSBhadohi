@@ -20,6 +20,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { FilterDataPipe } from './core/pipes/filter-data.pipe';
 import { CdkDrag, CdkDropList ,CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserModule } from '@angular/platform-browser';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import { MatTreeModule } from '@angular/material/tree';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 //import {MatDatepickerModule} from '@angular/material/datepicker';
 //import {MatNativeDateModule} from '@angular/material/core';
 
@@ -50,9 +53,8 @@ import { BrowserModule } from '@angular/platform-browser';
     MatToolbarModule,
     FormsModule,
     DragDropModule,
-    // CdkDrag,
-    // CdkDropList,
-    // CdkDropListGroup,
+    MatTreeModule,
+    MatCheckboxModule,
     
   ],
   exports: [
@@ -79,9 +81,8 @@ import { BrowserModule } from '@angular/platform-browser';
     FormsModule,
     FilterDataPipe,
     DragDropModule,
-    // CdkDrag,
-    // CdkDropList,
-    // CdkDropListGroup,
+    MatTreeModule,
+    MatCheckboxModule,
   
   ],
   providers: [],

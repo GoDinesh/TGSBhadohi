@@ -54,33 +54,7 @@
   }
   
 
-/*.transfer-container {
-    display: flex;
-    justify-content: space-between;
-    width: 400px;
-  }
-  
-  .cdk-drag-preview {
-    box-sizing: border-box;
-    border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-      0 8px 10px 1px rgba(0, 0, 0, 0.14),
-      0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  }
-  
-  .source-container,
-  .destination-container {
-    border: 1px solid #ccc;
-    padding: 16px;
-    min-height: 100px;
-    flex: 1;
-  }
-  
-  .item {
-    background-color: #fff;
-    padding: 8px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    cursor: pointer;
-  }
-   */
+/* permission checkbox */
+.mat-mdc-form-field {
+  margin-right: 4px;
+}

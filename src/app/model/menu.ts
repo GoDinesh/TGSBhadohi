@@ -4,6 +4,7 @@ export interface INavbarData {
     text: string,
     routerLink: string,
     icon: string,
+    active?: boolean,
     expanded?: boolean;
     children?: INavbarData[];
 }
