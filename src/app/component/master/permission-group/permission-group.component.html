@@ -5,15 +5,15 @@
         <!-- begin::Create Group -->
         <div class="form-group">
             <label class="form-label required">New Group</label>
-            <input class="form-control form-control-sm" formControlName="newGroup" placeholder="Enter New Group" autocomplete="off">
+            <input class="form-control form-control-sm" formControlName="usergroup" placeholder="Enter New Group" autocomplete="off">
             <div class="invalid-feedback">
-              {{validationMsg.getErrorMessage(formControll.group,"New Group")}}
+              {{validationMsg.getErrorMessage(formControll.usergroup,"New Group")}}
             </div>            
           </div>
         <!-- end::Create Group -->
-
+          <div></div>
         <!-- begin::Buttons -->
-        <div class="grid-button form-group pt-4">
+        <div class="grid-button-inline form-group pt-4">
             <ng-container>
                 <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="save()">Save</button>
             </ng-container>
@@ -38,7 +38,7 @@
      <tbody>
        <tr *ngFor="let group of permissionGroup;let i=index">
          <td class="td-sno">{{i+1}}</td>  
-         <td class="td-small">{{ group.group }}</td>
+         <td class="td-small">{{ group.usergroup }}</td>
          <td class="td-status">
                <mat-slide-toggle [checked]="group.active"  (change)="slideToggleChange($event, group)">
                </mat-slide-toggle>
