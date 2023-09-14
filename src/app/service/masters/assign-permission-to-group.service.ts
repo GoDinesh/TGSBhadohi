@@ -1,36 +1,62 @@
+import { SelectionModel } from '@angular/cdk/collections';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
+import { INavbarData } from 'src/app/model/menu';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignPermissionToGroupService {
 
-  // Initialize an array to store "text" values from the children of "Master"
-  masterChildrenTextValues: string[] = [];
-  masterItem: any = '';
-  private sourceListData = new BehaviorSubject<string[]>([]);
-  sourceListData$ = this.sourceListData.asObservable();
+  constructor() { }
 
-  updateSourceListData(data: string[]) {
-    this.sourceListData.next(data);
-    console.log(data);
+  setAllActivePropertiesToFalse(nodes: INavbarData[]) {
+    nodes.forEach(node => {
+      node.active = false;
+      if (node.children) {
+        this.setAllActivePropertiesToFalse(node.children);
+      }
+    });
   }
 
-  filterKeyword() {
-    // Find the "Master" item in menuListAdmin
-    this.masterItem = menuListAdmin.find((item) => item.text === 'Master');
-    // Check if the "Master" item was found and it has children
-    if (this.masterItem && this.masterItem.children) {
-      // Extract "text" values from the children of "Master" and store them in masterChildrenTextValues
-      this.masterItem.children.forEach((child: { text: any; }) => {
-        if (child.text) {
-          this.masterChildrenTextValues.push(child.text);
+  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[]): boolean {
+    let anyChildActive = false;
+    clonedNodes.forEach(node => {
+      const correspondingFlatNode = selectedNodes.find(
+        selectedNode => selectedNode.text === node.text
+      );
+      node.active = !!correspondingFlatNode?.active;
+
+      if (node.children) {
+        const childActive = this.updateClonedListBasedOnSelection(node.children, selectedNodes);
+        if (childActive) {
+          node.active = true;
         }
-      });
-    }
-    this.updateSourceListData(this.masterChildrenTextValues);
+      }
+
+      if (node.active) {
+        anyChildActive = true;
+      }
+    });
+    return anyChildActive;
   }
 
+  deepClone(obj: any) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  selectAllNodes(treeControl: FlatTreeControl<any>, checkboxSelections: SelectionModel<any>) {
+    treeControl.dataNodes.forEach(node => {
+      checkboxSelections.select(node);
+      node.active = true;
+    });
+  }
+
+  deselectAllNodes(treeControl: FlatTreeControl<any>, checkboxSelections: SelectionModel<any>) {
+    treeControl.dataNodes.forEach(node => {
+      checkboxSelections.deselect(node);
+      node.active = false;
+    });
+  }
 }
+

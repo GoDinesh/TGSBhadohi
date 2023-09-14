@@ -1,5 +1,4 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -19,7 +18,10 @@ interface MenuItemFlatNode {
   expandable: boolean;
   level: number;
   text: string;
+  icon: string;
+  routerLink: string;
   active?: boolean;
+  children?: INavbarData[];
 }
 
 @Component({
@@ -30,14 +32,12 @@ interface MenuItemFlatNode {
 export class AssignPermissionToGroupComponent {
 
   allPermissionGroupList: Observable<PermissionGroup[]> = new Observable();
-  sourceList: string[] = [];
-  destinationList: string[] = [];
   actionFlag = true;
   dataSource: MatTreeFlatDataSource<INavbarData, MenuItemFlatNode>;
   selectedItems: MenuItemFlatNode[] = [];
 
 
-  // You can initialize your checkbox selections here
+  // we can initialize our checkbox selections here
   checkboxSelections: SelectionModel<MenuItemFlatNode> = new SelectionModel<MenuItemFlatNode>(true);
 
   // Flat tree data source and flattener
@@ -65,19 +65,19 @@ export class AssignPermissionToGroupComponent {
     private assignPermissionToGroupService: AssignPermissionToGroupService,
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
-      this.dataSource.data = menuListAdmin;
+      // Initialize all 'active' properties to false
+      this.setAllActivePropertiesToFalse(menuListAdmin);
+    this.dataSource.data = menuListAdmin;
+  }
+
+  //To set all 'active' properties to false
+  setAllActivePropertiesToFalse(nodes: INavbarData[]) {
+    this.assignPermissionToGroupService.setAllActivePropertiesToFalse(nodes);
   }
 
   ngOnInit() {
     this.createForm(new AssignPermissionToGroup());
     this.loadPermissionGroup();
-    // Filter the data
-    this.assignPermissionToGroupService.filterKeyword();
-    // Subscribe to sourceListData$ changes
-    this.assignPermissionToGroupService.sourceListData$.subscribe((data) => {
-      this.sourceList = data;
-    });
-
   }
 
   createForm(assignPermissionToGroupModel: AssignPermissionToGroup) {
@@ -100,44 +100,6 @@ export class AssignPermissionToGroupComponent {
     )
   };
 
-  // // Handle the drop event
-  // drop(event: CdkDragDrop<string[]>) {
-  //   if (event.previousContainer === event.container) {
-  //     moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-  //   } else {
-  //     // If the item is dropped into a different container, move it
-  //     transferArrayItem(
-  //       event.previousContainer.data,
-  //       event.container.data,
-  //       event.previousIndex,
-  //       event.currentIndex
-  //     );
-  //   }
-  //   console.log(this.sourceList);
-  //   console.log(this.destinationList);
-  // }
-
-  // Function to transfer all items from sourceList to destinationList
-  giveAllPermissions() {
-    // // Transfer all items from sourceList to destinationList
-    // this.sourceList.forEach((item) => {
-    //   this.destinationList.push(item);
-    // });
-
-    // // Clear the sourceList
-    // this.sourceList = [];
-  }
-
-  // Function to transfer all items from sourceList to destinationList
-  denyAllPermissions() {
-    // // Transfer all items from sourceList to destinationList
-    // this.destinationList.forEach((item) => {
-    //   this.sourceList.push(item);
-    // });
-
-    // // Clear the sourceList
-    // this.destinationList = [];
-  }
 
   save() {
 
@@ -145,18 +107,7 @@ export class AssignPermissionToGroupComponent {
 
   // Function to reset the lists
   resetLists() {
-    // Move all items from destinationList back to sourceList
-    while (this.destinationList.length > 0) {
-      transferArrayItem(
-        this.destinationList,
-        this.sourceList,
-        0,
-        this.sourceList.length
-      );
-    }
 
-    // Clear the destinationList
-    this.destinationList = [];
   }
 
   getLevel = (node: MenuItemFlatNode) => node.level;
@@ -176,6 +127,10 @@ export class AssignPermissionToGroupComponent {
       ? this.checkboxSelections.select(...descendants)
       : this.checkboxSelections.deselect(...descendants);
 
+    // Update 'active' property for the node and all its descendants
+    node.active = this.checkboxSelections.isSelected(node);
+    descendants.forEach(descendant => descendant.active = node.active);
+
     // Force update for the parent
     descendants.forEach(child => this.checkboxSelections.isSelected(child));
     this.checkAllParentsSelection(node);
@@ -184,6 +139,8 @@ export class AssignPermissionToGroupComponent {
   /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
   menuLeafItemSelectionToggle(node: MenuItemFlatNode): void {
     this.checkboxSelections.toggle(node);
+    // Update 'active' property
+    node.active = this.checkboxSelections.isSelected(node);
     this.checkAllParentsSelection(node);
   }
 
@@ -232,22 +189,22 @@ export class AssignPermissionToGroupComponent {
     return null;
   }
 
-  // Function to determine whether all descendants are selected
+  /** Whether all the descendants of the node are selected. */
   descendantsAllSelected(node: MenuItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    return descendants.every((child) => this.checkboxSelections.isSelected(child));
+    const descAllSelected =
+      descendants.length > 0 &&
+      descendants.every(child => {
+        return this.checkboxSelections.isSelected(child);
+      });
+    return descAllSelected;
   }
 
-  // Function to determine whether part of the descendants are selected
+  /** Whether part of the descendants are selected */
   descendantsPartiallySelected(node: MenuItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-    console.log(descendants);
-    const fff =  descendants.some((child) => this.checkboxSelections.isSelected(child));
-    console.log(fff);
-    return fff;
-    
-   
-    
+    const result = descendants.some(child => this.checkboxSelections.isSelected(child));
+    return result && !this.descendantsAllSelected(node);
   }
 
   // Transformer function for flattening the tree
@@ -256,6 +213,10 @@ export class AssignPermissionToGroupComponent {
       expandable: !!node.children && node.children.length > 0,
       level: level,
       text: node.text,
+      icon: node.icon,
+      routerLink: node.routerLink,
+      children: node.children,
+      active: node.active,
     };
   }
 
@@ -264,26 +225,67 @@ export class AssignPermissionToGroupComponent {
     return node.children || null;
   }
 
-  @ViewChild('outputDiv', {static: false}) 
-public outputDivRef: ElementRef<HTMLParagraphElement>;
-  getSelectedItems(node: MenuItemFlatNode) {
-    // Check if the current node is selected and add it to the selectedItems array if it is.
-    if (this.checkboxSelections.isSelected(node)) {
-      this.selectedItems.push(node);
-      console.log(this.selectedItems)
-    }
-  
-    // Recursively traverse the descendants.
-    const descendants = this.treeControl.getDescendants(node);
-    descendants.forEach((child) => {
-      this.getSelectedItems(child);
-    });
+  @ViewChild('outputDiv', { static: false })
+  public outputDivRef: ElementRef<HTMLParagraphElement>;
 
-    this.outputDivRef.nativeElement.innerText = 'You ' 
-    + (this.selectedItems.length > 0 
-      ? 'selected ' + this.selectedItems.forEach(item => item.text) 
-      : 'have not made a selection')
-    + '.';
+  // Define a function to create a new structure matching menuListAdmin
+  createNewStructure(node: MenuItemFlatNode, treeControl: FlatTreeControl<MenuItemFlatNode>): INavbarData {
+    const newNode: INavbarData = {
+      text: node.text,
+      icon: node.icon,
+      routerLink: node.routerLink,
+      children: node.children,
+      active: node.active,
+    };
+
+    // Get the descendants of the node
+    const descendants = treeControl.getDescendants(node);
+
+    // Check if the node has descendants
+    if (descendants.length > 0) {
+      newNode.children = descendants.map(descendant => this.createNewStructure(descendant, treeControl));
+    }
+
+    return newNode;
+  }
+
+  //To update 'active' properties in the cloned list based on selection
+  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[]): boolean {
+    return this.assignPermissionToGroupService.updateClonedListBasedOnSelection(clonedNodes, selectedNodes);
+  }
+
+  //To clone the original menu list
+  deepClone(obj: any) {
+    return this.assignPermissionToGroupService.deepClone(obj);
+  }
+
+  //To Give All Permissions
+  selectAllNodes() {
+    this.assignPermissionToGroupService.selectAllNodes(this.treeControl, this.checkboxSelections);
+  }
+
+  //To Deny All Permissions
+  deselectAllNodes() {
+    this.assignPermissionToGroupService.deselectAllNodes(this.treeControl, this.checkboxSelections);
+  }
+  //To be called after making our selections
+  finalizeSelection(): INavbarData[] {
+    const clonedMenuListAdmin = this.deepClone(menuListAdmin);
+    this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes);
+    console.log('Updated Cloned Menu List Admin:', clonedMenuListAdmin);
+
+    //prepare the new menu list
+    const updatedMenuListAdmin = JSON.stringify(clonedMenuListAdmin, null, 2);
+
+    // Display the updated structure in the innerText
+    this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
+
+    return clonedMenuListAdmin;
+  }
+
+  //Get final lList of allowed permissions 
+  getFinalList(): INavbarData[] {
+    return this.finalizeSelection();
   }
 
 }

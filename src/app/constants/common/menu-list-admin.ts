@@ -9,52 +9,62 @@ export const menuListAdmin: INavbarData[]=[
     "text": "Dashboard",
     "icon": "fa fa-dashboard",
     "routerLink": 'dashboard',
+    "active": true,
 },
 //master
 {
 "text": "Master",
 "icon": "fa fa-database",
 "routerLink": masters,
+"active": true,
 "children": [
     {
         "text": "Class",
         "icon": "fa fa-user-circle-o",
         "routerLink": masters + "/class",
+        "active": true,
     },
     {
         "text": "Academic year",
         "icon": "fa fa-calendar-o",
         "routerLink": masters + "/academic-year",
+        "active": true,
     },
     {
         "text": "Fees Type",
         "icon": "fa fa-money",
         "routerLink": masters + "/fees-type",
+        "active": true,
     },
     {
         "text": "Discount Reason",
         "icon": "fa fa-gg-circle",
         "routerLink": masters + "/discount-reason",
+        "active": true,
     },
     {
         "text": "Fees Structure",
         "icon": "fa fa-reddit-alien",
         "routerLink": masters + "/fees-structure",
+        "active": true,
     },
     {
         "text": "Register User",
         "icon": "fa fa-user-circle",
         "routerLink": masters + "/register-user",
+        "active": true,
     },
     {
         "text": "Permission Group",
         "icon": "fa fa-group",
         "routerLink": masters + "/permission-group",
+        "active": true,
     },
     {
         "text": "Assign Permission To Group",
         "icon": "fa fa-lock",
         "routerLink": masters + "/assign-permission-to-group",
+        "active": true,
     },
 ]},
 //student
@@ -62,16 +72,19 @@ export const menuListAdmin: INavbarData[]=[
     "text": "Student",
     "icon": "fa fa-graduation-cap",
     "routerLink": student,
+    "active": true,
     "children": [
         {
             "text": "Registration",
             "icon": "fa fa-user-circle-o",
             "routerLink": student + "/registration",
+            "active": true,
         },
         {
             "text": "Student List",
             "icon": "fa fa-user-circle-o",
             "routerLink": student + "/studentList",
+            "active": true,
         },
     ]},
 
