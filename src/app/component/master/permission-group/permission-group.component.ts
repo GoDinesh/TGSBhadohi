@@ -22,7 +22,7 @@ export class PermissionGroupComponent {
   actionFlag = true;
 
   formGroup = new FormGroup({
-    id: new FormControl(),
+    groupid: new FormControl(),
     usergroup: new FormControl(),
     active: new FormControl()
   })
@@ -46,7 +46,7 @@ export class PermissionGroupComponent {
 
   createForm(permissionGroupModel: PermissionGroup) {
     this.formGroup = this.formBuilder.group({
-      id: [permissionGroupModel.id],
+      groupid: [permissionGroupModel.groupid],
       usergroup: [permissionGroupModel.usergroup, [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       active: [permissionGroupModel.active, [Validators.required]]
     });

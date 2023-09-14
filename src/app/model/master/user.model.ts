@@ -1,6 +1,7 @@
 export class User {
     id: string;
     role: string;
+    groupid: string;
     name: string;
     email: string;
     password: string;
@@ -11,6 +12,7 @@ export class User {
     constructor(){
         this.id = ''; 
         this.role = ''; 
+        this.groupid = '';
         this.name = '';
         this.email = ''; 
         this. password = '';

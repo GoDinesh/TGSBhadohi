@@ -55,7 +55,7 @@ export class AssignPermissionToGroupComponent {
 
   formGroup = new FormGroup({
     id: new FormControl(),
-    group: new FormControl(),
+    groupid: new FormControl(),
     permission: new FormControl(),
   })
 
@@ -83,7 +83,7 @@ export class AssignPermissionToGroupComponent {
   createForm(assignPermissionToGroupModel: AssignPermissionToGroup) {
     this.formGroup = this.formBuilder.group({
       id: [assignPermissionToGroupModel.id],
-      group: ['', [Validators.required]],
+      groupid: ['', [Validators.required]],
       permission: ['', [Validators.required]],
     });
   }
@@ -241,8 +241,13 @@ export class AssignPermissionToGroupComponent {
   // Function to determine whether part of the descendants are selected
   descendantsPartiallySelected(node: MenuItemFlatNode): boolean {
     const descendants = this.treeControl.getDescendants(node);
-  
-    return descendants.some((child) => this.checkboxSelections.isSelected(child));
+    console.log(descendants);
+    const fff =  descendants.some((child) => this.checkboxSelections.isSelected(child));
+    console.log(fff);
+    return fff;
+    
+   
+    
   }
 
   // Transformer function for flattening the tree

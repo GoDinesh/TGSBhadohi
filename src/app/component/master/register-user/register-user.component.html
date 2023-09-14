@@ -17,19 +17,19 @@
         <!-- begin::Permission Group -->
         <div class="form-group" *ngIf="formControll.role.value === 'USER'">
             <label class="form-label required">Group</label>
-            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Enrollment Type">
+            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select user group">
               <input type="text"
               class="form-control  form-control-sm"
-              formControlName="group"
+              formControlName="groupid"
               #filterPermissionGroup>
-              <div *ngIf="allPermissionGroupList | async as postdata ">
-                  <mat-option *ngFor="let data of postdata | filterData: filterPermissionGroup.value : 'group'" [value]="data.group">
-                  {{data.group}}
+              <div *ngIf="allPermissionGroupList | async as postdata  ">
+                  <mat-option *ngFor="let data of postdata | filterData: filterPermissionGroup.value : 'usergroup'" [value]="data.groupid">
+                  {{data.usergroup}}
                   </mat-option>
               </div>
           </mat-select>
             <div class="invalid-feedback">
-              {{validationMsg.getErrorMessage(formControll.group,"Group")}}
+              {{validationMsg.getErrorMessage(formControll.groupid,"Group")}}
             </div>
           </div>
         <!-- end::Permission Group -->
