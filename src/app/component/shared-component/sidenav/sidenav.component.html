@@ -11,6 +11,8 @@
     <div class="scrollwrap scrollwrap_delayed">
         <ul class="sidenav-nav">
             <li class="sidenav-nav-item" *ngFor="let data of navData">
+                <ng-container *ngIf="data.active">
+
                 <a  (click)="handleClick(data)" class="sidenav-nav-link" *ngIf="data.children && data.children.length>0">
                     <i class="sidenav-link-icon text-center" [class]="data.icon"></i>
                     <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
@@ -36,6 +38,7 @@
                         [expanded]="data.expanded"
                     ></app-sublevel-menu>
                 </div>
+            </ng-container>
             </li>
             <div class="sidenav-nav-item px-1">
                 <a class="sidenav-nav-link" (click)="logout()">

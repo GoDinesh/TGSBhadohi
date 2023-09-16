@@ -66,7 +66,8 @@ export class AssignPermissionToGroupComponent {
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
-      this.setAllActivePropertiesToFalse(menuListAdmin);
+    
+      this.setAllActivePropertiesToFalse(this.deepClone(menuListAdmin));
     this.dataSource.data = menuListAdmin;
   }
 
@@ -272,8 +273,6 @@ export class AssignPermissionToGroupComponent {
   finalizeSelection(): INavbarData[] {
     const clonedMenuListAdmin = this.deepClone(menuListAdmin);
     this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes);
-    console.log('Updated Cloned Menu List Admin:', clonedMenuListAdmin);
-
     //prepare the new menu list
     const updatedMenuListAdmin = JSON.stringify(clonedMenuListAdmin, null, 2);
 
