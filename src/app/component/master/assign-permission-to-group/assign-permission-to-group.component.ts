@@ -56,7 +56,7 @@ export class AssignPermissionToGroupComponent {
 
   formGroup = new FormGroup({
     id: new FormControl(),
-    group: new FormControl(),
+    groupid: new FormControl(),
     permission: new FormControl(),
   })
 
@@ -67,7 +67,8 @@ export class AssignPermissionToGroupComponent {
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
-      this.setAllActivePropertiesToFalse(menuListAdmin);
+    
+      this.setAllActivePropertiesToFalse(this.deepClone(menuListAdmin));
     this.dataSource.data = menuListAdmin;
   }
 
@@ -84,7 +85,7 @@ export class AssignPermissionToGroupComponent {
   createForm(assignPermissionToGroupModel: AssignPermissionToGroup) {
     this.formGroup = this.formBuilder.group({
       id: [assignPermissionToGroupModel.id],
-      group: ['', [Validators.required]],
+      groupid: ['', [Validators.required]],
       permission: ['', [Validators.required]],
     });
   }

@@ -30,7 +30,7 @@ export class RegisterUserComponent {
     id: new FormControl(),
     role: new FormControl(),
     name: new FormControl(),
-    group: new FormControl(),
+    groupid: new FormControl(),
     email: new FormControl(),
     password: new FormControl(),
     confirmPassword: new FormControl(),
@@ -56,11 +56,13 @@ createForm(usermodel: User) {
   this.formGroup = this.formBuilder.group({
     id: [usermodel.id],
     role: [usermodel.role,[Validators.required]],
+    groupid: [usermodel.groupid],
     name: [usermodel.name,[Validators.required]],
     email: [usermodel.email,[Validators.required, CustomValidation.emailId]],
     password: [usermodel.password,[Validators.required, CustomValidation.password]],
     confirmPassword: [usermodel.confirmPassword,[Validators.required, CustomValidation.password]],
-    active: [usermodel.active]
+    active: [usermodel.active],
+    
   },{ validator: CustomValidation.confirmedValidator('password', 'confirmPassword') });
 }
 

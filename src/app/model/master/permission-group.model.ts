@@ -1,11 +1,11 @@
 export class PermissionGroup {
-    id: string;
+    groupid: string;
     usergroup: string;
     active: boolean;
     
 
     constructor(){
-        this.id ='';
+        this.groupid ='';
         this.usergroup = '';
         this.active = false;
 

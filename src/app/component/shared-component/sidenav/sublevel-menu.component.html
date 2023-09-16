@@ -3,7 +3,9 @@
     [@submenu]="expanded? {value: 'visibe'}
       : {value: 'hidden'}"
     >
+    
     <li *ngFor="let item of data.children" class="sublevel-nav-item">
+      <ng-container *ngIf="item.active">
       <a (click)="handleClick(item,data)" class="sublevel-nav-link" *ngIf="item.children && item.children.length>0" [ngClass]="{'mb-3': !item.children}">
         <i class="sublevel-link-icon" [class]="item.icon"></i>
         <span class="sublevel-link-text" @fadeInOut *ngIf="collapsed">{{item.text}}</span>
@@ -29,5 +31,7 @@
             [expanded]="item.expanded"
         ></app-sublevel-menu>
     </div>
+  </ng-container>
     </li>
+  
   </ul>
