@@ -40,10 +40,10 @@ export class AcademicYearComponent {
   ngOnInit(){
     this.createForm(new AcademicYear());
     this.customInit();
+    this.loadTable();
   }
 
   async customInit(){
-    this.loadTable();
     await this.getTableRecord();
   }
 
@@ -62,10 +62,10 @@ export class AcademicYearComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
-      ]
+      ],
     };
   }
 
@@ -74,6 +74,9 @@ export class AcademicYearComponent {
       this.academicYearService.getAllAcademicYear().subscribe(res=>{
           if(res.status === msgTypes.SUCCESS_MESSAGE){
             this.posts = res.data;
+            // $('#table').DataTable().draw();
+            console.log(this.posts);
+            console.log(res.data);
           }
       });
   }
@@ -87,8 +90,11 @@ export class AcademicYearComponent {
     this.academicYearmodel = {...this.academicYearmodel,...this.formgroup.value}
     try{
             this.academicYearService.insertAcademicYear(this.academicYearmodel).subscribe(res=>{
-              if(res.status === msgTypes.SUCCESS_MESSAGE)
-              this.getTableRecord();
+              if(res.status === msgTypes.SUCCESS_MESSAGE){
+                this.getTableRecord();
+                console.log(res);
+              }
+              console.log(this.posts);
               this.resetForm();
             });
       }catch(error){}
@@ -113,7 +119,7 @@ export class AcademicYearComponent {
   }
   
   //set value in formfield to update
-  setVlaueToUpdate(data:AcademicYear){
+  setValueToUpdate(data:AcademicYear){
       this.createForm(data);
       this.actionFlag = false;
   }

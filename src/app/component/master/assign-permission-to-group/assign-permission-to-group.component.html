@@ -54,7 +54,18 @@
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
         <button mat-icon-button disabled></button>
         <mat-checkbox class="checklist-leaf-node" [checked]="checkboxSelections.isSelected(node)"
-          (change)="menuLeafItemSelectionToggle(node)">{{node.text}}</mat-checkbox>
+          (change)="menuLeafItemSelectionToggle(node)">
+          {{node.text}}
+        </mat-checkbox>
+        <!--Permission Button To give Task on basis of their role-->
+        <mat-chip-list *ngIf="checkboxSelections.isSelected(node)" class="chip-spacing" aria-label="Fish selection">
+          <mat-chip class="" (click)="toggleSelected(node.text, true)" [selected]="isSelected(node.text, true)" color="accent">
+            <mat-icon *ngIf="isSelected(node.text, true)">done</mat-icon>
+             Editable
+          </mat-chip>
+          <!-- Add more chips here -->
+        </mat-chip-list>
+        
       </mat-tree-node>
 
       <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>

@@ -7,6 +7,7 @@ export interface INavbarData {
     active?: boolean,
     expanded?: boolean;
     children?: INavbarData[];
+    editable?: boolean,
 }
 
 export const fadeInOut = trigger('fadeInOut',[

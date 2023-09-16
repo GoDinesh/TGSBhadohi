@@ -58,3 +58,15 @@
 .mat-mdc-form-field {
   margin-right: 4px;
 }
+
+/* mat-chip css */
+
+.chip-spacing {
+  margin-left: 10px;
+}
+
+.small-chip {
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+}

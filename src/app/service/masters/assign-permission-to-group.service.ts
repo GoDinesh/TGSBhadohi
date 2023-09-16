@@ -19,7 +19,7 @@ export class AssignPermissionToGroupService {
     });
   }
 
-  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[]): boolean {
+  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[], editable: { [nodeId: string]: boolean }): boolean {
     let anyChildActive = false;
     clonedNodes.forEach(node => {
       const correspondingFlatNode = selectedNodes.find(
@@ -27,8 +27,18 @@ export class AssignPermissionToGroupService {
       );
       node.active = !!correspondingFlatNode?.active;
 
+      //Initialize or Update the 'selectedChips' property based on nodeId
+      // If the node is a leaf node (i.e., it doesn't have children), then update 'selectedChips'
+      if (!node.children) {
+        if (node.text && editable[node.text]) {
+          node.editable = editable[node.text];
+        } else {
+          node.editable = false; //default value
+        }
+      }
+
       if (node.children) {
-        const childActive = this.updateClonedListBasedOnSelection(node.children, selectedNodes);
+        const childActive = this.updateClonedListBasedOnSelection(node.children, selectedNodes, editable);
         if (childActive) {
           node.active = true;
         }

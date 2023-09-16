@@ -485,7 +485,15 @@
       <!-- <div class="grid-card-container card-bottom-margin"> -->
         <!-- Preview Modal (PDF-like preview) -->
         <!-- <div *ngIf="showPreview" class="preview-modal"> -->
-          <div class="preview-content">
+          <button
+printSectionId="myPreviewDetails"
+printTitle="Mstudent data"
+ngxPrint
+[useExistingCss]="true"
+>
+Print
+</button>
+          <div class="preview-content" id="myPreviewDetails">
             <!-- Filled details Preview -->
             <div class="preview-details">
               <!-- student details with photo -->

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,112 +8,121 @@ import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import { AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
 @Component({
   selector: 'app-class',
   templateUrl: './class.component.html',
   styleUrls: ['./class.component.css']
 })
-export class ClassComponent{
-  classmodel: Class = new  Class();
-  dataSource = new MatTableDataSource < Class > ();
+export class ClassComponent {
+  classmodel: Class = new Class();
+  dataSource = new MatTableDataSource<Class>();
   dtOptions: any = {};
-  posts:Class[]=[];
+  posts: Observable<ResponseModel> ;
   actionFlag = true;
-  
+
   formgroup = new FormGroup({
-     id: new FormControl(),
-     className    : new FormControl(),
-     classCode: new FormControl(),
-     active: new FormControl(),
+    id: new FormControl(),
+    className: new FormControl(),
+    classCode: new FormControl(),
+    active: new FormControl(),
   });
 
   //Constructor
-  constructor( private formBuilder: FormBuilder,
-      public validationMsg: ValidationErrorMessageService,
-      private classService: ClassService,
-      private alertService: SweetAlertService){
+  constructor(private formBuilder: FormBuilder,
+    public validationMsg: ValidationErrorMessageService,
+    private classService: ClassService,
+    private alertService: SweetAlertService,
+    private cdr: ChangeDetectorRef) {
   }
   //load ngOnInit
-  ngOnInit(){
+  ngOnInit() {
     this.createForm(new Class());
     this.customInit();
+    this.loadTable();
   }
 
-  async customInit(){
-    this.loadTable();
-    await this.getTableRecord();
+  async customInit() {
+   await this.getTableRecord();
   }
 
   createForm(classModel: Class) {
-      this.formgroup = this.formBuilder.group({
-            id:[classModel.id],
-            className: [classModel.className,[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-            classCode: [classModel.classCode,[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
-            active: [false,[Validators.required]]
-      });
+    this.formgroup = this.formBuilder.group({
+      id: [classModel.id],
+      className: [classModel.className, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      classCode: [classModel.classCode, [Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
+      active: [false, [Validators.required]]
+    });
   }
 
   //load the table
-  loadTable(){
+  loadTable() {
     this.dtOptions = {
       processing: true,
-      scrollY: "300px",
+      // scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
-      ]
+      ],
     };
   }
 
   //To get class list
   async getTableRecord() {
-      this.classService.getAllClass().subscribe(res=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
-            this.posts = res.data;
-          }
-      });
+    this.posts = this.classService.getAllClass()
+    // .subscribe(res => {
+    //   if (res.status === msgTypes.SUCCESS_MESSAGE) {
+    //     this.posts = res.data;
+    //     console.log(this.posts)
+    //   }
+    // });
   }
 
   //get formcontroll
-  get formControll(){
+  get formControll() {
     return this.formgroup.controls;
   }
 
-  save(){
-    this.classmodel = {...this.classmodel,...this.formgroup.value}
-    try{
-            this.classService.insertClass(this.classmodel).subscribe(res=>{
-              if(res.status === msgTypes.SUCCESS_MESSAGE)
-              this.getTableRecord();
-              this.resetForm();
-            });
-      }catch(error){}
+  async save() {
+    this.classmodel = { ...this.classmodel, ...this.formgroup.value }
+    try {
+      this.classService.insertClass(this.classmodel).subscribe(res => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE){
+          this.getTableRecord();
+          console.log(res);
+          console.log(this.posts)
+        }
+        
+          // this.posts.forEach(post=>{console.log(post)});
+        this.resetForm();
+      });
+    } catch (error) { }
   }
 
-  
-
-  resetForm(){
+  resetForm() {
     this.createForm(new Class());
     this.actionFlag = true;
   }
 
   //change the status
-  async slideToggleChange(element: MatSlideToggleChange, data:Class) {
+  async slideToggleChange(element: MatSlideToggleChange, data: Class) {
     const flag = await this.alertService.updateAlert()
-    if(flag)  {
-          data.active = !data.active;
-          this.classService.insertClass(data).subscribe();
-    }else{
-          element.source.checked = data.active;
+    if (flag) {
+      data.active = !data.active;
+      this.classService.insertClass(data).subscribe();
+    } else {
+      element.source.checked = data.active;
     }
   }
-  
+
   //set value in formfield to update
-  setValueToUpdate(data:Class){
-      this.createForm(data);
-      this.actionFlag = false;
+  setValueToUpdate(data: Class) {
+    this.createForm(data);
+    this.actionFlag = false;
   }
 
   //update the record

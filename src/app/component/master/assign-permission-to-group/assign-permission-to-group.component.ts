@@ -22,6 +22,7 @@ interface MenuItemFlatNode {
   routerLink: string;
   active?: boolean;
   children?: INavbarData[];
+  editable?: boolean,
 }
 
 @Component({
@@ -217,6 +218,7 @@ export class AssignPermissionToGroupComponent {
       routerLink: node.routerLink,
       children: node.children,
       active: node.active,
+      editable: node.editable,
     };
   }
 
@@ -236,6 +238,7 @@ export class AssignPermissionToGroupComponent {
       routerLink: node.routerLink,
       children: node.children,
       active: node.active,
+      editable: node.editable,
     };
 
     // Get the descendants of the node
@@ -250,8 +253,8 @@ export class AssignPermissionToGroupComponent {
   }
 
   //To update 'active' properties in the cloned list based on selection
-  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[]): boolean {
-    return this.assignPermissionToGroupService.updateClonedListBasedOnSelection(clonedNodes, selectedNodes);
+  updateClonedListBasedOnSelection(clonedNodes: INavbarData[], selectedNodes: any[], selectedChips: { [nodeId: string]: boolean }): boolean {
+    return this.assignPermissionToGroupService.updateClonedListBasedOnSelection(clonedNodes, selectedNodes, selectedChips);
   }
 
   //To clone the original menu list
@@ -271,7 +274,7 @@ export class AssignPermissionToGroupComponent {
   //To be called after making our selections
   finalizeSelection(): INavbarData[] {
     const clonedMenuListAdmin = this.deepClone(menuListAdmin);
-    this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes);
+    this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes, this.selectedChips);
     console.log('Updated Cloned Menu List Admin:', clonedMenuListAdmin);
 
     //prepare the new menu list
@@ -287,5 +290,24 @@ export class AssignPermissionToGroupComponent {
   getFinalList(): INavbarData[] {
     return this.finalizeSelection();
   }
+
+  //mat-chip code:: begin
+  selectedChips: { [nodeId: string]: boolean } = {};
+
+  toggleSelected(nodeId: string, chipKey: boolean) {
+    if (this.selectedChips[nodeId] === chipKey) {
+      // Deselect if the chip is already selected
+      delete this.selectedChips[nodeId];
+    } else {
+      // Otherwise, select the chip
+      this.selectedChips[nodeId] = chipKey;
+    }
+  }
+
+  isSelected(nodeId: string, chipKey: boolean): boolean {
+    return this.selectedChips[nodeId] === chipKey;
+  }
+
+  //mat-chip code:: end
 
 }

@@ -23,6 +23,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {NgxPrintModule} from 'ngx-print';
+import {MatChipsModule} from '@angular/material/chips';
 //import {MatDatepickerModule} from '@angular/material/datepicker';
 //import {MatNativeDateModule} from '@angular/material/core';
 
@@ -55,6 +57,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     DragDropModule,
     MatTreeModule,
     MatCheckboxModule,
+    NgxPrintModule,
+    MatChipsModule,
     
   ],
   exports: [
@@ -83,6 +87,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     DragDropModule,
     MatTreeModule,
     MatCheckboxModule,
+    NgxPrintModule,
+    MatChipsModule
   
   ],
   providers: [],
