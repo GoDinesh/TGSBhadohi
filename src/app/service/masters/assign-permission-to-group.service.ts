@@ -7,7 +7,7 @@ import { INavbarData } from 'src/app/model/menu';
   providedIn: 'root'
 })
 export class AssignPermissionToGroupService {
-
+  
   constructor() { }
 
   setAllActivePropertiesToFalse(nodes: INavbarData[]) {

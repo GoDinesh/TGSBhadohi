@@ -9,7 +9,7 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { ClassService } from 'src/app/service/masters/class.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 import { AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
 @Component({
@@ -21,7 +21,7 @@ export class ClassComponent {
   classmodel: Class = new Class();
   dataSource = new MatTableDataSource<Class>();
   dtOptions: any = {};
-  posts: Observable<ResponseModel> ;
+  posts: Observable<Class[]> = new Observable();;
   actionFlag = true;
 
   formgroup = new FormGroup({
@@ -72,15 +72,22 @@ export class ClassComponent {
   }
 
   //To get class list
-  async getTableRecord() {
-    this.posts = this.classService.getAllClass()
-    // .subscribe(res => {
-    //   if (res.status === msgTypes.SUCCESS_MESSAGE) {
-    //     this.posts = res.data;
-    //     console.log(this.posts)
-    //   }
-    // });
-  }
+  // async getTableRecord() {
+  //   this.posts = this.classService.getAllClass()
+  //   .subscribe(res => {
+  //     if (res.status === msgTypes.SUCCESS_MESSAGE) {
+  //       this.posts = res.data;
+  //       console.log(this.posts)
+  //     }
+  //   });
+  // }
+
+  async getTableRecord(){
+    this.posts = this.classService.getAllClass().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   //get formcontroll
   get formControll() {

@@ -40,7 +40,8 @@
 </div>
 
 <!--begin::second Card body-->
-<div class="grid-card-container card-bottom-padding pt-2" *ngIf="posts.length">    
+<ng-container *ngIf="posts | async as feesData ">
+<div class="grid-card-container card-bottom-padding pt-2" *ngIf="feesData">    
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions">    
      <thead>
@@ -54,7 +55,7 @@
        </tr>
      </thead>
      <tbody>
-       <tr *ngFor="let post of posts;let i=index">
+       <tr *ngFor="let post of feesData;let i=index">
          <td class="td-sno">{{i+1}}</td>  
          <!-- <td class="td-large">{{ post.feesTypeCode }}</td> -->
          <td class="td-large">{{ post.feesType }}</td>
@@ -64,13 +65,14 @@
                </mat-slide-toggle>
          </td>
          <td class="td-action">  
-           <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+           <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
          </td>
        </tr>
      </tbody>
    </table>
    <!--end::table-->
    </div>
+  </ng-container>
    <!--end::second Card body-->
 
 

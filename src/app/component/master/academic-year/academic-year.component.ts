@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
@@ -20,7 +22,7 @@ export class AcademicYearComponent {
   academicYearmodel: AcademicYear = new  AcademicYear();
   dataSource = new MatTableDataSource < AcademicYear > ();
   dtOptions: any = {};
-  posts:AcademicYear[]=[];
+  posts: Observable<AcademicYear[]> = new Observable();
   actionFlag = true;
   
   formgroup = new FormGroup({
@@ -34,7 +36,7 @@ export class AcademicYearComponent {
   constructor( private formBuilder: FormBuilder,
       public validationMsg: ValidationErrorMessageService,
       private academicYearService: AcademicYearService,
-      private alerService: SweetAlertService){
+      private alertService: SweetAlertService){
   }
   //load ngOnInit
   ngOnInit(){
@@ -69,22 +71,17 @@ export class AcademicYearComponent {
     };
   }
 
-  //To get table records
-  async getTableRecord() {
-      this.academicYearService.getAllAcademicYear().subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
-            this.posts = res.data;
-            // $('#table').DataTable().draw();
-            console.log(this.posts);
-            console.log(res.data);
-          }
-      });
-  }
-
   //get formcontroll
   get formControll(){
     return this.formgroup.controls;
   }
+
+  async getTableRecord(){
+    this.posts = this.academicYearService.getAllAcademicYear().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   save(){
     this.academicYearmodel = {...this.academicYearmodel,...this.formgroup.value}
@@ -92,15 +89,11 @@ export class AcademicYearComponent {
             this.academicYearService.insertAcademicYear(this.academicYearmodel).subscribe(res=>{
               if(res.status === msgTypes.SUCCESS_MESSAGE){
                 this.getTableRecord();
-                console.log(res);
               }
-              console.log(this.posts);
               this.resetForm();
             });
       }catch(error){}
   }
-
-  
 
   resetForm(){
     this.createForm(new AcademicYear())
@@ -109,7 +102,7 @@ export class AcademicYearComponent {
 
   //change the status
   async slideToggleChange(element: MatSlideToggleChange, data:AcademicYear) {
-    const flag = await this.alerService.updateAlert()
+    const flag = await this.alertService.updateAlert()
     if(flag)  {
           data.active = !data.active;
           this.academicYearService.insertAcademicYear(data).subscribe();

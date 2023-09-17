@@ -25,6 +25,7 @@
 </div>
 
  <!--begin::second Card body-->
+ <ng-container *ngIf="posts | async as permissionGroupData">
  <div class="grid-card-container card-bottom-padding pt-2">    
     <table id='table' datatable [dtOptions]="dtOptions">    
      <thead>
@@ -36,15 +37,15 @@
        </tr>
      </thead>
      <tbody>
-       <tr *ngFor="let group of permissionGroup;let i=index">
+       <tr *ngFor="let post of permissionGroupData;let i=index">
          <td class="td-sno">{{i+1}}</td>  
-         <td class="td-small">{{ group.usergroup }}</td>
+         <td class="td-small">{{ post.usergroup }}</td>
          <td class="td-status">
-               <mat-slide-toggle [checked]="group.active"  (change)="slideToggleChange($event, group)">
+               <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
                </mat-slide-toggle>
          </td>
          <td class="td-action">  
-           <a (click)="setValueToUpdate(group)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+           <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
          </td>
        </tr>
      </tbody>
@@ -52,4 +53,5 @@
    <!--end::table-->
       
    </div>
+  </ng-container>
    <!--end::second Card body-->

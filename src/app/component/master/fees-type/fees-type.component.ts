@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { FeesType } from 'src/app/model/master/fees-type.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
@@ -19,7 +21,7 @@ export class FeesTypeComponent {
   feesTypeModel: FeesType = new  FeesType();
   dataSource = new MatTableDataSource < FeesType > ();
   dtOptions: any = {};
-  posts: FeesType[]=[];
+  posts: Observable<FeesType[]> = new Observable();
   actionFlag = true;
   
   formgroup = new FormGroup({
@@ -34,7 +36,7 @@ export class FeesTypeComponent {
   constructor( private formBuilder: FormBuilder,
       public validationMsg: ValidationErrorMessageService,
       private feesTypeService: FeesTypeService,
-      private alerService: SweetAlertService){
+      private alertService: SweetAlertService){
   }
   //load ngOnInit
   ngOnInit(){
@@ -63,7 +65,7 @@ export class FeesTypeComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
       ]
@@ -71,13 +73,20 @@ export class FeesTypeComponent {
   }
 
   //To get table records
-  async getTableRecord() {
-      this.feesTypeService.getAllFeesType().subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
-            this.posts = res.data;
-          }
-      });
-  }
+  // async getTableRecord() {
+  //     this.feesTypeService.getAllFeesType().subscribe(res=>{
+  //         if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //           this.posts = res.data;
+  //         }
+  //     });
+  // }
+
+  async getTableRecord(){
+    this.posts = this.feesTypeService.getAllFeesType().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   //get formcontroll
   get formControll(){
@@ -104,7 +113,7 @@ export class FeesTypeComponent {
 
   //change the status
   async slideToggleChange(element: MatSlideToggleChange, data: FeesType) {
-    const flag = await this.alerService.updateAlert()
+    const flag = await this.alertService.updateAlert()
     if(flag)  {
           data.active = !data.active;
           this.feesTypeService.insertFeesType(data).subscribe();
@@ -114,7 +123,7 @@ export class FeesTypeComponent {
   }
   
   //set value in formfield to update
-  setVlaueToUpdate(data: FeesType){
+  setValueToUpdate(data: FeesType){
       this.createForm(data);
       this.actionFlag = false;
   }
