@@ -7,6 +7,7 @@ export const appurl={
                 master_discountreason: '/discountreason',
                 master_permissionGroup: '/permission-group',
                 master_user: '/user',
+                master_assignPermission: '/assign-permission',
         
         menuurl_student: '/student',
                 student_registration: '/registration',
@@ -14,6 +15,7 @@ export const appurl={
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
+    endpoint_findbyid: '/findbyid',
     endpoint_filter: '/filter'
     //endpoint_update: '/update',
 }

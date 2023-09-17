@@ -1,14 +1,30 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { appurl } from 'src/app/constants/common/appurl';
+import { AssignPermissionToGroup } from 'src/app/model/master/assign-permission-to-group.model';
 import { INavbarData } from 'src/app/model/menu';
+import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignPermissionToGroupService {
+  requestUrl = appurl.menuurl_master + appurl.master_assignPermission;
+  constructor(private httpClient: HttpClient) { }
+ 
+  insertAssignPermissionToGroup(assignPermissionToGroup: AssignPermissionToGroup){
+     const url = this.requestUrl + appurl.endpoint_insert;
+     return this.httpClient.post<ResponseModel>(url, JSON.stringify(assignPermissionToGroup))
+  }
+  
+  getAllAssignPermissionToGroup(){
+    const url = this.requestUrl + appurl.endpoint_findall;
+    return this.httpClient.get<ResponseModel>(url)
+  }
 
-  constructor() { }
+
 
   setAllActivePropertiesToFalse(nodes: INavbarData[]) {
     nodes.forEach(node => {

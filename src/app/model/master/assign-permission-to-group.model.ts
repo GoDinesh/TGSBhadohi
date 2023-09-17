@@ -1,17 +1,13 @@
 export class AssignPermissionToGroup {
 
-    id: string;
-    group: string;
-    permission: string[];
-    active: boolean;
-    
-
+    //id: string;
+    groupid: string;
+    permission: string;
+   
     constructor(){
-        this.id ='';
-        this.group = '';
-        this.permission = [];
-        this.active = false;
-
+      //  this.id ='';
+        this.groupid = '';
+        this.permission = '';
     }
     
 }
