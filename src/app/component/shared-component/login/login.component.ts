@@ -8,6 +8,7 @@ import { Auth } from 'src/app/model/auth.model';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
+import { UserService } from 'src/app/service/masters/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
@@ -23,6 +24,7 @@ export class LoginComponent {
           private authService: AuthService,
           private sweetAlertService: SweetAlertService,
           private httpClient: HttpClient,
+          private userService: UserService,
   ) { }
 
   email!: string;
@@ -71,6 +73,10 @@ export class LoginComponent {
         //const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken)
           localStorage.setItem('access_token', res.jwtToken)
         //})
+        this.userService.getUserByEmailId(data.email).subscribe(data=>{
+          console.log(data);
+          
+        })
 
         this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGIN_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
        }else{
