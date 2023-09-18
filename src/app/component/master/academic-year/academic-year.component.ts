@@ -74,9 +74,6 @@ export class AcademicYearComponent {
       this.academicYearService.getAllAcademicYear().subscribe(res=>{
           if(res.status === msgTypes.SUCCESS_MESSAGE){
             this.posts = res.data;
-            // $('#table').DataTable().draw();
-            console.log(this.posts);
-            console.log(res.data);
           }
       });
   }
@@ -92,9 +89,7 @@ export class AcademicYearComponent {
             this.academicYearService.insertAcademicYear(this.academicYearmodel).subscribe(res=>{
               if(res.status === msgTypes.SUCCESS_MESSAGE){
                 this.getTableRecord();
-                console.log(res);
               }
-              console.log(this.posts);
               this.resetForm();
             });
       }catch(error){}

@@ -33,6 +33,7 @@ export class SidenavComponent {
     icon: '',
     text: '',
   }
+  permission: any;
   @ViewChild(SublevelMenuComponent) child!:SublevelMenuComponent;
 
   @HostListener('window:resize', ['$event'])
@@ -62,8 +63,11 @@ export class SidenavComponent {
     if(userType){
         if( userType === msgTypes.ADMIN)
           this.navData = menuListAdmin;
-        else if( userType === msgTypes.USER)
-          this.navData = menuListUser;
+        else if( userType === msgTypes.USER){
+          //this.navData = menuListUser;
+          this.permission = this.authService.getUserPermission();
+          this.navData =  JSON.parse(this.permission);
+        }
     }
   }
 

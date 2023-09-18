@@ -270,12 +270,8 @@ finalSubmission = new FormGroup({});
 
   //File Upload
 
-  logConfirmDetails() {
-    console.log('confirmDetails:', this.confirmDetails); // Log the value
-  }
   toggleConfirm(event: MatSlideToggleChange) {
     this.confirmDetails = event.checked;
-    console.log('confirmDetails:', this.confirmDetails); // Log the value
   }
 
   onStudentPhotoFileChange(event:any) {

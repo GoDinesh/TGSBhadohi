@@ -93,11 +93,7 @@ export class ClassComponent {
       this.classService.insertClass(this.classmodel).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE){
           this.getTableRecord();
-          console.log(res);
-          console.log(this.posts)
         }
-        
-          // this.posts.forEach(post=>{console.log(post)});
         this.resetForm();
       });
     } catch (error) { }

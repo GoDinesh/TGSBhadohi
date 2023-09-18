@@ -13,8 +13,6 @@ export class RegistrationService {
   constructor(private httpClient: HttpClient) { }
  
   studentRegistration(registrationModel: Partial<Registration>){
-    console.log(registrationModel);
-    
      const url = this.requestUrl + appurl.student_registration ;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(registrationModel))
   }

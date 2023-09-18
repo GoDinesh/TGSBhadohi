@@ -62,19 +62,27 @@ export class LoginComponent {
     let data = this.preparedata();
     this.authService.authanticate(data).subscribe((res: any)=>{
       if(res.username === data.email){
-        this.router.navigate([routeType.DASHBOARD]);
-        //const encryptedUserType = this.authService.getEncryptText(res.roles);
-        //localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
+        
+       
         
         // const encryptdState = this.authService.getEncryptText(res.authanticate);
         // localStorage.setItem(msgTypes.STATE, JSON.stringify(encryptdState));
         
-       // this.authService.generateToken().subscribe((token: any)=>{
+        // this.authService.generateToken().subscribe((token: any)=>{
         //const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken)
-          localStorage.setItem('access_token', res.jwtToken)
+        const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken);
+        localStorage.setItem('access_token', encryptedAccessToken)
         //})
-        this.userService.getUserByEmailId(data.email).subscribe(data=>{
-          console.log(data);
+        this.userService.getUserByEmailId(data.email).subscribe(res=>{
+        //  const encryptedUserType = this.authService.getEncryptText(res.data[0].role);
+          const encryptedUserType = res.data[0].role;
+          localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
+
+          //const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
+          const encryptedPermission = res.data[0].userPermission.permission;
+          localStorage.setItem("userPermission", encryptedPermission)
+
+          this.router.navigate([routeType.DASHBOARD]);
           
         })
 

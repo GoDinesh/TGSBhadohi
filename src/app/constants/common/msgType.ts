@@ -18,8 +18,8 @@ export const msgTypes = {
     INVALID_CREDENTIALS: "Invalid Credentials",
 
     USER_TYPE: 'userType',
-    ADMIN: 'admin',
-    USER: 'user',
+    ADMIN: 'ADMIN',
+    USER: 'USER',
 
     LOGOUT: 'Logout',
     LOGOUT_MESSAGE: 'Logout Successfully',
