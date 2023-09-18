@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { DiscountReason } from 'src/app/model/master/discount-reason.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
@@ -20,7 +22,7 @@ export class DiscountReasonComponent {
   discountReasonModel: DiscountReason = new  DiscountReason();
   dataSource = new MatTableDataSource < DiscountReason > ();
   dtOptions: any = {};
-  posts:DiscountReason[]=[];
+  posts: Observable<DiscountReason[]> = new Observable();
   actionFlag = true;
   
   formgroup = new FormGroup({
@@ -62,7 +64,7 @@ export class DiscountReasonComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
       ]
@@ -70,13 +72,20 @@ export class DiscountReasonComponent {
   }
 
   //To get record list
-  async getTableRecord() {
-      this.discountReasonService.getAllDiscountReason().subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
-            this.posts = res.data;
-          }
-      });
-  }
+  // async getTableRecord() {
+  //     this.discountReasonService.getAllDiscountReason().subscribe(res=>{
+  //         if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //           this.posts = res.data;
+  //         }
+  //     });
+  // }
+
+  async getTableRecord(){
+    this.posts = this.discountReasonService.getAllDiscountReason().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   //get formcontroll
   get formControll(){

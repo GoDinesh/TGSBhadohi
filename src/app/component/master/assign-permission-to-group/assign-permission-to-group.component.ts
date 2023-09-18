@@ -12,6 +12,7 @@ import { AssignPermissionToGroupService } from 'src/app/service/masters/assign-p
 import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
+import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 
 // Define the flat node structure
 interface MenuItemFlatNode {
@@ -65,6 +66,7 @@ export class AssignPermissionToGroupComponent {
     public validationMsg: ValidationErrorMessageService,
     private permissionGroupService: PermissionGroupService,
     private assignPermissionToGroupService: AssignPermissionToGroupService,
+    private alertService: SweetAlertService,
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false

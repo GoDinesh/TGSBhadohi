@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs/internal/Observable';
+import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { PermissionGroup } from 'src/app/model/master/permission-group.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
@@ -16,7 +18,7 @@ import { PermissionGroupService } from 'src/app/service/masters/permission-group
 export class PermissionGroupComponent {
 
   permissionGroupModel: PermissionGroup = new PermissionGroup();
-  permissionGroup: PermissionGroup[] = [];
+  posts: Observable<PermissionGroup[]> = new Observable();
   dataSource = new MatTableDataSource<PermissionGroup>();
   dtOptions: any = {};
   actionFlag = true;
@@ -70,13 +72,19 @@ export class PermissionGroupComponent {
   }
 
   //To get class list
-  async getTableRecord() {
-    this.permissionGroupService.getAllPermissionGroup().subscribe(res => {
-      if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        this.permissionGroup = res.data;
-      }
-    });
-  }
+  // async getTableRecord() {
+  //   this.permissionGroupService.getAllPermissionGroup().subscribe(res => {
+  //     if (res.status === msgTypes.SUCCESS_MESSAGE) {
+  //       this.permissionGroup = res.data;
+  //     }
+  //   });
+  // }
+  async getTableRecord(){
+    this.posts = this.permissionGroupService.getAllPermissionGroup().pipe(
+      map((res)=>{
+          return res.data;
+      })
+  )};
 
   //change the status
   async slideToggleChange(element: MatSlideToggleChange, data: PermissionGroup) {

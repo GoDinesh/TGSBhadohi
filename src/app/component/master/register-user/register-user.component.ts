@@ -22,7 +22,7 @@ export class RegisterUserComponent {
   allPermissionGroupList: Observable<PermissionGroup[]> = new Observable();
   
   userModel: User = new User();
-  posts:User[]=[];
+  posts: Observable<User[]> = new Observable();
   dtOptions: any = {};
   actionFlag: boolean = true;
 
@@ -77,13 +77,19 @@ loadPermissionGroup(){
     })
 )};
 
-getTableRecord(){
-  this.userService.getAllUsers().subscribe(res=>{
-    if(res.status === msgTypes.SUCCESS_MESSAGE){
-      this.posts = res.data;
-    }
-});
-}
+// getTableRecord(){
+//   this.userService.getAllUsers().subscribe(res=>{
+//     if(res.status === msgTypes.SUCCESS_MESSAGE){
+//       this.posts = res.data;
+//     }
+// });
+// }
+async getTableRecord(){
+  this.posts = this.userService.getAllUsers().pipe(
+    map((res)=>{
+        return res.data;
+    })
+)};
 
 
 //load the table
@@ -127,7 +133,7 @@ async slideToggleChange(element: MatSlideToggleChange, data: User) {
 }
 
 //set value in formfield to update
-setVlaueToUpdate(data:User){
+setValueToUpdate(data:User){
     data.confirmPassword = data.password;
     this.createForm(data);
     this.actionFlag = false;
