@@ -38,7 +38,7 @@ export class AssignPermissionToGroupComponent {
   dataSource: MatTreeFlatDataSource<INavbarData, MenuItemFlatNode>;
   selectedItems: MenuItemFlatNode[] = [];
   assignPermissionToGroup: AssignPermissionToGroup = new AssignPermissionToGroup();
-
+  dummy: INavbarData[]=[];
 
   // we can initialize our checkbox selections here
   checkboxSelections: SelectionModel<MenuItemFlatNode> = new SelectionModel<MenuItemFlatNode>(true);
@@ -57,7 +57,7 @@ export class AssignPermissionToGroupComponent {
   );
 
   formGroup = new FormGroup({
-    // id: new FormControl(),
+    id: new FormControl(),
     groupid: new FormControl(),
     permission: new FormControl(),
   })
@@ -70,9 +70,10 @@ export class AssignPermissionToGroupComponent {
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
+    this.dummy = menuListAdmin;
 
-      this.setAllActivePropertiesToFalse(this.deepClone(menuListAdmin));
-    this.dataSource.data = menuListAdmin;
+    this.setAllActivePropertiesToFalse(this.dummy);
+    this.dataSource.data = this.dummy;
   }
 
   //To set all 'active' properties to false
@@ -87,7 +88,7 @@ export class AssignPermissionToGroupComponent {
 
   createForm(assignPermissionToGroupModel: AssignPermissionToGroup) {
     this.formGroup = this.formBuilder.group({
-      //id: [assignPermissionToGroupModel.id],
+      id: [assignPermissionToGroupModel.id],
       groupid: ['', [Validators.required]],
       permission: [''],
     });
@@ -107,13 +108,10 @@ export class AssignPermissionToGroupComponent {
 
 
   async save() {
-    const selectedPermission = await this.finalizeSelection();
-    if (selectedPermission) {
-      this.assignPermissionToGroup = { ...this.assignPermissionToGroup, ...this.formGroup.value }
-      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe((res) => {
-        console.log(res);
-
-      })
+    const selectedPermission =  await this.finalizeSelection();
+    if(selectedPermission){
+      this.assignPermissionToGroup = {...this.assignPermissionToGroup,...this.formGroup.value}
+      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe()
     }
   }
 
@@ -238,8 +236,8 @@ export class AssignPermissionToGroupComponent {
     return node.children || null;
   }
 
-  // @ViewChild('outputDiv', { static: false })
-  // public outputDivRef: ElementRef<HTMLParagraphElement>;
+  @ViewChild('outputDiv', { static: false })
+  public outputDivRef: ElementRef<HTMLParagraphElement>;
 
   // Define a function to create a new structure matching menuListAdmin
   createNewStructure(node: MenuItemFlatNode, treeControl: FlatTreeControl<MenuItemFlatNode>): INavbarData {
@@ -283,16 +281,16 @@ export class AssignPermissionToGroupComponent {
     this.assignPermissionToGroupService.deselectAllNodes(this.treeControl, this.checkboxSelections);
   }
   //To be called after making our selections
-  finalizeSelection(): INavbarData[] {
-    const clonedMenuListAdmin = this.deepClone(menuListAdmin);
-    this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes, this.selectedChips);
+ finalizeSelection(): INavbarData[] {
+    //const clonedMenuListAdmin = this.deepClone(menuListAdmin);
+    this.updateClonedListBasedOnSelection(this.dummy, this.treeControl.dataNodes, this.selectedChips);
     //prepare the new menu list
-    const updatedMenuListAdmin = JSON.stringify(clonedMenuListAdmin, null, 2);
+    const updatedMenuListAdmin = JSON.stringify(this.dummy, null, 2);
 
     // Display the updated structure in the innerText
-    //  this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
+    this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
     this.formGroup.controls.permission.setValue(updatedMenuListAdmin);
-    return clonedMenuListAdmin;
+    return this.dummy;
   }
 
   //Get final lList of allowed permissions 

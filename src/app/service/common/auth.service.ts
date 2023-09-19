@@ -80,8 +80,18 @@ isLoggedIn(){
 }
 
 getRole() {
-  // const role = JSON.parse(''+localStorage.getItem('userType'));
-  // return this.getDecryptText(role);
-  return "admin"
+   const role = JSON.parse(''+localStorage.getItem('userType'));
+   //return this.getDecryptText(role);
+   return role;
 }
+
+getUserPermission(){
+  const userPermission = localStorage.getItem('userPermission');
+  if(userPermission){
+    //return this.getDecryptText(userPermission)
+    return userPermission;
+  }
+  return '';
+}
+
 }
