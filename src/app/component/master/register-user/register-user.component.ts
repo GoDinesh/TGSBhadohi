@@ -41,7 +41,7 @@ constructor(private formBuilder: FormBuilder,
   public validationMsg: ValidationErrorMessageService,
   private permissionGroupService: PermissionGroupService,
   private userService: UserService,
-  private alerService: SweetAlertService
+  private alertService: SweetAlertService
   ){
 }
 
@@ -123,7 +123,7 @@ resetForm(){
 
 //change the status
 async slideToggleChange(element: MatSlideToggleChange, data: User) {
-  const flag = await this.alerService.updateAlert()
+  const flag = await this.alertService.updateAlert()
   if(flag)  {
         data.active = !data.active;
         this.userService.insertUser(data).subscribe();

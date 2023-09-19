@@ -57,7 +57,7 @@ export class AssignPermissionToGroupComponent {
   );
 
   formGroup = new FormGroup({
-   // id: new FormControl(),
+    // id: new FormControl(),
     groupid: new FormControl(),
     permission: new FormControl(),
   })
@@ -70,7 +70,7 @@ export class AssignPermissionToGroupComponent {
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
-    
+
       this.setAllActivePropertiesToFalse(this.deepClone(menuListAdmin));
     this.dataSource.data = menuListAdmin;
   }
@@ -107,12 +107,12 @@ export class AssignPermissionToGroupComponent {
 
 
   async save() {
-    const selectedPermission =  await this.finalizeSelection();
-    if(selectedPermission){
-      this.assignPermissionToGroup = {...this.assignPermissionToGroup,...this.formGroup.value}
-      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe((res)=>{
+    const selectedPermission = await this.finalizeSelection();
+    if (selectedPermission) {
+      this.assignPermissionToGroup = { ...this.assignPermissionToGroup, ...this.formGroup.value }
+      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe((res) => {
         console.log(res);
-        
+
       })
     }
   }
@@ -283,14 +283,14 @@ export class AssignPermissionToGroupComponent {
     this.assignPermissionToGroupService.deselectAllNodes(this.treeControl, this.checkboxSelections);
   }
   //To be called after making our selections
- finalizeSelection(): INavbarData[] {
+  finalizeSelection(): INavbarData[] {
     const clonedMenuListAdmin = this.deepClone(menuListAdmin);
     this.updateClonedListBasedOnSelection(clonedMenuListAdmin, this.treeControl.dataNodes, this.selectedChips);
     //prepare the new menu list
     const updatedMenuListAdmin = JSON.stringify(clonedMenuListAdmin, null, 2);
 
     // Display the updated structure in the innerText
-  //  this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
+    //  this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
     this.formGroup.controls.permission.setValue(updatedMenuListAdmin);
     return clonedMenuListAdmin;
   }
