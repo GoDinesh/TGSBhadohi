@@ -297,8 +297,8 @@ export class RegistrationComponent {
   
  
 
-    this.registrationNumber = academicYear + standard;// + uniqueIdentifier;
-    this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+    // this.registrationNumber = academicYear + standard + uniqueIdentifier;
+    // this.studentFormControll.registrationNo.setValue(this.registrationNumber);
 
   }
 
