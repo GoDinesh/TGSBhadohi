@@ -12,6 +12,8 @@ export const appurl={
         menuurl_student: '/student',
                 student_registration: '/registration',
                 student_list: '/studentList',
+                upload_image: '/upload-image',
+                get_rollnumber: '/get-rollnumber',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

@@ -13,6 +13,8 @@ export class RegistrationService {
   constructor(private httpClient: HttpClient) { }
  
   studentRegistration(registrationModel: Partial<Registration>){
+    console.log(JSON.stringify(registrationModel));
+    
      const url = this.requestUrl + appurl.student_registration ;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(registrationModel))
   }
@@ -26,4 +28,14 @@ export class RegistrationService {
   //   const url = this.requestUrl + appurl.student_registration + appurl.endpoint_update;
   //   return this.httpClient.post<ResponseModel>(url, JSON.stringify(requestData))
   // }
+
+  studentRegistrationWithImage(formData: FormData){
+     const url = this.requestUrl + appurl.upload_image ;
+     return this.httpClient.post<ResponseModel>(url, formData)
+  }
+
+  getRollNumber(reg : Registration){
+    const url = this.requestUrl + appurl.get_rollnumber ;
+    return this.httpClient.post<ResponseModel>(url, reg)
+  }
 }

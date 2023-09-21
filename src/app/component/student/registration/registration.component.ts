@@ -31,7 +31,7 @@ reg: Registration = new Registration();
 updateFlag: boolean = false;
 // myFiles:string [] = [];
 //Upload Student Photo
-// selectedStudentPhoto: File | null = null;
+selectedPhoto: File | null = null;
 selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
 selectedStudentPhotoName = 'Choose Photo';
 
@@ -42,6 +42,7 @@ documents: File[] = [];
 
 studentgroup = new FormGroup({
     id                  : new FormControl(), 
+    rollNumber          : new FormControl(),
     studentName         : new FormControl(),
     gender              : new FormControl(),
     // parentContactNumber : new FormControl(),
@@ -152,6 +153,7 @@ finalSubmission = new FormGroup({});
   createStudentForm(stuInfo: Registration){
     this.studentgroup = this.formBuilder.group({
       id: [stuInfo.id],
+      rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
       dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
@@ -257,14 +259,22 @@ finalSubmission = new FormGroup({});
   }
 
   // generate registration number
-  generateRegistrationNumber(existingStudents: number) {
+  async generateRegistrationNumber() {
   // Get the values from the form group
   const academicYear = this.studentFormControll.academicYearCode.value;
   const standard = this.studentFormControll.standard.value;
-  const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
+  //const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
+  let reg: Registration = new Registration();
+  reg.academicYearCode = academicYear;
+  reg.standard = standard;
   
-  this.registrationNumber = academicYear + standard + uniqueIdentifier;
-  this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+  this.registrationService.getRollNumber(reg).subscribe(res=>{
+    this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+    this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+    this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+  });
+  
+ 
 
 }
 
@@ -277,6 +287,8 @@ finalSubmission = new FormGroup({});
   onStudentPhotoFileChange(event:any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      this.selectedPhoto = input.files[0];
+      // console.log(this.selectedPhoto);
       // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
@@ -319,22 +331,59 @@ finalSubmission = new FormGroup({});
         }
   }
 
+  prepareAcquirerForm() {
+    this.reg = new Registration();
+    this.reg = {...this.reg , ...this.studentgroup.value};
+    this.reg = {...this.reg , ...this.parentgroup.value};
+    this.reg = {...this.reg, ...this.addressgroup.value};
+    this.reg = {...this.reg, ...this.emergencyContactFormGroup.value};
+    this.reg = {...this.reg, ...this.lastSchoolFormGroup.value};
+
+    const formData = new FormData();
+    if (this.documents && this.documents.length > 0) {
+        for (let i = 0; i <= this.documents.length - 1; i++) {
+          formData.append("documentUpload[]", < File > this.documents[i]);
+        }
+    }
+
+    // if(this.selectedPhoto && this.selectedPhoto.length>0){
+    //   formData.append("profileImage", < File > this.selectedPhoto);
+    // }
+    if (this.documents && this.documents.length > 0) {
+      for (let i = 0; i <= 0; i++) {
+        formData.append("profileImage", < File > this.documents[i]);
+      }
+  }
+
+    formData.append("requestData", JSON.stringify(this.reg))
+    return formData;
+
+  }
+
   //  handle the final submission
   finalSubmit() {
-      this.reg = new Registration();
-      this.reg = {...this.reg , ...this.studentgroup.value};
-      this.reg = {...this.reg , ...this.parentgroup.value};
-      this.reg = {...this.reg, ...this.addressgroup.value};
-      this.reg = {...this.reg, ...this.emergencyContactFormGroup.value};
-      this.reg = {...this.reg, ...this.lastSchoolFormGroup.value};
-          this.registrationService.studentRegistration(this.reg).subscribe(res=>{
+      
+          const regData = this.prepareAcquirerForm();
+
+          // this.registrationService.studentRegistration(regData).subscribe(res=>{
+          //   if(res.status === msgTypes.SUCCESS_MESSAGE){
+          //       this.resetForm();
+          //       this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
+          //   }
+          // });
+
+           this.registrationService.studentRegistrationWithImage(regData).subscribe(res=>{
             if(res.status === msgTypes.SUCCESS_MESSAGE){
                 this.resetForm();
                 this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
             }
           });
+
+    
       
 }
+
+
 
 resetForm(){
   this.studentgroup.reset();

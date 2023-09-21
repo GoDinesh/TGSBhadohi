@@ -80,6 +80,7 @@
      <thead>
        <tr>
          <th>S.No</th> 
+         <th>Photo</th>
          <th>Registration Number</th>
          <th>Aadhar Number</th>
          <th>Student Name</th>
@@ -92,7 +93,9 @@
      </thead>
      <tbody>
        <tr *ngFor="let post of posts;let i=index">
-         <td class="td-sno">{{i+1}}</td>  
+         <td class="td-sno">{{i+1}}</td>
+         <td class="td-sno" *ngIf="post.profileImage === null"></td>  
+         <td class="td-sno" *ngIf="post.profileImage != null"><ngx-avatar src="http://localhost:8000/image/Screenshot%202023-07-26%20125001.png"></ngx-avatar></td>
          <td class="td-large">{{ post.registrationNo }}</td>
          <td class="td-medium">{{ post.aadhaarNumber }}</td>
          <td class="td-large">{{ post.studentName}}</td>
