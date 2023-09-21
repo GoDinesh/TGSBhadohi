@@ -133,14 +133,16 @@ export class StudentListComponent {
     studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
     studentInfo.studentName = this.studentFormControll.studentName.value;
 
-    this.registrationService.studentList(studentInfo).subscribe(res => {
-      if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        this.posts = res.data;
-        if (res.data.length == 0) {
-          this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
+    this.registrationService.studentList(studentInfo).subscribe(res=>{
+        if(res.status === msgTypes.SUCCESS_MESSAGE){
+          this.posts = res.data;
+          console.log(this.posts[8]);
+          
+          if(res.data.length == 0){
+            this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
+          }
         }
-      }
-    });
+      })
   }
 
   setVlaueToUpdate(stuDetails: Registration) {

@@ -25,6 +25,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {NgxPrintModule} from 'ngx-print';
 import {MatChipsModule} from '@angular/material/chips';
+import { AvatarModule } from 'ngx-avatar';
 //import {MatDatepickerModule} from '@angular/material/datepicker';
 //import {MatNativeDateModule} from '@angular/material/core';
 
@@ -59,6 +60,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatCheckboxModule,
     NgxPrintModule,
     MatChipsModule,
+    AvatarModule
     
   ],
   exports: [
@@ -88,7 +90,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatTreeModule,
     MatCheckboxModule,
     NgxPrintModule,
-    MatChipsModule
+    MatChipsModule,
+    AvatarModule
   
   ],
   providers: [],

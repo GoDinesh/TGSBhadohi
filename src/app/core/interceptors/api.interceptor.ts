@@ -33,17 +33,40 @@ export class ApiInterceptor implements HttpInterceptor {
     //     jsonEncryptData = { "body": this.encryptedBody}
     // }
     
-    const apiReq = request.clone({ 
-                            url: `${this.baseUrl + request.url}` ,
-                            setHeaders: {
-                              Authorization: "Bearer " + localStorage.getItem('access_token'),
-                              "Content-type" : msgTypes.CONTENT_TYPE.APPLICATION_JSON
-                            },
-                            // body: jsonEncryptData
-                            //body: this.encryptedBody
-                        });
+      
+  //let apiReq = undefined ;
+  if(! (request.body instanceof FormData)){
+                request = request.clone({ 
+                      url: `${this.baseUrl + request.url}` ,
+                      setHeaders: {
+                        Authorization: "Bearer " + localStorage.getItem('access_token'),
+                        "Content-type" : msgTypes.CONTENT_TYPE.APPLICATION_JSON
+                      },
+                });
+                return next.handle(request)
+    }
+    if((request.body instanceof FormData)){
+      request = request.clone({ 
+            url: `${this.baseUrl + request.url}` ,
+            setHeaders: {
+              Authorization: "Bearer " + localStorage.getItem('access_token'),
+            },
+      });
+      return next.handle(request)
+  }
+
+    // else{
+    //             request = request.clone({ 
+    //                   url: `${this.baseUrl + request.url}` ,
+    //                   setHeaders: {
+    //                     Authorization: "Bearer " + localStorage.getItem('access_token'),
+    //                   },
+    //             });
+    //             return next.handle(request)
+    // }
     //to add access token
-    return next.handle(apiReq)
+    return next.handle(request)
+   
     .pipe(
       map(resp =>{
        

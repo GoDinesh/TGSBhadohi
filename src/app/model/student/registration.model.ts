@@ -1,5 +1,9 @@
+import { UploadedProfileImage } from "../master/uploaded-profile-image.model";
+
 export class Registration {
         id: string;
+
+        rollNumber: number;
         // studentInfo: StudentInfo;
         // parentInfo: ParentInfo;
         // addresInfo: AddressInfo;
@@ -37,15 +41,18 @@ export class Registration {
         emergencyContactPerson  : string; 
         emergencyNumber       : string; 
 
+        profileImage: UploadedProfileImage;
+
         schoolName            : string; 
         tcNumber              : string;   
         passedClass           : string; 
         passedClassMarks      : string; 
         schoolAddress         : string;
-
+        
 
         constructor(){
             this.id = '';
+            this.rollNumber= 0;
             // this.studentInfo = new StudentInfo();
             // this.parentInfo = new ParentInfo();
             // this.addresInfo = new AddressInfo();
@@ -88,6 +95,7 @@ export class Registration {
             this.passedClass           = ''; 
             this.passedClassMarks      = ''; 
             this.schoolAddress         = '';
+            // this.profileImage          = new UploadedProfileImage();
         }
      
 }
