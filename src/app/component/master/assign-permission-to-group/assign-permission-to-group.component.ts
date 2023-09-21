@@ -13,6 +13,8 @@ import { PermissionGroupService } from 'src/app/service/masters/permission-group
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { PermissionService } from 'src/app/service/common/permission.service';
 
 // Define the flat node structure
 interface MenuItemFlatNode {
@@ -38,7 +40,8 @@ export class AssignPermissionToGroupComponent {
   dataSource: MatTreeFlatDataSource<INavbarData, MenuItemFlatNode>;
   selectedItems: MenuItemFlatNode[] = [];
   assignPermissionToGroup: AssignPermissionToGroup = new AssignPermissionToGroup();
-  dummy: INavbarData[]=[];
+  dummy: INavbarData[] = [];
+  editable: boolean;
 
   // we can initialize our checkbox selections here
   checkboxSelections: SelectionModel<MenuItemFlatNode> = new SelectionModel<MenuItemFlatNode>(true);
@@ -67,13 +70,22 @@ export class AssignPermissionToGroupComponent {
     private permissionGroupService: PermissionGroupService,
     private assignPermissionToGroupService: AssignPermissionToGroupService,
     private alertService: SweetAlertService,
+    private permissionService: PermissionService,
+    private router: Router
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
-    this.dummy = menuListAdmin;
+      this.dummy = menuListAdmin;
 
     this.setAllActivePropertiesToFalse(this.dummy);
     this.dataSource.data = this.dummy;
+
+    // Listen to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateEditableValue();
+      }
+    });
   }
 
   //To set all 'active' properties to false
@@ -83,7 +95,15 @@ export class AssignPermissionToGroupComponent {
 
   ngOnInit() {
     this.createForm(new AssignPermissionToGroup());
+    this.updateEditableValue();
     this.loadPermissionGroup();
+  }
+
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createForm(assignPermissionToGroupModel: AssignPermissionToGroup) {
@@ -108,9 +128,9 @@ export class AssignPermissionToGroupComponent {
 
 
   async save() {
-    const selectedPermission =  await this.finalizeSelection();
-    if(selectedPermission){
-      this.assignPermissionToGroup = {...this.assignPermissionToGroup,...this.formGroup.value}
+    const selectedPermission = await this.finalizeSelection();
+    if (selectedPermission) {
+      this.assignPermissionToGroup = { ...this.assignPermissionToGroup, ...this.formGroup.value }
       this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe()
     }
   }
@@ -281,7 +301,7 @@ export class AssignPermissionToGroupComponent {
     this.assignPermissionToGroupService.deselectAllNodes(this.treeControl, this.checkboxSelections);
   }
   //To be called after making our selections
- finalizeSelection(): INavbarData[] {
+  finalizeSelection(): INavbarData[] {
     //const clonedMenuListAdmin = this.deepClone(menuListAdmin);
     this.updateClonedListBasedOnSelection(this.dummy, this.treeControl.dataNodes, this.selectedChips);
     //prepare the new menu list

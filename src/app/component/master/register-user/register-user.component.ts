@@ -11,6 +11,8 @@ import { User } from 'src/app/model/master/user.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { UserService } from 'src/app/service/masters/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import { PermissionService } from 'src/app/service/common/permission.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-user',
@@ -20,11 +22,12 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 export class RegisterUserComponent {
 
   allPermissionGroupList: Observable<PermissionGroup[]> = new Observable();
-  
+
   userModel: User = new User();
   posts: Observable<User[]> = new Observable();
   dtOptions: any = {};
   actionFlag: boolean = true;
+  editable: boolean;
 
   formGroup = new FormGroup({
     id: new FormControl(),
@@ -35,119 +38,139 @@ export class RegisterUserComponent {
     password: new FormControl(),
     confirmPassword: new FormControl(),
     active: new FormControl()
-})
+  })
 
-constructor(private formBuilder: FormBuilder,
-  public validationMsg: ValidationErrorMessageService,
-  private permissionGroupService: PermissionGroupService,
-  private userService: UserService,
-  private alertService: SweetAlertService
-  ){
-}
+  constructor(private formBuilder: FormBuilder,
+    public validationMsg: ValidationErrorMessageService,
+    private permissionGroupService: PermissionGroupService,
+    private userService: UserService,
+    private alertService: SweetAlertService,
+    private permissionService: PermissionService,
+    private router: Router,
 
-ngOnInit(){
-this.loadPermissionGroup();
-this.createForm(new User());
-this.loadTable();
-this.getTableRecord();
-}
+  ) {
 
-createForm(usermodel: User) {
-  this.formGroup = this.formBuilder.group({
-    id: [usermodel.id],
-    role: [usermodel.role,[Validators.required]],
-    groupid: [usermodel.groupid],
-    name: [usermodel.name,[Validators.required]],
-    email: [usermodel.email,[Validators.required, CustomValidation.emailId]],
-    password: [usermodel.password,[Validators.required, CustomValidation.password]],
-    confirmPassword: [usermodel.confirmPassword,[Validators.required, CustomValidation.password]],
-    active: [usermodel.active],
-    
-  },{ validator: CustomValidation.confirmedValidator('password', 'confirmPassword') });
-}
+    // Listen to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateEditableValue();
+      }
+    });
+  }
 
-get formControll(){
-  return this.formGroup.controls;
-}
+  ngOnInit() {
+    this.loadPermissionGroup();
+    this.createForm(new User());
+    this.updateEditableValue();
+    this.loadTable();
+    this.getTableRecord();
+  }
 
-loadPermissionGroup(){
-  this.allPermissionGroupList = this.permissionGroupService.getAllPermissionGroup().pipe(
-    map((res)=>{
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  }
+
+  createForm(usermodel: User) {
+    this.formGroup = this.formBuilder.group({
+      id: [usermodel.id],
+      role: [usermodel.role, [Validators.required]],
+      groupid: [usermodel.groupid],
+      name: [usermodel.name, [Validators.required]],
+      email: [usermodel.email, [Validators.required, CustomValidation.emailId]],
+      password: [usermodel.password, [Validators.required, CustomValidation.password]],
+      confirmPassword: [usermodel.confirmPassword, [Validators.required, CustomValidation.password]],
+      active: [usermodel.active],
+
+    }, { validator: CustomValidation.confirmedValidator('password', 'confirmPassword') });
+  }
+
+  get formControll() {
+    return this.formGroup.controls;
+  }
+
+  loadPermissionGroup() {
+    this.allPermissionGroupList = this.permissionGroupService.getAllPermissionGroup().pipe(
+      map((res) => {
         return res.data;
-    })
-)};
-
-// getTableRecord(){
-//   this.userService.getAllUsers().subscribe(res=>{
-//     if(res.status === msgTypes.SUCCESS_MESSAGE){
-//       this.posts = res.data;
-//     }
-// });
-// }
-async getTableRecord(){
-  this.posts = this.userService.getAllUsers().pipe(
-    map((res)=>{
-        return res.data;
-    })
-)};
-
-
-//load the table
-loadTable(){
-  this.dtOptions = {
-    processing: true,
-    scrollY: "300px",
-    scrollCollapse: true,
-    dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
-    buttons: [
-      'copy', 'csv', 'excel', 'print'
-    ]
+      })
+    )
   };
-}
 
-register(){
-  this.userModel = {...this.userModel,...this.formGroup.value}
-  try{
-          this.userService.insertUser(this.userModel).subscribe(res=>{
-            if(res.status === msgTypes.SUCCESS_MESSAGE)
-            this.getTableRecord();
-            this.resetForm();
-          });
-    }catch(error){}  
-}
+  // getTableRecord(){
+  //   this.userService.getAllUsers().subscribe(res=>{
+  //     if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //       this.posts = res.data;
+  //     }
+  // });
+  // }
+  async getTableRecord() {
+    this.posts = this.userService.getAllUsers().pipe(
+      map((res) => {
+        return res.data;
+      })
+    )
+  };
 
-resetForm(){
+
+  //load the table
+  loadTable() {
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
+  }
+
+  register() {
+    this.userModel = { ...this.userModel, ...this.formGroup.value }
+    try {
+      this.userService.insertUser(this.userModel).subscribe(res => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE)
+          this.getTableRecord();
+        this.resetForm();
+      });
+    } catch (error) { }
+  }
+
+  resetForm() {
     this.createForm(new User())
     this.actionFlag = true;
-}
-
-//change the status
-async slideToggleChange(element: MatSlideToggleChange, data: User) {
-  const flag = await this.alertService.updateAlert()
-  if(flag)  {
-        data.active = !data.active;
-        this.userService.insertUser(data).subscribe();
-  }else{
-        element.source.checked = data.active;
   }
-}
 
-//set value in formfield to update
-setValueToUpdate(data:User){
+  //change the status
+  async slideToggleChange(element: MatSlideToggleChange, data: User) {
+    const flag = await this.alertService.updateAlert()
+    if (flag) {
+      data.active = !data.active;
+      this.userService.insertUser(data).subscribe();
+    } else {
+      element.source.checked = data.active;
+    }
+  }
+
+  //set value in formfield to update
+  setValueToUpdate(data: User) {
     data.confirmPassword = data.password;
     this.createForm(data);
     this.actionFlag = false;
-}
+  }
 
-//update the record
-update(){
-    this.userModel = {...this.userModel,...this.formGroup.value}
-    this.userService.insertUser(this.userModel).subscribe((res)=>{
-      if(res.status === msgTypes.SUCCESS_MESSAGE){
+  //update the record
+  update() {
+    this.userModel = { ...this.userModel, ...this.formGroup.value }
+    this.userService.insertUser(this.userModel).subscribe((res) => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.getTableRecord();
         this.resetForm();
       }
     });
-} 
+  }
 
 }

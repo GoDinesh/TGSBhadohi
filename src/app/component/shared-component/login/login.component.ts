@@ -81,7 +81,7 @@ export class LoginComponent {
           //const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
           const encryptedPermission = res.data[0].userPermission.permission;
           localStorage.setItem("userPermission", encryptedPermission)
-
+          console.log(localStorage.getItem("userPermission"));
           this.router.navigate([routeType.DASHBOARD]);
           
         })
