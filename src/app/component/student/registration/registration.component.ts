@@ -31,7 +31,7 @@ reg: Registration = new Registration();
 updateFlag: boolean = false;
 // myFiles:string [] = [];
 //Upload Student Photo
-// selectedStudentPhoto: File | null = null;
+selectedPhoto: File | null = null;
 selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
 selectedStudentPhotoName = 'Choose Photo';
 
@@ -277,6 +277,8 @@ finalSubmission = new FormGroup({});
   onStudentPhotoFileChange(event:any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
+      this.selectedPhoto = input.files[0];
+      console.log(this.selectedPhoto);
       // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
@@ -291,6 +293,7 @@ finalSubmission = new FormGroup({});
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
+      console.log(this.selectedFile);
       this.selectedFileName = this.selectedFile.name;
     }
   }
