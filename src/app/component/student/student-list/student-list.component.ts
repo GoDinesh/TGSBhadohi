@@ -66,12 +66,12 @@ export class StudentListComponent {
 
   ngOnInit() {
     this.customInit();
-    this.updateEditableValue();
     this.loadTable();
   }
 
   customInit() {
     this.createStudentForm(new Registration());
+    this.updateEditableValue();
     this.loadClass();
     this.loadAcademicyear();
     this.getTableRecord();
@@ -136,7 +136,7 @@ export class StudentListComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
-          console.log(this.posts[8]);
+          console.log(this.posts);
           
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
