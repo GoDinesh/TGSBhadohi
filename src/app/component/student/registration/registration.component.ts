@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Class } from 'src/app/model/master/class.model';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
@@ -15,6 +15,8 @@ import { msgTypes } from 'src/app/constants/common/msgType';
 import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { appurl } from 'src/app/constants/common/appurl';
 import { PermissionService } from 'src/app/service/common/permission.service';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, from, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -112,6 +114,7 @@ export class RegistrationComponent {
     private academicYearService: AcademicYearService,
     private registrationService: RegistrationService,
     private router: Router,
+    private http: HttpClient,
     private permissionService: PermissionService,
   ) {
 
@@ -129,6 +132,36 @@ export class RegistrationComponent {
       if (res.studetails.registrationNo.length > 0) {
         this.reg = res.studetails;
         this.updateFlag = true;
+
+        if (this.reg.profileImage) {
+          this.selectedStudentPhoto = this.reg.profileImage.link;
+        this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
+          this.selectedPhoto = file;
+          console.log(this.selectedPhoto);
+        });
+        }
+
+        if (this.reg.documents && this.reg.documents.length > 0) {
+          const documentObservables = this.reg.documents.map(doc => this.fetchFile(doc.link, doc.fileName));
+          
+          forkJoin(documentObservables).subscribe((files: File[]) => {
+            this.documents = files;
+  
+            // Update the uploadDocumentForm
+            this.uploadDocumentForm.patchValue({
+              studentPhoto: this.selectedStudentPhoto,
+              file: this.documents
+            });
+          });
+        }
+   
+
+        // Update the uploadDocumentForm
+      // this.uploadDocumentForm.patchValue({
+      //   studentPhoto: this.selectedStudentPhoto,
+      //   file: this.documents
+      // });
+        
       }
     })
 
@@ -154,6 +187,40 @@ export class RegistrationComponent {
     const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
     this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
+
+  // fetchFile(url: string, fileName: string) {
+  //   return this.http.get(url, { responseType: 'blob' }).pipe(
+  //     map((blob: Blob) => {
+  //       const file = new File([blob], fileName, { type: blob.type });
+  //       console.log(file);
+  //       return file;
+  //     })
+  //   );
+  // }
+  // fetchFile(url: string, fileName: string) {
+  //   // console.log("Fetching file from URL: ", url);  // Log the URL
+  //   // return this.http.get(url, { responseType: 'blob' }).pipe(
+  //   //   map((blob: Blob) => {
+  //   //     console.log("Received blob: ", blob);  // Log the received blob
+  //   //     const file = new File([blob], fileName, { type: blob.type });
+  //   //     return file;
+  //   //   }),
+  //   //   catchError(error => {
+  //   //     console.error("Error fetching file: ", error);  // Log any errors
+  //   //     return throwError(error);
+  //   //   })
+  //   // );
+  
+  // }
+  fetchFile(url: string, fileName: string): Observable<File> {
+    return from(
+      fetch(url)
+        .then(response => response.blob())
+        .then(blob => new File([blob], fileName, { type: blob.type }))
+    );
+  }
+  
+  
 
   loadClass() {
     this.allClassList = this.classService.getAllClass().pipe(
@@ -281,25 +348,19 @@ export class RegistrationComponent {
 
   // generate registration number
   async generateRegistrationNumber() {
-  // Get the values from the form group
-  const academicYear = this.studentFormControll.academicYearCode.value;
-  const standard = this.studentFormControll.standard.value;
-  // const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
-  let reg: Registration = new Registration();
-  reg.academicYearCode = academicYear;
-  reg.standard = standard;
-  
-  this.registrationService.getRollNumber(reg).subscribe(res=>{
-    this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
-    this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
-    this.studentFormControll.registrationNo.setValue(this.registrationNumber);
-  });
-  
- 
+    // Get the values from the form group
+    const academicYear = this.studentFormControll.academicYearCode.value;
+    const standard = this.studentFormControll.standard.value;
+    // const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
+    let reg: Registration = new Registration();
+    reg.academicYearCode = academicYear;
+    reg.standard = standard;
 
-    // this.registrationNumber = academicYear + standard + uniqueIdentifier;
-    // this.studentFormControll.registrationNo.setValue(this.registrationNumber);
-
+    this.registrationService.getRollNumber(reg).subscribe(res => {
+      this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+      this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+      this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+    });
   }
 
   //File Upload
@@ -321,6 +382,15 @@ export class RegistrationComponent {
       };
       reader.readAsDataURL(input.files[0]);
     }
+  }
+
+  removeSelectedPhoto() {
+    this.selectedPhoto = null;
+    this.selectedStudentPhoto = null;
+    // Clear the form control value if needed
+    this.uploadDocumentForm.patchValue({
+      studentPhoto: null
+    });
   }
 
   onFileChange(event: Event) {
@@ -358,67 +428,49 @@ export class RegistrationComponent {
 
   prepareAcquirerForm() {
     this.reg = new Registration();
-    this.reg = {...this.reg , ...this.studentgroup.value};
-    this.reg = {...this.reg , ...this.parentgroup.value};
-    this.reg = {...this.reg, ...this.addressgroup.value};
-    this.reg = {...this.reg, ...this.emergencyContactFormGroup.value};
-    this.reg = {...this.reg, ...this.lastSchoolFormGroup.value};
+    this.reg = { ...this.reg, ...this.studentgroup.value };
+    this.reg = { ...this.reg, ...this.parentgroup.value };
+    this.reg = { ...this.reg, ...this.addressgroup.value };
+    this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
+    this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
-        for (let i = 0; i <= this.documents.length - 1; i++) {
-          formData.append("documentUpload[]", < File > this.documents[i]);
-        }
+      for (let i = 0; i <= this.documents.length - 1; i++) {
+        formData.append("documentUpload[]", <File>this.documents[i]);
+      }
     }
 
-    // if(this.selectedPhoto && this.selectedPhoto.length>0){
-    //   formData.append("profileImage", < File > this.selectedPhoto);
-    // }
-    if (this.documents && this.documents.length > 0) {
-      for (let i = 0; i <= 0; i++) {
-        formData.append("profileImage", < File > this.documents[i]);
-      }
-  }
+    if (this.selectedPhoto) {
+      formData.append("profileImage", <File>this.selectedPhoto);
+    }
 
     formData.append("requestData", JSON.stringify(this.reg))
+    console.log(formData);
     return formData;
-
   }
 
   //  handle the final submission
   finalSubmit() {
-      
-          const regData = this.prepareAcquirerForm();
 
-          // this.registrationService.studentRegistration(regData).subscribe(res=>{
-          //   if(res.status === msgTypes.SUCCESS_MESSAGE){
-          //       this.resetForm();
-          //       this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
-          //   }
-          // });
+    const regData = this.prepareAcquirerForm();
+    this.registrationService.studentRegistrationWithImage(regData).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        this.resetForm();
+        this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
+      }
+    });
+  }
 
-           this.registrationService.studentRegistrationWithImage(regData).subscribe(res=>{
-            if(res.status === msgTypes.SUCCESS_MESSAGE){
-                this.resetForm();
-                this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
-            }
-          });
-
-    
-      
-}
-
-
-
-resetForm(){
-  this.studentgroup.reset();
-  this.parentgroup.reset();
-  this.emergencyContactFormGroup.reset();
-  this.lastSchoolFormGroup.reset();
-  this.uploadDocumentForm.reset();
-  this.addressgroup.reset();
-  this.selectedStudentPhoto = '';
-  this.documents = [];
-}
+  resetForm() {
+    this.studentgroup.reset();
+    this.parentgroup.reset();
+    this.emergencyContactFormGroup.reset();
+    this.lastSchoolFormGroup.reset();
+    this.uploadDocumentForm.reset();
+    this.addressgroup.reset();
+    this.selectedStudentPhoto = '';
+    this.documents = [];
+  }
 
 }

@@ -4,11 +4,6 @@ export class Registration {
         id: string;
 
         rollNumber: number;
-        // studentInfo: StudentInfo;
-        // parentInfo: ParentInfo;
-        // addresInfo: AddressInfo;
-        // emergencyContactInfo: EnergencyContactInfo;
-        // previousSchoolInfo: PreviousSchoolInfo;
         studentName     : string;
         gender          : string;
         dateOfBirth     : string; 
@@ -41,7 +36,9 @@ export class Registration {
         emergencyContactPerson  : string; 
         emergencyNumber       : string; 
 
-        profileImage: UploadedProfileImage;
+        profileImage: { id: number, fileName: string, link: string };
+        documents: { id: number, fileName: string, link: string }[];
+
 
         schoolName            : string; 
         tcNumber              : string;   
@@ -53,11 +50,6 @@ export class Registration {
         constructor(){
             this.id = '';
             this.rollNumber= 0;
-            // this.studentInfo = new StudentInfo();
-            // this.parentInfo = new ParentInfo();
-            // this.addresInfo = new AddressInfo();
-            // this.emergencyContactInfo = new EnergencyContactInfo();
-            // this.previousSchoolInfo = new PreviousSchoolInfo();
             this.studentName     ='';
             this.gender          ='';
             this.dateOfBirth     =''; 

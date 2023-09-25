@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { AssignPermissionToGroup } from 'src/app/model/master/assign-permission-to-group.model';
 import { INavbarData } from 'src/app/model/menu';
@@ -24,6 +25,11 @@ export class AssignPermissionToGroupService {
     return this.httpClient.get<ResponseModel>(url)
   }
 
+  //get the permissions base on th role id
+  getPermissionsByRole(roleId: string): Observable<ResponseModel> {
+    const url = this.requestUrl + appurl.endpoint_findbyid;
+    return this.httpClient.post<ResponseModel>(url, roleId);
+  }
 
 
   setAllActivePropertiesToFalse(nodes: INavbarData[]) {

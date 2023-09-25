@@ -390,19 +390,27 @@
                   <div class="row">
                     <!-- Student Photo Column -->
                     <div class="col-md-6 shadow-sm">
-                      <div class="form-group">
+                      <div class="form-group m-2">
                         <!-- begin::upload student photo -->
                         <label class="mb-2" for="studentPhoto">Upload Student Photo :</label>
-                        <div class="custom-file">
+                        <!--If Image is not selected-->
+                        <div class="custom-file" *ngIf="!selectedPhoto">
                           <input id="file" type="file" multiple formControlName="studentPhoto" class="custom-file-input" accept="image/*" (change)="onStudentPhotoFileChange($event)">
                           <label class="custom-file-label" for="studentPhoto">{{selectedStudentPhotoName}}</label>
                         </div>
-                        <!-- end::upload student photo -->
-                        <!-- begin::student photo preview -->
+
+                        <!--If Image is selected-->
+                        <div *ngIf="selectedPhoto">
+                          <!--<img [src]="selectedStudentPhoto" alt="Profile Image" width="100">-->
+                          <!-- begin::student photo preview -->
                         <div class="mt-2 image-container" *ngIf="selectedStudentPhoto">
                           <img [src]="selectedStudentPhoto" alt="Student Photo" class="img-thumbnail">
+                          <button class="btn btn-danger custom-add-btn mt-2" (click)="removeSelectedPhoto()">Remove</button>
                         </div>
                         <!-- end::student photo preview -->
+                        </div>
+                        <!-- end::upload student photo -->
+                
                       </div>
                     </div>
                   
@@ -424,7 +432,7 @@
                         <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}</div>
                       </div>
                       <!-- begin::documents table -->
-                      <div *ngIf="documents.length > 0" class="table-container mt-4">
+                      <div *ngIf="documents.length > 0" class="table-container mt-4 mb-3">
                         <table class="table table-striped custom-table">
                           <thead class="custom-header">
                             <tr>

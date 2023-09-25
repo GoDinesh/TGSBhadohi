@@ -159,6 +159,7 @@ export class RegisterUserComponent {
   setValueToUpdate(data: User) {
     data.confirmPassword = data.password;
     this.createForm(data);
+    console.log(data);
     this.actionFlag = false;
   }
 

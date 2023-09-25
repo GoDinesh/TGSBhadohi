@@ -80,8 +80,10 @@ export class LoginComponent {
           const encryptedUserType = res.data[0].role;
           localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
 
-          //const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
+          // const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
+          
            const encryptedPermission = res.data[0].userPermission.permission;
+           console.log(encryptedPermission);
            localStorage.setItem("userPermission", encryptedPermission)
 
           this.router.navigate([routeType.DASHBOARD]);

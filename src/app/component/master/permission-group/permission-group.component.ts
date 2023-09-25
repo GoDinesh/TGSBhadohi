@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { PermissionGroup } from 'src/app/model/master/permission-group.model';
-import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
@@ -36,34 +35,18 @@ export class PermissionGroupComponent {
     public validationMsg: ValidationErrorMessageService,
     private permissionGroupService: PermissionGroupService,
     private alertService: SweetAlertService,
-    private permissionService: PermissionService,
     private router: Router,
   ) {
-
-    // Listen to router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateEditableValue();
-      }
-    });
   }
 
   ngOnInit() {
     this.createForm(new PermissionGroup());
-    this.updateEditableValue();
     this.customInit();
   }
 
   async customInit() {
     this.loadTable();
     await this.getTableRecord();
-  }
-
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createForm(permissionGroupModel: PermissionGroup) {
