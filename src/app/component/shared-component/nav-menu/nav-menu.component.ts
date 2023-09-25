@@ -2,6 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/common/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,10 +11,12 @@ import { Router } from '@angular/router';
 })
 export class NavMenuComponent implements OnInit {
   baseurl: string = 'navmenu/';
+  
+
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   constructor(
       private observer:BreakpointObserver,
-      private router: Router
+      private router: Router,
       ) { }
 
   ngOnInit(): void {

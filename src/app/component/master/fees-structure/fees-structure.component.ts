@@ -2,13 +2,17 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { DiscountReason } from 'src/app/model/master/discount-reason.model';
+import { FeesStructure } from 'src/app/model/master/fees-structure.model';
+import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { DiscountReasonService } from 'src/app/service/masters/discount-reason.service';
+import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({
@@ -18,10 +22,13 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class FeesStructureComponent {
   actionFlag = true;
+  feesStructureModel: FeesStructure = new  FeesStructure();
+  posts: Observable<ResponseModel> = new Observable();
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   discountReasonList: Observable<DiscountReason[]> = new Observable();
   formgroup = new FormGroup({
+        id: new FormControl(),
         classCode: new FormControl(),
         enrollmentType: new FormControl(),
         academicYearCode: new FormControl(),
@@ -41,30 +48,32 @@ export class FeesStructureComponent {
           public validationMsg: ValidationErrorMessageService,
           private classService: ClassService,
           private discountReasonService: DiscountReasonService,
-          private academicYearService: AcademicYearService
+          private academicYearService: AcademicYearService,
+          private feesStructureService: FeesStructureService
           ){
    }
 
    ngOnInit(){
-    this.createForm();
+    this.createForm(new FeesStructure());
     this.customInit();
    }
 
-   createForm() {
+   createForm(feeStructure: FeesStructure) {
     this.formgroup = this.formBuilder.group({
-      classCode: ['',[Validators.required]],
-      enrollmentType: ['',[Validators.required]],
-      academicYearCode: ['',[Validators.required]],
-      paymentType: ['',[Validators.required]],
-      validityStartDate: ['',[Validators.required]],
-      validityEndDate: ['',[Validators.required]],
-      remarks: ['',[Validators.minLength(3), Validators.maxLength(150), CustomValidation.alphabetsWithSpace]],
-      totalFees: ['',[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      discountReasonCode: [''],
-      netAmountAfterDiscount: ['',[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      registrationFees: ['',[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFees: ['',[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFeesDate: ['', [Validators.required]],
+      id: [feeStructure.id],
+      classCode: [feeStructure.classCode,[Validators.required]],
+      enrollmentType: [feeStructure.enrollmentType,[Validators.required]],
+      academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
+      paymentType: [feeStructure.paymentType,[Validators.required]],
+      validityStartDate: [feeStructure.validityStartDate,[Validators.required]],
+      validityEndDate: [feeStructure.validityEndDate,[Validators.required]],
+      remarks: [feeStructure.remarks,[Validators.minLength(3), Validators.maxLength(150), CustomValidation.alphabetsWithSpace]],
+      totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      discountReasonCode: [feeStructure.discountReasonCode],
+      netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      annualFeesDate: [feeStructure.annualFees, [Validators.required]],
     });
 }
 
@@ -91,6 +100,8 @@ loadAcademicyear(){
 loadDiscountReason(){
   this.discountReasonList = this.discountReasonService.getAllDiscountReason().pipe(
     map((res)=>{
+      console.log(res.data);
+      
         return res.data;
     })
 )};
@@ -100,13 +111,24 @@ get formControll(){
 }
 
 save(){
-
+  this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
+  try{
+          this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
+            if(res.status === msgTypes.SUCCESS_MESSAGE)
+            this.getTableRecord();
+            this.resetForm();
+          });
+    }catch(error){}
 }
 
 update(){
 }
 
-resetForm(){
+getTableRecord(){
+    this.posts = this.feesStructureService.getAllFeesStructure();
+}
 
+resetForm(){
+  this.createForm(new FeesStructure())
 }
 }

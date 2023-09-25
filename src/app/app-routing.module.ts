@@ -19,7 +19,7 @@ const routes: Routes = [
         component: DisplayContentComponent,
         data: {
             breadcrumb: {
-                label: ' ',
+                label: '',
                 disable: true,
                 info: 'home'
             }

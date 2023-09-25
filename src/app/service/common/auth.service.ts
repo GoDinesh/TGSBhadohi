@@ -81,17 +81,21 @@ isLoggedIn(){
 
 getRole() {
    const role = JSON.parse(''+localStorage.getItem('userType'));
-   //return this.getDecryptText(role);
-   return role;
+   return this.getDecryptText(role);
 }
 
 getUserPermission(){
   const userPermission = localStorage.getItem('userPermission');
   if(userPermission){
-    //return this.getDecryptText(userPermission)
-    return userPermission;
+    return this.getDecryptText(userPermission)
   }
   return '';
 }
+
+getLoginUserName() {
+  const loginUserName = (""+localStorage.getItem('loginUserName'));
+  return this.getDecryptText(loginUserName);
+}
+
 
 }

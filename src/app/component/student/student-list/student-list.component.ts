@@ -116,8 +116,6 @@ export class StudentListComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
-          console.log(this.posts[8]);
-          
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }

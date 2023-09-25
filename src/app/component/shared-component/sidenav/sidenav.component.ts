@@ -8,6 +8,7 @@ import { fadeInOut, INavbarData } from 'src/app/model/menu';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { SublevelMenuComponent } from './sublevel-menu.component';
+import { routeType } from 'src/app/constants/common/routeType';
 
 
 interface SideNavToggle {
@@ -48,7 +49,8 @@ export class SidenavComponent {
 
   constructor(private router: Router,
               private sweetAlertService: SweetAlertService,
-              private authService: AuthService){}
+              private authService: AuthService,
+              ){}
 
   ngOnInit(){
     this.screenWidth = window.innerWidth;
@@ -106,6 +108,6 @@ export class SidenavComponent {
   logout(){
     localStorage.clear();
     this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGOUT_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
-    this.router.navigate(['/login']);
+    this.router.navigate([routeType.LOGIN])
   }
 }

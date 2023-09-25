@@ -13,8 +13,6 @@ export class RegistrationService {
   constructor(private httpClient: HttpClient) { }
  
   studentRegistration(registrationModel: Partial<Registration>){
-    console.log(JSON.stringify(registrationModel));
-    
      const url = this.requestUrl + appurl.student_registration ;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(registrationModel))
   }
@@ -38,4 +36,11 @@ export class RegistrationService {
     const url = this.requestUrl + appurl.get_rollnumber ;
     return this.httpClient.post<ResponseModel>(url, reg)
   }
+
+  getStudentListByGlobalFilter(keyword : string){
+    const url = this.requestUrl + appurl.filter_by_keyword ;
+    return this.httpClient.post<ResponseModel>(url, keyword)
+  }
+
+
 }

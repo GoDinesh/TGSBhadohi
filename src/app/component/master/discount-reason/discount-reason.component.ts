@@ -27,7 +27,7 @@ export class DiscountReasonComponent {
   
   formgroup = new FormGroup({
    // discountReasonCode    : new FormControl(),
-    id: new FormControl(),
+    discountReasonCode: new FormControl(),
     discountReason: new FormControl(),
     active: new FormControl(),
   });
@@ -51,7 +51,7 @@ export class DiscountReasonComponent {
 
   createForm(discountReason: DiscountReason) {
       this.formgroup = this.formBuilder.group({
-            id: [discountReason.id],
+            discountReasonCode: [discountReason.discountReasonCode],
             discountReason: [discountReason.discountReason,[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
             //discountReasonCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
             active: [discountReason.active,[Validators.required]]

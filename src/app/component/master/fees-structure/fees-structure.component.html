@@ -4,10 +4,9 @@
         <!-- begin::Class Name -->
         <div class="form-group">
             <label class="form-label required">Class / Standard</label>
-            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Enrollment Type">
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="classCode" disableOptionCentering placeholder="Select Enrollment Type">
                 <input type="text"
                 class="form-control  form-control-sm"
-                formControlName="classCode"
                 #filterClassName>
                 <div *ngIf="allClassList | async as postdata ">
                     <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'" [value]="data.classCode">
@@ -35,10 +34,9 @@
         <!-- begin::Academic Year -->
         <div class="form-group">
             <label class="form-label required">Academic Year</label>
-            <mat-select class="form-control form-control-sm myPanelClass" disableOptionCentering placeholder="Select Academic Year" >
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode" disableOptionCentering placeholder="Select Academic Year" >
                 <input type="text"
                 class="form-control  form-control-sm"
-                formControlName="academicYearCode"
                 #filterAcademicYear>
                 <div *ngIf="academicYearList | async as postdata ">
                     <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
@@ -108,10 +106,9 @@
          <!-- begin::Discount-->
         <div class="form-group">
             <label class="form-label">Select Discount Reason</label>
-            <mat-select class="form-control form-control-sm myPanelClass" placeholder="Select Discount Reason"  disableOptionCentering >
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="discountReasonCode" placeholder="Select Discount Reason"  disableOptionCentering >
                 <input type="text"
                 class="form-control  form-control-sm"
-                formControlName="discountReasonCode"
                 #filterDiscountReason>
                 <div *ngIf="discountReasonList | async as postdata ">
                     <mat-option *ngFor="let data of postdata | filterData: filterDiscountReason.value : 'discountReason'" [value]="data.discountReasonCode">
@@ -124,7 +121,7 @@
             </div>
           </div>
         <!-- end:: Discount -->
-
+        
         <!-- begin::Net Amount-->
         <div class="form-group">
             <label class="form-label required">Net Amount (After Discount)</label>
@@ -165,6 +162,7 @@
         <div class="grid-button form-group pt-4">
             <ng-container *ngIf="actionFlag">
                 <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+                <!-- <button class="btn btn-success mx-3" (click)="save()">Save</button> -->
             </ng-container>
             <ng-container *ngIf="!actionFlag">
                 <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
@@ -175,3 +173,5 @@
         <!-- end::Buttons -->
     </form>
 </div>
+
+

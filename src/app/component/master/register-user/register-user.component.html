@@ -15,9 +15,9 @@
         <!-- end::Role -->
 
         <!-- begin::Permission Group -->
-        <div class="form-group" *ngIf="formControll.role.value === 'USER'" formControlName="groupid">
+        <div class="form-group" *ngIf="formControll.role.value === 'USER'" >
             <label class="form-label required">Group</label>
-            <mat-select class="form-control form-control-sm myPanelClass"  disableOptionCentering placeholder="Select user group">
+            <mat-select class="form-control form-control-sm myPanelClass" formControlName="groupid" disableOptionCentering placeholder="Select user group">
               <!--<input type="text"
               class="form-control  form-control-sm"
               placeholder="search here..."

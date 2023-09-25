@@ -41,8 +41,7 @@
                                       <label class="form-label required">Standard</label>
                                       <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
                                       <mat-select class="form-control form-control-sm" formControlName="standard">
-                                        <input type="text"
-                                        class="form-control  form-control-sm"
+                                        <input type="text"  class="form-control  form-control-sm"
                                         #filterClassName>
                                         <div *ngIf="allClassList | async as postdata ">
                                             <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'" [value]="data.classCode">
@@ -128,7 +127,7 @@
                                 <label class="form-label required">Registration No</label>
                                 <div class="d-flex">
                                   <div class="mr-3">
-                                    <button class="btn btn-primary btn-sm form-control" (click)="generateRegistrationNumber()">Generate</button>
+                                    <button class="btn btn-primary btn-sm form-control" [disabled]="updateFlag" (click)="generateRegistrationNumber()">Generate</button>
                                   </div>                                  
                                   <div>
                                     <input class="form-control form-control-sm registration-no" formControlName="registrationNo" autocomplete="off" readonly>

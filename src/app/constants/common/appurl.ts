@@ -8,12 +8,14 @@ export const appurl={
                 master_permissionGroup: '/permission-group',
                 master_user: '/user',
                 master_assignPermission: '/assign-permission',
+                master_feeStructure: '/fees-structure',
         
         menuurl_student: '/student',
                 student_registration: '/registration',
                 student_list: '/studentList',
                 upload_image: '/upload-image',
                 get_rollnumber: '/get-rollnumber',
+                filter_by_keyword: '/filter-by-keyword',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
