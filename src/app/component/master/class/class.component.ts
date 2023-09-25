@@ -11,6 +11,8 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 import { AfterViewInit } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
+import { PermissionService } from 'src/app/service/common/permission.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-class',
@@ -23,6 +25,7 @@ export class ClassComponent {
   dtOptions: any = {};
   posts: Observable<Class[]> = new Observable();;
   actionFlag = true;
+  editable: boolean;
 
   formgroup = new FormGroup({
     id: new FormControl(),
@@ -36,17 +39,35 @@ export class ClassComponent {
     public validationMsg: ValidationErrorMessageService,
     private classService: ClassService,
     private alertService: SweetAlertService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private permissionService: PermissionService,
+    private router: Router) {
+
+    // Listen to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateEditableValue();
+      }
+    });
   }
+
   //load ngOnInit
   ngOnInit() {
     this.createForm(new Class());
+    this.updateEditableValue();
     this.customInit();
     this.loadTable();
   }
 
   async customInit() {
-   await this.getTableRecord();
+    await this.getTableRecord();
+  }
+
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createForm(classModel: Class) {
@@ -82,12 +103,13 @@ export class ClassComponent {
   //   });
   // }
 
-  async getTableRecord(){
+  async getTableRecord() {
     this.posts = this.classService.getAllClass().pipe(
-      map((res)=>{
-          return res.data;
+      map((res) => {
+        return res.data;
       })
-  )};
+    )
+  };
 
   //get formcontroll
   get formControll() {
@@ -98,7 +120,7 @@ export class ClassComponent {
     this.classmodel = { ...this.classmodel, ...this.formgroup.value }
     try {
       this.classService.insertClass(this.classmodel).subscribe(res => {
-        if (res.status === msgTypes.SUCCESS_MESSAGE){
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
           this.getTableRecord();
         }
         this.resetForm();

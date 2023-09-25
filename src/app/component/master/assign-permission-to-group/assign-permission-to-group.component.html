@@ -4,7 +4,7 @@
     <!-- begin::Permission Group -->
     <div class="form-group">
       <label class="form-label required">Group</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="groupid" disableOptionCentering
+      <mat-select class="form-control form-control-sm myPanelClass" formControlName="groupid" (selectionChange) = "getGroupId()" disableOptionCentering
         placeholder="Select Enrollment Type">
         <input type="text" class="form-control  form-control-sm" placeholder="search here..." #filterPermissionGroup>
         <div *ngIf="allPermissionGroupList | async as postdata ">
@@ -22,8 +22,11 @@
 
     <!-- begin::Buttons -->
     <div class="grid-button-inline form-group pt-4">
-      <ng-container>
-        <button class="btn btn-success mx-3" (click)="save()">Save</button>
+      <ng-container *ngIf="actionFlag">
+        <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="save()">Save</button>
+      </ng-container>
+      <ng-container *ngIf="!actionFlag">
+        <button class="btn btn-success mx-3" [disabled]="!formGroup.valid" (click)="save()">Update</button>
       </ng-container>
       <button class="btn btn-danger" (click)="resetLists()">Reset</button>
     </div>
@@ -53,13 +56,13 @@
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
         <button mat-icon-button disabled></button>
-        <mat-checkbox class="checklist-leaf-node" [checked]="checkboxSelections.isSelected(node)"
+        <mat-checkbox class="checklist-leaf-node custom-checkbox" [checked]="checkboxSelections.isSelected(node)"
           (change)="menuLeafItemSelectionToggle(node)">
           {{node.text}}
         </mat-checkbox>
         <!--Permission Button To give Task on basis of their role-->
         <mat-chip-list *ngIf="checkboxSelections.isSelected(node)" class="chip-spacing" aria-label="Fish selection">
-          <mat-chip class="" (click)="toggleSelected(node.text, true)" [selected]="isSelected(node.text, true)"
+          <mat-chip class="small-chip" (click)="toggleSelected(node.text, true)" [selected]="isSelected(node.text, true)"
             color="accent">
             <mat-icon *ngIf="isSelected(node.text, true)">done</mat-icon>
             Editable
@@ -82,9 +85,9 @@
       </mat-tree-node>
 
     </mat-tree>
-    <button class="submit-button" mat-raised-button (click)="finalizeSelection()">Save</button>
+  <!-- <button class="submit-button" mat-raised-button (click)="finalizeSelection()">Save</button>
 
-    <p #outputDiv></p>
+    <p #outputDiv></p>-->
   </form>
 
 </div>

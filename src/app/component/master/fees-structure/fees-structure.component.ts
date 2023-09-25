@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
@@ -8,6 +9,7 @@ import { Class } from 'src/app/model/master/class.model';
 import { DiscountReason } from 'src/app/model/master/discount-reason.model';
 import { FeesStructure } from 'src/app/model/master/fees-structure.model';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
+import { PermissionService } from 'src/app/service/common/permission.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
@@ -21,6 +23,8 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./fees-structure.component.css']
 })
 export class FeesStructureComponent {
+
+  editable: boolean;
   actionFlag = true;
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
@@ -49,14 +53,16 @@ export class FeesStructureComponent {
           private classService: ClassService,
           private discountReasonService: DiscountReasonService,
           private academicYearService: AcademicYearService,
-          private feesStructureService: FeesStructureService
+          private feesStructureService: FeesStructureService,
+          private permissionService: PermissionService,
+          private router: Router,
           ){
    }
 
    ngOnInit(){
     this.createForm(new FeesStructure());
     this.customInit();
-   }
+  }
 
    createForm(feeStructure: FeesStructure) {
     this.formgroup = this.formBuilder.group({
@@ -73,29 +79,38 @@ export class FeesStructureComponent {
       netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFeesDate: [feeStructure.annualFees, [Validators.required]],
-    });
-}
-
-customInit(){
-  this.loadClass();
-  this.loadDiscountReason();
-  this.loadAcademicyear();
-}
-
-loadClass(){
-  this.allClassList = this.classService.getAllClass().pipe(
-    map((res)=>{
-        return res.data;
+      annualFeesDate: [feeStructure.annualFees, [Validators.required]]
     })
-)};
+  }
+  
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  }
 
-loadAcademicyear(){
-  this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
-    map((res)=>{
+  customInit() {
+    this.loadClass();
+    this.loadDiscountReason();
+    this.loadAcademicyear();
+  }
+
+  loadClass() {
+    this.allClassList = this.classService.getAllClass().pipe(
+      map((res) => {
         return res.data;
-    })
-)};
+      })
+    )
+  };
+
+  loadAcademicyear() {
+    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+      map((res) => {
+        return res.data;
+      })
+    )
+  };
 
 loadDiscountReason(){
   this.discountReasonList = this.discountReasonService.getAllDiscountReason().pipe(
@@ -103,8 +118,9 @@ loadDiscountReason(){
       console.log(res.data);
       
         return res.data;
-    })
-)};
+      })
+    )
+  };
 
 get formControll(){
   return this.formgroup.controls;

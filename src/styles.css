@@ -1125,4 +1125,37 @@ table {
  }
 /* end radio button */
 
+/* change mat-ckeckbox color to green */
 
+/* Change the checkbox frame color */
+.mat-checkbox-frame {
+    border-color: green !important;
+  }
+  
+  /* Change the checkbox background color when checked */
+  .mat-checkbox-checked .mat-checkbox-background,
+  .mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: green !important;
+  }
+  
+  /* Change the checkbox checkmark color */
+  .mat-checkbox-checked .mat-checkbox-checkmark-path {
+    stroke: white !important;
+  }
+  
+  /* Change the checkbox mixed mark color */
+  .mat-checkbox-indeterminate .mat-checkbox-mixedmark {
+    background-color: white !important;
+  }
+
+  /* reduce line height of tree node */
+  .mat-tree-node { min-height: 30px }
+
+  /* reduce height of mat-chip */
+  /* .mat-standard-chip {    
+    height: auto !important;
+  } */
+
+.small-chip {
+    height : 15px !important;
+  }

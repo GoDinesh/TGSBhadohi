@@ -15,7 +15,7 @@ export class User {
         this.groupid = '';
         this.name = '';
         this.email = ''; 
-        this. password = '';
+        this.password = '';
         this.confirmPassword = ''; 
         this.active = false;
     }

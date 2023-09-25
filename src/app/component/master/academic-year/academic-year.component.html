@@ -18,13 +18,13 @@
         <!-- begin::Buttons -->
         <div class="grid-button-inline form-group pt-4">
             <ng-container *ngIf="actionFlag">
-                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()" [disabled]="!editable">Save</button>
             </ng-container>
             <ng-container *ngIf="!actionFlag">
-                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()" [disabled]="!editable">Update</button>
             </ng-container>
             
-            <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
+            <button  class="btn btn-danger" (click)="resetForm()" [disabled]="!editable">Reset</button>
         </div>
         <!-- end::Buttons -->
     </form>

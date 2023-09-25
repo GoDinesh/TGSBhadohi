@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Auth } from 'src/app/model/auth.model';
+import { INavbarData } from 'src/app/model/menu';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ import { Auth } from 'src/app/model/auth.model';
 export class AuthService {
 
   isLogin = false;
+  permission: string;
+  navData: INavbarData[];
+  editablePermission: boolean;
 
   constructor(private httpClient: HttpClient) { }
 

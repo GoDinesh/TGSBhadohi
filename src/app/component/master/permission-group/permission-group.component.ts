@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
@@ -22,6 +23,7 @@ export class PermissionGroupComponent {
   dataSource = new MatTableDataSource<PermissionGroup>();
   dtOptions: any = {};
   actionFlag = true;
+  editable: boolean;
 
   formGroup = new FormGroup({
     groupid: new FormControl(),
@@ -33,6 +35,7 @@ export class PermissionGroupComponent {
     public validationMsg: ValidationErrorMessageService,
     private permissionGroupService: PermissionGroupService,
     private alertService: SweetAlertService,
+    private router: Router,
   ) {
   }
 
@@ -79,12 +82,13 @@ export class PermissionGroupComponent {
   //     }
   //   });
   // }
-  async getTableRecord(){
+  async getTableRecord() {
     this.posts = this.permissionGroupService.getAllPermissionGroup().pipe(
-      map((res)=>{
-          return res.data;
+      map((res) => {
+        return res.data;
       })
-  )};
+    )
+  };
 
   //change the status
   async slideToggleChange(element: MatSlideToggleChange, data: PermissionGroup) {

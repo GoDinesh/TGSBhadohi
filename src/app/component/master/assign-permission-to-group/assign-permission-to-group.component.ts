@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, NgZone, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { PermissionGroupService } from 'src/app/service/masters/permission-group
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 // Define the flat node structure
 interface MenuItemFlatNode {
@@ -38,7 +39,8 @@ export class AssignPermissionToGroupComponent {
   dataSource: MatTreeFlatDataSource<INavbarData, MenuItemFlatNode>;
   selectedItems: MenuItemFlatNode[] = [];
   assignPermissionToGroup: AssignPermissionToGroup = new AssignPermissionToGroup();
-  dummy: INavbarData[]=[];
+  dummy: INavbarData[] = [];
+  editable: boolean;
 
   // we can initialize our checkbox selections here
   checkboxSelections: SelectionModel<MenuItemFlatNode> = new SelectionModel<MenuItemFlatNode>(true);
@@ -67,10 +69,14 @@ export class AssignPermissionToGroupComponent {
     private permissionGroupService: PermissionGroupService,
     private assignPermissionToGroupService: AssignPermissionToGroupService,
     private alertService: SweetAlertService,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private zone: NgZone,
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
-    this.dummy = menuListAdmin;
+      // this.dummy = menuListAdmin;
+      this.dummy = this.deepClone(menuListAdmin);
 
     this.setAllActivePropertiesToFalse(this.dummy);
     this.dataSource.data = this.dummy;
@@ -83,6 +89,14 @@ export class AssignPermissionToGroupComponent {
 
   ngOnInit() {
     this.createForm(new AssignPermissionToGroup());
+    this.treeControl.dataNodes.forEach(node => {
+      if (node.active) {
+        this.checkboxSelections.select(node);
+      }
+      if (node.editable) {
+        this.selectedChips[node.text] = true;
+      }
+    });
     this.loadPermissionGroup();
   }
 
@@ -108,9 +122,9 @@ export class AssignPermissionToGroupComponent {
 
 
   async save() {
-    const selectedPermission =  await this.finalizeSelection();
-    if(selectedPermission){
-      this.assignPermissionToGroup = {...this.assignPermissionToGroup,...this.formGroup.value}
+    const selectedPermission = await this.finalizeSelection();
+    if (selectedPermission) {
+      this.assignPermissionToGroup = { ...this.assignPermissionToGroup, ...this.formGroup.value }
       this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe()
     }
   }
@@ -236,8 +250,8 @@ export class AssignPermissionToGroupComponent {
     return node.children || null;
   }
 
-  @ViewChild('outputDiv', { static: false })
-  public outputDivRef: ElementRef<HTMLParagraphElement>;
+  // @ViewChild('outputDiv', { static: false })
+  // public outputDivRef: ElementRef<HTMLParagraphElement>;
 
   // Define a function to create a new structure matching menuListAdmin
   createNewStructure(node: MenuItemFlatNode, treeControl: FlatTreeControl<MenuItemFlatNode>): INavbarData {
@@ -281,14 +295,14 @@ export class AssignPermissionToGroupComponent {
     this.assignPermissionToGroupService.deselectAllNodes(this.treeControl, this.checkboxSelections);
   }
   //To be called after making our selections
- finalizeSelection(): INavbarData[] {
+  finalizeSelection(): INavbarData[] {
     //const clonedMenuListAdmin = this.deepClone(menuListAdmin);
     this.updateClonedListBasedOnSelection(this.dummy, this.treeControl.dataNodes, this.selectedChips);
     //prepare the new menu list
     const updatedMenuListAdmin = JSON.stringify(this.dummy, null, 2);
 
     // Display the updated structure in the innerText
-    this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
+    // this.outputDivRef.nativeElement.innerText = 'Updated Menu List Admin:\n' + updatedMenuListAdmin;
     this.formGroup.controls.permission.setValue(updatedMenuListAdmin);
     return this.dummy;
   }
@@ -314,7 +328,70 @@ export class AssignPermissionToGroupComponent {
   isSelected(nodeId: string, chipKey: boolean): boolean {
     return this.selectedChips[nodeId] === chipKey;
   }
-
   //mat-chip code:: end
+
+
+  // fetch the permission on selection of role
+
+  // Listen for changes to the 'groupid' form control
+  getGroupId() {
+    this.fetchPermissionsByRole(this.formGroup.controls.groupid.value);
+  }
+
+  fetchPermissionsByRole(roleId: string) {
+    // Assume getPermissionsByRole is a service method that fetches permissions based on role
+    this.assignPermissionToGroupService.getPermissionsByRole(roleId).subscribe((permissions) => {
+
+      if (permissions.data[0] != null) {
+        this.actionFlag = false;
+        this.formControll.id.setValue(permissions.data[0].id);
+        // Loop through the fetched permissions and update your local menuListAdmin
+        this.updateMenuListAdmin(this.dummy, JSON.parse(permissions.data[0].permission));
+        // Refresh the tree component
+
+        // Update the dataSource to reflect changes in the UI
+        this.dataSource.data = [...this.dummy];
+
+        // Clear previous selections
+        this.checkboxSelections.clear();
+
+        // this.treeControl.dataNodes = this.dummy.map(item => {
+        //   const flatNode = this.transformer(item, 0);
+        //   // Auto-select checkboxes and chips based on 'active' and 'editable'
+        //   if (flatNode.active) {
+        //     this.checkboxSelections.select(flatNode);
+        //   }
+        //   if (flatNode.editable) {
+        //     this.selectedChips[flatNode.text] = true;
+        //   }
+        //   return flatNode;
+        // });
+        this.treeControl.dataNodes.forEach(node => {
+          if (node.active) {
+            this.checkboxSelections.select(node);
+          }
+          if (node.editable) {
+            this.selectedChips[node.text] = true;
+          }
+        });
+        // Run Angular's change detection
+        // this.cdr.detectChanges();
+      }
+    });
+  }
+
+  updateMenuListAdmin(localList: INavbarData[], fetchedList: INavbarData[]) {
+    localList.forEach((localItem) => {
+      const fetchedItem = fetchedList.find((item) => item.text === localItem.text);
+      if (fetchedItem) {
+        localItem.active = fetchedItem.active;
+        localItem.editable = fetchedItem.editable;
+        if (localItem.children && fetchedItem.children) {
+          this.updateMenuListAdmin(localItem.children, fetchedItem.children);
+        }
+      }
+    });
+  }
+
 
 }

@@ -23,7 +23,7 @@
               placeholder="search here..."
               #filterPermissionGroup>-->
               <div *ngIf="allPermissionGroupList | async as postdata">
-                  <mat-option *ngFor="let data of postdata" [value]="data.groupid">
+                  <mat-option *ngFor="let data of postdata" [value]="data.groupid.toString()">
                   {{data.usergroup}}
                   </mat-option>
               </div>

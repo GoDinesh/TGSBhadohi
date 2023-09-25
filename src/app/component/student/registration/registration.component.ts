@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Class } from 'src/app/model/master/class.model';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
@@ -12,8 +12,11 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Registration } from 'src/app/model/student/registration.model';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { msgTypes } from 'src/app/constants/common/msgType';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { appurl } from 'src/app/constants/common/appurl';
+import { PermissionService } from 'src/app/service/common/permission.service';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, from, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -21,104 +24,145 @@ import { appurl } from 'src/app/constants/common/appurl';
   styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent {
-title = 'angular-material-file-upload-app';
-standard:Class[] = [];
-confirmDetails: boolean = false;
-allClassList: Observable<Class[]> = new Observable();
-academicYearList: Observable<AcademicYear[]> = new Observable();
-registrationNumber: string = "";
-reg: Registration = new Registration();
-updateFlag: boolean = false;
-// myFiles:string [] = [];
-//Upload Student Photo
-selectedPhoto: File | null = null;
-selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
-selectedStudentPhotoName = 'Choose Photo';
+  title = 'angular-material-file-upload-app';
+  standard: Class[] = [];
+  confirmDetails: boolean = false;
+  allClassList: Observable<Class[]> = new Observable();
+  academicYearList: Observable<AcademicYear[]> = new Observable();
+  registrationNumber: string = "";
+  reg: Registration = new Registration();
+  updateFlag: boolean = false;
+  editable: boolean;
+  // myFiles:string [] = [];
 
-//Upload Documents
-selectedFile: File | null = null;
-selectedFileName = 'Choose file';
-documents: File[] = [];
+  //Upload Student Photo
+  selectedPhoto: File | null = null;
+  selectedStudentPhoto: string | ArrayBuffer | null = ''; // For previewing the student photo
+  selectedStudentPhotoName = 'Choose Photo';
 
-studentgroup = new FormGroup({
-    id                  : new FormControl(), 
-    rollNumber          : new FormControl(),
-    studentName         : new FormControl(),
-    gender              : new FormControl(),
+  //Upload Documents
+  selectedFile: File | null = null;
+  selectedFileName = 'Choose file';
+  documents: File[] = [];
+
+  studentgroup = new FormGroup({
+    id: new FormControl(),
+    rollNumber: new FormControl(),
+    studentName: new FormControl(),
+    gender: new FormControl(),
     // parentContactNumber : new FormControl(),
-    dateOfBirth : new FormControl(),
-    standard            : new FormControl(),
-    section             : new FormControl(),
-    academicYearCode    : new FormControl(),
-    aadhaarNumber       : new FormControl(),
-    religion            : new FormControl(),
-    category            : new FormControl(),
-    registrationNo      : new FormControl(),
- });
+    dateOfBirth: new FormControl(),
+    standard: new FormControl(),
+    section: new FormControl(),
+    academicYearCode: new FormControl(),
+    aadhaarNumber: new FormControl(),
+    religion: new FormControl(),
+    category: new FormControl(),
+    registrationNo: new FormControl(),
+  });
 
- parentgroup = new FormGroup({
-    fatherName          : new FormControl(),
-    fatherAadharNo      : new FormControl(),
-    fatherContactNo     : new FormControl(),
-    fatherQualification : new FormControl(),
-    fatherProfession    : new FormControl(),
-    fatherEmailId       : new FormControl(),
-    motherName          : new FormControl(),
-    motherAadharNumber  : new FormControl(),
-    motherContactNumber : new FormControl(),
-    motherProfession    : new FormControl(),
-    guardianName        : new FormControl(),
-    
- });
+  parentgroup = new FormGroup({
+    fatherName: new FormControl(),
+    fatherAadharNo: new FormControl(),
+    fatherContactNo: new FormControl(),
+    fatherQualification: new FormControl(),
+    fatherProfession: new FormControl(),
+    fatherEmailId: new FormControl(),
+    motherName: new FormControl(),
+    motherAadharNumber: new FormControl(),
+    motherContactNumber: new FormControl(),
+    motherProfession: new FormControl(),
+    guardianName: new FormControl(),
 
- addressgroup = new FormGroup({
-  country          : new FormControl(),
-  state      : new FormControl(),
-  city     : new FormControl(),
-  pincode : new FormControl(),
-  area    : new FormControl(),
- });
+  });
 
- emergencyContactFormGroup = new FormGroup({
-    emergencyContactPerson  : new FormControl(),
-    emergencyNumber         : new FormControl(),
- });
+  addressgroup = new FormGroup({
+    country: new FormControl(),
+    state: new FormControl(),
+    city: new FormControl(),
+    pincode: new FormControl(),
+    area: new FormControl(),
+  });
 
- lastSchoolFormGroup= new FormGroup({
-    schoolName  : new FormControl(),
-    tcNumber         : new FormControl(),
-    passedClass         : new FormControl(),
-    passedClassMarks         : new FormControl(),
-    schoolAddress         : new FormControl(),
-});
- 
-uploadDocumentForm = new FormGroup({
-  file: new FormControl(),
-  studentPhoto: new FormControl()
-});
- 
-finalSubmission = new FormGroup({});
+  emergencyContactFormGroup = new FormGroup({
+    emergencyContactPerson: new FormControl(),
+    emergencyNumber: new FormControl(),
+  });
+
+  lastSchoolFormGroup = new FormGroup({
+    schoolName: new FormControl(),
+    tcNumber: new FormControl(),
+    passedClass: new FormControl(),
+    passedClassMarks: new FormControl(),
+    schoolAddress: new FormControl(),
+  });
+
+  uploadDocumentForm = new FormGroup({
+    file: new FormControl(),
+    studentPhoto: new FormControl()
+  });
+
+  finalSubmission = new FormGroup({});
   secondFormGroup = this.formBuilder.group({
     secondCtrl: ['',],
   });
-  
+
   constructor(public activatedRoute: ActivatedRoute,
-              private formBuilder: FormBuilder,
-              public validationMsg: ValidationErrorMessageService,
-              private classService: ClassService,
-              private academicYearService: AcademicYearService,
-              private registrationService: RegistrationService,
-              private router: Router
+    private formBuilder: FormBuilder,
+    public validationMsg: ValidationErrorMessageService,
+    private classService: ClassService,
+    private academicYearService: AcademicYearService,
+    private registrationService: RegistrationService,
+    private router: Router,
+    private http: HttpClient,
+    private permissionService: PermissionService,
   ) {
+
+    // Listen to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateEditableValue();
+      }
+    });
   }
 
   //load ngOnInit
-  ngOnInit(){
-    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res=>{
-        if(res.studetails.registrationNo.length>0){
-          this.reg = res.studetails;
-          this.updateFlag = true;
+  ngOnInit() {
+    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+      if (res.studetails.registrationNo.length > 0) {
+        this.reg = res.studetails;
+        this.updateFlag = true;
+
+        if (this.reg.profileImage) {
+          this.selectedStudentPhoto = this.reg.profileImage.link;
+        this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
+          this.selectedPhoto = file;
+          console.log(this.selectedPhoto);
+        });
         }
+
+        if (this.reg.documents && this.reg.documents.length > 0) {
+          const documentObservables = this.reg.documents.map(doc => this.fetchFile(doc.link, doc.fileName));
+          
+          forkJoin(documentObservables).subscribe((files: File[]) => {
+            this.documents = files;
+  
+            // Update the uploadDocumentForm
+            this.uploadDocumentForm.patchValue({
+              studentPhoto: this.selectedStudentPhoto,
+              file: this.documents
+            });
+          });
+        }
+   
+
+        // Update the uploadDocumentForm
+      // this.uploadDocumentForm.patchValue({
+      //   studentPhoto: this.selectedStudentPhoto,
+      //   file: this.documents
+      // });
+        
+      }
     })
 
     this.createStudentForm(this.reg);
@@ -127,30 +171,74 @@ finalSubmission = new FormGroup({});
     this.createEmergencyContactForm(this.reg);
     this.createLastSchoolForm(this.reg);
     this.createUploadDocumentForm();
+    this.updateEditableValue();
     this.loadDropdowns();
     this.customInit();
   }
 
-  customInit(){
+  customInit() {
     this.loadClass();
     this.loadAcademicyear();
   }
 
-  loadClass(){
-    this.allClassList = this.classService.getAllClass().pipe(
-      map((res)=>{
-          return res.data;
-      })
-  )};
-  
-  loadAcademicyear(){
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
-      map((res)=>{
-          return res.data;
-      })
-  )};
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  }
 
-  createStudentForm(stuInfo: Registration){
+  // fetchFile(url: string, fileName: string) {
+  //   return this.http.get(url, { responseType: 'blob' }).pipe(
+  //     map((blob: Blob) => {
+  //       const file = new File([blob], fileName, { type: blob.type });
+  //       console.log(file);
+  //       return file;
+  //     })
+  //   );
+  // }
+  // fetchFile(url: string, fileName: string) {
+  //   // console.log("Fetching file from URL: ", url);  // Log the URL
+  //   // return this.http.get(url, { responseType: 'blob' }).pipe(
+  //   //   map((blob: Blob) => {
+  //   //     console.log("Received blob: ", blob);  // Log the received blob
+  //   //     const file = new File([blob], fileName, { type: blob.type });
+  //   //     return file;
+  //   //   }),
+  //   //   catchError(error => {
+  //   //     console.error("Error fetching file: ", error);  // Log any errors
+  //   //     return throwError(error);
+  //   //   })
+  //   // );
+  
+  // }
+  fetchFile(url: string, fileName: string): Observable<File> {
+    return from(
+      fetch(url)
+        .then(response => response.blob())
+        .then(blob => new File([blob], fileName, { type: blob.type }))
+    );
+  }
+  
+  
+
+  loadClass() {
+    this.allClassList = this.classService.getAllClass().pipe(
+      map((res) => {
+        return res.data;
+      })
+    )
+  };
+
+  loadAcademicyear() {
+    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+      map((res) => {
+        return res.data;
+      })
+    )
+  };
+
+  createStudentForm(stuInfo: Registration) {
     this.studentgroup = this.formBuilder.group({
       id: [stuInfo.id],
       rollNumber: [stuInfo.rollNumber],
@@ -167,116 +255,113 @@ finalSubmission = new FormGroup({});
     });
   }
 
-  createParentForm(parentInfo: Registration){
+  createParentForm(parentInfo: Registration) {
     this.parentgroup = this.formBuilder.group({
-      fatherName          : [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      fatherAadharNo      : [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
-      fatherContactNo     : [parentInfo.fatherContactNo, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      fatherQualification : [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      fatherProfession    : [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      fatherEmailId       : [parentInfo.fatherEmailId, [CustomValidation.emailId]],
-      motherName          : [parentInfo.motherName, [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
-      motherAadharNumber  : [parentInfo.motherAadharNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
-      motherContactNumber : [parentInfo.motherContactNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      motherProfession    : [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      guardianName        : [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      
+      fatherName: [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      fatherAadharNo: [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      fatherContactNo: [parentInfo.fatherContactNo, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      fatherQualification: [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherProfession: [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherEmailId: [parentInfo.fatherEmailId, [CustomValidation.emailId]],
+      motherName: [parentInfo.motherName, [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
+      motherAadharNumber: [parentInfo.motherAadharNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
+      motherContactNumber: [parentInfo.motherContactNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+      motherProfession: [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+
     });
   }
 
-  createAddressForm(addressInfo: Registration){
+  createAddressForm(addressInfo: Registration) {
     this.addressgroup = this.formBuilder.group({
-      country             : [addressInfo.country, ],
-      state               : [addressInfo.state, ],
-      city                : [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
-      pincode             : [addressInfo.pincode, [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
-      area                : [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
-   });
+      country: [addressInfo.country,],
+      state: [addressInfo.state,],
+      city: [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+      pincode: [addressInfo.pincode, [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
+      area: [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+    });
   }
 
-  createEmergencyContactForm(contactInfo: Registration){
+  createEmergencyContactForm(contactInfo: Registration) {
     this.emergencyContactFormGroup = this.formBuilder.group({
-      emergencyContactPerson  : [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-      emergencyNumber         : [contactInfo.emergencyNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-   });
+      emergencyContactPerson: [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      emergencyNumber: [contactInfo.emergencyNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
+    });
   }
 
-  createLastSchoolForm(lastSchoolInfo: Registration){
+  createLastSchoolForm(lastSchoolInfo: Registration) {
     this.lastSchoolFormGroup = this.formBuilder.group({
-        schoolName          : [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
-        tcNumber            : [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
-        passedClass       : [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.numeric]],
-        passedClassMarks      : [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
-        schoolAddress       : [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.alphabetsWithSpace]],
+      schoolName: [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      tcNumber: [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
+      passedClass: [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.numeric]],
+      passedClassMarks: [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
+      schoolAddress: [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.alphabetsWithSpace]],
     })
   }
 
-  createUploadDocumentForm(){
-      this.uploadDocumentForm = this.formBuilder.group({
-        studentPhoto: ['', ],
-        file  :['', [CustomValidation.fileTypeValidator]]
-      });
+  createUploadDocumentForm() {
+    this.uploadDocumentForm = this.formBuilder.group({
+      studentPhoto: ['',],
+      file: ['', [CustomValidation.fileTypeValidator]]
+    });
   }
 
-   //get student formcontroll
-   get studentFormControll(){
+  //get student formcontroll
+  get studentFormControll() {
     return this.studentgroup.controls;
   }
 
   //get parent formcontroll
-  get parentFormControll(){
+  get parentFormControll() {
     return this.parentgroup.controls;
   }
 
   //get address formcontroll
-  get addressFormControll(){
+  get addressFormControll() {
     return this.addressgroup.controls;
   }
 
   //get Emergency contact formcontroll
-  get emergencyContactFormControll(){
+  get emergencyContactFormControll() {
     return this.emergencyContactFormGroup.controls;
   }
 
   //get last school formcontroll
-  get lastSchoolFormControll(){
+  get lastSchoolFormControll() {
     return this.lastSchoolFormGroup.controls;
   }
 
   //get upload document formcontroll
-  get uploadDocumentFormControll(){
+  get uploadDocumentFormControll() {
     return this.uploadDocumentForm.controls;
   }
 
-  loadDropdowns(){
+  loadDropdowns() {
     this.loadStandard();
   }
 
-  loadStandard(){
-      this.classService.getAllClass().subscribe(res=>{
-        this.standard = res.data
-      })
+  loadStandard() {
+    this.classService.getAllClass().subscribe(res => {
+      this.standard = res.data
+    })
   }
 
   // generate registration number
   async generateRegistrationNumber() {
-  // Get the values from the form group
-  const academicYear = this.studentFormControll.academicYearCode.value;
-  const standard = this.studentFormControll.standard.value;
-  //const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
-  let reg: Registration = new Registration();
-  reg.academicYearCode = academicYear;
-  reg.standard = standard;
-  
-  this.registrationService.getRollNumber(reg).subscribe(res=>{
-    this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
-    this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
-    this.studentFormControll.registrationNo.setValue(this.registrationNumber);
-  });
-  
- 
+    // Get the values from the form group
+    const academicYear = this.studentFormControll.academicYearCode.value;
+    const standard = this.studentFormControll.standard.value;
+    // const uniqueIdentifier = (existingStudents + 1).toString().padStart(4, '0'); // Pad with zeros to ensure a fixed length
+    let reg: Registration = new Registration();
+    reg.academicYearCode = academicYear;
+    reg.standard = standard;
 
-}
+    this.registrationService.getRollNumber(reg).subscribe(res => {
+      this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+      this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+      this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+    });
+  }
 
   //File Upload
 
@@ -284,7 +369,7 @@ finalSubmission = new FormGroup({});
     this.confirmDetails = event.checked;
   }
 
-  onStudentPhotoFileChange(event:any) {
+  onStudentPhotoFileChange(event: any) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPhoto = input.files[0];
@@ -297,6 +382,15 @@ finalSubmission = new FormGroup({});
       };
       reader.readAsDataURL(input.files[0]);
     }
+  }
+
+  removeSelectedPhoto() {
+    this.selectedPhoto = null;
+    this.selectedStudentPhoto = null;
+    // Clear the form control value if needed
+    this.uploadDocumentForm.patchValue({
+      studentPhoto: null
+    });
   }
 
   onFileChange(event: Event) {
@@ -319,82 +413,64 @@ finalSubmission = new FormGroup({});
   previewDocument(doc: File) {
     const fileURL = URL.createObjectURL(doc);
     window.open(fileURL, '_blank');
-  }  
+  }
 
   deleteDocument(index: number) {
     this.documents.splice(index, 1);
   }
-  
-  submit(){
-        const formData = new FormData();
-        for (var i = 0; i < this.documents.length; i++) { 
-            formData.append("file[]", this.documents[i]);
-        }
+
+  submit() {
+    const formData = new FormData();
+    for (var i = 0; i < this.documents.length; i++) {
+      formData.append("file[]", this.documents[i]);
+    }
   }
 
   prepareAcquirerForm() {
     this.reg = new Registration();
-    this.reg = {...this.reg , ...this.studentgroup.value};
-    this.reg = {...this.reg , ...this.parentgroup.value};
-    this.reg = {...this.reg, ...this.addressgroup.value};
-    this.reg = {...this.reg, ...this.emergencyContactFormGroup.value};
-    this.reg = {...this.reg, ...this.lastSchoolFormGroup.value};
+    this.reg = { ...this.reg, ...this.studentgroup.value };
+    this.reg = { ...this.reg, ...this.parentgroup.value };
+    this.reg = { ...this.reg, ...this.addressgroup.value };
+    this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
+    this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
-        for (let i = 0; i <= this.documents.length - 1; i++) {
-          formData.append("documentUpload[]", < File > this.documents[i]);
-        }
+      for (let i = 0; i <= this.documents.length - 1; i++) {
+        formData.append("documentUpload[]", <File>this.documents[i]);
+      }
     }
 
-    // if(this.selectedPhoto && this.selectedPhoto.length>0){
-    //   formData.append("profileImage", < File > this.selectedPhoto);
-    // }
-    if (this.documents && this.documents.length > 0) {
-      for (let i = 0; i <= 0; i++) {
-        formData.append("profileImage", < File > this.documents[i]);
-      }
-  }
+    if (this.selectedPhoto) {
+      formData.append("profileImage", <File>this.selectedPhoto);
+    }
 
     formData.append("requestData", JSON.stringify(this.reg))
+    console.log(formData);
     return formData;
-
   }
 
   //  handle the final submission
   finalSubmit() {
-      
-          const regData = this.prepareAcquirerForm();
 
-          // this.registrationService.studentRegistration(regData).subscribe(res=>{
-          //   if(res.status === msgTypes.SUCCESS_MESSAGE){
-          //       this.resetForm();
-          //       this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
-          //   }
-          // });
+    const regData = this.prepareAcquirerForm();
+    this.registrationService.studentRegistrationWithImage(regData).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        this.resetForm();
+        this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
+      }
+    });
+  }
 
-           this.registrationService.studentRegistrationWithImage(regData).subscribe(res=>{
-            if(res.status === msgTypes.SUCCESS_MESSAGE){
-                this.resetForm();
-                this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_list);
-            }
-          });
-
-    
-      
-}
-
-
-
-resetForm(){
-  this.studentgroup.reset();
-  this.parentgroup.reset();
-  this.emergencyContactFormGroup.reset();
-  this.lastSchoolFormGroup.reset();
-  this.uploadDocumentForm.reset();
-  this.addressgroup.reset();
-  this.selectedStudentPhoto = '';
-  this.documents = [];
-}
+  resetForm() {
+    this.studentgroup.reset();
+    this.parentgroup.reset();
+    this.emergencyContactFormGroup.reset();
+    this.lastSchoolFormGroup.reset();
+    this.uploadDocumentForm.reset();
+    this.addressgroup.reset();
+    this.selectedStudentPhoto = '';
+    this.documents = [];
+  }
 
 }

@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
+import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
@@ -22,92 +23,111 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class StudentListComponent {
   //displayedColumns = ["sNo","registrationNo","studentName","gender","dateOfBirth","standard","aadhaarNumber"];
-  studentInfo: Registration = new  Registration();
-  dataSource = new MatTableDataSource < Registration > ();
+  studentInfo: Registration = new Registration();
+  dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
-  posts:Registration[]=[];
+  posts: Registration[] = [];
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
- 
+  editable: boolean;
+
   studentgroup = new FormGroup({
-        standard            : new FormControl(),
-        academicYearCode        : new FormControl(),
-        registrationNo : new FormControl(),
-        fatherContactNo: new FormControl(),
-        studentName: new FormControl()
+    standard: new FormControl(),
+    academicYearCode: new FormControl(),
+    registrationNo: new FormControl(),
+    fatherContactNo: new FormControl(),
+    studentName: new FormControl()
   });
 
   constructor(
-              private router: Router,
-              private formBuilder: FormBuilder, 
-              private registrationService: RegistrationService,
-              private classService: ClassService,
-              private academicYearService: AcademicYearService,
-              private alerService: SweetAlertService,
-              public validationMsg: ValidationErrorMessageService,
-              private sweetAlertService: SweetAlertService,
-               ){
+    private formBuilder: FormBuilder,
+    private registrationService: RegistrationService,
+    private classService: ClassService,
+    private academicYearService: AcademicYearService,
+    private alertService: SweetAlertService,
+    public validationMsg: ValidationErrorMessageService,
+    private sweetAlertService: SweetAlertService,
+    private permissionService: PermissionService,
+    private router: Router,
+  ) {
+
+    // Listen to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateEditableValue();
+      }
+    });
   }
 
-   //get student formcontroll
-   get studentFormControll(){
+  //get student formcontroll
+  get studentFormControll() {
     return this.studentgroup.controls;
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.customInit();
     this.loadTable();
   }
 
-  customInit(){
+  customInit() {
     this.createStudentForm(new Registration());
+    this.updateEditableValue();
     this.loadClass();
     this.loadAcademicyear();
     this.getTableRecord();
   }
 
-  createStudentForm(registartion: Registration){
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  }
+
+  createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
-      registrationNo: [registartion.registrationNo,[CustomValidation.alphanumaricSpace]],
+      registrationNo: [registartion.registrationNo, [CustomValidation.alphanumaricSpace]],
       standard: [registartion.standard],
       academicYearCode: [registartion.academicYearCode],
-      fatherContactNo: [registartion.fatherContactNo,[CustomValidation.numeric]],
-      studentName: [registartion.studentName,[CustomValidation.alphanumaricSpace]]
+      fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
+      studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
     });
   }
 
-  loadClass(){
+  loadClass() {
     this.allClassList = this.classService.getAllClass().pipe(
-      map((res)=>{
-          return res.data;
+      map((res) => {
+        return res.data;
       })
-  )};
-  
-  loadAcademicyear(){
+    )
+  };
+
+  loadAcademicyear() {
     this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
-      map((res)=>{
-          return res.data;
+      map((res) => {
+        return res.data;
       })
-  )};
+    )
+  };
 
 
-   //load the table
-   loadTable(){
-        this.dtOptions = {
-          processing: true,
-          scrollY: "300px",
-          scrollCollapse: true,
-          dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
-          buttons: [
-            'copy', 'csv', 'excel', 'print'
-          ]
-        };
+  //load the table
+  loadTable() {
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
   }
 
   //To get Student List
   async getTableRecord() {
     const studentInfo: Registration = new Registration();
-    studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value ;
+    studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
     studentInfo.standard = this.studentFormControll.standard.value;
     studentInfo.registrationNo = this.studentFormControll.registrationNo.value;
     studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
@@ -120,14 +140,14 @@ export class StudentListComponent {
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
         }
-    });
+      })
   }
 
-  setVlaueToUpdate(stuDetails: Registration){
-    this.router.navigateByUrl('/navmenu'+appurl.menuurl_student+appurl.student_registration, { state: { studetails: stuDetails } });
+  setVlaueToUpdate(stuDetails: Registration) {
+    this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
   }
 
-  resetForm(){
+  resetForm() {
     this.createStudentForm(new Registration())
     this.posts = [];
   }
