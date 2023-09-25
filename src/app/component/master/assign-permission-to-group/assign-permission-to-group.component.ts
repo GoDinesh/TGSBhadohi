@@ -14,6 +14,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { msgTypes } from 'src/app/constants/common/msgType';
 
 // Define the flat node structure
 interface MenuItemFlatNode {
@@ -125,13 +126,18 @@ export class AssignPermissionToGroupComponent {
     const selectedPermission = await this.finalizeSelection();
     if (selectedPermission) {
       this.assignPermissionToGroup = { ...this.assignPermissionToGroup, ...this.formGroup.value }
-      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe()
+      this.assignPermissionToGroupService.insertAssignPermissionToGroup(this.assignPermissionToGroup).subscribe((res)=>{
+          if(res.status === msgTypes.SUCCESS_MESSAGE){
+            this.resetLists();
+          }
+      })
     }
   }
 
   // Function to reset the lists
   resetLists() {
-
+    this.actionFlag = true;
+    this.checkboxSelections.deselect();
   }
 
   getLevel = (node: MenuItemFlatNode) => node.level;

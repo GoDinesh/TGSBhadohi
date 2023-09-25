@@ -73,14 +73,16 @@ export class LoginComponent {
        
         const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken);
         //const encryptedAccessToken = res.jwtToken;
-        localStorage.setItem('access_token', encryptedAccessToken)
+        localStorage.setItem("access_token", encryptedAccessToken)
         //})
         this.userService.getUserByEmailId(data.email).subscribe(res=>{
             const encryptedUserType = this.authService.getEncryptText(res.data[0].role);
-            localStorage.setItem('userType', JSON.stringify(encryptedUserType) );
+            localStorage.setItem("userType", encryptedUserType );
 
-            const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
-            localStorage.setItem("userPermission", encryptedPermission)
+            if(res.data[0].role != msgTypes.ADMIN){
+              const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
+              localStorage.setItem("userPermission", encryptedPermission)
+            }
 
             const encryptedUserName = this.authService.getEncryptText(res.data[0].name);
             localStorage.setItem("loginUserName", encryptedUserName)
