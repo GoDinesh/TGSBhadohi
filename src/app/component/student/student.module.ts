@@ -5,12 +5,14 @@ import { StudentRoutingModule } from './student-routing.module';
 import { SharedModule } from 'src/app/shared-module';
 import { RegistrationComponent } from './registration/registration.component';
 import { StudentListComponent } from './student-list/student-list.component';
+import { ViewStudentDetailsComponent } from './view-student-details/view-student-details.component';
 
 
 @NgModule({
   declarations: [
     RegistrationComponent,
-    StudentListComponent
+    StudentListComponent,
+    ViewStudentDetailsComponent
   ],
   imports: [
     CommonModule,

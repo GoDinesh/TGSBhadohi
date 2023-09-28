@@ -4,17 +4,17 @@ import { ChangeDetectorRef, Component, ElementRef, NgZone, ViewChild } from '@an
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { AssignPermissionToGroup } from 'src/app/model/master/assign-permission-to-group.model';
-import { PermissionGroup } from 'src/app/model/master/permission-group.model';
 import { INavbarData } from 'src/app/model/menu';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
-import { AssignPermissionToGroupService } from 'src/app/service/masters/assign-permission-to-group.service';
-import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { msgTypes } from 'src/app/constants/common/msgType';
+import { PermissionGroup } from 'src/app/model/authorization/permission-group.model';
+import { AssignPermissionToGroup } from 'src/app/model/authorization/assign-permission-to-group.model';
+import { AssignPermissionToGroupService } from 'src/app/service/authorization/assign-permission-to-group.service';
+import { PermissionGroupService } from 'src/app/service/authorization/permission-group.service';
 
 // Define the flat node structure
 interface MenuItemFlatNode {

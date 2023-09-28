@@ -39,6 +39,19 @@ const routes: Routes = [
                 },
             },
             {
+                path: 'auth',
+                canLoad: [AuthGuard],
+                loadChildren: () => import('./component/authorization/authorization.module').then(m => m.AuthorizationModule),
+                data: {
+                    breadcrumb: {
+                        label: breadcrumb.AUTHORIZATION,
+                        title: pageTitle.AUTHORIZATION,
+                        disable: true
+                    },
+                    role: Object.values(ROLE_ADMIN)
+                },
+            },
+            {
                     path: 'masters',
                     canLoad: [AuthGuard],
                     loadChildren: () => import('./component/master/master.module').then(m => m.MasterModule),

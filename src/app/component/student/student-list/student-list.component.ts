@@ -16,6 +16,7 @@ import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 
+
 @Component({
   selector: 'app-student-list',
   templateUrl: './student-list.component.html',
@@ -141,6 +142,11 @@ export class StudentListComponent {
           }
         }
       })
+  }
+
+  viewDetails(registration: Registration){
+   // this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+      
   }
 
   setVlaueToUpdate(stuDetails: Registration) {

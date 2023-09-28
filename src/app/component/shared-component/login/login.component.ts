@@ -8,7 +8,7 @@ import { Auth } from 'src/app/model/auth.model';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
-import { UserService } from 'src/app/service/masters/user.service';
+import { UserService } from 'src/app/service/authorization/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 
 @Component({

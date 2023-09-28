@@ -2,6 +2,7 @@ import { INavbarData } from "src/app/model/menu";
 
 var masters: string = 'masters';
 var student: string = 'student';
+var authorization: string = 'auth'
 export const menuListAdmin: INavbarData[]=[
 //dashboard
 {
@@ -11,6 +12,32 @@ export const menuListAdmin: INavbarData[]=[
     "routerLink": 'dashboard',
     "active": true,
 },
+//authorisation
+{
+    "text": "Authorization",
+    "icon": "fa fa-user-secret",
+    "routerLink": authorization,
+    "active": true,
+    "children": [
+        {
+            "text": "Register User",
+            "icon": "fa fa-user-circle",
+            "routerLink": authorization + "/register-user",
+            "active": true,
+        },
+        {
+            "text": "Permission Group",
+            "icon": "fa fa-group",
+            "routerLink": authorization + "/permission-group",
+            "active": true,
+        },
+        {
+            "text": "Assign Permission To Group",
+            "icon": "fa fa-lock",
+            "routerLink": authorization + "/assign-permission-to-group",
+            "active": true,
+        },
+    ]},
 //master
 {
 "text": "Master",
@@ -46,24 +73,6 @@ export const menuListAdmin: INavbarData[]=[
         "text": "Fees Structure",
         "icon": "fa fa-reddit-alien",
         "routerLink": masters + "/fees-structure",
-        "active": true,
-    },
-    {
-        "text": "Register User",
-        "icon": "fa fa-user-circle",
-        "routerLink": masters + "/register-user",
-        "active": true,
-    },
-    {
-        "text": "Permission Group",
-        "icon": "fa fa-group",
-        "routerLink": masters + "/permission-group",
-        "active": true,
-    },
-    {
-        "text": "Assign Permission To Group",
-        "icon": "fa fa-lock",
-        "routerLink": masters + "/assign-permission-to-group",
         "active": true,
     },
 ]},

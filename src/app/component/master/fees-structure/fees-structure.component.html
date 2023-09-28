@@ -154,12 +154,8 @@
         </div>
         <!-- end::Annual Fees Date-->
 
-
-
-
-
         <!-- begin::Buttons -->
-        <div class="grid-button form-group pt-4">
+        <div class="grid-button-inline form-group pt-4">
             <ng-container *ngIf="actionFlag">
                 <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
                 <!-- <button class="btn btn-success mx-3" (click)="save()">Save</button> -->
@@ -174,4 +170,68 @@
     </form>
 </div>
 
+
+<!--begin::second Card body-->
+<ng-container *ngIf="posts | async as postData ">
+    <div class="grid-card-container card-bottom-padding pt-2" *ngIf="postData.data ">    
+        <!--end::table-->
+        <table id='table' datatable [dtOptions]="dtOptions">    
+         <thead>
+           <tr>
+            <th>S.No.</th>
+             <th>Class</th> 
+             <!-- <th>Fees Type Code</th> -->
+             <th>Academic Year</th>
+             <th>Enrollment Type</th>
+             
+             <th>Payment Type</th>
+             <th>Validity Srart Date</th>
+             <th>Validity End Date</th>
+             <th>Total Fees</th>
+             <th>Discount Reason</th>
+             <th>Net Amount After Discount</th>
+             <th>Registration Fees</th>
+             <th>Annual Fees</th>
+             <th>Annual Fees Date</th>
+             <th>Remark</th>
+             <th>Status</th>
+             <th>Action</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr *ngFor="let post of postData.data ; let i=index">
+             <td class="td-sno">{{i+1}}</td>  
+             <td class="td-large">{{ post.classCode }}</td>
+             <td class="td-auto">{{ post.academicYearCode }}</td>
+             <td class="td-large">{{ post.enrollmentType }}</td>
+             <td class="td-large">{{ post.paymentType }}</td>
+             <td class="td-large">{{ post.validityStartDate }}</td>
+             <td class="td-large">{{ post.validityEndDate }}</td>
+             <td class="td-large">{{ post.totalFees }}</td>
+             <td class="td-large">{{ post.discountReasonCode }}</td>
+             <td class="td-large">{{ post.netAmountAfterDiscount }}</td>
+             <td class="td-large">{{ post.registrationFees }}</td>
+             <td class="td-large">{{ post.annualFees }}</td>
+             <td class="td-large">{{ post.annualFeesDate }}</td>
+             <td class="td-large">{{ post.remarks }}</td>
+             <td class="td-status">
+                   <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+                   </mat-slide-toggle>
+             </td>
+             <td class="td-action">  
+               <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+             </td>
+           </tr>
+         </tbody>
+       </table>
+       <!--end::table-->
+       </div>
+      </ng-container>
+       <!--end::second Card body-->
+    
+    
+    
+    
+    
+    
 

@@ -6,10 +6,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
-import { PermissionGroup } from 'src/app/model/master/permission-group.model';
+import { PermissionGroup } from 'src/app/model/authorization/permission-group.model';
+import { PermissionGroupService } from 'src/app/service/authorization/permission-group.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
-import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
 
 @Component({
   selector: 'app-permission-group',
