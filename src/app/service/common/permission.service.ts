@@ -12,7 +12,20 @@ export class PermissionService {
 
 
   constructor(private authService: AuthService) {
-    this.permissions = JSON.parse(this.authService.getUserPermission());;
+    try{
+      this.permissions = JSON.parse(this.authService.getUserPermission());
+    }catch(error){
+      console.log(error);
+      
+    }
+
+  }
+
+  //get the current route and use it for managing the editable value
+  updateEditableValue(url: string): boolean {
+    const currentRoute = url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    return this.getEditableValue(cleanedRoute);
   }
 
   getEditableValue(route: string): boolean {

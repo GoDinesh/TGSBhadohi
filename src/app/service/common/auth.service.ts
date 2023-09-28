@@ -84,8 +84,8 @@ isLoggedIn(){
 }
 
 getRole() {
-   const role = JSON.parse(''+localStorage.getItem('userType'));
-   return this.getDecryptText(role);
+   const role = localStorage.getItem('userType');
+   return this.getDecryptText(""+role);
 }
 
 getUserPermission(){
