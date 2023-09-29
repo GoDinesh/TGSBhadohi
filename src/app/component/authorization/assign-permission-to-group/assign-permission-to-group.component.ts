@@ -70,9 +70,6 @@ export class AssignPermissionToGroupComponent {
     private permissionGroupService: PermissionGroupService,
     private assignPermissionToGroupService: AssignPermissionToGroupService,
     private alertService: SweetAlertService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private zone: NgZone,
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false

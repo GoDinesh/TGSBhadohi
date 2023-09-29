@@ -49,28 +49,14 @@ export class RegisterUserComponent {
     private router: Router,
 
   ) {
-
-    // Listen to router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateEditableValue();
-      }
-    });
   }
 
   ngOnInit() {
     this.loadPermissionGroup();
     this.createForm(new User());
-    this.updateEditableValue();
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.loadTable();
     this.getTableRecord();
-  }
-
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createForm(usermodel: User) {

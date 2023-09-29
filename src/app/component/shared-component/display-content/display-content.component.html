@@ -1,23 +1,80 @@
 <div class="header">
-    <mat-toolbar>
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-            <mat-icon>menu</mat-icon>
+  <mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Time Global School</span>
+    <span class="example-spacer"></span>
+
+    <div class="searchbar-container">
+      <form [formGroup]="formgroup">
+        <div #searchBarElement class="searchbox">
+          <button class="btn-menu">
+            <i class="fa fa-group"></i>
           </button>
-          <span>Time Global School</span>
-          <span class="example-spacer"></span>
+          <input id="search" type="text" placeholder="Search..." name="search" class="search" (focus)="onFocusIn()"
+            formControlName="searchTerm" autocomplete="off">
+          <button class="btn-search" (click)="filterStudents()">
+            <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
+          </button>
+        </div>
+      </form>
+
+      <div #modalElement id="Modal" class="search-modal shadow-lg"
+        [ngStyle]="{'display': showModal ? 'block' : 'none'}">
+        <!--<div class="search-modal-header">
+          <h3>Search</h3>
+          <span id="close" (click)="onClose()"><i class="fa fa-times"></i></span>
+        </div>-->
+        <!-- Loader -->
+        <div class="loader-container" *ngIf="isLoading">
+          <div class="loader"></div>
+        </div>
+        <div class="search-modal-body">
+          <!--Recent searches-->
+          <!--<div *ngIf="!formgroup.get('searchTerm')?.value; else searchResults">
+            <h4>Recent Searches</h4>
+            <div *ngFor="let search of recentSearches" class="recent-search-item">
+              <img src="path/to/avatar.jpg" alt="User Avatar">
+              <span>{{ search }}</span>
+            </div>
+          </div>-->
+          <!--show search results-->
+          <!--<ng-template #searchResults>-->
+            <div *ngFor="let student of filteredStudents">
+              <div class="message">
+                <div class="message-avatar">
+                  <img [src]="student.profileImage.link" alt="">
+                </div>
+                <div class="message-body">
+                  <p><b>Name:</b> {{ student.studentName }}</p>
+                  <p><b>Father Name:</b> {{student.fatherName}}</p>
+                  <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp;  <b>Year:</b> {{student.academicYearCode}}</p>
+                  <div class="link">
+                    <span>View Details</span>&nbsp;&nbsp;
+                    <span>|</span>&nbsp;&nbsp;
+                    <span>Pay Fees</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!--</ng-template>-->
+        </div>
+      </div>
+    </div>
 
 
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-            <mat-icon>facebook</mat-icon>
-          </button>
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-            <mat-icon>favorite</mat-icon>
-          </button>
-          <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-           <mat-icon>share</mat-icon>
-         </button>
-         <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hi, {{loginUserName}}</div>
-    </mat-toolbar>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>facebook</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hi, {{loginUserName}}</div>
+  </mat-toolbar>
 </div>
 
 <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>

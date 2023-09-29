@@ -66,6 +66,7 @@ export class FeesStructureComponent {
 
    ngOnInit(){
     this.createForm(new FeesStructure());
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.customInit();
   }
 

@@ -51,13 +51,6 @@ export class StudentListComponent {
     private permissionService: PermissionService,
     private router: Router,
   ) {
-
-    // Listen to router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateEditableValue();
-      }
-    });
   }
 
   //get student formcontroll
@@ -72,17 +65,10 @@ export class StudentListComponent {
 
   customInit() {
     this.createStudentForm(new Registration());
-    this.updateEditableValue();
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.loadClass();
     this.loadAcademicyear();
     this.getTableRecord();
-  }
-
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createStudentForm(registartion: Registration) {
