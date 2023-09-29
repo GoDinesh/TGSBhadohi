@@ -42,31 +42,18 @@ export class DiscountReasonComponent {
     private alerService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router) {
-
-    // Listen to router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateEditableValue();
-      }
-    });
   }
+  
   //load ngOnInit
   ngOnInit() {
     this.createForm(new DiscountReason);
-    this.updateEditableValue();
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.customInit();
   }
 
   async customInit() {
     this.loadTable();
     await this.getTableRecord();
-  }
-
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   createForm(discountReason: DiscountReason) {

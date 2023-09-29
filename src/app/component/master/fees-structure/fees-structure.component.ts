@@ -61,6 +61,7 @@ export class FeesStructureComponent {
 
    ngOnInit(){
     this.createForm(new FeesStructure());
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.customInit();
   }
 
@@ -81,13 +82,6 @@ export class FeesStructureComponent {
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFeesDate: [feeStructure.annualFees, [Validators.required]]
     })
-  }
-  
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
   }
 
   customInit() {

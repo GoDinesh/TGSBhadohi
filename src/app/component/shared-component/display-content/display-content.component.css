@@ -1,3 +1,8 @@
+
+@import url('https://fonts.googleapis.com/css?family=Lexend+Deca|Dosis&display=swap');
+*{
+  box-sizing: border-box;
+}
 .header{
     height: 64px;
     background: rgb(30, 80, 197);
@@ -9,4 +14,256 @@
   .toolbar-buttons{
     padding-right: 100px;
   }
- 
+
+  .searchbar-container {
+    font-family: 'Lexend Deca', sans-serif;
+    /* overflow-Y: none !important; */
+    z-index:10;
+  }
+  
+  button i {
+    transition: transform 0.25s;
+  }
+  
+  button:hover i {
+    transform: scale(1.2);
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  input {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 14px;
+  }
+  
+  input::placeholder {
+    font-family: 'Lexend Deca', sans-serif;
+    font-size: 14px;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  
+  .searchbox {
+    height: 40px;
+    width: 450px;
+    max-width: 100%;
+    background: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    /* // top: 50px; */
+    display: flex;
+  }
+  
+  .searchbox > .btn-menu {
+    /* // padding: 16px; */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .searchbox > .search {
+    border: none;
+    width: 100%;
+  }
+  
+  .searchbox > .btn-search {
+    /* // padding: 16px; */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Modal CSS Starts Here */
+  
+  .search-modal {
+    height: 50vh;
+    width: 450px;
+    max-width: 100%;
+    /* max-height: 100%; */
+    background: white;
+    border-radius: 10px;
+    position: absolute;
+    /* // left: 0;
+    // right: 0;
+    // margin: 0 auto;*/
+    /* top: 160px; */
+    animation: slideInDown 0.8s;
+    display: none;
+    /* background-color: whitesmoke; */
+  }
+  
+  .search-modal-header {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #00000017;
+  }
+  
+  .search-modal-header h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 500;
+    float: left;
+  }
+  
+  .search-modal-header span i {
+    float: right;
+    position: absolute;
+    right: 16px;
+    top: 15px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: 0.5s all;
+  }
+  
+  .search-modal-header span i:hover {
+    transform: scale(1.1);
+  }
+  
+  .search-modal-body {
+    padding: 5px;
+    height: inherit;
+    overflow-y: scroll;
+  }
+  
+  .search-modal-body .message {
+    display: flex;
+    cursor: pointer;
+    margin: 1%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: aliceblue;
+  }
+  
+  .search-modal-body .message-avatar {
+    margin-right: 16px;
+    margin-top: 10px;
+  }
+  
+  .search-modal-body .message-avatar img {
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.45);
+  }
+  
+  .search-modal-body .message-body {
+    margin-left: 0;
+    font-size: 0;
+    margin-top: 2px;
+    width: 100%;
+  }
+
+  .search-modal-body .message-body .link {
+    display: flex;
+    font-size: 14px;
+    align-items: center;
+    line-height: 1;
+  }
+
+  .search-modal-body .message-body .link span{
+    cursor: pointer;
+    color: #2F94D8;
+  }
+  
+  .search-modal-body .message-body p {
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #444;
+  }
+  
+  .search-modal-body .message-body small {
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Dosis;
+    color: #777;
+  }
+  
+  .search-modal-body .message:hover {
+    background-color: #2F94D817;
+  }
+  
+  .search-modal-body::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  .search-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .search-modal-body::-webkit-scrollbar-thumb {
+    background: #2F94D8;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: -1px 0 5px rgba(0, 0, 0, 0.15);
+  }
+  
+  .search-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  @keyframes slideInUp {
+    from {
+      -webkit-transform: translate3d(0, 15%, 0);
+      transform: translate3d(0, 15%, 0);
+      visibility: visible;
+    }
+    to {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  /* loader */
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1; /* Above the content */
+  }
+  
+  .loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* recent-searches */
+  .recent-search-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .recent-search-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  

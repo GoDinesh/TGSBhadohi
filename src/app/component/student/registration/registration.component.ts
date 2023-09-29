@@ -117,13 +117,6 @@ export class RegistrationComponent {
     private http: HttpClient,
     private permissionService: PermissionService,
   ) {
-
-    // Listen to router events
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.updateEditableValue();
-      }
-    });
   }
 
   //load ngOnInit
@@ -154,13 +147,6 @@ export class RegistrationComponent {
             });
           });
         }
-   
-
-        // Update the uploadDocumentForm
-      // this.uploadDocumentForm.patchValue({
-      //   studentPhoto: this.selectedStudentPhoto,
-      //   file: this.documents
-      // });
         
       }
     })
@@ -171,7 +157,7 @@ export class RegistrationComponent {
     this.createEmergencyContactForm(this.reg);
     this.createLastSchoolForm(this.reg);
     this.createUploadDocumentForm();
-    this.updateEditableValue();
+    this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.loadDropdowns();
     this.customInit();
   }
@@ -181,37 +167,6 @@ export class RegistrationComponent {
     this.loadAcademicyear();
   }
 
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
-  }
-
-  // fetchFile(url: string, fileName: string) {
-  //   return this.http.get(url, { responseType: 'blob' }).pipe(
-  //     map((blob: Blob) => {
-  //       const file = new File([blob], fileName, { type: blob.type });
-  //       console.log(file);
-  //       return file;
-  //     })
-  //   );
-  // }
-  // fetchFile(url: string, fileName: string) {
-  //   // console.log("Fetching file from URL: ", url);  // Log the URL
-  //   // return this.http.get(url, { responseType: 'blob' }).pipe(
-  //   //   map((blob: Blob) => {
-  //   //     console.log("Received blob: ", blob);  // Log the received blob
-  //   //     const file = new File([blob], fileName, { type: blob.type });
-  //   //     return file;
-  //   //   }),
-  //   //   catchError(error => {
-  //   //     console.error("Error fetching file: ", error);  // Log any errors
-  //   //     return throwError(error);
-  //   //   })
-  //   // );
-  
-  // }
   fetchFile(url: string, fileName: string): Observable<File> {
     return from(
       fetch(url)
@@ -219,8 +174,6 @@ export class RegistrationComponent {
         .then(blob => new File([blob], fileName, { type: blob.type }))
     );
   }
-  
-  
 
   loadClass() {
     this.allClassList = this.classService.getAllClass().pipe(
