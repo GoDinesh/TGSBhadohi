@@ -95,7 +95,7 @@
        <tr *ngFor="let post of posts;let i=index">
          <td class="td-sno">{{i+1}}</td>
          <td class="td-sno" *ngIf="post.profileImage == null"></td>
-         <td class="td-sno" *ngIf="post.profileImage != null"><img class="rounded-circle" src="{{post.profileImage.link}}" width="50" height="50"/></td>
+         <td class="td-sno" *ngIf="post.profileImage != null"><img class="rounded-circle" src="{{post.profileImage.link}}" width="40" height="40"/></td>
          <td class="td-large">{{ post.registrationNo }}</td>
          <td class="td-medium">{{ post.aadhaarNumber }}</td>
          <td class="td-large">{{ post.studentName}}</td>
@@ -104,7 +104,8 @@
          <td class="td-small">{{ post.gender}}</td>
          <td class="td-small">{{ post.dateOfBirth}}</td>
          <td class="td-action">  
-          <a (click)="viewDetails(post)"><i class="fa fa-eye fa-lg"></i></a>
+           <a (click)="viewDetails(post)"><i class="fa fa-eye fa-lg"></i></a>
+           &nbsp;&nbsp;
            <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
          </td>
        </tr>

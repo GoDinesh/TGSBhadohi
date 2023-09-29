@@ -1,1 +1,198 @@
-<p>view-student-details works!</p>
+
+
+<div class="preview-content" id="myPreviewDetails">
+    <!-- Filled details Preview -->
+    <div class="preview-details">
+      <!-- student details with photo -->
+      <ng-container  class="preview-section">
+        <h4 class="detail-heading">Student Data Preview</h4>
+        <div class="row">
+          <!-- begin::student photo preview -->
+          <div  class="col-md-3">
+            <div class="mt-2 image-container">
+              <img src={{reg.profileImage.link}} alt="Student Photo" class="img-thumbnail">
+            </div>
+          </div>
+          <!-- end::student photo preview -->
+          <div class="col-md-3 p-1">
+            <div class="d-flex flex-column">
+              <div>
+                <strong>Student Name : </strong> {{reg.studentName}}
+              </div>
+              <div >
+                <strong>Academic Year : </strong> {{reg.academicYearCode}}
+              </div>
+              <div >
+                <strong>Standard : </strong> {{reg.standard}}
+              </div>
+              <div >
+                <strong>Registration Number : </strong> {{reg.registrationNo}}
+              </div>
+            </div>
+          </div>
+        </div>
+    </ng-container>
+
+      <!-- Student Details -->
+      <ng-container  class="preview-section">
+        <h4 class="detail-heading">Student Details</h4>
+        <div class="row">
+          <div  class="col-md-4">
+            <strong>Student Name:</strong> {{reg.studentName}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Gender:</strong> {{reg.gender}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Standard:</strong> {{reg.standard}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Academic Year:</strong> {{reg.academicYearCode}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Adhar Number:</strong> {{reg.aadhaarNumber}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Religion:</strong> {{reg.religion}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Category:</strong> {{reg.category}}
+          </div>
+          <div class="col-md-4">
+            <strong>Registration Number:</strong> {{reg.registrationNo}}
+          </div>
+        </div>
+       
+      </ng-container>
+      
+
+
+      <!-- Parent Details -->
+      <ng-container  class="preview-section">
+        <h4 class="detail-heading">Parent Details</h4>
+        <div class="row">
+          <div  class="col-md-4">
+            <strong>Father Name:</strong> {{reg.fatherName}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Father Adhar No:</strong> {{reg.fatherAadharNo}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Father Contact No:</strong> {{reg.fatherContactNo}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Father Qualification:</strong> {{reg.fatherQualification}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Father Profession:</strong> {{reg.fatherProfession}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Father Email Id:</strong> {{reg.fatherEmailId}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Mother Name:</strong> {{reg.motherName}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Mother Adhar No:</strong> {{reg.motherAadharNumber}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Mother Contact No:</strong> {{reg.motherContactNumber}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Mother Profession:</strong> {{reg.motherProfession}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Guardian Name:</strong> {{reg.guardianName}}
+          </div>
+        </div>
+        
+      </ng-container>
+      
+
+      <!-- Address Details -->
+      <ng-container  class="preview-section">
+        <h4 class="detail-heading">Address Details</h4>
+        <div class="row">
+          <div class="col-md-4">
+            <strong>Country:</strong> {{reg.country}}
+          </div>
+          <div class="col-md-4">
+            <strong>State:</strong> {{reg.state}}
+          </div>
+          <div class="col-md-4">
+            <strong>City:</strong> {{reg.city}}
+          </div>
+          <div class="col-md-4">
+            <strong>Pincode:</strong> {{reg.pincode}}
+          </div>
+          <div class="col-md-4">
+            <strong>Area:</strong> {{reg.area}}
+          </div>
+        </div>
+      
+      </ng-container>
+      
+
+      <!-- Emergency Details -->
+      <ng-container class="preview-section">
+        <h4 class="detail-heading">Emergency Details</h4>
+        <div class="row">
+          <div  class="col-md-4">
+            <strong>Emergency Contact Person:</strong> {{reg.emergencyContactPerson}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Emergency Number:</strong> {{reg.emergencyNumber}}
+          </div>
+        </div>
+       
+      </ng-container>
+      
+
+     <!-- Last School Details -->
+     <ng-container  class="preview-section">
+        <h4 class="detail-heading">Previous School Details</h4>
+        <div class="row">
+          <div  class="col-md-4">
+            <strong>School Name:</strong> {{reg.schoolName}}
+          </div>
+          <div  class="col-md-4">
+            <strong>TC Number:</strong> {{reg.tcNumber}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Passed Class:</strong> {{reg.passedClass}}
+          </div>
+          <div  class="col-md-4">
+            <strong>Passed Class Marks:</strong> {{reg.passedClassMarks}}
+          </div>
+        </div>
+       
+     </ng-container>
+      
+
+      <!-- Uploaded Documents -->
+      <ng-container class="preview-section">
+        <h4 class="detail-heading">Uploaded Documents</h4>
+        <div *ngIf="reg.documents.length > 0">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col">File Name</th>
+                <th scope="col">File Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of reg.documents">
+                <td>{{doc.fileName}}</td>
+                <td>{{doc.link}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="reg.documents.length === 0">
+          No documents uploaded.
+        </div>
+       
+      </ng-container>
+
+    </div>
+</div>
