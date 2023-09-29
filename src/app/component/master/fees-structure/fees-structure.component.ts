@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
@@ -10,6 +11,7 @@ import { DiscountReason } from 'src/app/model/master/discount-reason.model';
 import { FeesStructure } from 'src/app/model/master/fees-structure.model';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { PermissionService } from 'src/app/service/common/permission.service';
+import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
@@ -26,6 +28,8 @@ export class FeesStructureComponent {
 
   editable: boolean;
   actionFlag = true;
+  dtOptions: any = {};
+
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
   allClassList: Observable<Class[]> = new Observable();
@@ -56,6 +60,7 @@ export class FeesStructureComponent {
           private feesStructureService: FeesStructureService,
           private permissionService: PermissionService,
           private router: Router,
+          private alertService: SweetAlertService,
           ){
    }
 
@@ -80,11 +85,33 @@ export class FeesStructureComponent {
       netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFeesDate: [feeStructure.annualFees, [Validators.required]]
+      annualFeesDate: [feeStructure.annualFeesDate, [Validators.required]]
     })
   }
 
+  //load the table
+  loadTable() {
+    this.dtOptions = {
+      processing: true,
+      scrollY: "300px",
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ]
+    };
+  }
+  
+  //get the current route and use it for managing the editable value
+  private updateEditableValue(): void {
+    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+    this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  }
+
   customInit() {
+    this.loadTable();
+    this.getTableRecord();
     this.loadClass();
     this.loadDiscountReason();
     this.loadAcademicyear();
@@ -131,12 +158,38 @@ save(){
     }catch(error){}
 }
 
-update(){
-}
-
 getTableRecord(){
     this.posts = this.feesStructureService.getAllFeesStructure();
 }
+
+ //change the status
+ async slideToggleChange(element: MatSlideToggleChange, data: FeesStructure) {
+  const flag = await this.alertService.updateAlert()
+  if (flag) {
+    data.active = !data.active;
+    this.feesStructureService.insertFeesStructure(data).subscribe();
+  } else {
+    element.source.checked = data.active;
+  }
+}
+
+//set value in formfield to update
+setValueToUpdate(data: FeesStructure) {
+  this.createForm(data);
+  this.actionFlag = false;
+}
+
+//update the record
+update() {
+  this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
+  this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe((res) => {
+    if (res.status === msgTypes.SUCCESS_MESSAGE) {
+      this.getTableRecord();
+      this.resetForm();
+    }
+  });
+}
+
 
 resetForm(){
   this.createForm(new FeesStructure())

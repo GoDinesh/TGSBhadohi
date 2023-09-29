@@ -13,6 +13,7 @@ export class FeesStructure {
     registrationFees: number;
     annualFees: number;
     annualFeesDate: string;
+    active: boolean;
 
     constructor(){
     this.id = '',
@@ -29,6 +30,7 @@ export class FeesStructure {
     this.registrationFees = 0;
     this.annualFees = 0;
     this.annualFeesDate = '';
+    this.active = false;
 
 
     }

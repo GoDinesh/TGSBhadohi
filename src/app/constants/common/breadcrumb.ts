@@ -1,5 +1,10 @@
 export const breadcrumb = {
     DASHBOARD               : 'Dashboard',
+
+    AUTHORIZATION: "Auth",
+        REGISTER_USER   : 'Register User',
+        PERMISSION_GROUP: 'Permissions Group',
+        ASSIGN_PERMISSION_TO_GROUP : 'Assign Permission',
     
     MASTER: 'Master',
         CLASS           : 'Class',
@@ -7,10 +12,7 @@ export const breadcrumb = {
         FEES_TYPE       : 'Fees Type',
         DISCOUNT_REASON : 'Discount Reason',
         FEES_STRUCTURE  : 'Fees Structure',
-        REGISTER_USER   : 'Register User',
-        PERMISSION_GROUP: 'Permissions Group',
-        ASSIGN_PERMISSION_TO_GROUP : 'Assign Permission',
-    
+        
     STUDENT: 'Student',
         REGISTRATION    : 'Registration',
         STUDENT_LIST    : 'Student List',

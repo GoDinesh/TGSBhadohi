@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
-import { AssignPermissionToGroup } from 'src/app/model/master/assign-permission-to-group.model';
+import { AssignPermissionToGroup } from 'src/app/model/authorization/assign-permission-to-group.model';
 import { INavbarData } from 'src/app/model/menu';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
@@ -12,7 +12,7 @@ import { ResponseModel } from 'src/app/model/shared/response-model.model';
   providedIn: 'root'
 })
 export class AssignPermissionToGroupService {
-  requestUrl = appurl.menuurl_master + appurl.master_assignPermission;
+  requestUrl = appurl.menuurl_auth + appurl.auth_assignPermission;
   constructor(private httpClient: HttpClient) { }
  
   insertAssignPermissionToGroup(assignPermissionToGroup: AssignPermissionToGroup){

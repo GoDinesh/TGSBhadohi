@@ -6,6 +6,7 @@ import { breadcrumb } from 'src/app/constants/common/breadcrumb';
 import { pageTitle } from 'src/app/constants/common/page-title';
 import { ROLE_ADMIN } from 'src/app/constants/common/roles';
 import { StudentListComponent } from './student-list/student-list.component';
+import { ViewStudentDetailsComponent } from './view-student-details/view-student-details.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,16 @@ const routes: Routes = [
                     role: Object.values(ROLE_ADMIN)
               }
         },
+        {
+            path: 'view-details',
+            component: ViewStudentDetailsComponent,
+            canActivate: [AuthGuard],
+            data: {
+                  breadcrumb: breadcrumb.STUDENT_LIST,
+                  title: pageTitle.STUDENT_LIST,
+                  role: Object.values(ROLE_ADMIN)
+            }
+      },
   ]}
 ];
 

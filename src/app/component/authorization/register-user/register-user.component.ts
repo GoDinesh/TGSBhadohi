@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { PermissionGroup } from 'src/app/model/master/permission-group.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
-import { PermissionGroupService } from 'src/app/service/masters/permission-group.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { msgTypes } from 'src/app/constants/common/msgType';
-import { User } from 'src/app/model/master/user.model';
+import { User } from 'src/app/model/authorization/user.model';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
-import { UserService } from 'src/app/service/masters/user.service';
+import { UserService } from 'src/app/service/authorization/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { PermissionGroup } from 'src/app/model/authorization/permission-group.model';
+import { PermissionGroupService } from 'src/app/service/authorization/permission-group.service';
 
 @Component({
   selector: 'app-register-user',
