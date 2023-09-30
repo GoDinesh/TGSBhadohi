@@ -131,8 +131,7 @@ export class StudentListComponent {
   }
 
   viewDetails(registration: Registration){
-   // this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
-      
+    this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
   }
 
   setVlaueToUpdate(stuDetails: Registration) {
