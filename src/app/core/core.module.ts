@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { httpInterceptorProviders } from './interceptors/httpInterceptorProviders';
 
 
-
 @NgModule({
   declarations: [
-    
   ],
   imports: [
     CommonModule,

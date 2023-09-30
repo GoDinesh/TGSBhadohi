@@ -25,38 +25,25 @@ export class DisplayContentComponent {
   searchTerm = new FormControl('');
   showModal: boolean = false;
   displayedColumns: string[] = ['avatar', 'registrationNo', 'name', 'action'];
-  students: Registration[] = [];
+  // students: Registration[] = [];
   isLoading: boolean = false;
   filteredStudents: Registration[] = [];
-  recentSearches: string[] = [];
+  //recentSearches: string[] = [];
+  studentList: Observable<ResponseModel>;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private registrationService: RegistrationService
   ) {
     this.loginUserName = this.authService.getLoginUserName();
-
-
   }
 
   async ngOnInit() {
-    this.screenWidth = window.innerWidth;
-    this.createForm();
-    this.formControll.searchTerm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
-      this.filterStudents();
-    });
-    this.recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
-    //this.loadStudentList();
+    this.loadStudentList();
   }
 
   loadStudentList() {
-    const studentInfo = this.formControll.searchTerm.value;
-
-    this.registrationService.getStudentListByGlobalFilter(studentInfo).subscribe(res => {
-      if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        this.students = res.data;
-      }
-    })
+    this.studentList = this.registrationService.studentList(new Registration())
   }
 
   onToggleSideNav(data: SideNavToggle) {
@@ -79,21 +66,16 @@ export class DisplayContentComponent {
     return this.formgroup.controls;
   }
 
-  filterStudents() {
-    this.isLoading = true;
-    const term = this.formgroup.get('searchTerm')?.value.toLowerCase();
-    this.loadStudentList();
-    this.filteredStudents = this.students.filter(student => {
-      return student.studentName.toLowerCase().includes(term) || student.registrationNo.includes(term);
-    });
-    // if (term) {
-    //   this.recentSearches.unshift(term);
-    //   this.recentSearches = this.recentSearches.slice(0, 5); // Keep only the last 5 searches
-    //   localStorage.setItem('recentSearches', JSON.stringify(this.recentSearches));
-    // }
-    this.isLoading = false;
+  // filterStudents() {
+  //   this.isLoading = true;
+  //   const term = this.formgroup.get('searchTerm')?.value.toLowerCase();
+  //   this.loadStudentList();
+  //   this.filteredStudents = this.students.filter(student => {
+  //     return student.studentName.toLowerCase().includes(term) || student.registrationNo.includes(term);
+  //   });
+  //   this.isLoading = false;
 
-  }
+  // }
 
   onFocusIn(): void {
     this.showModal = true;

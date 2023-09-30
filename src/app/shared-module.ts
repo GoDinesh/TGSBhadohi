@@ -18,20 +18,21 @@ import { MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FilterDataPipe } from './core/pipes/filter-data.pipe';
-import { CdkDrag, CdkDropList ,CdkDropListGroup, DragDropModule } from '@angular/cdk/drag-drop';
-import { BrowserModule } from '@angular/platform-browser';
-import { CdkTreeModule } from '@angular/cdk/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTreeModule } from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {NgxPrintModule} from 'ngx-print';
 import {MatChipsModule} from '@angular/material/chips';
 import { AvatarModule } from 'ngx-avatar';
+import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
+
 //import {MatDatepickerModule} from '@angular/material/datepicker';
 //import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
-    FilterDataPipe
+    FilterDataPipe,
+    FilterStudentListPipe    
   ],
   imports: [
     ReactiveFormsModule,
@@ -86,6 +87,7 @@ import { AvatarModule } from 'ngx-avatar';
     MatToolbarModule,
     FormsModule,
     FilterDataPipe,
+    FilterStudentListPipe,
     DragDropModule,
     MatTreeModule,
     MatCheckboxModule,

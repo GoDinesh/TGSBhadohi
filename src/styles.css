@@ -1159,3 +1159,13 @@ table {
 .small-chip {
     height : 15px !important;
   }
+
+
+  .avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+  
+}
