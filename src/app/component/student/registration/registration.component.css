@@ -121,7 +121,6 @@
     padding: 0.2rem;
   }
   .preview-actions {
-    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -144,6 +143,30 @@
   
   .preview-section .row {
     margin-bottom: 10px;
+  }
+  
+  .img-thumbnail {
+    height: 200px;
+    width: 150px;
+    object-fit: cover;
+  }
+
+  .img-thumbnail-preview {
+    height: 180px;
+    width: 130px;
+    object-fit: cover;
+  }
+  
+  .image-container {
+    margin: 1rem 0;
+  }
+  
+  .info-box {
+    background-color: #f9f9f9;
+  }
+  
+  .preview-actions {
+    margin-top: 2rem;
   }
   
   

@@ -45,6 +45,7 @@ export class RegistrationComponent {
   selectedFileName = 'Choose file';
   documents: File[] = [];
 
+
   studentgroup = new FormGroup({
     id: new FormControl(),
     rollNumber: new FormControl(),
@@ -159,6 +160,7 @@ export class RegistrationComponent {
     this.createUploadDocumentForm();
     this.editable = this.permissionService.updateEditableValue(this.router.url);
     this.loadDropdowns();
+    this.getSections();
     this.customInit();
   }
 
@@ -288,6 +290,66 @@ export class RegistrationComponent {
   get uploadDocumentFormControll() {
     return this.uploadDocumentForm.controls;
   }
+
+  getSections(){
+  return [
+    // {
+    //   title: 'Student Details',
+    //   fields: [
+    //     { label: 'Student Name', value: this.studentgroup.controls.studentName.value },
+    //     { label: 'Gender', value: this.studentFormControll.gender.value },
+    //     { label: 'Standard', value: this.studentFormControll.standard.value },
+    //     { label: 'Academic Year', value: this.studentFormControll.academicYearCode.value },
+    //     { label: 'Aadhar Number', value: this.studentFormControll.aadhaarNumber.value },
+    //     { label: 'Religion', value: this.studentFormControll.religion.value },
+    //     { label: 'Category', value: this.studentFormControll.category.value },
+    //     { label: 'Registration Number', value: this.studentFormControll.registrationNo.value },
+    //   ]
+    // },
+    {
+      title: 'Parent Details',
+      fields: [
+        { label: 'Father Name', value: this.parentFormControll.fatherName.value },
+        { label: 'Father Adhar No.', value: this.parentFormControll.fatherAadharNo.value },
+        { label: 'Father Contact No.', value: this.parentFormControll.fatherContactNo.value },
+        { label: 'Father Qualification', value: this.parentFormControll.fatherQualification.value },
+        { label: 'Father Profession', value: this.parentFormControll.fatherProfession.value },
+        { label: 'Father EmailId', value: this.parentFormControll.fatherEmailId.value },
+        { label: 'Mother Name', value: this.parentFormControll.motherName.value },
+        { label: 'Mother Adhar No.', value: this.parentFormControll.motherAadharNumber.value },
+        { label: 'Mother Contact No.', value: this.parentFormControll.motherContactNumber.value },
+        { label: 'Mother Profession', value: this.parentFormControll.motherProfession.value },
+        { label: 'Guardian Name', value: this.parentFormControll.guardianName.value }
+      ]
+    },
+    {
+      title: 'Address Details',
+      fields: [
+        { label: 'Country', value: this.addressFormControll.country.value },
+        { label: 'State', value: this.addressFormControll.state.value },
+        { label: 'City', value: this.addressFormControll.city.value },
+        { label: 'Pincode', value: this.addressFormControll.pincode.value },
+        { label: 'Area', value: this.addressFormControll.area.value },
+      ]
+    },
+    {
+      title: 'Emergency Details',
+      fields: [
+        { label: 'Emergency Contact Person', value: this.emergencyContactFormControll.emergencyContactPerson.value },
+        { label: 'Emergency Number', value: this.emergencyContactFormControll.emergencyNumber.value },
+      ]
+    },
+    {
+      title: 'Previous Schools Details',
+      fields: [
+        { label: 'School Name', value: this.lastSchoolFormControll.schoolName.value },
+        { label: 'TC Number', value: this.lastSchoolFormControll.tcNumber.value },
+        { label: 'Passes Class', value: this.lastSchoolFormControll.passedClass.value },
+        { label: 'Passed Class Marks', value: this.lastSchoolFormControll.passedClassMarks.value },
+      ]
+    },
+  ];
+}
 
   loadDropdowns() {
     this.loadStandard();
