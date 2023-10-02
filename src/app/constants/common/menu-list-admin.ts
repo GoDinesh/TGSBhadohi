@@ -2,7 +2,9 @@ import { INavbarData } from "src/app/model/menu";
 
 var masters: string = 'masters';
 var student: string = 'student';
-var authorization: string = 'auth'
+var authorization: string = 'auth';
+var fees: string = "fees";
+
 export const menuListAdmin: INavbarData[]=[
 //dashboard
 {
@@ -38,6 +40,8 @@ export const menuListAdmin: INavbarData[]=[
             "active": true,
         },
     ]},
+
+
 //master
 {
 "text": "Master",
@@ -85,16 +89,30 @@ export const menuListAdmin: INavbarData[]=[
     "children": [
         {
             "text": "Registration",
-            "icon": "fa fa-user-circle-o",
+            "icon": "fa fa-user-plus",
             "routerLink": student + "/registration",
             "active": true,
         },
         {
             "text": "Student List",
-            "icon": "fa fa-user-circle-o",
+            "icon": "fa fa-list",
             "routerLink": student + "/studentList",
             "active": true,
         },
     ]},
+
+    {
+        "text": "Fees",
+        "icon": "fa fa-inr",
+        "routerLink": fees,
+        "active": true,
+        "children": [
+            {
+                "text": "Pay Fees",
+                "icon": "fa fa-money",
+                "routerLink": fees + "/pay-fees",
+                "active": true,
+            }
+        ]},
 
 ]

@@ -1,21 +1,30 @@
-<div class="header">
-  <mat-toolbar>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>Time Global School</span>
-    <span class="example-spacer"></span>
 
-    <div class="searchbar-container">
-      <form [formGroup]="formgroup">
+
+<nav class="header navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <!-- Brand Name -->
+    <a class="navbar-brand d-flex align-items-center" href="#">Time Global School</a>
+
+    <!-- Toggler Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="searchbar-container">
+      <!-- Search Bar -->
+      <form [formGroup]="formgroup" class="form-inline my-2 my-lg-0 ml-auto mr-3">
         <div #searchBarElement class="searchbox">
           <button class="btn-menu">
             <i class="fa fa-group"></i>
           </button>
-          <input #searchStudent id="search" type="text" placeholder="Search..." name="search" class="search" (focus)="onFocusIn()"
-            formControlName="searchTerm" autocomplete="off">
+          <input #searchStudent class="form-control mr-sm-2" id="search" type="text" placeholder="Search..."
+            name="search" class="search" (focus)="onFocusIn()" formControlName="searchTerm" autocomplete="off"
+            aria-label="Search">
           <!-- <button class="btn-search" (click)="filterStudents()"> -->
-            <button class="btn-search">
+          <button class="btn-search">
             <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
           </button>
         </div>
@@ -23,64 +32,62 @@
 
       <div #modalElement id="Modal" class="search-modal shadow-lg"
         [ngStyle]="{'display': showModal ? 'block' : 'none'}">
-        <!--<div class="search-modal-header">
-          <h3>Search</h3>
-          <span id="close" (click)="onClose()"><i class="fa fa-times"></i></span>
-        </div>-->
         <!-- Loader -->
         <div class="loader-container" *ngIf="isLoading">
           <div class="loader"></div>
         </div>
         <div class="search-modal-body">
           <!--Recent searches-->
-          <!--<div *ngIf="!formgroup.get('searchTerm')?.value; else searchResults">
-            <h4>Recent Searches</h4>
-            <div *ngFor="let search of recentSearches" class="recent-search-item">
-              <img src="path/to/avatar.jpg" alt="User Avatar">
-              <span>{{ search }}</span>
-            </div>
-          </div>-->
           <!--show search results-->
           <!--<ng-template #searchResults>-->
-            <ng-container *ngIf="searchStudent.value.length>0">
+          <ng-container *ngIf="searchStudent.value.length>0">
             <ng-container *ngIf="studentList | async as filteredStudents">
-            <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
-              <div class="message">
-                <div class="message-avatar">
-                  <img [src]="student.profileImage.link" alt="">
-                </div>
-                <div class="message-body">
-                  <p><b>Name:</b> {{ student.studentName }}</p>
-                  <p><b>Father Name:</b> {{student.fatherName}}</p>
-                  <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp;  <b>Year:</b> {{student.academicYearCode}}</p>
-                  <div class="link">
-                    <span>View Details</span>&nbsp;&nbsp;
-                    <span>|</span>&nbsp;&nbsp;
-                    <span>Pay Fees</span>
+              <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
+                <div class="message">
+                  <div class="message-avatar">
+                    <img [src]="student.profileImage.link" alt="">
+                  </div>
+                  <div class="message-body">
+                    <p><b>Name:</b> {{ student.studentName }}</p>
+                    <p><b>Father Name:</b> {{student.fatherName}}</p>
+                    <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp; <b>Year:</b>
+                      {{student.academicYearCode}}</p>
+                    <div class="link">
+                      <span>View Details</span>&nbsp;&nbsp;
+                      <span>|</span>&nbsp;&nbsp;
+                      <span>Pay Fees</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </ng-container>
-        </ng-container>
           <!--</ng-template>-->
         </div>
       </div>
     </div>
 
+      <!-- Social Icons and Name -->
+      <ul class="navbar-nav d-flex align-items-center">
+        <li class="nav-item">
+          <button mat-icon-button class="example-icon nav-link" aria-label="Facebook">
+            <mat-icon>facebook</mat-icon>
+          </button>
+          <button mat-icon-button class="example-icon nav-link" aria-label="Favorite">
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button mat-icon-button class="example-icon nav-link" aria-label="Share">
+            <mat-icon>share</mat-icon>
+          </button>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link"><strong>Hi, {{loginUserName}}</strong></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>facebook</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hi, {{loginUserName}}</div>
-  </mat-toolbar>
-</div>
 
 <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-nav-menu>
+<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]=800></app-nav-menu>

@@ -4,8 +4,9 @@
   box-sizing: border-box;
 }
 .header{
-    height: 64px;
-    background: rgb(30, 80, 197);
+    /* height: 64px;
+    background: rgb(30, 80, 197); */
+    z-index:999;
 }
 .example-spacer {
     flex: 1 1 auto;
@@ -15,11 +16,32 @@
     padding-right: 100px;
   }
 
-  .searchbar-container {
+  /* .searchbar-container {
     font-family: 'Lexend Deca', sans-serif;
-    /* overflow-Y: none !important; */
     z-index:10;
+  } */
+
+  /* Add space between navbar items */
+.nav-item {
+  margin-right: 15px;
+}
+
+/* Align search bar to center */
+.searchbar-container {
+  z-index: 10;
+  position: relative;
+  /* display: flex; */
+  /* flex-direction: column;  Stack children vertically */
+  /* flex-grow: 1; */
+}
+
+/* On smaller screens, make the search bar full width */
+@media (max-width: 768px) {
+  .searchbar-container {
+    width: 100%;
   }
+}
+
   
   button i {
     transition: transform 0.25s;
@@ -91,12 +113,16 @@
     background: white;
     border-radius: 10px;
     position: absolute;
+    top: 100%;  /* 100% from the top of the parent element */
+  left: 0;  /* Align to the left of the parent element */
     /* // left: 0;
     // right: 0;
     // margin: 0 auto;*/
     /* top: 160px; */
     animation: slideInDown 0.8s;
     display: none;
+    z-index: 999;
+    /* flex-grow: 1; */
     /* background-color: whitesmoke; */
   }
   

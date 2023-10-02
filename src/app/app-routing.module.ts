@@ -76,6 +76,19 @@ const routes: Routes = [
                         },
                         role: Object.values(ROLE_ADMIN)
                     }
+            },
+            {
+                path: 'fees',
+                canLoad: [AuthGuard],
+                loadChildren: ()=> import('./component/fees/fees.module').then(m=> m.FeesModule),
+                data:{
+                    breadcrumb: {
+                        label: breadcrumb.FEES,
+                        title: pageTitle.FEES,
+                        disable: true
+                    },
+                    role: Object.values(ROLE_ADMIN)
+                }
             }
         ]
     },

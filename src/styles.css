@@ -966,11 +966,6 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     max-width: 98px;
 }
 
-
-
-
-
-
 .grid-card-container {
     background-color: rgb(255, 255, 255);
     padding-left: 16px;
