@@ -28,9 +28,8 @@
             <img src="https://img.icons8.com/cotton/24/000000/search--v2.png">
           </button>
         </div>
-      </form>
 
-      <div #modalElement id="Modal" class="search-modal shadow-lg"
+        <div #modalElement id="Modal" class="search-modal shadow-lg"
         [ngStyle]="{'display': showModal ? 'block' : 'none'}">
         <!-- Loader -->
         <div class="loader-container" *ngIf="isLoading">
@@ -58,11 +57,13 @@
                   </div>
                 </div>
               </div>
+              </div>
             </ng-container>
           </ng-container>
           <!--</ng-template>-->
         </div>
       </div>
+      </form>
     </div>
 
       <!-- Social Icons and Name -->

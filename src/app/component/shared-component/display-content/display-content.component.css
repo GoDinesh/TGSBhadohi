@@ -32,7 +32,10 @@
   position: relative;
   /* display: flex; */
   /* flex-direction: column;  Stack children vertically */
-  /* flex-grow: 1; */
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  flex-grow: 1;
 }
 
 /* On smaller screens, make the search bar full width */
@@ -114,11 +117,11 @@
     border-radius: 10px;
     position: absolute;
     top: 100%;  /* 100% from the top of the parent element */
-  left: 0;  /* Align to the left of the parent element */
-    /* // left: 0;
-    // right: 0;
-    // margin: 0 auto;*/
-    /* top: 160px; */
+    left: 0;  /* Align to the left of the parent element */
+    /* left: 0; */
+    right: 1rem;
+    margin: 0 auto;
+    /* top: 160px;
     animation: slideInDown 0.8s;
     display: none;
     z-index: 999;

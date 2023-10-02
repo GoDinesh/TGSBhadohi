@@ -3,7 +3,7 @@
     transition: all .5s ease;
     position: fixed;
     z-index: 1;
-    top: 4rem;
+    /* top: 4rem; */
     width: 5rem;
     height: 100vh;
     padding-bottom: 3rem;
