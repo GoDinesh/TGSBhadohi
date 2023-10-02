@@ -54,7 +54,7 @@
                   <p><b>Father Name:</b> {{student.fatherName}}</p>
                   <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp;  <b>Year:</b> {{student.academicYearCode}}</p>
                   <div class="link">
-                    <span>View Details</span>&nbsp;&nbsp;
+                    <span (click)="viewStudentDetails(student)">View Details</span>&nbsp;&nbsp;
                     <span>|</span>&nbsp;&nbsp;
                     <span>Pay Fees</span>
                   </div>
@@ -83,4 +83,5 @@
 </div>
 
 <app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-nav-menu>
+<!-- <app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]="screenWidth"></app-nav-menu> -->
+<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]="800"></app-nav-menu>

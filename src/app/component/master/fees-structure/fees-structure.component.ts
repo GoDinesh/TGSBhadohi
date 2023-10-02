@@ -46,10 +46,36 @@ export class FeesStructureComponent {
         remarks: new FormControl(),
         totalFees: new FormControl(),
         discountReasonCode: new FormControl(),
+        discountAmount: new FormControl(),
         netAmountAfterDiscount: new FormControl(),
         registrationFees: new FormControl(),
         annualFees: new FormControl(),
         annualFeesDate: new FormControl(),
+        lumpsumAmount: new FormControl(),
+
+        installmentNo1: new FormControl(),
+        installmentDate1: new FormControl(),
+        installmentAmount1: new FormControl(),
+
+        installmentNo2: new FormControl(),
+        installmentDate2: new FormControl(),
+        installmentAmount2: new FormControl(),
+
+        installmentNo3: new FormControl(),
+        installmentDate3: new FormControl(),
+        installmentAmount3: new FormControl(),
+
+        installmentNo4: new FormControl(),
+        installmentDate4: new FormControl(),
+        installmentAmount4: new FormControl(),
+
+        installmentNo5: new FormControl(),
+        installmentDate5: new FormControl(),
+        installmentAmount5: new FormControl(),
+
+        installmentNo6: new FormControl(),
+        installmentDate6: new FormControl(),
+        installmentAmount6: new FormControl(),
    })
 
    constructor(private formBuilder: FormBuilder,
@@ -82,10 +108,36 @@ export class FeesStructureComponent {
       remarks: [feeStructure.remarks,[Validators.minLength(3), Validators.maxLength(150), CustomValidation.alphabetsWithSpace]],
       totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
-      netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      discountAmount: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
+      netAmountAfterDiscount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFeesDate: [feeStructure.annualFeesDate, [Validators.required]]
+      annualFeesDate: [feeStructure.annualFeesDate, [Validators.required]],
+      lumpsumAmount: [feeStructure.lumpsumAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo1: [{value: feeStructure.installmentNo1, disabled: true}],
+      installmentDate1: [feeStructure.installmentDate1],
+      installmentAmount1: [feeStructure.installmentAmount1,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo2: [{value: feeStructure.installmentNo2, disabled: true}],
+      installmentDate2: [feeStructure.installmentDate2],
+      installmentAmount2: [feeStructure.installmentAmount2,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo3: [{value: feeStructure.installmentNo3, disabled: true}],
+      installmentDate3: [feeStructure.installmentDate3],
+      installmentAmount3: [feeStructure.installmentAmount3,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo4: [{value: feeStructure.installmentNo4, disabled: true}],
+      installmentDate4: [feeStructure.installmentDate4],
+      installmentAmount4: [feeStructure.installmentAmount4,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo5: [{value: feeStructure.installmentNo5, disabled: true}],
+      installmentDate5: [feeStructure.installmentDate5],
+      installmentAmount5: [feeStructure.installmentAmount5,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+
+      installmentNo6: [{value: feeStructure.installmentNo6, disabled: true}],
+      installmentDate6: [feeStructure.installmentDate6],
+      installmentAmount6: [feeStructure.installmentAmount6,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
     })
   }
 
