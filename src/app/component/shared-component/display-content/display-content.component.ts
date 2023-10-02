@@ -1,6 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, debounceTime, filter, map, startWith } from 'rxjs';
+import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { Registration } from 'src/app/model/student/registration.model';
@@ -33,7 +35,8 @@ export class DisplayContentComponent {
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
-    private registrationService: RegistrationService
+    private registrationService: RegistrationService,
+    private router: Router,
   ) {
     this.loginUserName = this.authService.getLoginUserName();
   }
@@ -96,5 +99,10 @@ export class DisplayContentComponent {
     if (!clickedInsideModal && !clickedInsideSearchBar) {
       this.showModal = false;
     }
+  }
+
+
+  viewStudentDetails(student: Registration){
+        this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: student } });  
   }
 }

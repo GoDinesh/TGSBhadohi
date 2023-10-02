@@ -42,21 +42,19 @@
           <!--<ng-template #searchResults>-->
           <ng-container *ngIf="searchStudent.value.length>0">
             <ng-container *ngIf="studentList | async as filteredStudents">
-              <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
-                <div class="message">
-                  <div class="message-avatar">
-                    <img [src]="student.profileImage.link" alt="">
-                  </div>
-                  <div class="message-body">
-                    <p><b>Name:</b> {{ student.studentName }}</p>
-                    <p><b>Father Name:</b> {{student.fatherName}}</p>
-                    <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp; <b>Year:</b>
-                      {{student.academicYearCode}}</p>
-                    <div class="link">
-                      <span>View Details</span>&nbsp;&nbsp;
-                      <span>|</span>&nbsp;&nbsp;
-                      <span>Pay Fees</span>
-                    </div>
+            <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
+              <div class="message">
+                <div class="message-avatar">
+                  <img [src]="student.profileImage.link" alt="">
+                </div>
+                <div class="message-body">
+                  <p><b>Name:</b> {{ student.studentName }}</p>
+                  <p><b>Father Name:</b> {{student.fatherName}}</p>
+                  <p><b>Standard:</b> {{ student.standard }} &nbsp;&nbsp; | &nbsp;&nbsp;  <b>Year:</b> {{student.academicYearCode}}</p>
+                  <div class="link">
+                    <span (click)="viewStudentDetails(student)">View Details</span>&nbsp;&nbsp;
+                    <span>|</span>&nbsp;&nbsp;
+                    <span>Pay Fees</span>
                   </div>
                 </div>
               </div>

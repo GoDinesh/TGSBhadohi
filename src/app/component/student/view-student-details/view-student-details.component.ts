@@ -16,6 +16,7 @@ export class ViewStudentDetailsComponent {
 
    ngOnInit(){
     this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+      this.reg = new Registration();
       if (res.studetails.registrationNo.length > 0) {
         this.reg = res.studetails;
       }
