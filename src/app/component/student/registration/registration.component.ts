@@ -199,14 +199,14 @@ export class RegistrationComponent {
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
-      dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
+      dateOfBirth: [{value: stuInfo.dateOfBirth, disabled:true}, [Validators.required]],
       standard: [{value: stuInfo.standard, disabled: this.updateFlag}, [Validators.required]],
       section:[stuInfo.section, [Validators.required]],
       academicYearCode: [{value: stuInfo.academicYearCode, disabled: this.updateFlag}, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
-      registrationNo: [stuInfo.registrationNo, []],
+      registrationNo: [stuInfo.registrationNo, [Validators.required]],
     });
   }
 

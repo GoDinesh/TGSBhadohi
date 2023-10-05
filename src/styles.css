@@ -14,7 +14,7 @@ body {
 /* mat-stepper CSS begin */
 
 /* fix the height of mat-step */
-mat-stepper{
+mat-stepper {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -91,9 +91,7 @@ mat-stepper{
 }
 
 /* Extra Large (XL) - Large Desktops */
-@media (min-width: 1200px) {
-    
-}
+@media (min-width: 1200px) {}
 
 /* Styles for tablets and smaller screens */
 /* @media (max-width: 1080px) {
@@ -143,7 +141,7 @@ mat-stepper{
     padding: 0 10px;
 }
 
-table td {
+.table td {
     text-align: left;
     vertical-align: middle !important;
 }
@@ -165,7 +163,7 @@ tr.mat-header-row {
     color: var(--bs-table-striped-color)
 }
 
-table td,
+.table td,
 .table th,
 .table tr {
     border: 1px solid #00000024 !important;
@@ -1023,17 +1021,18 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 /* data table css */
 
-tr td {
+.custom-data-table tbody tr td {
     height: 0.2rem !important;
     padding: 0.2rem !important;
+    border: 1px solid #ccc;
 }
 
-th {
+.custom-data-table thead th {
     height: 0.3rem;
     background-color: rgb(219, 218, 218);
 }
 
-table {
+.custom-data-table {
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
 }
@@ -1117,7 +1116,8 @@ table {
 /* begin radio button */
 .mat-mdc-radio-button~.mat-mdc-radio-button {
     margin-left: 16px;
- }
+}
+
 /* end radio button */
 
 /* change mat-ckeckbox color to green */
@@ -1125,42 +1125,85 @@ table {
 /* Change the checkbox frame color */
 .mat-checkbox-frame {
     border-color: green !important;
-  }
-  
-  /* Change the checkbox background color when checked */
-  .mat-checkbox-checked .mat-checkbox-background,
-  .mat-checkbox-indeterminate .mat-checkbox-background {
+}
+
+/* Change the checkbox background color when checked */
+.mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-indeterminate .mat-checkbox-background {
     background-color: green !important;
-  }
-  
-  /* Change the checkbox checkmark color */
-  .mat-checkbox-checked .mat-checkbox-checkmark-path {
+}
+
+.mdc-checkbox--selected {
+    background-color: green !important;
+}
+
+/* Change the checkbox checkmark color */
+.mat-checkbox-checked .mat-checkbox-checkmark-path {
     stroke: white !important;
-  }
-  
-  /* Change the checkbox mixed mark color */
-  .mat-checkbox-indeterminate .mat-checkbox-mixedmark {
+}
+
+/* Change the checkbox mixed mark color */
+.mat-checkbox-indeterminate .mat-checkbox-mixedmark {
     background-color: white !important;
-  }
+}
 
-  /* reduce line height of tree node */
-  .mat-tree-node { min-height: 30px }
+/* reduce line height of tree node */
+.mat-tree-node {
+    min-height: 30px
+}
 
-  /* reduce height of mat-chip */
-  /* .mat-standard-chip {    
+/* reduce height of mat-chip */
+/* .mat-standard-chip {    
     height: auto !important;
   } */
 
 .small-chip {
-    height : 15px !important;
-  }
+    height: 15px !important;
+}
 
-
-  .avatar {
+/* image avatar */
+.avatar {
     height: 50px;
     width: 50px;
     border-radius: 25px;
     object-fit: cover;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
-  
+
+}
+
+/* custom datepicker style */
+
+.date-picker-container {
+    display: block;
+}
+
+.bootstrap-like-datepicker .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+.bootstrap-like-datepicker {
+    width: 100%;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+
+/* .bootstrap-like-datepicker .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-text-form-field-infix {
+    padding: 0;
+} */
+
+.bootstrap-like-datepicker .mat-form-field-label {
+    color: #495057;
+}
+
+.bootstrap-like-datepicker .mat-form-field-underline {
+    display: none;
+}
+
+.bootstrap-like-datepicker .mat-form-field-ripple {
+    display: none;
+}
+
+/* Adjust the height of the input field */
+.bootstrap-like-datepicker .mat-form-field-flex {
+    align-items: center;
 }

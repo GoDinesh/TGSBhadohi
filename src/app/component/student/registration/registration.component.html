@@ -19,9 +19,9 @@
           <label class="form-label required">Gender</label>
           <div class="mt-2">
             <mat-radio-group aria-label="Select an option" formControlName="gender">
-              <mat-radio-button value="M">Male</mat-radio-button>&nbsp;
-              <mat-radio-button value="F">Female</mat-radio-button>&nbsp;
-              <mat-radio-button value="O">Others</mat-radio-button>&nbsp;
+              <mat-radio-button value="M">Male</mat-radio-button>
+              <mat-radio-button value="F">Female</mat-radio-button>
+              <mat-radio-button value="O">Others</mat-radio-button>
             </mat-radio-group>
           </div>
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.gender,"Gender")}}</div>
@@ -31,7 +31,13 @@
         <!-- begin DOB -->
         <div class="form-group">
           <label class="form-label required">Date of Birth</label>
-          <input type="date" class="form-control" formControlName="dateOfBirth" placeholder="Select Date of Birth">
+          <!--<input type="date" class="form-control" formControlName="dateOfBirth" placeholder="Select Date of Birth">-->
+            <div class="d-flex input-group">
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control" [disabled]="true">
+            <!--<mat-hint>MM/DD/YYYY</mat-hint>-->
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker disabled="false"></mat-datepicker>
+          </div>
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth,"Date Of
             Birth")}}</div>
         </div>

@@ -23,11 +23,17 @@ import { MatTreeModule } from '@angular/material/tree';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {NgxPrintModule} from 'ngx-print';
 import {MatChipsModule} from '@angular/material/chips';
-import { AvatarModule } from 'ngx-avatar';
 import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
 
-//import {MatDatepickerModule} from '@angular/material/datepicker';
-//import {MatNativeDateModule} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { FusionChartsModule } from 'angular-fusioncharts';
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import { HighchartsChartModule } from 'highcharts-angular';
+
+// Pass the FusionCharts library and chart module
+FusionChartsModule.fcRoot(FusionCharts, Charts);
 
 @NgModule({
   declarations: [
@@ -51,8 +57,8 @@ import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-   // MatDatepickerModule,
-   // MatNativeDateModule,
+   MatDatepickerModule,
+   MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
@@ -61,7 +67,8 @@ import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
     MatCheckboxModule,
     NgxPrintModule,
     MatChipsModule,
-    AvatarModule
+    FusionChartsModule,
+    HighchartsChartModule
     
   ],
   exports: [
@@ -81,8 +88,8 @@ import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-   // MatDatepickerModule,
-    //MatNativeDateModule,
+   MatDatepickerModule,
+    MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
@@ -93,7 +100,8 @@ import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
     MatCheckboxModule,
     NgxPrintModule,
     MatChipsModule,
-    AvatarModule
+    FusionChartsModule,
+    HighchartsChartModule
   
   ],
   providers: [],

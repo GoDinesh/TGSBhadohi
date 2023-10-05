@@ -61,14 +61,14 @@
           {{node.text}}
         </mat-checkbox>
         <!--Permission Button To give Task on basis of their role-->
-        <mat-chip-list *ngIf="checkboxSelections.isSelected(node)" class="chip-spacing" aria-label="Fish selection">
-          <mat-chip class="small-chip" (click)="toggleSelected(node.text, true)" [selected]="isSelected(node.text, true)"
+        <mat-chip-listbox *ngIf="checkboxSelections.isSelected(node)" class="chip-spacing" aria-label="Fish selection">
+          <mat-chip-option (click)="toggleSelected(node.text, true)" [selected]="isSelected(node.text, true)"
             color="accent">
-            <mat-icon *ngIf="isSelected(node.text, true)">done</mat-icon>
+            <!--<mat-icon *ngIf="isSelected(node.text, true)">done</mat-icon>-->
             Editable
-          </mat-chip>
+          </mat-chip-option>
           <!-- Add more chips here -->
-        </mat-chip-list>
+        </mat-chip-listbox>
 
       </mat-tree-node>
 

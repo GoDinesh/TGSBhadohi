@@ -169,6 +169,10 @@
     margin-top: 2rem;
   }
   
+ .mat-calender {
+    all: initial;
+    all: unset;
+}
   
   
   
