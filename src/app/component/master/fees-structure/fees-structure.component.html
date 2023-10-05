@@ -348,7 +348,7 @@
 <ng-container *ngIf="posts | async as postData ">
   <div class="grid-card-container card-bottom-padding pt-2" *ngIf="postData.data ">
     <!--end::table-->
-    <table id='table' datatable [dtOptions]="dtOptions">
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
       <thead>
         <tr>
           <th>S.No.</th>

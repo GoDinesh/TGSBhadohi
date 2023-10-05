@@ -89,7 +89,7 @@
 <ng-container *ngIf="posts | async as userData">
 <div class="grid-card-container card-bottom-padding pt-2" *ngIf="userData">    
   <!--end::table-->
-  <table id='table' datatable [dtOptions]="dtOptions">    
+  <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
    <thead>
      <tr>
        <th>S.No</th> 

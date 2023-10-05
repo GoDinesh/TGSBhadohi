@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="birthday-section">
+      <h2>Today's Birthdays 🎉</h2>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let student of students">
+          <div class="card birthday-card">
+            <img src="path/to/cake-image.jpg" class="card-img-top cake-image" alt="Cake">
+            <div class="card-body">
+              <div class="avatar">
+                <img src="{{student.avatar}}" alt="{{student.name}}" class="avatar-img">
+              </div>
+              <h5 class="card-title">{{student.name}}</h5>
+              <p class="card-text">Class: {{student.class}}</p>
+              <img src="path/to/candle-image.jpg" class="candle-image" alt="Candle">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

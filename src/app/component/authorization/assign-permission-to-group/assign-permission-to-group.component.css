@@ -66,9 +66,9 @@
 }
 
 .small-chip {
-  height: 20px;
-  font-size: 12px;
-  line-height: 20px;
+  /* height: 20px; */
+  /* font-size: 12px;
+  line-height: 20px; */
 }
 
 .custom-mat-icon {
