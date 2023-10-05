@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { FeesRoutingModule } from './fees-routing.module';
 import { PayFeesComponent } from './pay-fees/pay-fees.component';
+import { SharedModule } from 'src/app/shared-module';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { PayFeesComponent } from './pay-fees/pay-fees.component';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     FeesRoutingModule
   ]
 })
