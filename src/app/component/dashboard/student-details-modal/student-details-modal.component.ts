@@ -28,8 +28,6 @@ export class StudentDetailsModalComponent {
   }
 
   fetchStudentDetails(year: string): any[] {
-    // Fetch student details for the selected year
-    // For demo purposes, returning a static array
     return [
       { name: 'John', className: '10th', registrationNo: '123' },
       { name: 'Jane', className: '11th', registrationNo: '124' }

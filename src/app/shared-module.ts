@@ -68,7 +68,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     NgxPrintModule,
     MatChipsModule,
     FusionChartsModule,
-    HighchartsChartModule
+    HighchartsChartModule,
     
   ],
   exports: [
@@ -101,7 +101,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     NgxPrintModule,
     MatChipsModule,
     FusionChartsModule,
-    HighchartsChartModule
+    HighchartsChartModule,
   
   ],
   providers: [],

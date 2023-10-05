@@ -6,7 +6,7 @@ import { DashboardHomeComponent } from './dashboard-home/dashboard-home.componen
 import { StudentBirthdayComponent } from './student-birthday/student-birthday.component';
 import { AdmissionAnalyticsComponent } from './admission-analytics/admission-analytics.component';
 import { SharedModule } from 'src/app/shared-module';
-import { StudentDetailsModalComponent } from './student-details-modal/student-details-modal.component';
+import { StudentDetailsModalComponent } from './student-details-modal/student-details-modal.component'
 
 
 @NgModule({
