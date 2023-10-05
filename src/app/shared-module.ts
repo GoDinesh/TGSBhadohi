@@ -11,26 +11,27 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatStepperModule} from '@angular/material/stepper';
-import { MatRadioModule} from '@angular/material/radio';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
 import { DataTablesModule } from 'angular-datatables';
-import { MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FilterDataPipe } from './core/pipes/filter-data.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTreeModule } from '@angular/material/tree';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {NgxPrintModule} from 'ngx-print';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxPrintModule } from 'ngx-print';
+import { MatChipsModule } from '@angular/material/chips';
 import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
 
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Pass the FusionCharts library and chart module
 FusionChartsModule.fcRoot(FusionCharts, Charts);
@@ -38,7 +39,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
 @NgModule({
   declarations: [
     FilterDataPipe,
-    FilterStudentListPipe    
+    FilterStudentListPipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -57,8 +58,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-   MatDatepickerModule,
-   MatNativeDateModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
@@ -69,7 +70,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatChipsModule,
     FusionChartsModule,
     HighchartsChartModule,
-    
+    MatDialogModule,
+    MatCardModule
   ],
   exports: [
     ReactiveFormsModule,
@@ -88,7 +90,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatSlideToggleModule,
     MatStepperModule,
     MatRadioModule,
-   MatDatepickerModule,
+    MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
     MatToolbarModule,
@@ -102,10 +104,12 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatChipsModule,
     FusionChartsModule,
     HighchartsChartModule,
-  
+    MatDialogModule,
+    MatCardModule
+
   ],
   providers: [],
 })
 export class SharedModule {
- 
+
 }
