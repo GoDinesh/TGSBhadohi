@@ -21,5 +21,10 @@ export class FeesStructureService {
     const url = this.requestUrl + appurl.endpoint_findall;
     return this.httpClient.get<ResponseModel>(url)
   }
+
+  getByAcademicYearAndClass(feesStructure: FeesStructure){
+    const url = this.requestUrl + appurl.endpoint_findbyid;
+    return this.httpClient.post<ResponseModel>(url, feesStructure)
+  }
  
 }
