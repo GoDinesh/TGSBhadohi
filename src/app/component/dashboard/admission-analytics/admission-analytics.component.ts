@@ -104,7 +104,7 @@ export class AdmissionAnalyticsComponent {
           name: 'Students',
           data: studentCounts,
           events: {
-            click: (event) => {
+            click: (event:any) => {
               this.selectedClass = event.point.category as string;
               this.selectedStudents = event.point.y as number;
 

@@ -43,7 +43,7 @@ export class ApiInterceptor implements HttpInterceptor {
                         "Content-type" : msgTypes.CONTENT_TYPE.APPLICATION_JSON
                       },
                 });
-                return next.handle(request)
+              // return next.handle(request)
     }
     if((request.body instanceof FormData)){
       request = request.clone({ 
@@ -52,7 +52,7 @@ export class ApiInterceptor implements HttpInterceptor {
               Authorization: "Bearer " + localStorage.getItem('access_token'),
             },
       });
-      return next.handle(request)
+     // return next.handle(request)
   }
 
     // else{
