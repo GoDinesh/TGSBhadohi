@@ -1,0 +1,76 @@
+/* Style the grid container */
+/* .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
+    /* grid-template-columns: 1fr; */
+    /* gap: 16px; */
+    /* padding: 16px; */
+    /* grid-auto-flow: dense;  This will make the grid fill in gaps */
+  /* } */
+  
+  /* Style each grid item */
+  /* .grid-item { */
+    /* background-color: #f1f1f1; */
+    /* padding: 20px; */
+    /* font-size: 30px; */
+    /* text-align: center; */
+  /* } */
+  
+  /* Style the card */
+  /* .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  } */
+
+  /* Specific heights for demonstration */
+/* .grid-item:nth-child(1) {
+    grid-row: span 3;  /* 400px */
+  /* } */
+  
+  /* .grid-item:nth-child(2) { */
+    /* grid-row: span 2;  300px */
+  /* } */
+  
+
+  /* Media query for tablet screens */
+/* @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr;  /* Two columns for tablets and up */
+    /* } */
+  /* }  */
+  
+  /* Media query for PC screens */
+  /* @media (min-width: 1024px) {
+    .grid-container {
+     grid-template-columns: 1fr 1fr;  /*Two columns for PC and up */
+    /* }
+  }  */
+
+  .masonry {
+    column-count: 2;
+    column-gap: 16px;
+  }
+  
+  .masonry-item {
+    background-color: #f1f1f1;
+    display: inline-block;
+    margin: 0 0 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 767px) {
+    .masonry {
+      column-count: 1;
+    }
+  }
+  

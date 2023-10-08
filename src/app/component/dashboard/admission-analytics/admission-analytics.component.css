@@ -1,0 +1,14 @@
+.chart-header {
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Style the select element */
+.custom-select {
+    font-size: 12px;  /* Make the text smaller */
+    line-height: 1.5;  /* Increase the default line height */
+  }
+
+  

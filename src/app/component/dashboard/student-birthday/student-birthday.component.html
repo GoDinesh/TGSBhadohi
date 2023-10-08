@@ -1,21 +1,28 @@
 <div class="container">
-    <div class="birthday-section">
-      <h2>Today's Birthdays 🎉</h2>
-      <div class="row">
-        <div class="col-md-4" *ngFor="let student of students">
-          <div class="card birthday-card">
-            <img src="path/to/cake-image.jpg" class="card-img-top cake-image" alt="Cake">
-            <div class="card-body">
-              <div class="avatar">
-                <img src="{{student.avatar}}" alt="{{student.name}}" class="avatar-img">
-              </div>
-              <h5 class="card-title">{{student.name}}</h5>
-              <p class="card-text">Class: {{student.class}}</p>
-              <img src="path/to/candle-image.jpg" class="candle-image" alt="Candle">
-            </div>
+  <div class="birthday-section">
+    <div class="birthday-header">
+      <span><strong>Today's Birthdays 🎉</strong></span>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#birthdayModal">
+        View All
+      </button>
+    </div>
+    <div *ngFor="let student of posts">
+      <div class="card birthday-card m-2">
+        <div class="card-body d-flex flex-row">
+          <div class="avatar">
+            <img src="{{student.profileImage.link}}" alt="{{student.studentName}}" class="avatar-img">
+          </div>
+          <div class="ml-2">
+            <span class="card-title">{{student.studentName}}</span>
+            <p class="card-text">Class: {{student.standard}}</p>
+          </div>
+          <div class="ml-auto">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal">
+              Wish Birthday 🎂
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

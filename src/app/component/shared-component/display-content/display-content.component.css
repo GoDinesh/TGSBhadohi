@@ -6,7 +6,7 @@
 .header{
     /* height: 64px;
     background: rgb(30, 80, 197); */
-    z-index:99;
+    /* z-index:99; */
 }
 .example-spacer {
     flex: 1 1 auto;
@@ -28,7 +28,7 @@
 
 /* Align search bar to center */
 .searchbar-container {
-  z-index: 10;
+  z-index: 1;
   position: relative;
   /* display: flex; */
   /* flex-direction: column;  Stack children vertically */

@@ -33,7 +33,7 @@
           <label class="form-label required">Date of Birth</label>
           <!--<input type="date" class="form-control" formControlName="dateOfBirth" placeholder="Select Date of Birth">-->
             <div class="d-flex input-group">
-            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control" [disabled]="true">
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control" readonly>
             <!--<mat-hint>MM/DD/YYYY</mat-hint>-->
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
