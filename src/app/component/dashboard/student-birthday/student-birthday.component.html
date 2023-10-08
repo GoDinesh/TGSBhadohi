@@ -6,7 +6,7 @@
         View All
       </button>
     </div>
-    <div *ngFor="let student of posts">
+    <div *ngFor="let student of todayBirthdayStudents">
       <div class="card birthday-card m-2">
         <div class="card-body d-flex flex-row">
           <div class="avatar">
@@ -17,7 +17,7 @@
             <p class="card-text">Class: {{student.standard}}</p>
           </div>
           <div class="ml-auto">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal" (click)="openModal()">
               Wish Birthday 🎂
             </button>
           </div>
@@ -26,3 +26,57 @@
     </div>
   </div>
 </div>
+
+<!-- Happy Birthday Modal -->
+<!--<div class="modal fade" id="wishModal" tabindex="-1" aria-labelledby="wishModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="wishModalLabel">Happy Birthday 🎉🎂</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <button type="button" class="btn btn-primary">
+          Send Message 📲
+        </button>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<!-- Happy Birthday Modal -->
+<div [ngStyle]="{'display': displayModal}" class="wishModal" (click)="closeModal($event)">
+  <div class="modal-content" #modalContent>
+    <span class="closeBtn" (click)="closeModal()"> &times; </span>
+    <h5>Happy Birthday 🎉🎂</h5>
+    <!-- Your Happy Birthday Card Content Here -->
+    <button (click)="sendMessage()">Send Message 📲</button>
+  </div>
+</div>
+
+<!-- Modal for View All -->
+<!-- ... (same as previous example) -->
+
+
+
+<!-- Modal -->
+<!--<div class="modal fade" id="birthdayModal" tabindex="-1" aria-labelledby="birthdayModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="birthdayModalLabel">Today's Birthdays</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li *ngFor="let student of students">{{student.name}} - Class: {{student.class}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>-->

@@ -10,6 +10,7 @@ import { Observable, forkJoin, map } from 'rxjs';
 import { Class } from 'src/app/model/master/class.model';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class AdmissionAnalyticsComponent {
   academicYearList: Observable<AcademicYear[]> = new Observable();
 
   constructor(private dialog: MatDialog,
+    private formBuilder: FormBuilder,
     private registrationService: RegistrationService,
     private classService: ClassService,
     private academicYearService: AcademicYearService) { }
@@ -47,6 +49,15 @@ export class AdmissionAnalyticsComponent {
   //   ]
   // };
 
+  formgroup = new FormGroup({
+    academicYearCode: new FormControl(),
+  });
+ 
+  createForm(academicyear: AcademicYear) {
+    this.formgroup = this.formBuilder.group({
+      academicYearCode: [academicyear.academicYearCode]
+    });
+  }
   Highcharts: typeof Highcharts = Highcharts;
   selectedClass: string;
   selectedClassCode: string;
@@ -54,15 +65,25 @@ export class AdmissionAnalyticsComponent {
   studentDetails: any;
   chartOptions: Highcharts.Options;
 
+  currentAcademicYear = this.getCurrentAcademicYear();
+
   ngOnInit(): void {
+    this.createForm(new AcademicYear);
     this.getStudentRecord();
-    this.loadAcademicyear();
-    this.loadClass('20222023');
+    this.customInit();
+    //this.loadClass(this.currentAcademicYear);
+
   }
 
-  updateChartData(event: Event): void {
-    const selectedYear = (event.target as HTMLSelectElement).value;
-    this.loadClass(selectedYear);
+  async customInit(){
+    await this.loadAcademicyear();
+    this.formgroup.controls.academicYearCode.setValue(this.currentAcademicYear)
+    this.updateChartData();
+  }
+
+  updateChartData(): void {
+    //const selectedYear = (event.target as HTMLSelectElement).value;
+    this.loadClass(this.formgroup.controls.academicYearCode.value);
   }
 
   loadClass(academicYear: string) {
@@ -144,11 +165,19 @@ export class AdmissionAnalyticsComponent {
     });
   }
 
-  loadAcademicyear() {
+  getCurrentAcademicYear(): string {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    return `${currentYear}${nextYear}`;
+  }
+  
+
+  async loadAcademicyear() {
     this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
+      
     )
   };
 

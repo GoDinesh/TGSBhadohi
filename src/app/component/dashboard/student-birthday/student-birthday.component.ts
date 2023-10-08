@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Registration } from 'src/app/model/student/registration.model';
 import { RegistrationService } from 'src/app/service/student/registration.service';
@@ -11,31 +11,31 @@ import { RegistrationService } from 'src/app/service/student/registration.servic
 export class StudentBirthdayComponent {
 
   posts: Registration[] = [];
+  todayBirthdayStudents: Registration[] = [];
   constructor(private registrationService: RegistrationService){
 
   }
-  students = [
-    { name: 'John', class: '5th', avatar: 'https://via.placeholder.com/50' },
-    { name: 'Jane', class: '6th', avatar: 'https://via.placeholder.com/50' },
-    // Add more students here
-  ];
 
   ngOnInit() {
     this.getStudentRecord();
   }
 
-  scrollLeft() {
-    const track = document.getElementById('slideTrack');
-    if (track) {
-      track.scrollLeft -= track.offsetWidth;
+  displayModal: string = 'none';
+  @ViewChild('modalContent') modalContent: ElementRef;
+
+  openModal() {
+    this.displayModal = 'block';
+  }
+
+  closeModal(event?: Event) {
+    if (!event || event.target === this.modalContent.nativeElement) {
+      this.displayModal = 'none';
     }
   }
-  
-  scrollRight() {
-    const track = document.getElementById('slideTrack');
-    if (track) {
-      track.scrollLeft += track.offsetWidth;
-    }
+
+  sendMessage() {
+    // Logic to send message
+    console.log('Sending birthday message...');
   }
   
 
@@ -44,6 +44,15 @@ export class StudentBirthdayComponent {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.posts = res.data;
       }
+
+      const today = new Date();
+      const currentMonth = today.getMonth() + 1;
+      const currentDay = today.getDate();
+
+      this.todayBirthdayStudents = this.posts.filter(student => {
+        const [year, month, day] = student.dateOfBirth.split('-');
+        return Number(month) === currentMonth && Number(day) === currentDay;
+      });
     })
   }
 }

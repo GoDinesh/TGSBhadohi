@@ -28,7 +28,7 @@
 
 /* Align search bar to center */
 .searchbar-container {
-  z-index: 1;
+  /* z-index: 1; */
   position: relative;
   /* display: flex; */
   /* flex-direction: column;  Stack children vertically */
@@ -121,10 +121,11 @@
     /* left: 0; */
     right: 1rem;
     margin: 0 auto;
+    z-index: 1;
     /* top: 160px;
     animation: slideInDown 0.8s;
     display: none;
-    z-index: 999;
+    /* z-index: 999; */
     /* flex-grow: 1; */
     /* background-color: whitesmoke; */
   }

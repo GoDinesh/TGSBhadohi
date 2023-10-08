@@ -1,3 +1,5 @@
+
+<form [formGroup]="formgroup" class="grid-form">
 <div class="container">
     <!--<fusioncharts
       [type]="type"
@@ -7,7 +9,7 @@
     </fusioncharts>-->
     <div class="chart-header">
       <span><b>Student Admissions Statistics</b></span>
-      <select (change)="updateChartData($event)" class="form-control form-control-sm custom-select w-25">
+      <select (change)="updateChartData()" formControlName="academicYearCode" class="form-control form-control-sm custom-select w-25">
         <option *ngFor="let year of academicYearList | async" [value]="year.academicYearCode">
           {{ year.academicYear }}
         </option>
@@ -18,3 +20,6 @@
     [Highcharts]="Highcharts"
     
     ></highcharts-chart>
+    </div>
+    </form>
+  
