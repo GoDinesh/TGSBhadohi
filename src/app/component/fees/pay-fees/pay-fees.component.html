@@ -1,6 +1,81 @@
 <div class="container mt-2">
-    <!--<h1>Fee Payment - Subsequent</h1>-->
 
+    <!-- Filter details -->
+    <div class="grid-card-container card-bottom-margin form-bg">
+        <form [formGroup]="formgroup" class="grid-form">
+            <!-- begin::academic year -->
+            <div class="form-group">
+                <label class="form-label required">Academic Year</label>
+                <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
+                    <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+                    <div *ngIf="academicYearList | async as postdata ">
+                        <mat-option
+                            *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                            [value]="data.academicYearCode">
+                            {{data.academicYear}}
+                        </mat-option>
+                    </div>
+                </mat-select>
+                <div class="invalid-feedback">
+                    {{validationMsg.getErrorMessage(feesFormControll.academicYearCode,"Academic Year")}}
+                </div>
+            </div>
+            <!-- end::academic year -->
+            <!-- begin::Standard -->
+            <div class="form-group">
+                <label class="form-label required">Standard</label>
+                <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
+                <mat-select class="form-control form-control-sm" (selectionChange)="loadStudentList()"
+                    formControlName="classCode">
+                    <input type="text" class="form-control  form-control-sm" #filterClassName>
+                    <div *ngIf="allClassList | async as postdata ">
+                        <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
+                            [value]="data.classCode">
+                            {{data.className}}
+                        </mat-option>
+                    </div>
+                </mat-select>
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(feesFormControll.classCode,"Standard")}}
+                </div>
+            </div>
+            <!-- end::Standard -->
+
+            <!-- begin::Student Name -->
+            <div class="form-group">
+                <label class="form-label required">Select Student</label>
+                <mat-select class="form-control form-control-sm" formControlName="registrationNo">
+                    <input type="text" class="form-control  form-control-sm" #filterStudent>
+                    <div *ngIf="studentList | async as postdata ">
+                        <mat-option *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
+                            [value]="data.registrationNo">
+                            {{data.studentName}}
+                        </mat-option>
+                    </div>
+                </mat-select>
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(feesFormControll.registrationNo,"Student
+                    Name")}}</div>
+            </div>
+            <!-- end::Student Name -->
+
+            <!-- begin::Buttons -->
+            <div class="grid-button form-group pt-4">
+                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="getFeesDetails()">Get Fees
+                    Details</button>
+                <button class="btn btn-danger" (click)="resetForm()">Reset</button>
+            </div>
+            <!-- end::Buttons -->
+
+        </form>
+    </div>
+    <!--<div class="card-body">
+        <p></p>
+      </div>-->
+
+
+
+    <!--<h1>Fee Payment - Subsequent</h1>-->
+<div *ngIf="feesStructureModel | async as postdata ">
+    <div *ngIf="postdata.data[0] as feesStructure ">
     <!-- Fee Structure Card -->
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -14,7 +89,7 @@
 
     <!-- Previous Amount After Discount Table -->
     <div class="mb-4">
-        <h2>Annual + Registration Fee: 8900, Pending Fee: 0</h2>
+        <h2>Annual + Registration Fee: {{feesStructure.annualFees + feesStructure.registrationFees}}, Pending Fee: 0</h2>
         <table class="table show-previous-amount-table">
             <thead>
                 <tr>
@@ -150,4 +225,6 @@
             <button class="btn btn-success m-2">Save</button>
         </div>
     </div>
+</div>
+</div>  
 </div>
