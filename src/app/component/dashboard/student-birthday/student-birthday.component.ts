@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Registration } from 'src/app/model/student/registration.model';
+import { SmsService } from 'src/app/service/common/sms.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 
 @Component({
@@ -12,8 +13,8 @@ export class StudentBirthdayComponent {
 
   posts: Registration[] = [];
   todayBirthdayStudents: Registration[] = [];
-  constructor(private registrationService: RegistrationService){
-
+  constructor(private registrationService: RegistrationService,
+    private smsService: SmsService){
   }
 
   ngOnInit() {
@@ -21,7 +22,9 @@ export class StudentBirthdayComponent {
   }
 
   displayModal: string = 'none';
+  displayBirthdayModal: string = 'none';
   @ViewChild('modalContent') modalContent: ElementRef;
+  @ViewChild('modalBirthdayContent') modalBirthdayContent: ElementRef;
 
   openModal() {
     this.displayModal = 'block';
@@ -33,12 +36,29 @@ export class StudentBirthdayComponent {
     }
   }
 
+  openBirthdayModal() {
+    this.displayBirthdayModal = 'block';
+    this.displayModal = 'none';
+  }
+
+  closeBirthdayModal(event?: Event) {
+    if (!event || event.target === this.modalBirthdayContent.nativeElement) {
+      this.displayBirthdayModal = 'none';
+    }
+  }
+
   sendMessage() {
-    // Logic to send message
-    console.log('Sending birthday message...');
+    const message = 'Happy Birthday Gurruu!';
+    const studentNumber = '+919140744685';
+  
+    this.smsService.sendSMS(message, studentNumber).subscribe(response => {
+      console.log('SMS sent successfully', response);
+    }, error => {
+      console.error('Error sending SMS', error);
+    });
+
   }
   
-
   async getStudentRecord() {
     this.registrationService.studentList(new Registration()).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
