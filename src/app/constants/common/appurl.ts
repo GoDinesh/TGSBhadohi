@@ -5,6 +5,9 @@ export const appurl={
                 auth_user: '/user',
                 auth_assignPermission: '/assign-permission',
 
+        menuurl_sms: '/sms',
+                send_sms: '/send-sms',
+
         menuurl_master: '/master',
                 master_class: '/standard',
                 master_academicyear: '/academicyear',

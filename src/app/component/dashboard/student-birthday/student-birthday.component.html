@@ -2,7 +2,7 @@
   <div class="birthday-section">
     <div class="birthday-header">
       <span><strong>Today's Birthdays 🎉</strong></span>
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#birthdayModal">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#birthdayModal" (click)="openModal()">
         View All
       </button>
     </div>
@@ -17,7 +17,7 @@
             <p class="card-text">Class: {{student.standard}}</p>
           </div>
           <div class="ml-auto">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal" (click)="openModal()">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal" (click)="openBirthdayModal()">
               Wish Birthday 🎂
             </button>
           </div>
@@ -48,18 +48,67 @@
 </div>-->
 
 <!-- Happy Birthday Modal -->
-<div [ngStyle]="{'display': displayModal}" class="wishModal" (click)="closeModal($event)">
-  <div class="modal-content" #modalContent>
-    <span class="closeBtn" (click)="closeModal()"> &times; </span>
+<!--<div [ngStyle]="{'display': displayBirthdayModal}" class="wishModal" (click)="closeBirthdayModal($event)">
+  <div class="modal-content" #modalBirthdayContent>
+    <span class="closeBtn" (click)="closeBirthdayModal()"> &times; </span>
     <h5>Happy Birthday 🎉🎂</h5>
-    <!-- Your Happy Birthday Card Content Here -->
+    <!-- Your Happy Birthday Card Content Here 
     <button (click)="sendMessage()">Send Message 📲</button>
   </div>
+</div>-->
+
+<div [ngStyle]="{'display': displayBirthdayModal}" class="wishModal" (click)="closeBirthdayModal($event)">
+  <div class="modal-content text-center" #modalBirthdayContent>
+    <span class="closeBtn" (click)="closeBirthdayModal()"> &times; </span>
+    
+    <!-- Header -->
+    <h1>Happy Birthday 🎉🎂</h1>
+
+    <!-- Birthday Image -->
+    <img src="assets/images/baloon.png" alt="Birthday" class="birthday-image">
+    
+    <!-- Personalized Message -->
+    <p class="personal-message">Wishing you a fantastic year ahead, shubhanshu!</p>
+
+    <!-- Additional Decorations -->
+    <!--<div class="decorations">
+      <img src="assets/images/baloon.png" alt="Balloon" class="balloon">
+      <img src="path/to/confetti_image.png" alt="Confetti" class="confetti">
+    </div>-->
+    
+    <button (click)="sendMessage()"><a href="sms:+919140744685?body=happy_birthday_guru">Send Message 📲</a></button>
+    <!--<a href="sms:+918423871981?body=happy_birthday_guru">Send Message 📲</a>-->
+  </div>
 </div>
+
 
 <!-- Modal for View All -->
 <!-- ... (same as previous example) -->
 
+<!-- Happy Birthday Modal -->
+<div [ngStyle]="{'display': displayModal}" class="wishModal" (click)="closeModal($event)">
+  <div class="modal-content" #modalContent>
+    <span class="closeBtn" (click)="closeModal()"> &times; </span>
+    <div *ngFor="let student of todayBirthdayStudents">
+      <div class="card birthday-card m-2">
+        <div class="card-body d-flex flex-row">
+          <div class="avatar">
+            <img src="{{student.profileImage.link}}" alt="{{student.studentName}}" class="avatar-img">
+          </div>
+          <div class="ml-2">
+            <span class="card-title">{{student.studentName}}</span>
+            <p class="card-text">Class: {{student.standard}}</p>
+          </div>
+          <div class="ml-auto">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#wishModal" (click)="openBirthdayModal()">
+              Wish Birthday 🎂
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- Modal -->
