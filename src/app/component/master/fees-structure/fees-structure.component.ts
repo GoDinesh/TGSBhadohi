@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
@@ -29,54 +29,32 @@ export class FeesStructureComponent {
   editable: boolean;
   actionFlag = true;
   dtOptions: any = {};
+  installments = [1,2,3,4,5,6,7,8,9,10,11,12];
+  Count = [];
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   discountReasonList: Observable<DiscountReason[]> = new Observable();
-  formgroup = new FormGroup({
-        id: new FormControl(),
-        classCode: new FormControl(),
-       // enrollmentType: new FormControl(),
-        academicYearCode: new FormControl(),
-        //paymentType: new FormControl(),
-        //validityStartDate: new FormControl(),
-        //validityEndDate: new FormControl(),
-        //remarks: new FormControl(),
-        totalFees: new FormControl(),
-        discountReasonCode: new FormControl(),
-        discountAmount: new FormControl(),
-        netAmountAfterDiscount: new FormControl(),
-        registrationFees: new FormControl(),
-        annualFees: new FormControl(),
-        //annualFeesDate: new FormControl(),
-        lumpsumAmount: new FormControl(),
+  formgroup: FormGroup;
 
-        installmentNo1: new FormControl(),
-        installmentDate1: new FormControl(),
-        installmentAmount1: new FormControl(),
-
-        installmentNo2: new FormControl(),
-        installmentDate2: new FormControl(),
-        installmentAmount2: new FormControl(),
-
-        installmentNo3: new FormControl(),
-        installmentDate3: new FormControl(),
-        installmentAmount3: new FormControl(),
-
-        installmentNo4: new FormControl(),
-        installmentDate4: new FormControl(),
-        installmentAmount4: new FormControl(),
-
-        installmentNo5: new FormControl(),
-        installmentDate5: new FormControl(),
-        installmentAmount5: new FormControl(),
-
-        installmentNo6: new FormControl(),
-        installmentDate6: new FormControl(),
-        installmentAmount6: new FormControl(),
-   })
+  // createForm(feeStructure: FeesStructure) {
+  // this.formgroup = this.formBuilder.group({
+  //       id: new FormControl(feeStructure.classCode,[]),
+  //       classCode: new FormControl(feeStructure.classCode, [Validators.required]),
+  //       academicYearCode: new FormControl(feeStructure.academicYearCode, [Validators.required]),
+  //       noOfInstallments: new FormControl(feeStructure.noOfInstallments, [Validators.required]),
+  //       totalFees: new FormControl(feeStructure.totalFees, [Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]),
+  //       discountReasonCode: new FormControl(),
+  //       discountAmount: new FormControl(),
+  //       netAmountAfterDiscount: new FormControl(),
+  //       registrationFees: new FormControl(),
+  //       annualFees: new FormControl(),
+  //       lumpsumAmount: new FormControl(),
+ 
+  //  })
+  // }
 
    constructor(private formBuilder: FormBuilder,
           public validationMsg: ValidationErrorMessageService,
@@ -100,45 +78,40 @@ export class FeesStructureComponent {
     this.formgroup = this.formBuilder.group({
       id: [feeStructure.id],
       classCode: [feeStructure.classCode,[Validators.required]],
-      //enrollmentType: [feeStructure.enrollmentType,[Validators.required]],
       academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
-      //paymentType: [feeStructure.paymentType,[Validators.required]],
-      //validityStartDate: [feeStructure.validityStartDate,[Validators.required]],
-      //validityEndDate: [feeStructure.validityEndDate,[Validators.required]],
-      //remarks: [feeStructure.remarks,[Validators.minLength(3), Validators.maxLength(150), CustomValidation.alphabetsWithSpace]],
+      noOfInstallments:[feeStructure.noOfInstallments,[Validators.required]],
       totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
-      discountAmount: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
-      netAmountAfterDiscount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      discountAmount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
+      netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount],
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      //annualFeesDate: [feeStructure.annualFeesDate, [Validators.required]],
-      lumpsumAmount: [feeStructure.lumpsumAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      lumpsumAmount: [feeStructure.lumpsumAmount],
+      installment: new FormArray([])
 
-      installmentNo1: [{value: feeStructure.installmentNo1, disabled: true}],
-      installmentDate1: [feeStructure.installmentDate1],
-      installmentAmount1: [feeStructure.installmentAmount1,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-
-      installmentNo2: [{value: feeStructure.installmentNo2, disabled: true}],
-      installmentDate2: [feeStructure.installmentDate2],
-      installmentAmount2: [feeStructure.installmentAmount2,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-
-      installmentNo3: [{value: feeStructure.installmentNo3, disabled: true}],
-      installmentDate3: [feeStructure.installmentDate3],
-      installmentAmount3: [feeStructure.installmentAmount3,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-
-      installmentNo4: [{value: feeStructure.installmentNo4, disabled: true}],
-      installmentDate4: [feeStructure.installmentDate4],
-      installmentAmount4: [feeStructure.installmentAmount4,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-
-      installmentNo5: [{value: feeStructure.installmentNo5, disabled: true}],
-      installmentDate5: [feeStructure.installmentDate5],
-      installmentAmount5: [feeStructure.installmentAmount5,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-
-      installmentNo6: [{value: feeStructure.installmentNo6, disabled: true}],
-      installmentDate6: [feeStructure.installmentDate6],
-      installmentAmount6: [feeStructure.installmentAmount6,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
     })
+  }
+
+  addInstallment(){
+    const control = <FormArray>this.formgroup.controls['installment'];
+    control.push(
+      new FormGroup({
+        classCode: new FormControl(this.formgroup.controls.classCode.value),
+        academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+        installmentNumber: new FormControl('Instalment  '+(control.length+1) ),
+        installmentDate: new FormControl(),
+        installmentAmount: new FormControl()
+    })
+    )
+  }
+
+  removeInstallment(index: number){
+    const control= <FormArray>this.formgroup.controls['installment'];
+    control.removeAt(index)
+  }
+
+  get installmentFormGroups () {
+    return this.formgroup.get('installment') as FormArray
   }
 
   //load the table
@@ -188,8 +161,6 @@ export class FeesStructureComponent {
 loadDiscountReason(){
   this.discountReasonList = this.discountReasonService.getAllDiscountReason().pipe(
     map((res)=>{
-      console.log(res.data);
-      
         return res.data;
       })
     )
@@ -201,6 +172,7 @@ get formControll(){
 
 save(){
   this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
+  this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
   try{
           this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
             if(res.status === msgTypes.SUCCESS_MESSAGE)
@@ -246,4 +218,26 @@ update() {
 resetForm(){
   this.createForm(new FeesStructure())
 }
+
+totalFeesChange(){
+    let totalFees = (this.formControll.totalFees.value);
+    if(totalFees.NaN){
+      totalFees = 0;
+    }
+
+    let discountAmount = this.formControll.discountAmount.value;
+    if(discountAmount.NaN){
+      discountAmount = 0;
+    }
+
+    this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
+    this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
+}
+
+// selectNoOfInstallment(){
+//   this.Count.length = this.formControll.noOfInstallments.value;
+// }
+
+
+
 }

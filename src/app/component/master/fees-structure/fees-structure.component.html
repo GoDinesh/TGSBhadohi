@@ -88,7 +88,7 @@
     <!-- begin::Total Fees-->
     <div class="form-group">
       <label class="form-label required">Total Fees</label>
-      <input class="form-control form-control-sm" formControlName="totalFees" placeholder="Enter Total Fees"
+      <input class="form-control form-control-sm" (input)="totalFeesChange()" formControlName="totalFees" placeholder="Enter Total Fees"
         autocomplete="off">
       <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.totalFees,"Total Fees")}}</div>
     </div>
@@ -116,7 +116,7 @@
     <!-- begin::Discount Amount-->
     <div class="form-group">
       <label class="form-label">Discount Amount</label>
-      <input class="form-control form-control-sm" formControlName="discountAmount" placeholder="Enter Discount Amount"
+      <input class="form-control form-control-sm" formControlName="discountAmount"(input)="totalFeesChange()" placeholder="Enter Discount Amount"
         autocomplete="off">
       <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountAmount,"")}}</div>
     </div>
@@ -125,7 +125,7 @@
     <!-- begin::Net Amount-->
     <div class="form-group">
       <label class="form-label required">Net Amount (After Discount)</label>
-      <input class="form-control form-control-sm" formControlName="netAmountAfterDiscount"
+      <input class="form-control form-control-sm" readonly formControlName="netAmountAfterDiscount"
         placeholder="Enter Net Amount" autocomplete="off">
       <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
     </div>
@@ -160,174 +160,77 @@
 
     <!-- begin::Lumsum Amount-->
     <div class="form-group">
-      <label class="form-label required">Lumsum Amount</label>
-      <input class="form-control form-control-sm" formControlName="lumpsumAmount" placeholder=""   autocomplete="off">
+      <label class="form-label">Lumsum Amount</label>
+      <input class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
       <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
     </div>
     <!-- end::Lumsum Amount -->
 
 
 
-
-
-
-    <div class="display-flex">
-      <div>
-        <!-- begin::1 Installment Number-->
-        <div class="form-group">
-          <label class="form-label">Installments</label>
-          <input class="form-control form-control-sm" formControlName="installmentNo1">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo1,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Number-->
-
-        <!-- begin:: 1 Installment Date-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentDate1">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate1,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Date-->
-
-        <!-- begin:: 1 Installment Amount-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentAmount1">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount1,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Amount-->
-      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <div>
-          <!-- begin:: 2 Installment Number-->
-          <div class="form-group">
-            <label class="form-label">Installments</label>
-            <input class="form-control form-control-sm" formControlName="installmentNo2">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo2,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Number-->
-
-          <!-- begin::2 Installment Date-->
-          <div class="form-group">
-            <input class="form-control form-control-sm" formControlName="installmentDate2">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate2,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Date-->
-
-          <!-- begin::2 Installment Amount-->
-          <div class="form-group">
-            <input class="form-control form-control-sm" formControlName="installmentAmount2">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount2,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Amount-->
-       </div>
-    </div>
-
-
-    <div class="display-flex">
-      <div>
-        <!-- begin::3 Installment Number-->
-        <div class="form-group">
-          <label class="form-label">Installments</label>
-          <input class="form-control form-control-sm" formControlName="installmentNo3">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo3,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Number-->
-
-        <!-- begin::3 Installment Date-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentDate3">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate3,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Date-->
-
-        <!-- begin::3 Installment Amount-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentAmount3">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount3,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Amount-->
-      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-      <div>
-        <!-- begin::4 Installment Number-->
-        <div class="form-group">
-          <label class="form-label">Installments</label>
-          <input class="form-control form-control-sm" formControlName="installmentNo4">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo4,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Number-->
-
-        <!-- begin::4 Installment Date-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentDate4">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate4,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Date-->
-
-        <!-- begin::4 Installment Amount-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentAmount4">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount4,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Amount-->
+    <!-- begin::Number of installment-->
+    <!-- <div class="form-group">
+      <label class="form-label">No Of Installment</label>
+      <mat-select class="form-control form-control-sm myPanelClass" formControlName="noOfInstallments" (selectionChange)="selectNoOfInstallment()"  placeholder="Select Installments" disableOptionCentering>
+          <mat-option *ngFor="let data of installments"
+            [value]="data">
+            {{data}}
+          </mat-option>
+      </mat-select>
+      <div class="invalid-feedback">
+        {{validationMsg.getErrorMessage(formControll.noOfInstallments,"")}}
       </div>
+    </div> -->
+    <!-- end:: Number of installment -->
 
-    </div>
+    <!-- <div></div>
+    <div></div> -->
+    <button class="btn btn-primary" (click)="addInstallment()">Add Installment</button>
+    <div></div>
+    <div></div>
 
+   <ng-container formArrayName="installment">
+    <ng-container  *ngFor="let installmentFormGroup of installmentFormGroups.controls; let i = index" >
+      <ng-container [formGroupName]="i">
+       <!-- begin::1 Installment Number-->
+       <div class="form-group">
+        <input type="text" readonly formControlName="installmentNumber" class="form-control form-control-sm">
+       </div>  
+      <!-- end::Annual Installment Number-->
 
-    <div class="display-flex">
-      <div>
-        <!-- begin::5 Installment Number-->
-        <div class="form-group">
-          <label class="form-label">Installments</label>
-          <input class="form-control form-control-sm" formControlName="installmentNo5">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo5,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Number-->
-
-        <!-- begin::5 Installment Date-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentDate5">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate5,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Date-->
-
-        <!-- begin::5 Installment Amount-->
-        <div class="form-group">
-          <input class="form-control form-control-sm" formControlName="installmentAmount5">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount5,"")}}</div>
-        </div>
-        <!-- end::Annual Installment Amount-->
-      </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <div>
-        <div>
-          <!-- begin::6 Installment Number-->
-          <div class="form-group">
-            <label class="form-label">Installments</label>
-            <input class="form-control form-control-sm" formControlName="installmentNo6">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentNo6,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Number-->
-
-          <!-- begin::6 Installment Date-->
-          <div class="form-group">
-            <input class="form-control form-control-sm" formControlName="installmentDate6">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentDate6,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Date-->
-
-          <!-- begin::6 Installment Amount-->
-          <div class="form-group">
-            <input class="form-control form-control-sm" formControlName="installmentAmount6">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.installmentAmount6,"")}}</div>
-          </div>
-          <!-- end::Annual Installment Amount-->
-        </div>
-
+      <!-- begin:: 1 Installment Date-->
+      <!-- <div class="form-group">
+        <input formControlName="installmentDate" class="form-control form-control-sm">
+      </div> -->
+       <!--begin::Date Of Birth-->
+    <div class="form-group">
+      <div class="input-group">
+              <input class="form-control form-control-sm dob-color disable-pointer" readonly placeholder="Select Installment Date" [matDatepicker]="picker" formControlName="installmentDate">
+              <mat-datepicker-toggle [for]="picker" class="mat-icon-button" ></mat-datepicker-toggle>
+              <mat-datepicker #picker [disabled]="false"></mat-datepicker>
       </div>
+   </div>
+  <!--end::Date Of Birth-->
 
-    </div>
+      <!-- end::Annual Installment Date-->
 
+      <!-- begin:: 1 Installment Amount-->
+      <div class="form-group display-flex">
+        <input type="number" formControlName="installmentAmount" class="form-control form-control-sm">
+        <button class="btn btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
+      </div>
+      <!-- end::Annual Installment Amount-->
+      </ng-container>
+    </ng-container>
+   </ng-container>
 
-    <!-- begin::Buttons -->
+   
+  
+
+   
+  
+
+ <!-- begin::Buttons -->
     <div class="grid-button form-group pt-4">
       <ng-container *ngIf="actionFlag">
         <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>

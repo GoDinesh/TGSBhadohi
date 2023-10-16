@@ -52,8 +52,7 @@
                         </mat-option>
                     </div>
                 </mat-select>
-                <div class="invalid-feedback">{{validationMsg.getErrorMessage(feesFormControll.registrationNo,"Student
-                    Name")}}</div>
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(feesFormControll.registrationNo,"Student Name")}}</div>
             </div>
             <!-- end::Student Name -->
 
@@ -96,8 +95,10 @@
                     <th scope="col">S.No</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Total Amount</th>
+                    <th scope="col">Previous Discount</th>
                     <th scope="col">Enter Discount</th>
                     <th scope="col">Reason for Discount</th>
+                    <th scope="col">Amount After Discount</th>
                     <th scope="col">Amount Paid</th>
                     <th scope="col">Net Payable</th>
                 </tr>
@@ -106,68 +107,39 @@
                 <tr>
                     <td>1</td>
                     <td>10/04/2023</td>
-                    <td>708</td>
+                    <td>{{feesStructure.annualFees + feesStructure.registrationFees}}</td>
+                    <td><input type="text" readonly value="{{feesStructure.discountAmount}}" class="form-control"></td>
                     <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
-                    <td>4000</td>
-                    <td>4000</td>
+                    <td><input type="text" class="form-control" placeholder="Discount Reason"></td>
+                    <td>{{(feesStructure.annualFees + feesStructure.registrationFees) - feesStructure.discountAmount}}</td>
+                    <td>0</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td class="" colspan="7">
-                        <h2>Installment (Term Fee: 14400, Term Fee Pending Amounts : 12000)</h2>
+                        <h2>Installment (Term Fee: {{(feesStructure.netAmountAfterDiscount-(feesStructure.annualFees + feesStructure.registrationFees))}}, Term Fee Pending Amounts : 12000)</h2>
                     </td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>10/04/2023</td>
                     <td>708</td>
+                    <td><input type="text" readonly class="form-control" ></td>
                     <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
+                    <td><input type="text" class="form-control" placeholder="Discount Reason"></td>
+                    <td>999</td>
                     <td>4000</td>
                     <td>4000</td>
                 </tr>
-                <tr>
-                    <td>3</td>
-                    <td>10/04/2023</td>
-                    <td>708</td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
-                    <td>4000</td>
-                    <td>4000</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>10/04/2023</td>
-                    <td>708</td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
-                    <td>4000</td>
-                    <td>4000</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>10/04/2023</td>
-                    <td>708</td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
-                    <td>4000</td>
-                    <td>4000</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>10/04/2023</td>
-                    <td>708</td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Reason"></td>
-                    <td>4000</td>
-                    <td>4000</td>
-                </tr>
+                
                 <tr class="bg-warning total">
                     <td><strong>Total</strong></td>
                     <td>23300</td>
                     <td>4900</td>
+                    <td>Previous Discount </td>
                     <td>0</td>
                     <td>18400</td>
+                    <td>999</td>
                     <td>64000</td>
                     <td>12000</td>
                 </tr>
@@ -182,8 +154,8 @@
             <thead>
                 <tr>
                     <th scope="col">Amount *</th>
-                    <th scope="col">Pre Printed Stationary No</th>
-                    <th scope="col">Validation No</th>
+                    <!-- <th scope="col">Discount Reason</th>
+                    <th scope="col">Discount</th> -->
                     <th scope="col">Payment Mode</th>
                     <th scope="col">Payment Date</th>
                     <th scope="col">Receipt ton be Printed on the name of *</th>
@@ -194,12 +166,12 @@
                     <td>
                         <input type="text" name="" class="form-control" placeholder="Enter Amount" />
                     </td>
-                    <td>
-                        <input type="text" name="" class="form-control" placeholder="" readonly />
+                    <!-- <td>
+                        <input type="text" name="" class="form-control" placeholder="Discount Reason" />
                     </td>
                     <td>
-                        <input type="text" name="" class="form-control" placeholder="Enter Validation Number" />
-                    </td>
+                        <input type="text" name="" class="form-control" placeholder="Enter Discount" />
+                    </td> -->
                     <td>
                         <select class="form-select" class="form-control">
                             <option selected>Select Mode</option>

@@ -3,3 +3,14 @@
     padding: "10px";
     margin: "10px";
 }
+
+.installment-div{
+    background-color: rgb(232, 244, 244); 
+    padding: 10px;
+}
+
+
+.btn-height{
+    margin-top: 3px;
+    height: 35px;
+}

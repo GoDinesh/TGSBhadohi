@@ -8,7 +8,7 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
+    "noPropertyAccessFromIndexSignature": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
@@ -24,7 +24,8 @@
       "dom"
     ],
     "useDefineForClassFields": false,
-    "types": ["jquery"]
+    "types": ["jquery"],
+    
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
