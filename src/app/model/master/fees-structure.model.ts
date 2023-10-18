@@ -1,7 +1,7 @@
 import { Installment } from "./installment.model";
 
 export class FeesStructure {
-    id: string;
+    feeStructureId: string;
     classCode: string;
     enrollmentType: string;
     academicYearCode: string;
@@ -27,7 +27,7 @@ export class FeesStructure {
 
     
     constructor(){
-    this.id = '',
+    this.feeStructureId = '',
     this.classCode = '';
     this.enrollmentType = '';
     this.academicYearCode = '';
