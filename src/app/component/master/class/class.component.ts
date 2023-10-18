@@ -44,7 +44,8 @@ export class ClassComponent {
     private permissionService: PermissionService,
     private authService: AuthService,
     private router: Router) {
-
+    
+    
     //Listen to router events
     // this.router.events.subscribe(event => {
     //   if (event instanceof NavigationEnd) {

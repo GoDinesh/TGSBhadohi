@@ -1,5 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
 import { Class } from 'src/app/model/master/class.model';
 import { catchError, map } from 'rxjs/operators';
@@ -32,6 +32,7 @@ export class RegistrationComponent {
   registrationNumber: string = "";
   reg: Registration = new Registration();
   updateFlag: boolean = false;
+  updateButtonFlag: boolean = true;
   editable: boolean;
   // myFiles:string [] = [];
 
@@ -129,18 +130,18 @@ export class RegistrationComponent {
 
         if (this.reg.profileImage) {
           this.selectedStudentPhoto = this.reg.profileImage.link;
-        this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
-          this.selectedPhoto = file;
-          console.log(this.selectedPhoto);
-        });
+          this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
+            this.selectedPhoto = file;
+            console.log(this.selectedPhoto);
+          });
         }
 
         if (this.reg.documents && this.reg.documents.length > 0) {
           const documentObservables = this.reg.documents.map(doc => this.fetchFile(doc.link, doc.fileName));
-          
+
           forkJoin(documentObservables).subscribe((files: File[]) => {
             this.documents = files;
-  
+
             // Update the uploadDocumentForm
             this.uploadDocumentForm.patchValue({
               studentPhoto: this.selectedStudentPhoto,
@@ -148,7 +149,7 @@ export class RegistrationComponent {
             });
           });
         }
-        
+
       }
     })
 
@@ -167,6 +168,29 @@ export class RegistrationComponent {
   customInit() {
     this.loadClass();
     this.loadAcademicyear();
+    // Listen for changes on the form && Enable the generate button 
+    // this.studentgroup.valueChanges.subscribe(() => {
+    //   const standardValue = typeof this.studentgroup.controls.standard.value === 'string' ? this.studentgroup.controls.standard.value.trim() : '';
+    //   const academicYearCodeValue = typeof this.studentgroup.controls.academicYearCode.value === 'string' ? this.studentgroup.controls.academicYearCode.value.trim() : '';
+    //   const sectionValue = typeof this.studentgroup.controls.section.value === 'string' ? this.studentgroup.controls.section.value.trim() : '';
+
+    //   const standardValid = this.studentgroup.controls.standard.valid && standardValue !== '';
+    //   const academicYearCodeValid = this.studentgroup.controls.academicYearCode.valid && academicYearCodeValue !== '';
+    //   const sectionValid = this.studentgroup.controls.section.valid && sectionValue !== '';
+
+    //   this.updateFlag = !(standardValid && academicYearCodeValid && sectionValid);
+    // });
+    this.studentgroup.valueChanges.subscribe(() => {
+      const isValid = (controlName: string) => {
+        const control = (this.studentgroup.controls as { [key: string]: AbstractControl })[controlName];
+        const value = control.value;
+        return control.valid && (typeof value === 'string' ? value.trim() : '') !== '';
+      };
+
+      this.updateButtonFlag = !['standard', 'academicYearCode', 'section'].every(isValid);
+    });
+
+
   }
 
   fetchFile(url: string, fileName: string): Observable<File> {
@@ -199,11 +223,11 @@ export class RegistrationComponent {
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
-      dateOfBirth: [{value: stuInfo.dateOfBirth, disabled:true}, [Validators.required]],
-      standard: [{value: stuInfo.standard, disabled: this.updateFlag}, [Validators.required]],
-      section:[stuInfo.section, [Validators.required]],
-      academicYearCode: [{value: stuInfo.academicYearCode, disabled: this.updateFlag}, [Validators.required]],
-      aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation] ],
+      dateOfBirth: [{ value: stuInfo.dateOfBirth, disabled: true }, [Validators.required]],
+      standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
+      section: [stuInfo.section, [Validators.required]],
+      academicYearCode: [{ value: stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
+      aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
@@ -291,65 +315,65 @@ export class RegistrationComponent {
     return this.uploadDocumentForm.controls;
   }
 
-  getSections(){
-  return [
-    // {
-    //   title: 'Student Details',
-    //   fields: [
-    //     { label: 'Student Name', value: this.studentgroup.controls.studentName.value },
-    //     { label: 'Gender', value: this.studentFormControll.gender.value },
-    //     { label: 'Standard', value: this.studentFormControll.standard.value },
-    //     { label: 'Academic Year', value: this.studentFormControll.academicYearCode.value },
-    //     { label: 'Aadhar Number', value: this.studentFormControll.aadhaarNumber.value },
-    //     { label: 'Religion', value: this.studentFormControll.religion.value },
-    //     { label: 'Category', value: this.studentFormControll.category.value },
-    //     { label: 'Registration Number', value: this.studentFormControll.registrationNo.value },
-    //   ]
-    // },
-    {
-      title: 'Parent Details',
-      fields: [
-        { label: 'Father Name', value: this.parentFormControll.fatherName.value },
-        { label: 'Father Adhar No.', value: this.parentFormControll.fatherAadharNo.value },
-        { label: 'Father Contact No.', value: this.parentFormControll.fatherContactNo.value },
-        { label: 'Father Qualification', value: this.parentFormControll.fatherQualification.value },
-        { label: 'Father Profession', value: this.parentFormControll.fatherProfession.value },
-        { label: 'Father EmailId', value: this.parentFormControll.fatherEmailId.value },
-        { label: 'Mother Name', value: this.parentFormControll.motherName.value },
-        { label: 'Mother Adhar No.', value: this.parentFormControll.motherAadharNumber.value },
-        { label: 'Mother Contact No.', value: this.parentFormControll.motherContactNumber.value },
-        { label: 'Mother Profession', value: this.parentFormControll.motherProfession.value },
-        { label: 'Guardian Name', value: this.parentFormControll.guardianName.value }
-      ]
-    },
-    {
-      title: 'Address Details',
-      fields: [
-        { label: 'Country', value: this.addressFormControll.country.value },
-        { label: 'State', value: this.addressFormControll.state.value },
-        { label: 'City', value: this.addressFormControll.city.value },
-        { label: 'Pincode', value: this.addressFormControll.pincode.value },
-        { label: 'Area', value: this.addressFormControll.area.value },
-      ]
-    },
-    {
-      title: 'Emergency Details',
-      fields: [
-        { label: 'Emergency Contact Person', value: this.emergencyContactFormControll.emergencyContactPerson.value },
-        { label: 'Emergency Number', value: this.emergencyContactFormControll.emergencyNumber.value },
-      ]
-    },
-    {
-      title: 'Previous Schools Details',
-      fields: [
-        { label: 'School Name', value: this.lastSchoolFormControll.schoolName.value },
-        { label: 'TC Number', value: this.lastSchoolFormControll.tcNumber.value },
-        { label: 'Passes Class', value: this.lastSchoolFormControll.passedClass.value },
-        { label: 'Passed Class Marks', value: this.lastSchoolFormControll.passedClassMarks.value },
-      ]
-    },
-  ];
-}
+  getSections() {
+    return [
+      // {
+      //   title: 'Student Details',
+      //   fields: [
+      //     { label: 'Student Name', value: this.studentgroup.controls.studentName.value },
+      //     { label: 'Gender', value: this.studentFormControll.gender.value },
+      //     { label: 'Standard', value: this.studentFormControll.standard.value },
+      //     { label: 'Academic Year', value: this.studentFormControll.academicYearCode.value },
+      //     { label: 'Aadhar Number', value: this.studentFormControll.aadhaarNumber.value },
+      //     { label: 'Religion', value: this.studentFormControll.religion.value },
+      //     { label: 'Category', value: this.studentFormControll.category.value },
+      //     { label: 'Registration Number', value: this.studentFormControll.registrationNo.value },
+      //   ]
+      // },
+      {
+        title: 'Parent Details',
+        fields: [
+          { label: 'Father Name', value: this.parentFormControll.fatherName.value },
+          { label: 'Father Adhar No.', value: this.parentFormControll.fatherAadharNo.value },
+          { label: 'Father Contact No.', value: this.parentFormControll.fatherContactNo.value },
+          { label: 'Father Qualification', value: this.parentFormControll.fatherQualification.value },
+          { label: 'Father Profession', value: this.parentFormControll.fatherProfession.value },
+          { label: 'Father EmailId', value: this.parentFormControll.fatherEmailId.value },
+          { label: 'Mother Name', value: this.parentFormControll.motherName.value },
+          { label: 'Mother Adhar No.', value: this.parentFormControll.motherAadharNumber.value },
+          { label: 'Mother Contact No.', value: this.parentFormControll.motherContactNumber.value },
+          { label: 'Mother Profession', value: this.parentFormControll.motherProfession.value },
+          { label: 'Guardian Name', value: this.parentFormControll.guardianName.value }
+        ]
+      },
+      {
+        title: 'Address Details',
+        fields: [
+          { label: 'Country', value: this.addressFormControll.country.value },
+          { label: 'State', value: this.addressFormControll.state.value },
+          { label: 'City', value: this.addressFormControll.city.value },
+          { label: 'Pincode', value: this.addressFormControll.pincode.value },
+          { label: 'Area', value: this.addressFormControll.area.value },
+        ]
+      },
+      {
+        title: 'Emergency Details',
+        fields: [
+          { label: 'Emergency Contact Person', value: this.emergencyContactFormControll.emergencyContactPerson.value },
+          { label: 'Emergency Number', value: this.emergencyContactFormControll.emergencyNumber.value },
+        ]
+      },
+      {
+        title: 'Previous Schools Details',
+        fields: [
+          { label: 'School Name', value: this.lastSchoolFormControll.schoolName.value },
+          { label: 'TC Number', value: this.lastSchoolFormControll.tcNumber.value },
+          { label: 'Passes Class', value: this.lastSchoolFormControll.passedClass.value },
+          { label: 'Passed Class Marks', value: this.lastSchoolFormControll.passedClassMarks.value },
+        ]
+      },
+    ];
+  }
 
   loadDropdowns() {
     this.loadStandard();

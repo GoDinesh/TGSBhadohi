@@ -1171,39 +1171,17 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 }
 
-/* custom datepicker style */
+/* custom datepicker styling */
+.datepicker-container {
+    position: relative;
+  }
+  
+  .toggle-datepicker-icon-position {
+    position: absolute;
+    right: 2px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent; /* Remove any background if present */
+    border: none; /* Remove any border if present */
+  }
 
-.date-picker-container {
-    display: block;
-}
-
-.bootstrap-like-datepicker .mat-mdc-form-field-subscript-wrapper {
-    display: none;
-}
-
-.bootstrap-like-datepicker {
-    width: 100%;
-    border-radius: 0.25rem;
-    border: 1px solid #ced4da;
-}
-
-/* .bootstrap-like-datepicker .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-text-form-field-infix {
-    padding: 0;
-} */
-
-.bootstrap-like-datepicker .mat-form-field-label {
-    color: #495057;
-}
-
-.bootstrap-like-datepicker .mat-form-field-underline {
-    display: none;
-}
-
-.bootstrap-like-datepicker .mat-form-field-ripple {
-    display: none;
-}
-
-/* Adjust the height of the input field */
-.bootstrap-like-datepicker .mat-form-field-flex {
-    align-items: center;
-}
