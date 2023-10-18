@@ -34,34 +34,34 @@
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as classData ">
-<div class="grid-card-container card-bottom-padding pt-2" *ngIf="classData">
-  <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
-    <thead>
-      <tr>
-        <th>S.No</th>
-        <th>Class Code</th>
-        <th>Class Name</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let post of classData;let i=index">
-        <td class="td-sno">{{i+1}}</td>
-        <td class="td-small">{{ post.classCode }}</td>
-        <td class="td-auto">{{ post.className }}</td>
-        <td class="td-status">
-          <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
-          </mat-slide-toggle>
-        </td>
-        <td class="td-action">
-          <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!--end::table-->
+  <div class="grid-card-container card-bottom-padding pt-2" *ngIf="classData">
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Class Code</th>
+          <th>Class Name</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of classData;let i=index">
+          <td class="td-sno">{{i+1}}</td>
+          <td class="td-small">{{ post.classCode }}</td>
+          <td class="td-auto">{{ post.className }}</td>
+          <td class="td-status">
+            <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
+            </mat-slide-toggle>
+          </td>
+          <td class="td-action">
+            <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--end::table-->
 
-</div>
+  </div>
 </ng-container>
 <!--end::second Card body-->

@@ -31,14 +31,14 @@
         <!-- begin DOB -->
         <div class="form-group">
           <label class="form-label required">Date of Birth</label>
-          <!--<input type="date" class="form-control" formControlName="dateOfBirth" placeholder="Select Date of Birth">-->
-            <div class="d-flex input-group">
-            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control" readonly>
-            <!--<mat-hint>MM/DD/YYYY</mat-hint>-->
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <div class="datepicker-container">
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control form-control-sm"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker"
+              class="toggle-datepicker-icon-position"></mat-datepicker-toggle>
             <mat-datepicker #picker disabled="false"></mat-datepicker>
           </div>
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth,"Date Of
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
         </div>
         <!-- end:: DOB -->
@@ -49,7 +49,9 @@
           <label class="form-label required">Standard</label>
           <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
           <mat-select class="form-control form-control-sm" formControlName="standard">
-            <input type="text" class="form-control  form-control-sm" #filterClassName>
+            <div class="p-1">
+              <input type="text" class="form-control form-control-sm" #filterClassName>
+            </div>
             <div *ngIf="allClassList | async as postdata ">
               <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
                 [value]="data.classCode">
@@ -75,7 +77,9 @@
           <label class="form-label required">Academic Year</label>
           <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
           <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
-            <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+            <div class="p-1">
+              <input type="text" class="form-control form-control-sm" #filterAcademicYear>
+            </div>
             <div *ngIf="academicYearList | async as postdata ">
               <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
                 [value]="data.academicYearCode">
@@ -137,7 +141,7 @@
           <label class="form-label required">Registration No</label>
           <div class="d-flex">
             <div class="mr-3">
-              <button class="btn btn-primary btn-sm form-control" [disabled]="updateFlag"
+              <button class="btn btn-primary btn-sm form-control form-control-sm" [disabled]="updateButtonFlag"
                 (click)="generateRegistrationNumber()">Generate</button>
             </div>
             <div>
@@ -417,7 +421,7 @@
 
   <mat-step [stepControl]="uploadDocumentForm">
     <ng-template matStepLabel>Upload Document</ng-template>
-    <form [formGroup]="uploadDocumentForm">
+    <form [formGroup]="uploadDocumentForm" class="grid-form">
 
       <div class="row">
         <!-- Student Photo Column -->
@@ -449,7 +453,7 @@
 
         <!-- Upload Documents Column -->
         <div class="col-md-6 shadow-sm">
-          <div class="form-group">
+          <div class="form-group m-2">
             <!-- begin::upload documents -->
             <label class="mb-2" for="file">Upload Documents :</label>
             <div class="d-flex">
@@ -475,7 +479,7 @@
                   <th scope="col" class="action-header">Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="custom-body">
                 <tr *ngFor="let doc of documents; let i = index" class="document-row">
                   <td>{{doc.name}}</td>
                   <td class="action-header">
@@ -499,7 +503,7 @@
   </mat-step>
 
   <mat-step>
-    <form>
+    <form class="grid-form">
       <ng-template matStepLabel>Done</ng-template>
       <!-- Preview Modal (PDF-like preview) -->
       <!-- Main Container -->
