@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
 import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
@@ -26,7 +27,7 @@ export class AcademicYearComponent {
   dtOptions: any = {};
   posts: Observable<AcademicYear[]> = new Observable();
   actionFlag = true;
-  editable: boolean;
+  editable: boolean | undefined;
 
   formgroup = new FormGroup({
     id: new FormControl(),
@@ -54,13 +55,22 @@ export class AcademicYearComponent {
   //load ngOnInit
   ngOnInit() {
     this.createForm(new AcademicYear());
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.customInit();
     this.loadTable();
   }
 
   async customInit() {
     await this.getTableRecord();
+  }
+
+  private updateEditable(): void {
+    console.log("calles");
+    
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+      console.log(editable);
+    });
   }
 
   //get the current route and use it for managing the editable value

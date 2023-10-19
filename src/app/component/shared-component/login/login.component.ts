@@ -10,6 +10,7 @@ import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { UserService } from 'src/app/service/authorization/user.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import { PermissionService } from 'src/app/service/common/permission.service';
 
 @Component({
   selector: 'app-login',
@@ -18,19 +19,20 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class LoginComponent {
   constructor(
-          private router: Router,
-          private formBuilder: FormBuilder,
-          public  errorMsgService: ValidationErrorMessageService,
-          private authService: AuthService,
-          private sweetAlertService: SweetAlertService,
-          private httpClient: HttpClient,
-          private userService: UserService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    public errorMsgService: ValidationErrorMessageService,
+    private authService: AuthService,
+    private permissionService: PermissionService,
+    private sweetAlertService: SweetAlertService,
+    private httpClient: HttpClient,
+    private userService: UserService,
   ) { }
 
   email!: string;
   password!: string;
-  authModel: Auth =new Auth();
-  ipAddress: string ='';
+  authModel: Auth = new Auth();
+  ipAddress: string = '';
   showPassword: boolean = false;
 
   loginForm = new FormGroup({
@@ -39,84 +41,76 @@ export class LoginComponent {
     password: new FormControl(),
   })
 
-  ngOnInit(){
-      this.createForm();
-      this.loginForm.reset();
-      //this.getIPAddress();
+  ngOnInit() {
+    this.createForm();
+    this.loginForm.reset();
+    //this.getIPAddress();
   }
 
   createForm() {
     this.loginForm = this.formBuilder.group({
-      roles: ['',[Validators.required]],
-      email: ['',[Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.secretKey]],
+      roles: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), CustomValidation.secretKey]],
       password: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(32), CustomValidation.secretKey]],
     });
   }
 
-  get loginFormControl(){
+  get loginFormControl() {
     return this.loginForm.controls;
   }
 
-  login() : void {
-    //this.router.navigate([routeType.DASHBOARD]);
+  login(): void {
     let data = this.preparedata();
-    this.authService.authanticate(data).subscribe((res: any)=>{
-      if(res.username === data.email){
-        
-       
-        
-        // const encryptdState = this.authService.getEncryptText(res.authanticate);
-        // localStorage.setItem(msgTypes.STATE, JSON.stringify(encryptdState));
-        
-        // this.authService.generateToken().subscribe((token: any)=>{
-        //const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken)
-       
+    this.authService.authanticate(data).subscribe((res: any) => {
+      if (res.username === data.email) {
         const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken);
-        //const encryptedAccessToken = res.jwtToken;
+
         localStorage.setItem("access_token", encryptedAccessToken)
-        //})
-        this.userService.getUserByEmailId(data.email).subscribe(res=>{
-            const encryptedUserType = this.authService.getEncryptText(res.data[0].role);
-            localStorage.setItem("userType", encryptedUserType );
 
-            if(res.data[0].role != msgTypes.ADMIN){
-              const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
-              localStorage.setItem("userPermission", encryptedPermission)
-            }
+        this.userService.getUserByEmailId(data.email).subscribe(res => {
+          const encryptedUserType = this.authService.getEncryptText(res.data[0].role);
+          localStorage.setItem("userType", encryptedUserType);
 
-            const encryptedUserName = this.authService.getEncryptText(res.data[0].name);
-            localStorage.setItem("loginUserName", encryptedUserName)
+          console.log(msgTypes);
 
-            this.router.navigate([routeType.DASHBOARD]);
-          
+          if (res.data[0].role != msgTypes.ADMIN) {
+            const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
+            localStorage.setItem("userPermission", encryptedPermission);
+          }
+
+          const encryptedUserName = this.authService.getEncryptText(res.data[0].name);
+          localStorage.setItem("loginUserName", encryptedUserName)
+
+          this.router.navigate([routeType.DASHBOARD]);
+
         })
 
         this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGIN_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
-       }else{
+      } else {
         this.sweetAlertService.showAlert(msgTypes.ERROR_MESSAGE, msgTypes.INVALID_CREDENTIALS, msgTypes.ERROR, msgTypes.OK_KEY);
       }
     });
 
-    
+
   }
 
-  preparedata(){
+  preparedata() {
     this.authModel.email = this.loginFormControl.email.value;
     this.authModel.password = this.loginFormControl.password.value;
     this.authModel.roles = this.loginFormControl.roles.value;
     return this.authModel;
   }
-  
- // For Hide/Show Password Field
- toggleShowPassword() {
-  this.showPassword = !this.showPassword;
-}
+
+  // For Hide/Show Password Field
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   // getIPAddress()
   // {
   //   this.httpClient.get("http://api.ipify.org/?format=json").subscribe((res:any)=>{
   //     this.ipAddress = res.ip;
-      
+
   //   });
   // }
 }

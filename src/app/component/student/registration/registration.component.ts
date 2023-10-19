@@ -33,7 +33,7 @@ export class RegistrationComponent {
   reg: Registration = new Registration();
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
-  editable: boolean;
+  editable: boolean | undefined;
   // myFiles:string [] = [];
 
   //Upload Student Photo
@@ -159,10 +159,16 @@ export class RegistrationComponent {
     this.createEmergencyContactForm(this.reg);
     this.createLastSchoolForm(this.reg);
     this.createUploadDocumentForm();
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.loadDropdowns();
     this.getSections();
     this.customInit();
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
   customInit() {

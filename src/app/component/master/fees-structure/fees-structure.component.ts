@@ -26,7 +26,7 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 })
 export class FeesStructureComponent {
 
-  editable: boolean;
+  editable: boolean | undefined;
   actionFlag = true;
   dtOptions: any = {};
   installments = [1,2,3,4,5,6,7,8,9,10,11,12];
@@ -70,8 +70,14 @@ export class FeesStructureComponent {
 
    ngOnInit(){
     this.createForm(new FeesStructure());
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.customInit();
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
    createForm(feeStructure: FeesStructure) {
@@ -127,12 +133,12 @@ export class FeesStructureComponent {
     };
   }
   
-  //get the current route and use it for managing the editable value
-  private updateEditableValue(): void {
-    const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-    const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-    this.editable = this.permissionService.getEditableValue(cleanedRoute);
-  }
+  // //get the current route and use it for managing the editable value
+  // private updateEditableValue(): void {
+  //   const currentRoute = this.router.url.substring(1); // Remove the leading '/'
+  //   const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
+  //   this.editable = this.permissionService.getEditableValue(cleanedRoute);
+  // }
 
   customInit() {
     this.loadTable();

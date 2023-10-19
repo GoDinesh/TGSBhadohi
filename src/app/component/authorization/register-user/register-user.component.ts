@@ -27,7 +27,7 @@ export class RegisterUserComponent {
   posts: Observable<User[]> = new Observable();
   dtOptions: any = {};
   actionFlag: boolean = true;
-  editable: boolean;
+  editable: boolean | undefined;
 
   formGroup = new FormGroup({
     id: new FormControl(),
@@ -54,9 +54,15 @@ export class RegisterUserComponent {
   ngOnInit() {
     this.loadPermissionGroup();
     this.createForm(new User());
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.loadTable();
     this.getTableRecord();
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
   createForm(usermodel: User) {

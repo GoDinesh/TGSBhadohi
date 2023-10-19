@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
+import { BehaviorSubject } from 'rxjs';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Auth } from 'src/app/model/auth.model';
 import { INavbarData } from 'src/app/model/menu';
@@ -17,32 +18,32 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  authanticate(credentials: Auth){
+  authanticate(credentials: Auth) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-    return this.httpClient.post('/auth/login', JSON.stringify(credentials), {headers: headers});
+    return this.httpClient.post('/auth/login', JSON.stringify(credentials), { headers: headers });
   }
-  
-  getToken(){
+
+  getToken() {
     let EncryptedAccessToken = localStorage.getItem('access_token');
-    if(EncryptedAccessToken){
+    if (EncryptedAccessToken) {
       return this.getDecryptText(EncryptedAccessToken)
     }
     return '';
   }
 
-  getUserType(){
+  getUserType() {
     let EncryptedUsertype = localStorage.getItem('userType');
-    if(EncryptedUsertype){
+    if (EncryptedUsertype) {
       return this.getDecryptText(EncryptedUsertype)
     }
     return '';
   }
 
-  generateToken(){
+  generateToken() {
     return this.httpClient.get('/generateToken');
   }
 
-  validateToken(){
+  validateToken() {
     return this.httpClient.get('/validateToken');
   }
 
@@ -52,54 +53,54 @@ export class AuthService {
     const parsedBase64Key = CryptoJS.enc.Base64.parse(encryptedBase64Key);
     // this is Base64-encoded encrypted data
     const encryptedData = CryptoJS.AES.encrypt(plaintText, parsedBase64Key, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-    }).toString();
-    return encryptedData; 
-  }
-
-//Decryption
-public getDecryptText(encryptedData: string) {
-  let encryptedBase64Key = msgTypes.APP_SECRET_KEY;
-  const parsedBase64Key = CryptoJS.enc.Base64.parse(encryptedBase64Key);
-
-  const decryptedData = CryptoJS.AES.decrypt(encryptedData, parsedBase64Key, {
       mode: CryptoJS.mode.ECB,
       padding: CryptoJS.pad.Pkcs7
-  });
-  // this is the decrypted data as a string
-  const decryptedText = decryptedData.toString(CryptoJS.enc.Utf8);
-  return decryptedText;
-}
-
-isLoggedIn(){
-  const state = JSON.parse(''+localStorage.getItem(msgTypes.STATE));
-  const loggedIn= JSON.parse(this.getDecryptText(state));
-
-  if (loggedIn)
-    this.isLogin = true;
-  else
-    this.isLogin = false;
-  return this.isLogin;
-}
-
-getRole() {
-   const role = localStorage.getItem('userType');
-   return this.getDecryptText(""+role);
-}
-
-getUserPermission(){
-  const userPermission = localStorage.getItem('userPermission');
-  if(userPermission){
-    return this.getDecryptText(userPermission)
+    }).toString();
+    return encryptedData;
   }
-  return '';
-}
 
-getLoginUserName() {
-  const loginUserName = (""+localStorage.getItem('loginUserName'));
-  return this.getDecryptText(loginUserName);
-}
+  //Decryption
+  public getDecryptText(encryptedData: string) {
+    let encryptedBase64Key = msgTypes.APP_SECRET_KEY;
+    const parsedBase64Key = CryptoJS.enc.Base64.parse(encryptedBase64Key);
+
+    const decryptedData = CryptoJS.AES.decrypt(encryptedData, parsedBase64Key, {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    });
+    // this is the decrypted data as a string
+    const decryptedText = decryptedData.toString(CryptoJS.enc.Utf8);
+    return decryptedText;
+  }
+
+  isLoggedIn() {
+    const state = JSON.parse('' + localStorage.getItem(msgTypes.STATE));
+    const loggedIn = JSON.parse(this.getDecryptText(state));
+
+    if (loggedIn)
+      this.isLogin = true;
+    else
+      this.isLogin = false;
+    return this.isLogin;
+  }
+
+  getRole() {
+    const role = localStorage.getItem('userType');
+    return this.getDecryptText("" + role);
+  }
+
+  getUserPermission() {
+    const userPermission = localStorage.getItem('userPermission');
+    if (userPermission) {
+      return this.getDecryptText(userPermission)
+    }
+    return '';
+  }
+
+  getLoginUserName() {
+    const loginUserName = ("" + localStorage.getItem('loginUserName'));
+    return this.getDecryptText(loginUserName);
+  }
 
 
 }

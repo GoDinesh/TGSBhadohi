@@ -65,7 +65,7 @@
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
                 <ng-container>
-                    <button class="btn btn-success mx-3" (click)="getTableRecord()">Search</button>
+                    <button class="btn btn-success mx-3" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>
                 </ng-container>
                 <button  class="btn btn-danger" (click)="resetForm()">Reset</button>
             </div>

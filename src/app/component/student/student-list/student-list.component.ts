@@ -30,7 +30,7 @@ export class StudentListComponent {
   posts: Registration[] = [];
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
-  editable: boolean;
+  editable: boolean | undefined;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
@@ -65,10 +65,16 @@ export class StudentListComponent {
 
   customInit() {
     this.createStudentForm(new Registration());
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
     this.getTableRecord();
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
   createStudentForm(registartion: Registration) {

@@ -26,7 +26,7 @@ export class DiscountReasonComponent {
   dtOptions: any = {};
   posts: Observable<DiscountReason[]> = new Observable();
   actionFlag = true;
-  editable: boolean;
+  editable: boolean | undefined;
 
   formgroup = new FormGroup({
    // discountReasonCode    : new FormControl(),
@@ -47,13 +47,19 @@ export class DiscountReasonComponent {
   //load ngOnInit
   ngOnInit() {
     this.createForm(new DiscountReason);
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.updateEditable();
     this.customInit();
   }
 
   async customInit() {
     this.loadTable();
     await this.getTableRecord();
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
   createForm(discountReason: DiscountReason) {
