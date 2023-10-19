@@ -82,7 +82,7 @@ export class FeesStructureComponent {
 
    createForm(feeStructure: FeesStructure) {
     this.formgroup = this.formBuilder.group({
-      id: [feeStructure.id],
+      feeStructureId: [feeStructure.feeStructureId],
       classCode: [feeStructure.classCode,[Validators.required]],
       academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
       noOfInstallments:[feeStructure.noOfInstallments,[Validators.required]],
@@ -206,6 +206,20 @@ getTableRecord(){
 //set value in formfield to update
 setValueToUpdate(data: FeesStructure) {
   this.createForm(data);
+  const installment = data.installment;
+  const control = <FormArray>this.formgroup.controls['installment'];
+  for(let i=0;i<installment.length;i++){
+  control.push(
+    new FormGroup({
+      classCode: new FormControl(installment[i].classCode),
+      academicYearCode: new FormControl(installment[i].academicYearCode),
+      installmentNumber: new FormControl(installment[i].installmentNumber),
+      installmentDate: new FormControl(installment[i].installmentDate),
+      installmentAmount: new FormControl(installment[i].installmentAmount)
+  })
+  )
+}
+  
   this.actionFlag = false;
 }
 

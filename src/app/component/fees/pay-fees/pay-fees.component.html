@@ -109,8 +109,8 @@
                     <td>10/04/2023</td>
                     <td>{{feesStructure.annualFees + feesStructure.registrationFees}}</td>
                     <td><input type="text" readonly value="{{feesStructure.discountAmount}}" class="form-control"></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Discount Reason"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
                     <td>{{(feesStructure.annualFees + feesStructure.registrationFees) - feesStructure.discountAmount}}</td>
                     <td>0</td>
                     <td>0</td>
@@ -120,19 +120,19 @@
                         <h2>Installment (Term Fee: {{(feesStructure.netAmountAfterDiscount-(feesStructure.annualFees + feesStructure.registrationFees))}}, Term Fee Pending Amounts : 12000)</h2>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>10/04/2023</td>
-                    <td>708</td>
-                    <td><input type="text" readonly class="form-control" ></td>
-                    <td><input type="text" class="form-control" placeholder="Enter Discount"></td>
-                    <td><input type="text" class="form-control" placeholder="Discount Reason"></td>
-                    <td>999</td>
+                <tr *ngFor="let data of feesStructure.installment; index as i">
+                    <td>{{(i+2)}}</td>
+                    <td>{{data.installmentDate}}</td>
+                    <td>{{data.installmentAmount}}</td>
+                    <td><input type="text" readonly class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" class="form-control"></td>
+                    <td><input type="text" readonly class="form-control"></td>
                     <td>4000</td>
                     <td>4000</td>
                 </tr>
                 
-                <tr class="bg-warning total">
+                <tr  class="bg-warning total">
                     <td><strong>Total</strong></td>
                     <td>23300</td>
                     <td>4900</td>
