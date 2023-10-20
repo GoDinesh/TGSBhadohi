@@ -4,14 +4,14 @@
         <!-- begin::Academic Year -->
         <div class="form-group">
             <label class="form-label required">Academic Year</label>
-            <input class="form-control form-control-sm" formControlName="academicYear" placeholder="Ex.. 2022-2023" autocomplete="off">
+            <input class="form-control form-control-sm" formControlName="academicYear" (input)="academicYearOnBlur()" placeholder="Ex.. 2022-2023" autocomplete="off">
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYear,"Academic Year")}}</div>
         </div>
         <!-- end::Academic Year-->
         <!-- begin::Academic Year code-->
         <div class="form-group">
             <label class="form-label required">Academic Year Code</label>
-            <input class="form-control form-control-sm" formControlName="academicYearCode" placeholder="Ex.. 20222023" autocomplete="off">
+            <input class="form-control form-control-sm" readonly formControlName="academicYearCode" autocomplete="off">
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year Code")}}</div>
         </div>
         <!-- end::Academic Year code-->
