@@ -26,7 +26,7 @@ export class ClassComponent {
   dtOptions: any = {};
   posts: Observable<Class[]> = new Observable();;
   actionFlag = true;
-  editable: boolean;
+  editable: boolean | undefined;
 
   formgroup = new FormGroup({
     id: new FormControl(),
@@ -59,7 +59,9 @@ export class ClassComponent {
   //load ngOnInit
   ngOnInit() {
     this.createForm(new Class());
-    this.editable = this.permissionService.updateEditableValue(this.router.url);
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
     this.customInit();
     this.loadTable();
   }
