@@ -159,5 +159,14 @@ export class AcademicYearComponent {
       }
     });
   }
+
+  academicYearOnBlur(){
+        const academicYear = this.formControll.academicYear.value;
+        if(academicYear.length===9){
+          this.formControll.academicYearCode.setValue(academicYear.replace('-',''))
+        }else{
+          this.formControll.academicYearCode.setValue('')
+        }
+  }
 }
 
