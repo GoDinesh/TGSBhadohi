@@ -26,6 +26,7 @@ import { SideNavbarComponent } from './component/shared-component/side-navbar/si
 import { DisplayContentComponent } from './component/shared-component/display-content/display-content.component';
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
+import { StudentCardComponent } from './component/pdf-card/student-card/student-card.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { BreadcrumbComponent } from './component/shared-component/breadcrumb/bre
 
     DisplayContentComponent,
     UnauthorizedAttemptComponent,
-    BreadcrumbComponent,   
+    BreadcrumbComponent,
+    StudentCardComponent,   
    
   ],
   imports: [

@@ -1,0 +1,134 @@
+<button class="btn btn-info" printSectionId="student-card" printTitle="student card" ngxPrint [useExistingCss]="true">
+    Print Students Details
+</button>
+<div class="container d-none" id="student-card">
+    <div class="container card-container" *ngFor="let student of studentData; let i = index" id="student-card-{{i}}">
+    <div class="card border p-0 mt-2">
+        <div class="card-header bg-white d-flex justify-content-center align-items-center pt-2 mb-3 position-relative"
+            style="padding-bottom:2rem;">
+            <div class="position-relative w-100 text-center school-details">
+                <h4>TIME GLOBAL SCHOOL</h4>
+                <p>ACADEMIC YEAR: 2023-2024</p>
+                <strong style="font-size:large;">Information Updation Slip</strong>
+                <div class="position-absolute top-0 end-0" style="top: 5px; right: 5px;">
+                    <img src="{{student.profileImage.link}}" alt="Student Photo" class="shadow-sm"
+                        style="width:5.5rem;height:6.5rem;object-fit:cover;">
+                </div>
+            </div>
+        </div>
+
+        <!--<hr>-->
+        <div class="card-body table-responsive">
+            <!-- Student Details -->
+            <table class="table table-sm table-borderless">
+                <thead></thead>
+                <tbody class="student-details">
+                    <tr>
+                        <th scope="row">Registration No.</th>
+                        <td>{{ student.registrationNo}}</td>
+                        <th scope="row" class="ps-3">Date of Birth</th>
+                        <td>{{ student.dateOfBirth }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Student Name</th>
+                        <td colspan="3">{{ student.studentName }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Class</th>
+                        <td>{{ student.standard }}</td>
+                        <th scope="row" class="ps-3">Email Id</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Contact Number</th>
+                        <td>{{student.fatherContactNo}}</td>
+                        <th scope="row" class="ps-3">Res. Tel No.</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Current Address</th>
+                        <td colspan="3">{{student.area}}, {{student.pincode}}, {{student.city}}, {{student.state}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Parents Details -->
+            <table class="table table-sm table-borderless">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Father Details</th>
+                        <th scope="col">Mother Details</th>
+                    </tr>
+                </thead>
+                <tbody class="parents-details">
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>{{student.fatherName}}</td>
+                        <td>{{student.motherName}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Profession</th>
+                        <td>{{student.motherProfession}}</td>
+                        <td>{{student.fatherProfession}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Qualification</th>
+                        <td>{{student.fatherQualification}}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Official Address</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Additional Details -->
+            <table class="table table-sm table-borderless">
+                <thead></thead>
+                <tbody class="additional-details">
+                    <tr>
+                        <th scope="row">Minority</th>
+                        <td></td>
+                        <th scope="row" class="ps-3">Religion</th>
+                        <td>{{student.religion}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Category</th>
+                        <td>{{student.category}}</td>
+                        <th scope="row" class="ps-3">Blood Group</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Medical History</th>
+                        <td></td>
+                        <th scope="row" class="ps-3">Emergency Contact</th>
+                        <td>{{student.emergencyNumber}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nationality</th>
+                        <td>{{student.country}}</td>
+                        <th scope="row" class="ps-3">Aadhar Card No.</th>
+                        <td>{{student.aadhaarNumber}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<hr>-->
+
+        <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+            <p>Note: Please return this slip to school making corrections(if any), signed by parents</p>
+            <p><strong>Parent's Sign</strong></p>
+        </div>
+    </div>
+
+    <div id="scissors">
+        <img src="https://i.stack.imgur.com/cXciH.png" alt="Scissors">
+        <div></div>
+    </div>
+    
+</div>
+</div>
