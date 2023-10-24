@@ -1,8 +1,9 @@
 <div class="container mt-2">
 
     <!-- Filter details -->
+    <form [formGroup]="formgroup" >
     <div class="grid-card-container card-bottom-margin form-bg">
-        <form [formGroup]="formgroup" class="grid-form">
+       <div class="grid-form">
             <!-- begin::academic year -->
             <div class="form-group">
                 <label class="form-label required">Academic Year</label>
@@ -58,14 +59,14 @@
 
             <!-- begin::Buttons -->
             <div class="grid-button form-group pt-4">
-                <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="getFeesDetails()">Get Fees
+                <!-- <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="getFeesDetails()">Get Fees -->
+                <button class="btn btn-success mx-3" [disabled]="!(feesFormControll.registrationNo.value && feesFormControll.classCode.value && feesFormControll.academicYearCode.value)" (click)="getFeesDetails()">Get Fees
                     Details</button>
                 <button class="btn btn-danger" (click)="resetForm()">Reset</button>
             </div>
             <!-- end::Buttons -->
-
-        </form>
-    </div>
+            </div>
+    
     <!--<div class="card-body">
         <p></p>
       </div>-->
@@ -156,15 +157,15 @@
                     <th scope="col">Amount *</th>
                     <!-- <th scope="col">Discount Reason</th>
                     <th scope="col">Discount</th> -->
-                    <th scope="col">Payment Mode</th>
-                    <th scope="col">Payment Date</th>
+                    <th scope="col">Payment Mode *</th>
+                    <th scope="col">Payment Date *</th>
                     <th scope="col">Receipt ton be Printed on the name of *</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>
-                        <input type="text" name="" class="form-control" placeholder="Enter Amount" />
+                        <input type="text" formControlName="amount" class="form-control" placeholder="Enter Amount" />
                     </td>
                     <!-- <td>
                         <input type="text" name="" class="form-control" placeholder="Discount Reason" />
@@ -173,17 +174,18 @@
                         <input type="text" name="" class="form-control" placeholder="Enter Discount" />
                     </td> -->
                     <td>
-                        <select class="form-select" class="form-control">
+                        <select class="form-select" formControlName="paymentMode" class="form-control">
                             <option selected>Select Mode</option>
-                            <option value="1">Paid</option>
-                            <option value="2">Pending</option>
+                            <option value="CASH">CASH</option>
+                            <option value="ONLINE">ONLINE</option>
+                            <option value="CHEQUE">CHEQUE</option>
                         </select>
                     </td>
                     <td>
-                        <input type="date" class="form-control">
+                        <input type="date" formControlName="paymentDate" class="form-control">
                     </td>
                     <td>
-                        <select class="form-select" class="form-control">
+                        <select class="form-select" formControlName="paymentReceivedBy" class="form-control">
                             <option selected>Select Name</option>
                             <option value="1">Shubhanshu Maurya</option>
                             <option value="2">Dinesh Kumar</option>
@@ -193,10 +195,14 @@
         </table>
         <div class="d-flex justify-content-start">
             <button class="btn btn-info m-2">Preview Receipt</button>
-            <button class="btn btn-warning m-2">Save & Print</button>
-            <button class="btn btn-success m-2">Save</button>
+            <button class="btn btn-warning m-2" >Save & Print</button>
+            <button class="btn btn-success m-2" [disabled]="!formgroup.valid" (click)="save()">Save</button>
         </div>
     </div>
 </div>
-</div>  
+</div> 
+
+
+</div>
+</form>
 </div>

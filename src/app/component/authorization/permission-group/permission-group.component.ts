@@ -42,10 +42,10 @@ export class PermissionGroupComponent {
   ngOnInit() {
     this.createForm(new PermissionGroup());
     this.customInit();
+    this.loadTable();
   }
 
   async customInit() {
-    this.loadTable();
     await this.getTableRecord();
   }
 
@@ -67,7 +67,7 @@ export class PermissionGroupComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
       ]

@@ -23,6 +23,8 @@ export const appurl={
                 get_rollnumber: '/get-rollnumber',
                 filter_by_keyword: '/filter-by-keyword',
 
+        menuurl_fees: '/fees',
+
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
     endpoint_findbyid: '/findbyid',
