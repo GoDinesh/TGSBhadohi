@@ -1,0 +1,76 @@
+@media print {
+
+    /* body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+    } */
+
+    .card {
+        page-break-inside: avoid;
+        /* Prevents page break inside the card */
+        page-break-after: always;
+        /* Always creates a page break after a card */
+    }
+
+    /* .mt-4 {
+        margin-top: 0 !important;
+    }
+
+    img {
+        max-width: 50mm;
+    } */
+
+    .btn-info {
+        display: none;
+    }
+}
+
+/* For Student and Additional Details - only bottom border */
+.student-details>tr>td,
+.additional-details>tr>td {
+    border-top: none !important;
+    border-bottom: 2px solid #dee2e6 !important;
+    border-left: none !important;
+    border-right: none !important;
+    min-width: 15vw;
+}
+
+/* For Parents Details - full border */
+.parents-details>tr>td {
+    border: 2px solid #dee2e6;
+    min-width: 15vw;
+}
+
+.student-details>tr>th,
+.parents-details>tr>th,
+.additional-details>tr>th {
+    width: 15vw;
+}
+
+.school-details {
+    line-height: 1rem;
+}
+
+#scissors {
+    height: 3rem;
+    width: 100%;
+    margin: auto auto;
+    position: relative;
+}
+
+#scissors img {
+    height: 1rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#scissors div {
+    position: relative;
+    top: 50%;
+    border-top: 1px dashed black;
+    margin-top: -1px;
+}

@@ -1,0 +1,22 @@
+     /* For Student and Additional Details - only bottom border */
+     .student-details>tr>td,
+     .additional-details>tr>td {
+         border-top: none;
+         border-bottom: 2px solid #dee2e6;
+         border-left: none;
+         border-right: none;
+         min-width: 15vw;
+     }
+
+     /* For Parents Details - full border */
+     .parents-details>tr>td {
+         border: 2px solid #dee2e6;
+         min-width: 15vw;
+     }
+     .parents-details>tr>th, .additional-details>tr>th {
+         width: 13vw;
+     }
+
+     .school-details {
+         line-height: 1rem;
+     }

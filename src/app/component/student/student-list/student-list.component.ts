@@ -112,7 +112,7 @@ export class StudentListComponent {
       scrollCollapse: true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
-        'copy', 'csv', 'excel', 'print'
+        'copy', 'csv', 'excel'
       ]
     };
   }
@@ -142,6 +142,10 @@ export class StudentListComponent {
 
   setVlaueToUpdate(stuDetails: Registration) {
     this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
+  }
+
+  payFees(){
+    
   }
 
   resetForm() {

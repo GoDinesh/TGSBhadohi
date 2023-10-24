@@ -11,6 +11,28 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+@media print { html, body { height: auto; overflow-y: visible  !important; break-inside: avoid; }
+
+  /* body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+    } */
+    div {
+        break-inside: avoid;
+      }
+
+      .card-container {
+        page-break-inside: avoid;
+      }
+
+      .card:nth-child(even) {
+        page-break-after: always;
+      }
+
+}
+
 /* mat-stepper CSS begin */
 
 /* fix the height of mat-step */
@@ -138,7 +160,7 @@ mat-stepper {
 
 .table thead th {
     vertical-align: middle !important;
-    padding: 0 10px;
+    padding: 0 0.625rem;
 }
 
 .table td {
@@ -147,7 +169,7 @@ mat-stepper {
 }
 
 tr.mat-header-row {
-    height: 35px !important;
+    height: 2.1875rem !important;
     background-color: #ffe8f4;
     position: sticky;
     top: 0;
@@ -163,11 +185,11 @@ tr.mat-header-row {
     color: var(--bs-table-striped-color)
 }
 
-.table td,
+/* .table td,
 .table th,
 .table tr {
     border: 1px solid #00000024 !important;
-}
+} */
 
 .header-bg-color {
     background-color: #e4e6ef;
@@ -182,7 +204,7 @@ tr.mat-header-row {
 
 th {
     font-weight: 500 !important;
-    height: 30px;
+    height: 1.875rem;
 }
 
 .form-control {
@@ -264,7 +286,7 @@ h6 {
 .xng-breadcrumb-link:hover {
     text-decoration: underline !important;
     transform: scale(1.05);
-    box-shadow: 0 40px 50px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0 2.5rem 3.125rem 0px rgba(0, 0, 0, 0);
     transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12);
 }
 
@@ -273,9 +295,9 @@ h6 {
 
 /* logo begin */
 .h-65px {
-    padding-left: 18px;
-    padding-bottom: 4px;
-    height: 69px !important;
+    padding-left: 1.125rem;
+    padding-bottom: 0.25rem;
+    height: 4.3125 !important;
     align-items: center;
 }
 
@@ -291,7 +313,7 @@ h6 {
 
 .mat-sidenav {
     /* margin: 5px;    */
-    width: 270px;
+    width: 16.875rem;
     border-right: none;
     background: #004a9f;
     color: white;
@@ -299,7 +321,7 @@ h6 {
     /* padding: 10px; */
     /* text-align: center; */
     font-weight: normal;
-    padding-top: 15px;
+    padding-top: 0.9375rem;
 }
 
 .content {
@@ -310,7 +332,7 @@ h6 {
     display: inherit;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     overflow: auto;
 
 }
@@ -337,7 +359,7 @@ h6 {
 } */
 
 .mat-list-item-content {
-    padding: 0 10px !important;
+    padding: 0 0.625rem !important;
     color: white;
 }
 
@@ -356,7 +378,7 @@ h6 {
 
 .mat-list-base .mat-list-item,
 .mat-list-base .mat-list-option {
-    height: 40px !important;
+    height: 2.5rem !important;
     /* padding: 24px !important; */
 }
 
@@ -409,14 +431,14 @@ h6 {
 
 
 .mat-expansion-panel-body {
-    padding: 0 24px 0px !important;
+    padding: 0 1.5rem 0 !important;
     /* background: #004a9f; */
 
 }
 
 .mat-expansion-panel-header.mat-expanded {
-    height: 20px !important;
-    padding-top: 10px;
+    height: 1.25rem !important;
+    padding-top: 0.625rem;
     background: #004a9f;
 }
 
@@ -424,7 +446,7 @@ h6 {
 
 /* Curl Div Begin */
 .tabDiv {
-    padding: 20px;
+    padding: 1.25rem;
     background: rgb(249, 248, 248);
     min-height: fit-content;
 
@@ -436,7 +458,7 @@ h6 {
 /* Table style begin */
 .styled-table {
     border-collapse: collapse;
-    margin: 25px 0;
+    margin: 1.5625rem 0;
     font-size: 0.9em;
     font-family: sans-serif;
     /* min-width: 400px; */
@@ -451,7 +473,7 @@ h6 {
 }
 
 .styled-table td {
-    padding: 4px 15px;
+    padding: 0.25rem 0.9375rem;
 }
 
 .styled-table th {
@@ -482,7 +504,7 @@ h6 {
     text-align: center;
     font-weight: bold;
     background: rgb(231, 198, 134);
-    height: 25px;
+    height: 1.5625rem;
 }
 
 /* table style end */
@@ -543,15 +565,15 @@ h6 {
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 0.625rem;
+    height: 0.625rem;
 }
 
 /* end::scrollBar-size */
 
 /* begin::api-master */
 .mat-select-panel-wrap {
-    margin-top: 28px !important;
+    margin-top: 1.75rem !important;
     flex-basis: 98% !important;
     left: 9px;
     position: relative;
@@ -573,7 +595,7 @@ h6 {
 
 .login-form {
     width: 100%;
-    max-width: 350px;
+    max-width: 21.875rem;
     /* margin-right: 9rem !important; */
     /* padding: 2rem; */
     padding: 2rem;
@@ -602,7 +624,7 @@ h6 {
 
 .menu-item a {
     color: #ffffff;
-    padding-left: 15px;
+    padding-left: 0.9375rem;
 }
 
 a:hover {
@@ -642,7 +664,7 @@ a:hover {
 
 .submenu li a {
     padding-left: 4rem;
-    min-height: 40px;
+    min-height: 2.5rem;
     display: flex;
     align-items: center;
     padding-right: 5px;
@@ -673,7 +695,7 @@ a:hover {
 
 .search-icon {
     position: relative;
-    left: 30px;
+    left: 1.875rem;
 }
 
 
@@ -725,7 +747,7 @@ label {
 }
 
 .m-d [data-md-content="0"] input[class^="tab"]:checked~.content {
-    max-height: 800px;
+    max-height: 50rem;
     transition: all 300ms ease-in-out 0ms;
     transform: translatey(10px);
 }
@@ -733,7 +755,7 @@ label {
 .m-d .open-close-icon {
     display: inline-block;
     position: absolute;
-    right: 20px;
+    right: 1.25rem;
     transform: translatey(2px);
 }
 
@@ -780,22 +802,22 @@ label {
 }
 
 .mat-select-panel .mat-option {
-    height: 30px !important;
+    height: 1.875rem !important;
 }
 
 .api-cpllection {
-    padding: 20px;
+    padding: 1.25rem;
     background: rgb(249, 248, 248);
 }
 
 .mat-icon-color {
     background: rgba(0, 0, 0, .4);
-    width: 38px !important;
-    height: 35px !important;
+    width: 2.375rem !important;
+    height: 2.1875rem !important;
     padding-top: 8px;
     padding-right: 7px;
     border-radius: 50%;
-    font-size: 21px !important;
+    font-size: 1.3125 !important;
 }
 
 .mat-icon-color:hover {
@@ -807,7 +829,7 @@ label {
 }
 
 .url-align {
-    margin-left: 62px;
+    margin-left: 3.875rem;
 }
 
 .url-response {
@@ -827,7 +849,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 
 .mat-expansion-panel-header.mat-expanded {
-    height: 45px !important;
+    height: 2.8125rem !important;
 }
 
 .mat-expansion-panel:not([class*=mat-elevation-z]) {
@@ -839,8 +861,8 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 
 .mat-expansion-panel-header {
-    height: 45px !important;
-    padding: 0 10px !important;
+    height: 2.8125rem !important;
+    padding: 0 0.625rem !important;
 }
 
 .payin-bg-color,
@@ -875,7 +897,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 /*start::Dropdown search-icon */
 .mat-select-mat-input {
-    height: 30px !important;
+    height: 1.875rem !important;
     padding: 6px !important;
     /* margin: 4px; */
     position: sticky;
@@ -885,7 +907,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 
 .padding-search-input {
-    padding-left: 25px;
+    padding-left: 1.5625rem;
 }
 
 .padding-search-input .input-mat {
@@ -899,7 +921,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     justify-content: center;
     align-items: center;
     position: relative;
-    bottom: 17px;
+    bottom: 1.0625rem;
     right: -11px;
     z-index: 5;
     color: #3f51b5;
@@ -913,7 +935,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 #swal2-html-container {
     margin-top: 0;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 500;
 }
 
@@ -950,33 +972,33 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 .eye-span {
     float: right;
     /* margin-right: 15px; */
-    margin-top: -16px;
+    margin-top: -1rem;
     position: relative;
     z-index: 2;
     background-color: #ffffff;
-    padding-left: 10px;
+    padding-left: 0.625rem;
 }
 
 /* end::Hide password */
 
 .min-max-width {
-    min-width: 96px;
-    max-width: 98px;
+    min-width: 6rem;
+    max-width: 6.125rem;
 }
 
 .grid-card-container {
     background-color: rgb(255, 255, 255);
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 1rem;
+    padding-right: 1rem;
     border-radius: 5px;
 }
 
 .card-bottom-margin {
-    margin-bottom: 13px;
+    margin-bottom: 0.8125rem;
 }
 
 .card-bottom-padding {
-    padding-bottom: 15px;
+    padding-bottom: 0.9375rem;
 }
 
 .grid-full-height {
@@ -990,12 +1012,12 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 .grid-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-    grid-column-gap: 19px;
+    grid-column-gap: 1.1875rem;
     padding-bottom: 7px;
 }
 
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     position: relative;
     margin-top: 1rem;
 }
@@ -1008,13 +1030,13 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 .grid-inline {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    margin-bottom: 14px;
-    grid-column-gap: 19px;
+    margin-bottom: 0.875rem;
+    grid-column-gap: 1.1875rem;
 }
 
 .grid-button-inline {
     justify-self: end;
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 
@@ -1064,34 +1086,34 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 
 .td-action {
-    width: 80px;
+    width: 5rem;
     text-align: center;
 }
 
 .td-status {
-    width: 80px;
+    width: 5rem;
     text-align: center;
 }
 
 .td-sno {
-    width: 60px;
+    width: 3.75rem;
     text-align: center;
 }
 
 .td-small {
-    width: 100px;
+    width: 6.25rem;
 }
 
 .td-medium {
-    width: 150px;
+    width: 9.375;
 }
 
 .td-large {
-    width: 200px;
+    width: 12.5rem;
 }
 
 .td-xlarge {
-    width: 300px;
+    width: 18.75rem;
 }
 
 .td-auto {
@@ -1115,7 +1137,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 /* begin radio button */
 .mat-mdc-radio-button~.mat-mdc-radio-button {
-    margin-left: 16px;
+    margin-left: 1rem;
 }
 
 /* end radio button */
@@ -1149,7 +1171,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 
 /* reduce line height of tree node */
 .mat-tree-node {
-    min-height: 30px
+    min-height: 1.875rem;
 }
 
 /* reduce height of mat-chip */
@@ -1158,14 +1180,14 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
   } */
 
 .small-chip {
-    height: 15px !important;
+    height: 0.9375rem !important;
 }
 
 /* image avatar */
 .avatar {
-    height: 50px;
-    width: 50px;
-    border-radius: 25px;
+    height: 3.125rem;
+    width: 3.125rem;
+    border-radius: 1.5625rem;
     object-fit: cover;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
 
