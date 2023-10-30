@@ -65,11 +65,8 @@ export class AcademicYearComponent {
   }
 
   private updateEditable(): void {
-    console.log("calles");
-    
     this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
       this.editable = editable;
-      console.log(editable);
     });
   }
 

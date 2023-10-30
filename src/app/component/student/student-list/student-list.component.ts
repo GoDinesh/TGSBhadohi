@@ -110,7 +110,7 @@ export class StudentListComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel'
       ]

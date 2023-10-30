@@ -7,8 +7,6 @@ export class Fees {
 	 paymentMode: string;
 	 amount: number;
 	 paymentDate: Date;
-	 discountReasonCode: string;
-	 discountAmount: number;
 	 paymentReceivedBy: string;
 
      constructor(){
@@ -19,9 +17,6 @@ export class Fees {
         this.paymentMode = "";
         this.amount = 0;
         this.paymentDate = new Date();
-        this.discountReasonCode = "";
-        this.discountAmount = 0;
         this.paymentReceivedBy = "";
-
      }
 }
