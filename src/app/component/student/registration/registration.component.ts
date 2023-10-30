@@ -132,7 +132,7 @@ export class RegistrationComponent {
           this.selectedStudentPhoto = this.reg.profileImage.link;
           this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
             this.selectedPhoto = file;
-            console.log(this.selectedPhoto);
+            // console.log(this.selectedPhoto);
           });
         }
 
@@ -418,7 +418,7 @@ export class RegistrationComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPhoto = input.files[0];
-      console.log(this.selectedPhoto);
+      // console.log(this.selectedPhoto);
       // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
@@ -442,7 +442,7 @@ export class RegistrationComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      console.log(this.selectedFile);
+      // console.log(this.selectedFile);
       this.selectedFileName = this.selectedFile.name;
     }
   }
@@ -491,7 +491,7 @@ export class RegistrationComponent {
     }
 
     formData.append("requestData", JSON.stringify(this.reg))
-    console.log(formData);
+    formData.forEach(data => console.log(data));
     return formData;
   }
 

@@ -71,7 +71,7 @@ export class LoginComponent {
           const encryptedUserType = this.authService.getEncryptText(res.data[0].role);
           localStorage.setItem("userType", encryptedUserType);
 
-          console.log(msgTypes);
+          // console.log(msgTypes);
 
           if (res.data[0].role != msgTypes.ADMIN) {
             const encryptedPermission = this.authService.getEncryptText(res.data[0].userPermission.permission);
