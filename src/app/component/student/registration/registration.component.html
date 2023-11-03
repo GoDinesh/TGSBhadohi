@@ -35,8 +35,8 @@
             <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control form-control-sm"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"
-              class="toggle-datepicker-icon-position"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled="false"></mat-datepicker>
+              class="toggle-datepicker-icon-position" [disabled]="updateFlag"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="updateFlag"></mat-datepicker>
           </div>
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
@@ -48,7 +48,7 @@
         <div class="form-group">
           <label class="form-label required">Standard</label>
           <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
-          <mat-select class="form-control form-control-sm" formControlName="standard">
+          <mat-select class="form-control form-control-sm" formControlName="standard" [disabled]="updateFlag">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterClassName>
             </div>
@@ -76,7 +76,7 @@
         <div class="form-group">
           <label class="form-label required">Academic Year</label>
           <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
-          <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
+          <mat-select formControlName="academicYearCode" class="form-control form-control-sm" [disabled]="updateFlag">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterAcademicYear>
             </div>
@@ -141,7 +141,7 @@
           <label class="form-label required">Registration No</label>
           <div class="d-flex">
             <div class="mr-3">
-              <button class="btn btn-primary btn-sm form-control form-control-sm" [disabled]="updateButtonFlag"
+              <button class="btn btn-sm btn-primary btn-sm form-control form-control-sm" [disabled]="updateButtonFlag"
                 (click)="generateRegistrationNumber()">Generate</button>
             </div>
             <div>
@@ -442,7 +442,7 @@
               <!-- begin::student photo preview -->
               <div class="mt-2 image-container" *ngIf="selectedStudentPhoto">
                 <img [src]="selectedStudentPhoto" alt="Student Photo" class="img-thumbnail">
-                <button class="btn btn-danger custom-add-btn mt-2" (click)="removeSelectedPhoto()">Remove</button>
+                <button class="btn btn-sm btn-danger custom-add-btn btn-sm mt-2" (click)="removeSelectedPhoto()">Remove</button>
               </div>
               <!-- end::student photo preview -->
             </div>
@@ -463,7 +463,7 @@
                 <label class="custom-file-label" for="file">{{selectedFileName}}</label>
               </div>
               <div class="ml-2">
-                <button class="btn btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
+                <button class="btn btn-sm btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
               </div>
             </div>
             <!-- end::upload documents -->
@@ -511,7 +511,7 @@
         <div class="card shadow-sm" id="myPreviewDetails">
           <div class="card-header mt-0 bg-primary text-white preview-actions">
             <span>Student Data Preview</span>
-            <button class="btn btn-info" printSectionId="myPreviewDetails" printTitle="Mstudent data" ngxPrint
+            <button class="btn btn-sm btn-info" printSectionId="myPreviewDetails" printTitle="Mstudent data" ngxPrint
               [useExistingCss]="true">
               Print
             </button>
@@ -534,6 +534,7 @@
                   </div>
                   <div class="col-md-4">
                     <p><strong>Adhar Number:</strong> {{ studentFormControll.aadhaarNumber.value }}</p>
+                    <p><strong>DOB:</strong> {{ studentFormControll.dateOfBirth.value }}</p>
                     <p><strong>Religion:</strong> {{ studentFormControll.religion.value }}</p>
                   </div>
                 </div>
@@ -580,9 +581,9 @@
 
           <!-- Footer Actions -->
           <div class="card-footer preview-actions">
-            <button class="btn btn-secondary" matStepperPrevious>Back</button>
+            <button class="btn btn-sm btn-secondary" matStepperPrevious>Back</button>
             <mat-slide-toggle (change)="toggleConfirm($event)">I confirm the details</mat-slide-toggle>
-            <button class="btn btn-primary" [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
+            <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
           </div>
         </div>
       </div>

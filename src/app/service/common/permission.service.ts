@@ -20,10 +20,10 @@ export class PermissionService {
   constructor(private authService: AuthService) {
     try {
       const parsedPermissions = JSON.parse(this.authService.getUserPermission());
-      console.log(parsedPermissions);
+      // console.log(parsedPermissions);
       this.permissions = of(parsedPermissions);  // Convert array to Observable
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       this.permissions = of([]);  // Default to an empty array wrapped in an Observable
     }
   }
@@ -73,34 +73,34 @@ export class PermissionService {
   getEditableValue(route: string): Observable<boolean | undefined> {
     return this.permissions.pipe(
       switchMap((permissionsArray: INavbarData[]) => {
-        console.log("Permissions Array:", permissionsArray);  // Debug line
+        // console.log("Permissions Array:", permissionsArray);  // Debug line
         let editable: boolean | undefined;
   
         if (this.authService.getUserType() === 'ADMIN') {
           editable = true;
-          console.log('ADMIN');
+          // console.log('ADMIN');
           
         } else {
-          console.log("User is NOT ADMIN");  // Debug line
+          // console.log("User is NOT ADMIN");  // Debug line
           editable = false;
         }
   
         for (const permission of permissionsArray) {
           if (permission.routerLink === route) {
-            console.log("Matched route:", route);  // Debug line
+            // console.log("Matched route:", route);  // Debug line
             editable = permission.editable;
           }
           if (permission.children) {
             for (const child of permission.children) {
               if (child.routerLink === route) {
-                console.log("Matched child route:", route);  // Debug line
+                // console.log("Matched child route:", route);  // Debug line
                 editable = child.editable;
               }
             }
           }
         }
         
-        console.log('Observable will emit:', editable);
+        // console.log('Observable will emit:', editable);
         return of(editable);  // 'of' is used to return an Observable
       })
     );

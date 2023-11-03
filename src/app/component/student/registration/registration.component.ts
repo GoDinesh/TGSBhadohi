@@ -30,7 +30,7 @@ export class RegistrationComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   registrationNumber: string = "";
-  reg: Registration = new Registration();
+  reg: Registration | Partial<Registration>;
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
@@ -123,8 +123,37 @@ export class RegistrationComponent {
 
   //load ngOnInit
   ngOnInit() {
+    // this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+    //   if (res && res.studetails && res.studetails.registrationNo && res.studetails.registrationNo.length > 0) {
+    //     this.reg = res.studetails;
+    //     this.updateFlag = true;
+
+    //     if (this.reg.profileImage) {
+    //       this.selectedStudentPhoto = this.reg.profileImage.link;
+    //       this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
+    //         this.selectedPhoto = file;
+    //         // console.log(this.selectedPhoto);
+    //       });
+    //     }
+
+    //     if (this.reg.documents && this.reg.documents.length > 0) {
+    //       const documentObservables = this.reg.documents.map(doc => this.fetchFile(doc.link, doc.fileName));
+
+    //       forkJoin(documentObservables).subscribe((files: File[]) => {
+    //         this.documents = files;
+
+    //         // Update the uploadDocumentForm
+    //         this.uploadDocumentForm.patchValue({
+    //           studentPhoto: this.selectedStudentPhoto,
+    //           file: this.documents
+    //         });
+    //       });
+    //     }
+
+    //   }
+    // })
     this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-      if (res.studetails.registrationNo.length > 0) {
+      if (res && res.studetails && res.studetails.registrationNo && res.studetails.registrationNo.length > 0) {
         this.reg = res.studetails;
         this.updateFlag = true;
 
@@ -132,7 +161,6 @@ export class RegistrationComponent {
           this.selectedStudentPhoto = this.reg.profileImage.link;
           this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
             this.selectedPhoto = file;
-            // console.log(this.selectedPhoto);
           });
         }
 
@@ -149,9 +177,15 @@ export class RegistrationComponent {
             });
           });
         }
-
+      } else {
+        this.reg = {};
+        this.updateFlag = false;
+        this.selectedStudentPhoto = null;
+        this.selectedPhoto = null;
+        this.documents = [];
       }
-    })
+    });
+
 
     this.createStudentForm(this.reg);
     this.createParentForm(this.reg);
@@ -196,6 +230,23 @@ export class RegistrationComponent {
       this.updateButtonFlag = !['standard', 'academicYearCode', 'section'].every(isValid);
     });
 
+    //change the date format
+    // Listen for changes
+    this.studentFormControll.dateOfBirth.valueChanges.subscribe(value => {
+      if (value) {
+        // Format the date here
+        const date = new Date(value);
+
+        // Adjust for time zone
+        const offset = date.getTimezoneOffset();
+        date.setMinutes(date.getMinutes() - offset);
+        const formattedDate = date.toISOString().split('T')[0];
+
+        // Update the form control
+        this.studentFormControll.dateOfBirth.setValue(formattedDate, { emitEvent: false });
+      }
+    });
+
 
   }
 
@@ -223,14 +274,15 @@ export class RegistrationComponent {
     )
   };
 
-  createStudentForm(stuInfo: Registration) {
+  createStudentForm(stuInfo: Registration | Partial<Registration>) {
     this.studentgroup = this.formBuilder.group({
       id: [stuInfo.id],
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
-      dateOfBirth: [{ value: stuInfo.dateOfBirth, disabled: true }, [Validators.required]],
+      dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
       standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
+      // standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
       academicYearCode: [{ value: stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
@@ -238,9 +290,10 @@ export class RegistrationComponent {
       category: [stuInfo.category, [Validators.required]],
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
     });
+
   }
 
-  createParentForm(parentInfo: Registration) {
+  createParentForm(parentInfo: Registration | Partial<Registration>) {
     this.parentgroup = this.formBuilder.group({
       fatherName: [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       fatherAadharNo: [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
@@ -257,7 +310,7 @@ export class RegistrationComponent {
     });
   }
 
-  createAddressForm(addressInfo: Registration) {
+  createAddressForm(addressInfo: Registration | Partial<Registration>) {
     this.addressgroup = this.formBuilder.group({
       country: [addressInfo.country,],
       state: [addressInfo.state,],
@@ -267,14 +320,14 @@ export class RegistrationComponent {
     });
   }
 
-  createEmergencyContactForm(contactInfo: Registration) {
+  createEmergencyContactForm(contactInfo: Registration | Partial<Registration>) {
     this.emergencyContactFormGroup = this.formBuilder.group({
       emergencyContactPerson: [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       emergencyNumber: [contactInfo.emergencyNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
     });
   }
 
-  createLastSchoolForm(lastSchoolInfo: Registration) {
+  createLastSchoolForm(lastSchoolInfo: Registration | Partial<Registration>) {
     this.lastSchoolFormGroup = this.formBuilder.group({
       schoolName: [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       tcNumber: [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
@@ -473,7 +526,8 @@ export class RegistrationComponent {
 
   prepareAcquirerForm() {
     this.reg = new Registration();
-    this.reg = { ...this.reg, ...this.studentgroup.value };
+
+    this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
     this.reg = { ...this.reg, ...this.parentgroup.value };
     this.reg = { ...this.reg, ...this.addressgroup.value };
     this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
@@ -497,7 +551,6 @@ export class RegistrationComponent {
 
   //  handle the final submission
   finalSubmit() {
-
     const regData = this.prepareAcquirerForm();
     this.registrationService.studentRegistrationWithImage(regData).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {

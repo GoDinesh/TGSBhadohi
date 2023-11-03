@@ -185,7 +185,7 @@
 
     <!-- <div></div>
     <div></div> -->
-    <button class="btn btn-primary" (click)="addInstallment()">Add Installment</button>
+    <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
     <div></div>
     <div></div>
 
@@ -211,36 +211,30 @@
       </div>
    </div>
   <!--end::Date Of Birth-->
-
+  
       <!-- end::Annual Installment Date-->
 
       <!-- begin:: 1 Installment Amount-->
       <div class="form-group display-flex">
         <input type="number" formControlName="installmentAmount" class="form-control form-control-sm">
-        <button class="btn btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
+        <button class="btn btn-sm btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
       </div>
       <!-- end::Annual Installment Amount-->
       </ng-container>
     </ng-container>
    </ng-container>
 
-   
-  
-
-   
-  
-
  <!-- begin::Buttons -->
     <div class="grid-button form-group pt-4">
       <ng-container *ngIf="actionFlag">
-        <button class="btn btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="save()">Save</button>
-        <!-- <button class="btn btn-success mx-3" (click)="save()">Save</button> -->
+        <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="save()">Save</button>
+        <!-- <button class="btn btn-sm btn-success mx-3" (click)="save()">Save</button> -->
       </ng-container>
       <ng-container *ngIf="!actionFlag">
-        <button class="btn btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="update()">Update</button>
+        <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="update()">Update</button>
       </ng-container>
 
-      <button class="btn btn-danger" (click)="resetForm()">Reset</button>
+      <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
     </div>
     <!-- end::Buttons -->
 

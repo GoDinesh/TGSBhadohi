@@ -1,9 +1,9 @@
-<button class="btn btn-info" printSectionId="student-card" printTitle="student card" ngxPrint [useExistingCss]="true">
+<button class="btn btn-info btn-sm" printSectionId="student-card" printTitle="student card" ngxPrint [useExistingCss]="true">
     Print Students Details
 </button>
 <div class="container d-none" id="student-card">
     <div class="container card-container" *ngFor="let student of studentData; let i = index" id="student-card-{{i}}">
-    <div class="card border p-0 mt-2">
+    <div class="student-card border p-2 mt-2">
         <div class="card-header bg-white d-flex justify-content-center align-items-center pt-2 mb-3 position-relative"
             style="padding-bottom:2rem;">
             <div class="position-relative w-100 text-center school-details">
@@ -18,7 +18,7 @@
         </div>
 
         <!--<hr>-->
-        <div class="card-body table-responsive">
+        <div class="student-card-body table-responsive">
             <!-- Student Details -->
             <table class="table table-sm table-borderless">
                 <thead></thead>
