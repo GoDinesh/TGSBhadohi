@@ -74,8 +74,8 @@
 
 
     <!--<h1>Fee Payment - Subsequent</h1>-->
-<div *ngIf="feesStructureModel | async as postdata ">
-    <div *ngIf="postdata.data[0] as feesStructure ">
+<div *ngIf="registrationModel | async as registartion">
+    <div *ngIf="registartion.data[0].studentFeesStructure[0] as studentFeesStructure ">
     <!-- Fee Structure Card -->
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -89,7 +89,7 @@
 
     <!-- Previous Amount After Discount Table -->
     <div class="mb-4">
-        <h2>Annual + Registration Fee: {{feesStructure.annualFees + feesStructure.registrationFees}}, Pending Fee: 0</h2>
+        <h2>Annual + Registration Fee: {{studentFeesStructure.annualFees + studentFeesStructure.registrationFees}}, Pending Fee: 0</h2>
         <table class="table show-previous-amount-table">
             <thead>
                 <tr>
@@ -108,28 +108,28 @@
                 <tr>
                     <td>1</td>
                     <td>10/04/2023</td>
-                    <td>{{feesStructure.annualFees + feesStructure.registrationFees}}</td>
-                    <td><input type="text" readonly value="{{feesStructure.discountAmount}}" class="form-control"></td>
+                    <td>{{studentFeesStructure.annualFees + studentFeesStructure.registrationFees}}</td>
+                    <td><input type="text" readonly value="{{studentFeesStructure.discountAmount}}" class="form-control"></td>
                     <td><input type="text" class="form-control"></td>
                     <td><input type="text" class="form-control"></td>
-                    <td>{{(feesStructure.annualFees + feesStructure.registrationFees) - feesStructure.discountAmount}}</td>
+                    <td>{{(studentFeesStructure.annualFees + studentFeesStructure.registrationFees) - studentFeesStructure.discountAmount}}</td>
                     <td>0</td>
                     <td>0</td>
                 </tr>
                 <tr>
                     <td class="" colspan="7">
-                        <h2>Installment (Term Fee: {{(feesStructure.netAmountAfterDiscount-(feesStructure.annualFees + feesStructure.registrationFees))}}, Term Fee Pending Amounts : 12000)</h2>
+                        <h2>Installment (Term Fee: {{(studentFeesStructure.netAmountAfterDiscount-(studentFeesStructure.annualFees + studentFeesStructure.registrationFees))}}, Term Fee Pending Amounts : 12000)</h2>
                     </td>
                 </tr>
-                <tr *ngFor="let data of feesStructure.installment; index as i">
+                <tr *ngFor="let data of studentFeesStructure.studentFeesInstallment; index as i">
                     <td>{{(i+2)}}</td>
                     <td>{{data.installmentDate}}</td>
                     <td>{{data.installmentAmount}}</td>
-                    <td><input type="text" readonly class="form-control"></td>
-                    <td><input type="text" class="form-control"></td>
-                    <td><input type="text" class="form-control"></td>
-                    <td><input type="text" readonly class="form-control"></td>
-                    <td>4000</td>
+                    <td><input type="text" readonly value ='0' class="form-control"></td>
+                    <td><input type="text" value="{{data.discountAmount}}" class="form-control"></td>
+                    <td><input type="text" value="{{data.discountReason}}" class="form-control"></td>
+                    <td><input type="text" readonly value="{{data.installmentAmount-data.discountAmount}}" class="form-control"></td>
+                    <td>0</td>
                     <td>4000</td>
                 </tr>
                 

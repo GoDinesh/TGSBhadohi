@@ -22,6 +22,8 @@ export const appurl={
                 upload_image: '/upload-image',
                 get_rollnumber: '/get-rollnumber',
                 filter_by_keyword: '/filter-by-keyword',
+                student_fees_installment: '/student_fees_installment',
+                student_fees_structure: '/student-fees-structure',
 
         menuurl_fees: '/fees',
 

@@ -4,6 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { Observable, map } from 'rxjs';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Fees } from 'src/app/model/fees/fees.model';
+import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.model';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { FeesStructure } from 'src/app/model/master/fees-structure.model';
@@ -11,6 +12,7 @@ import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { Registration } from 'src/app/model/student/registration.model';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 import { FeesService } from 'src/app/service/fees/fees.service';
+import { StudentFeesStructureService } from 'src/app/service/fees/student-fees-structure.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
@@ -26,7 +28,7 @@ export class PayFeesComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   studentList: Observable<ResponseModel> = new Observable();
-  feesStructureModel: Observable<ResponseModel> = new Observable();
+  registrationModel: Observable<ResponseModel> = new Observable();
   feesModel: Fees = new Fees();
 
   formgroup = new FormGroup({
@@ -44,7 +46,8 @@ export class PayFeesComponent {
     private classService: ClassService,
     private academicYearService: AcademicYearService,
     private registrationService: RegistrationService,
-    private feesStructureService: FeesStructureService,
+    //private feesStructureService: FeesStructureService,
+    private studentFeesStructureService: StudentFeesStructureService,
     private feesService: FeesService, 
   ) {
   }
@@ -101,11 +104,12 @@ export class PayFeesComponent {
   }
 
   getFeesDetails(){
-    const feesStructure: FeesStructure = new FeesStructure();
-    feesStructure.academicYearCode = this.feesFormControll.academicYearCode.value;
-    feesStructure.classCode = this.feesFormControll.classCode.value;
-    this.feesStructureModel = this.feesStructureService.getByAcademicYearAndClass(feesStructure);
-    this.feesStructureModel.subscribe(res=>{console.log(res.data)})
+    const registration: Registration = new Registration();
+    registration.academicYearCode = this.feesFormControll.academicYearCode.value;
+    registration.standard = this.feesFormControll.classCode.value;
+    registration.registrationNo = this.feesFormControll.registrationNo.value;
+    this.registrationModel = this.registrationService.studentList(registration);
+    this.registrationModel.subscribe(res=>{console.log(res.data)})
   }
 
   resetForm(){

@@ -34,4 +34,6 @@ export const msgTypes = {
     TOKEN_EXPIRED: 'Token is expired',
     UNAUTHORIZE: 'Unauthorize',
     NO_RECORD_FOUND: 'No Record Found',
+
+    YYYY_MM_DD: 'YYYY-MM-DD'
 }

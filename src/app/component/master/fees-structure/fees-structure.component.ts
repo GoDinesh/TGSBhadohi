@@ -18,6 +18,7 @@ import { ClassService } from 'src/app/service/masters/class.service';
 import { DiscountReasonService } from 'src/app/service/masters/discount-reason.service';
 import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fees-structure',
@@ -85,7 +86,7 @@ export class FeesStructureComponent {
       feeStructureId: [feeStructure.feeStructureId],
       classCode: [feeStructure.classCode,[Validators.required]],
       academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
-      noOfInstallments:[feeStructure.noOfInstallments,[Validators.required]],
+      noOfInstallments:[feeStructure.noOfInstallments,[]],
       totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
       discountAmount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
@@ -178,6 +179,9 @@ get formControll(){
 
 save(){
   this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
+  this.feesStructureModel.installment.map(installment=>{
+        installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
+  })
   this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
   try{
           this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{

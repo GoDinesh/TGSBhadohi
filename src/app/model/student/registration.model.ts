@@ -1,3 +1,5 @@
+import { StudentFeesStructure } from "../fees/student-fees-structure.model";
+import { FeesStructure } from "../master/fees-structure.model";
 import { UploadedProfileImage } from "../master/uploaded-profile-image.model";
 
 export class Registration {
@@ -45,6 +47,8 @@ export class Registration {
         passedClass           : string; 
         passedClassMarks      : string; 
         schoolAddress         : string;
+
+        studentFeesStructure: StudentFeesStructure[]= []
         
 
         constructor(){

@@ -198,18 +198,24 @@
        </div>  
       <!-- end::Annual Installment Number-->
 
-      <!-- begin:: 1 Installment Date-->
-      <!-- <div class="form-group">
-        <input formControlName="installmentDate" class="form-control form-control-sm">
-      </div> -->
        <!--begin::Date Of Birth-->
-    <div class="form-group">
+    <!-- <div class="form-group">
       <div class="input-group">
               <input class="form-control form-control-sm dob-color disable-pointer" readonly placeholder="Select Installment Date" [matDatepicker]="picker" formControlName="installmentDate">
               <mat-datepicker-toggle [for]="picker" class="mat-icon-button" ></mat-datepicker-toggle>
               <mat-datepicker #picker [disabled]="false"></mat-datepicker>
       </div>
-   </div>
+   </div> -->
+    <!-- begin DOB -->
+    <div class="form-group">
+      <div class="datepicker-container">
+        <input matInput [matDatepicker]="picker" formControlName="installmentDate" class="form-control form-control-sm"  readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"
+          class="toggle-datepicker-icon-position" [disabled]="false"></mat-datepicker-toggle>
+        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+      </div>
+    </div>
+    <!-- end:: DOB -->
   <!--end::Date Of Birth-->
 
       <!-- end::Annual Installment Date-->
@@ -237,7 +243,8 @@
         <!-- <button class="btn btn-success mx-3" (click)="save()">Save</button> -->
       </ng-container>
       <ng-container *ngIf="!actionFlag">
-        <button class="btn btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="update()">Update</button>
+        <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="update()">Update</button>
+        <!-- <button class="btn btn-success mx-3"  (click)="update()">Update</button> -->
       </ng-container>
 
       <button class="btn btn-danger" (click)="resetForm()">Reset</button>

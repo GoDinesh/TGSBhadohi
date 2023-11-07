@@ -17,6 +17,12 @@ import { appurl } from 'src/app/constants/common/appurl';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, from, throwError } from 'rxjs';
+import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
+import { FeesStructure } from 'src/app/model/master/fees-structure.model';
+import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.model';
+import { forEach } from 'jszip';
+import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-registration',
@@ -116,8 +122,9 @@ export class RegistrationComponent {
     private academicYearService: AcademicYearService,
     private registrationService: RegistrationService,
     private router: Router,
-    private http: HttpClient,
     private permissionService: PermissionService,
+    private feesStructureService: FeesStructureService,
+    private alertService: SweetAlertService,
   ) {
   }
 
@@ -229,10 +236,10 @@ export class RegistrationComponent {
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
-      dateOfBirth: [{ value: stuInfo.dateOfBirth, disabled: true }, [Validators.required]],
-      standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
+      dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
+      standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
-      academicYearCode: [{ value: stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
+      academicYearCode: [stuInfo.academicYearCode, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
@@ -418,8 +425,6 @@ export class RegistrationComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPhoto = input.files[0];
-      console.log(this.selectedPhoto);
-      // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -471,13 +476,23 @@ export class RegistrationComponent {
     }
   }
 
-  prepareAcquirerForm() {
+  async prepareAcquirerForm() {
+
+
+
+  }
+
+  //  handle the final submission
+  async finalSubmit() {
+
     this.reg = new Registration();
     this.reg = { ...this.reg, ...this.studentgroup.value };
     this.reg = { ...this.reg, ...this.parentgroup.value };
     this.reg = { ...this.reg, ...this.addressgroup.value };
     this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
     this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
+
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
@@ -491,15 +506,8 @@ export class RegistrationComponent {
     }
 
     formData.append("requestData", JSON.stringify(this.reg))
-    console.log(formData);
-    return formData;
-  }
 
-  //  handle the final submission
-  finalSubmit() {
-
-    const regData = this.prepareAcquirerForm();
-    this.registrationService.studentRegistrationWithImage(regData).subscribe(res => {
+    this.registrationService.studentRegistrationWithImage(formData).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.resetForm();
         this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
@@ -516,6 +524,28 @@ export class RegistrationComponent {
     this.addressgroup.reset();
     this.selectedStudentPhoto = '';
     this.documents = [];
+  }
+
+  isFeesStructureAvailable(){
+      const academicYearCode =  this.studentgroup.controls.academicYearCode.value;
+      const standard =  this.studentgroup.controls.standard.value;
+
+      if((standard !='' && standard !=null && standard != undefined) && (academicYearCode !='' && academicYearCode !=null && academicYearCode != undefined) ){
+          const feesStructure = new FeesStructure();
+          feesStructure.academicYearCode = academicYearCode;
+          feesStructure.classCode = standard;
+          this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res)=>{
+                if (res.status === msgTypes.SUCCESS_MESSAGE){
+                    if(res.data.length==0){
+                      this.alertService.showAlert(msgTypes.ERROR_MESSAGE,"Fees Structure is not created",msgTypes.ERROR,msgTypes.OK_KEY)
+                      this.studentgroup.controls.academicYearCode.reset();
+                      this.studentgroup.controls.standard.reset();
+                    }
+                }
+          })
+
+      }
+      
   }
 
 }

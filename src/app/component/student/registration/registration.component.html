@@ -35,20 +35,40 @@
             <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control form-control-sm"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"
-              class="toggle-datepicker-icon-position"></mat-datepicker-toggle>
-            <mat-datepicker #picker disabled="false"></mat-datepicker>
+              class="toggle-datepicker-icon-position" [disabled]="updateFlag"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="updateFlag"></mat-datepicker>
           </div>
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
         </div>
         <!-- end:: DOB -->
 
+        <!-- begin::academic year -->
+        <div class="form-group">
+          <label class="form-label required">Academic Year</label>
+          <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
+          <mat-select formControlName="academicYearCode" (selectionChange)="isFeesStructureAvailable()"  class="form-control form-control-sm">
+            <div class="p-1">
+              <input type="text" class="form-control form-control-sm" #filterAcademicYear>
+            </div>
+            <div *ngIf="academicYearList | async as postdata ">
+              <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                [value]="data.academicYearCode">
+                {{data.academicYear}}
+              </mat-option>
+            </div>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}}
+          </div>
+        </div>
+        <!-- end::academic year -->
 
         <!-- begin::Standard -->
         <div class="form-group">
           <label class="form-label required">Standard</label>
           <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
-          <mat-select class="form-control form-control-sm" formControlName="standard">
+          <mat-select class="form-control form-control-sm" (selectionChange)="isFeesStructureAvailable()" [disabled]="updateFlag" formControlName="standard">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterClassName>
             </div>
@@ -71,27 +91,6 @@
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.section,"Section")}}</div>
         </div>
         <!-- end::Section -->
-
-        <!-- begin::academic year -->
-        <div class="form-group">
-          <label class="form-label required">Academic Year</label>
-          <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
-          <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
-            <div class="p-1">
-              <input type="text" class="form-control form-control-sm" #filterAcademicYear>
-            </div>
-            <div *ngIf="academicYearList | async as postdata ">
-              <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
-                [value]="data.academicYearCode">
-                {{data.academicYear}}
-              </mat-option>
-            </div>
-          </mat-select>
-          <div class="invalid-feedback">
-            {{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}}
-          </div>
-        </div>
-        <!-- end::academic year -->
 
         <!-- begin::Aadhaar number  -->
         <div class="form-group">
