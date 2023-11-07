@@ -112,7 +112,7 @@ export class StudentListComponent {
       scrollCollapse: true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
-        'copy', 'csv', 'excel'
+        'copy', 'csv', 'excel', 'print'
       ]
     };
   }
@@ -129,6 +129,7 @@ export class StudentListComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
+          console.log(this.posts);
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
@@ -141,6 +142,8 @@ export class StudentListComponent {
   }
 
   setVlaueToUpdate(stuDetails: Registration) {
+    // console.log(stuDetails);
+    
     this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
   }
 

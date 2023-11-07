@@ -59,10 +59,10 @@
 
             <!-- begin::Buttons -->
             <div class="grid-button form-group pt-4">
-                <!-- <button class="btn btn-success mx-3" [disabled]="!formgroup.valid" (click)="getFeesDetails()">Get Fees -->
-                <button class="btn btn-success mx-3" [disabled]="!(feesFormControll.registrationNo.value && feesFormControll.classCode.value && feesFormControll.academicYearCode.value)" (click)="getFeesDetails()">Get Fees
+                <!-- <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid" (click)="getFeesDetails()">Get Fees -->
+                <button class="btn btn-sm btn-success mx-3" [disabled]="!(feesFormControll.registrationNo.value && feesFormControll.classCode.value && feesFormControll.academicYearCode.value)" (click)="getFeesDetails()">Get Fees
                     Details</button>
-                <button class="btn btn-danger" (click)="resetForm()">Reset</button>
+                <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
             </div>
             <!-- end::Buttons -->
             </div>
@@ -80,7 +80,7 @@
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
             <span>Fee Structure of <b>Shubhanshu Maurya -</b></span>
-            <button class="btn btn-info">Please Click if you want to Convert To Lumpsum</button>
+            <button class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button>
         </div>
         <!--<div class="card-body">
         <p></p>
@@ -194,9 +194,9 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-start">
-            <button class="btn btn-info m-2">Preview Receipt</button>
-            <button class="btn btn-warning m-2" >Save & Print</button>
-            <button class="btn btn-success m-2" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+            <button class="btn btn-sm btn-info m-2">Preview Receipt</button>
+            <button class="btn btn-sm btn-warning m-2" >Save & Print</button>
+            <button class="btn btn-sm btn-success m-2" [disabled]="!formgroup.valid" (click)="save()">Save</button>
         </div>
     </div>
 </div>

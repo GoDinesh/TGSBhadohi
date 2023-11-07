@@ -24,6 +24,12 @@
    /* overflow-y: auto; */
   }
 
+  .img-thumbnail {
+    height: 200px;
+    width: 150px;
+    object-fit: cover;
+  }
+
   .preview-details {
     font-size: 14px;
     /* line-height: 1.5; */
@@ -31,9 +37,11 @@
   
   .detail-heading {
     background-color: rgb(229, 229, 228); 
-    border-radius: 2px ;
+    border-radius: 0.3rem ;
     width: 100%;
     font-weight: bold;
+    margin-top: 1rem;
+    padding: 0.3rem;
     
   }
   .preview-actions {

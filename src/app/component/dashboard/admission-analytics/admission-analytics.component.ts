@@ -78,6 +78,8 @@ export class AdmissionAnalyticsComponent {
   async customInit(){
     await this.loadAcademicyear();
     this.formgroup.controls.academicYearCode.setValue(this.currentAcademicYear)
+    console.log("academic year list"+this.academicYearList);
+    console.log("academic year code"+this.formgroup.controls.academicYearCode.value);  
     this.updateChartData();
   }
 
