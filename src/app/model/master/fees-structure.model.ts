@@ -19,6 +19,8 @@ export class FeesStructure {
     annualFeesDate: string;
     active: boolean;
     lumpsumAmount: number;
+    regFeesDiscount: number;
+    regFeesDiscountReason: string;
 
     // installmentNo1: number;
     // installmentDate1: string;
@@ -45,6 +47,8 @@ export class FeesStructure {
     this.annualFeesDate = '';
     this.active = false;
     this.lumpsumAmount = 0;
+    this.regFeesDiscount= 0;
+    this.regFeesDiscountReason='';
 
     this.installment=[];
 

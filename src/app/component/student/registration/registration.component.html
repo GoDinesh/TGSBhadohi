@@ -93,9 +93,8 @@
         <!-- end::Section -->
 
         <!-- begin::academic year -->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="form-label required">Academic Year</label>
-          <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
           <mat-select formControlName="academicYearCode" class="form-control form-control-sm" [disabled]="updateFlag">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterAcademicYear>
@@ -110,7 +109,7 @@
           <div class="invalid-feedback">
             {{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic Year")}}
           </div>
-        </div>
+        </div> -->
         <!-- end::academic year -->
 
         <!-- begin::Aadhaar number  -->

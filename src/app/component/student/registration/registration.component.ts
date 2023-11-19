@@ -36,7 +36,7 @@ export class RegistrationComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   registrationNumber: string = "";
-  reg: Registration | Partial<Registration>;
+  reg: Registration;
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
@@ -185,7 +185,7 @@ export class RegistrationComponent {
           });
         }
       } else {
-        this.reg = {};
+        this.reg = new Registration();
         this.updateFlag = false;
         this.selectedStudentPhoto = null;
         this.selectedPhoto = null;
@@ -291,7 +291,7 @@ export class RegistrationComponent {
       standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
       // standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
-      academicYearCode: [stuInfo.academicYearCode, [Validators.required]],
+      academicYearCode: [{value:stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],

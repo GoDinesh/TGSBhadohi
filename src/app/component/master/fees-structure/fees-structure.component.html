@@ -1,5 +1,27 @@
 <div class="grid-card-container card-bottom-margin">
   <form [formGroup]="formgroup" class="grid-form">
+
+
+    <!-- begin::Academic Year -->
+    <div class="form-group">
+      <label class="form-label required">Academic Year</label>
+      <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode"
+        disableOptionCentering placeholder="Select Academic Year">
+        <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+        <div *ngIf="academicYearList | async as postdata ">
+          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+            [value]="data.academicYearCode">
+            {{data.academicYear}}
+          </mat-option>
+        </div>
+      </mat-select>
+      <div class="invalid-feedback">
+        {{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year")}}
+      </div>
+    </div>
+    <!-- end::Academic Year -->
+
+
     <!-- begin::Class Name -->
     <div class="form-group">
       <label class="form-label required">Class / Standard</label>
@@ -30,24 +52,7 @@
           </div> -->
     <!-- end::Enrollment Type -->
 
-    <!-- begin::Academic Year -->
-    <div class="form-group">
-      <label class="form-label required">Academic Year</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode"
-        disableOptionCentering placeholder="Select Academic Year">
-        <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
-        <div *ngIf="academicYearList | async as postdata ">
-          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
-            [value]="data.academicYearCode">
-            {{data.academicYear}}
-          </mat-option>
-        </div>
-      </mat-select>
-      <div class="invalid-feedback">
-        {{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year")}}
-      </div>
-    </div>
-    <!-- end::Academic Year -->
+    
 
 
     <!-- begin::Payment Type -->
@@ -151,40 +156,25 @@
     <!-- end::Annual Fees -->
 
     <!-- begin::Annual Fees Date-->
-    <!-- <div class="form-group">
+        <div class="form-group">
+          <div class="datepicker-container">
             <label class="form-label required">Annual Fees Date</label>
-            <input class="form-control form-control-sm" formControlName="annualFeesDate" placeholder="Enter Annual Fees Date" autocomplete="off">
+            <input matInput [matDatepicker]="picker" formControlName="annualFeesDate" class="form-control form-control-sm"  readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position" [disabled]="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="false"></mat-datepicker>
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFeesDate,"Annual Fees Date")}}</div>
-        </div> -->
+          </div>
+        </div>
     <!-- end::Annual Fees Date-->
 
     <!-- begin::Lumsum Amount-->
-    <div class="form-group">
-      <label class="form-label">Lumsum Amount</label>
-      <input class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
-    </div>
+    <!-- <div class="form-group">
+      <label class="form-label">Lumsum Amount</label> -->
+      <input type="hidden" class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
+      <!-- <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
+    </div> -->
     <!-- end::Lumsum Amount -->
 
-
-
-    <!-- begin::Number of installment-->
-    <!-- <div class="form-group">
-      <label class="form-label">No Of Installment</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="noOfInstallments" (selectionChange)="selectNoOfInstallment()"  placeholder="Select Installments" disableOptionCentering>
-          <mat-option *ngFor="let data of installments"
-            [value]="data">
-            {{data}}
-          </mat-option>
-      </mat-select>
-      <div class="invalid-feedback">
-        {{validationMsg.getErrorMessage(formControll.noOfInstallments,"")}}
-      </div>
-    </div> -->
-    <!-- end:: Number of installment -->
-
-    <!-- <div></div>
-    <div></div> -->
     <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
     <div></div>
     <div></div>
@@ -198,15 +188,7 @@
        </div>  
       <!-- end::Annual Installment Number-->
 
-       <!--begin::Date Of Birth-->
-    <!-- <div class="form-group">
-      <div class="input-group">
-              <input class="form-control form-control-sm dob-color disable-pointer" readonly placeholder="Select Installment Date" [matDatepicker]="picker" formControlName="installmentDate">
-              <mat-datepicker-toggle [for]="picker" class="mat-icon-button" ></mat-datepicker-toggle>
-              <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-      </div>
-   </div> -->
-    <!-- begin DOB -->
+    <!-- begin installment Date -->
     <div class="form-group">
       <div class="datepicker-container">
         <input matInput [matDatepicker]="picker" formControlName="installmentDate" class="form-control form-control-sm"  readonly>
@@ -215,11 +197,8 @@
         <mat-datepicker #picker [disabled]="false"></mat-datepicker>
       </div>
     </div>
-    <!-- end:: DOB -->
-  <!--end::Date Of Birth-->
+   <!--end::installment Date-->
   
-      <!-- end::Annual Installment Date-->
-
       <!-- begin:: 1 Installment Amount-->
       <div class="form-group display-flex">
         <input type="number" formControlName="installmentAmount" class="form-control form-control-sm">
@@ -304,3 +283,7 @@
   </div>
 </ng-container>
 <!--end::second Card body-->
+
+
+
+

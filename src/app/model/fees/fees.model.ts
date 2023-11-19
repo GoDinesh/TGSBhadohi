@@ -1,6 +1,6 @@
 export class Fees {
 
-     id: string;
+    id: string;
 	 classCode: string;
 	 academicYearCode: string;
 	 registrationNo: string;

@@ -20,6 +20,8 @@ export class StudentFeesStructure {
     annualFeesDate: string;
     active: boolean;
     lumpsumAmount: number;
+    regFeesDiscount: number;
+    regFeesDiscountReason: string;
 
     studentFeesInstallment: StudentFeesInstallment[];
 
@@ -41,6 +43,8 @@ export class StudentFeesStructure {
     this.annualFeesDate = '';
     this.active = false;
     this.lumpsumAmount = 0;
+    this.regFeesDiscount= 0;
+    this.regFeesDiscountReason='';
 
     this.studentFeesInstallment=[];
 

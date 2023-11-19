@@ -30,7 +30,6 @@ export class FeesStructureComponent {
   editable: boolean | undefined;
   actionFlag = true;
   dtOptions: any = {};
-  installments = [1,2,3,4,5,6,7,8,9,10,11,12];
   Count = [];
 
   feesStructureModel: FeesStructure = new  FeesStructure();
@@ -40,22 +39,6 @@ export class FeesStructureComponent {
   discountReasonList: Observable<DiscountReason[]> = new Observable();
   formgroup: FormGroup;
 
-  // createForm(feeStructure: FeesStructure) {
-  // this.formgroup = this.formBuilder.group({
-  //       id: new FormControl(feeStructure.classCode,[]),
-  //       classCode: new FormControl(feeStructure.classCode, [Validators.required]),
-  //       academicYearCode: new FormControl(feeStructure.academicYearCode, [Validators.required]),
-  //       noOfInstallments: new FormControl(feeStructure.noOfInstallments, [Validators.required]),
-  //       totalFees: new FormControl(feeStructure.totalFees, [Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]),
-  //       discountReasonCode: new FormControl(),
-  //       discountAmount: new FormControl(),
-  //       netAmountAfterDiscount: new FormControl(),
-  //       registrationFees: new FormControl(),
-  //       annualFees: new FormControl(),
-  //       lumpsumAmount: new FormControl(),
- 
-  //  })
-  // }
 
    constructor(private formBuilder: FormBuilder,
           public validationMsg: ValidationErrorMessageService,
@@ -94,6 +77,9 @@ export class FeesStructureComponent {
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       lumpsumAmount: [feeStructure.lumpsumAmount],
+      annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
+      regFeesDiscount: [feeStructure.regFeesDiscount],
+      regFeesDiscountReason: [feeStructure.regFeesDiscountReason],
       installment: new FormArray([])
 
     })
@@ -105,7 +91,7 @@ export class FeesStructureComponent {
       new FormGroup({
         classCode: new FormControl(this.formgroup.controls.classCode.value),
         academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-        installmentNumber: new FormControl('Instalment  '+(control.length+1) ),
+        installmentNumber: new FormControl(control.length+1),
         installmentDate: new FormControl(),
         installmentAmount: new FormControl()
     })
@@ -133,13 +119,7 @@ export class FeesStructureComponent {
       ]
     };
   }
-  
-  // //get the current route and use it for managing the editable value
-  // private updateEditableValue(): void {
-  //   const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-  //   const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-  //   this.editable = this.permissionService.getEditableValue(cleanedRoute);
-  // }
+ 
 
   customInit() {
     this.loadTable();
@@ -183,6 +163,7 @@ save(){
         installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
   })
   this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
+  this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
   try{
           this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
             if(res.status === msgTypes.SUCCESS_MESSAGE)
@@ -257,11 +238,5 @@ totalFeesChange(){
     this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
     this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
 }
-
-// selectNoOfInstallment(){
-//   this.Count.length = this.formControll.noOfInstallments.value;
-// }
-
-
 
 }

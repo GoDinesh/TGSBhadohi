@@ -36,4 +36,6 @@ export const msgTypes = {
     NO_RECORD_FOUND: 'No Record Found',
 
     YYYY_MM_DD: 'YYYY-MM-DD'
+
+    
 }

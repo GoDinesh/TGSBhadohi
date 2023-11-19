@@ -11,7 +11,7 @@
                     <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
                     <div *ngIf="academicYearList | async as postdata ">
                         <mat-option
-                            *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                            *ngFor="let data of postdata.data | filterData: filterAcademicYear.value : 'academicYear'"
                             [value]="data.academicYearCode">
                             {{data.academicYear}}
                         </mat-option>
@@ -30,7 +30,7 @@
                     formControlName="classCode">
                     <input type="text" class="form-control  form-control-sm" #filterClassName>
                     <div *ngIf="allClassList | async as postdata ">
-                        <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
+                        <mat-option *ngFor="let data of postdata.data | filterData: filterClassName.value : 'className'"
                             [value]="data.classCode">
                             {{data.className}}
                         </mat-option>
@@ -79,7 +79,7 @@
     <!-- Fee Structure Card -->
     <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
-            <span>Fee Structure of <b>Shubhanshu Maurya -</b></span>
+            <span>Fee Structure of <b>{{registartion.data[0].studentName}} -</b></span>
             <button class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button>
         </div>
         <!--<div class="card-body">
@@ -89,10 +89,10 @@
 
     <!-- Previous Amount After Discount Table -->
     <div class="mb-4">
-        <h2>Annual + Registration Fee: {{studentFeesStructure.annualFees + studentFeesStructure.registrationFees}}, Pending Fee: 0</h2>
+        <h2>Annual + Registration Fee: {{studentFeesStructure.annualFees + studentFeesStructure.registrationFees}}, Pending Fee:{{regPendingFees}} </h2>
         <table class="table show-previous-amount-table">
             <thead>
-                <tr>
+                <tr style="background-color: rgb(217, 241, 233);">
                     <th scope="col">S.No</th>
                     <th scope="col">Due Date</th>
                     <th scope="col">Total Amount</th>
@@ -106,43 +106,49 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td>10/04/2023</td>
-                    <td>{{studentFeesStructure.annualFees + studentFeesStructure.registrationFees}}</td>
-                    <td><input type="text" readonly value="{{studentFeesStructure.discountAmount}}" class="form-control"></td>
-                    <td><input type="text" class="form-control"></td>
-                    <td><input type="text" class="form-control"></td>
-                    <td>{{(studentFeesStructure.annualFees + studentFeesStructure.registrationFees) - studentFeesStructure.discountAmount}}</td>
-                    <td>0</td>
-                    <td>0</td>
+                    <td><input type="text" readonly value="1" class="form-control"></td>
+                    <td><input type="text" readonly value="{{studentFeesStructure.annualFeesDate}}" class="form-control"></td>
+                    <td><input type="text" formControlName="regAndAnnualFees" readonly  class="form-control blue-colour"></td>
+                    <td><input type="text" formControlName="regPreviousDiscount" readonly  class="form-control previous-discount-colour"></td>
+                    <td><input type="text" formControlName="regFeesDiscount" (input)="onRegFeesDiscountChange()" class="form-control"></td>
+                    <td><input type="text" formControlName="regFeesDiscountReason" class="form-control"></td>
+                    <td><input type="text" formControlName="regAmountAfterDiscount" readonly value="{{(studentFeesStructure.annualFees + studentFeesStructure.registrationFees) - studentFeesStructure.discountAmount}}" class="form-control blue-colour"></td>
+                    <td><input type="text" formControlName="regAmountPaid" readonly class="form-control blue-colour"></td>
+                    <td><input type="text" formControlName="regNetPayable" readonly class="form-control"></td>
                 </tr>
                 <tr>
-                    <td class="" colspan="7">
-                        <h2>Installment (Term Fee: {{(studentFeesStructure.netAmountAfterDiscount-(studentFeesStructure.annualFees + studentFeesStructure.registrationFees))}}, Term Fee Pending Amounts : 12000)</h2>
+                    <td class="leftAlign" colspan="9">
+                        <h2>Installment (Term Fee: {{termFees}}, Term Fee Pending Amounts : {{termFeesPendingAmount}})</h2>
                     </td>
                 </tr>
-                <tr *ngFor="let data of studentFeesStructure.studentFeesInstallment; index as i">
-                    <td>{{(i+2)}}</td>
-                    <td>{{data.installmentDate}}</td>
-                    <td>{{data.installmentAmount}}</td>
-                    <td><input type="text" readonly value ='0' class="form-control"></td>
-                    <td><input type="text" value="{{data.discountAmount}}" class="form-control"></td>
-                    <td><input type="text" value="{{data.discountReason}}" class="form-control"></td>
-                    <td><input type="text" readonly value="{{data.installmentAmount-data.discountAmount}}" class="form-control"></td>
-                    <td>0</td>
-                    <td>4000</td>
-                </tr>
+                <ng-container formArrayName="studentFeesInstallment">
+               <ng-container *ngFor="let installmentFormGroup of studentInstallmentFormGroups.controls; let i = index" >
+                          <ng-container [formGroupName]="i">
+                        <tr>
+                          <td><input type="text" readonly formControlName="installmentNumber" class="form-control form-control-sm"></td>
+                          <td><input type="text" readonly formControlName="installmentDate" class="form-control form-control-sm"></td>
+                          <td><input type="text" readonly formControlName="installmentAmount" class="form-control form-control-sm blue-colour"></td>
+                          <td><input type="text" readonly value="0" class="form-control form-control-sm previous-discount-colour"></td>  
+                          <td><input type="number" formControlName="discountAmount" (input)="onInstallmentDiscountChange(i)" class="form-control form-control-sm"></td>
+                          <td><input type="text" formControlName="discountReason" class="form-control form-control-sm"></td>
+                          <td><input type="text" readonly formControlName="amountAfterDiscount" class="form-control form-control-sm blue-colour"></td>
+                          <td><input type="text" readonly formControlName="amountPaid" class="form-control form-control-sm blue-colour"></td>
+                          <td><input type="text" readonly formControlName="netPayable" #payableValue class="form-control form-control-sm"></td>
+                        </tr>    
+                          </ng-container>
+                 </ng-container>
+            </ng-container>
                 
-                <tr  class="bg-warning total">
-                    <td><strong>Total</strong></td>
-                    <td>23300</td>
-                    <td>4900</td>
-                    <td>Previous Discount </td>
-                    <td>0</td>
-                    <td>18400</td>
-                    <td>999</td>
-                    <td>64000</td>
-                    <td>12000</td>
+               <tr  class="total">
+                    <td></td>
+                    <td>Total</td>
+                    <td>{{totalAmount}}</td>
+                    <td>{{studentFeesStructure.discountAmount}}</td>
+                    <td>{{totalIndividualDiscount}}</td>
+                    <td></td>
+                    <td>{{totalAmountAfterDiscount}}</td>
+                    <td>{{totalAmountpaid}}</td>
+                    <td>{{totalNetPayable}}</td>
                 </tr>
             </tbody>
         </table>
@@ -150,7 +156,7 @@
 
     <!--Fee Payment-->
     <div class="mb-4">
-        <h2>Fee Payment - Please Enter Payment Details Below: (Amount Paid Till Date :6400)</h2>
+        <h2>Fee Payment - Please Enter Payment Details Below: (Amount Paid Till Date :{{amountPaidTillDate}})</h2>
         <table class="table fee-payment-table">
             <thead>
                 <tr>
