@@ -31,6 +31,8 @@ export class FeesStructureComponent {
   actionFlag = true;
   dtOptions: any = {};
   Count = [];
+  totalInstallmentAmount: number = 0;
+  installmentFlag: boolean = false;
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
@@ -222,6 +224,8 @@ update() {
 
 resetForm(){
   this.createForm(new FeesStructure())
+  this.installmentFlag= false;
+  this.totalInstallmentAmount =0 ;
 }
 
 totalFeesChange(){
@@ -237,6 +241,23 @@ totalFeesChange(){
 
     this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
     this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
+
+    this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
 }
+
+installmentAmountChange(){
+    const control = <FormArray>this.formgroup.controls['installment'];
+    let installmentAmount = 0;
+    for (let i = 0; i < control.value.length; i++) {
+      installmentAmount += (control.value[i].installmentAmount);
+    }
+
+    if(installmentAmount===this.totalInstallmentAmount){
+        this.installmentFlag = true;
+    }else{
+        this.installmentFlag = false;
+    }
+}
+
 
 }

@@ -14,3 +14,12 @@
     margin-top: 3px;
     height: 35px;
 }
+
+.installment-amount-colour{
+    background-color: rgb(230, 229, 228);
+    padding: 10px;
+}
+
+.installment-matched{
+    color: green;
+}

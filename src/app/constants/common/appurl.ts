@@ -1,5 +1,6 @@
 export const appurl={
     baseurl: 'http://localhost:8000',
+    navmenu: '/navmenu',
         menuurl_auth: '/auth',
                 auth_permissionGroup: '/permission-group',
                 auth_user: '/user',
@@ -26,6 +27,7 @@ export const appurl={
                 student_fees_structure: '/student-fees-structure',
 
         menuurl_fees: '/fees',
+                pay_fees: '/pay-fees',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

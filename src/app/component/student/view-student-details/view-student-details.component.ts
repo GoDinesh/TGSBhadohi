@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { Registration } from 'src/app/model/student/registration.model';
+import { AuthService } from 'src/app/service/common/auth.service';
 
 @Component({
   selector: 'app-view-student-details',
@@ -11,17 +12,25 @@ import { Registration } from 'src/app/model/student/registration.model';
 export class ViewStudentDetailsComponent {
   reg: Registration = new Registration();
   constructor(private router: Router,
-    public activatedRoute: ActivatedRoute,){
-   }
+    public activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    ) {
+  }
 
-   ngOnInit(){
-    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+  ngOnInit() {
+    //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+    this.route.queryParams.subscribe((params) => {
+      const txndata = JSON.parse(params.data);
+      const decryptedData = this.authService.getDecryptText(txndata);
+      const res = JSON.parse(decryptedData);
+
       this.reg = new Registration();
-      if (res.studetails.registrationNo.length > 0) {
-        this.reg = res.studetails;
+      if (res.registrationNo.length > 0) {
+        this.reg = res;
       }
     });
-   }
+  }
 
-  
+
 }

@@ -23,6 +23,7 @@ import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.
 import { forEach } from 'jszip';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import * as moment from 'moment';
+import { AuthService } from 'src/app/service/common/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -125,6 +126,8 @@ export class RegistrationComponent {
     private permissionService: PermissionService,
     private feesStructureService: FeesStructureService,
     private alertService: SweetAlertService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
   }
 
@@ -159,9 +162,20 @@ export class RegistrationComponent {
 
     //   }
     // })
-    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-      if (res && res.studetails && res.studetails.registrationNo && res.studetails.registrationNo.length > 0) {
-        this.reg = res.studetails;
+
+    //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+      
+      
+    this.route.queryParams.subscribe((params) => {
+      let res;
+      if(params.data!=undefined){
+        const txndata = JSON.parse(params.data);
+        const decryptedData = this.authService.getDecryptText(txndata);
+         res = JSON.parse(decryptedData);
+      }
+
+      if (res  && res.registrationNo && res.registrationNo.length > 0) {
+        this.reg = res;
         this.updateFlag = true;
 
         if (this.reg.profileImage) {
@@ -291,7 +305,7 @@ export class RegistrationComponent {
       standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
       // standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
-      academicYearCode: [{value:stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
+      academicYearCode: [{ value: stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
@@ -478,8 +492,6 @@ export class RegistrationComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPhoto = input.files[0];
-      // console.log(this.selectedPhoto);
-      // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -582,26 +594,26 @@ export class RegistrationComponent {
     this.documents = [];
   }
 
-  isFeesStructureAvailable(){
-      const academicYearCode =  this.studentgroup.controls.academicYearCode.value;
-      const standard =  this.studentgroup.controls.standard.value;
+  isFeesStructureAvailable() {
+    const academicYearCode = this.studentgroup.controls.academicYearCode.value;
+    const standard = this.studentgroup.controls.standard.value;
 
-      if((standard !='' && standard !=null && standard != undefined) && (academicYearCode !='' && academicYearCode !=null && academicYearCode != undefined) ){
-          const feesStructure = new FeesStructure();
-          feesStructure.academicYearCode = academicYearCode;
-          feesStructure.classCode = standard;
-          this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res)=>{
-                if (res.status === msgTypes.SUCCESS_MESSAGE){
-                    if(res.data.length==0){
-                      this.alertService.showAlert(msgTypes.ERROR_MESSAGE,"Fees Structure is not created",msgTypes.ERROR,msgTypes.OK_KEY)
-                      this.studentgroup.controls.academicYearCode.reset();
-                      this.studentgroup.controls.standard.reset();
-                    }
-                }
-          })
+    if ((standard != '' && standard != null && standard != undefined) && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)) {
+      const feesStructure = new FeesStructure();
+      feesStructure.academicYearCode = academicYearCode;
+      feesStructure.classCode = standard;
+      this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res) => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          if (res.data.length == 0) {
+            this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
+            this.studentgroup.controls.academicYearCode.reset();
+            this.studentgroup.controls.standard.reset();
+          }
+        }
+      })
 
-      }
-      
+    }
+
   }
 
 }
