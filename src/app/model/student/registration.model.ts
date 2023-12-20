@@ -3,7 +3,7 @@ import { FeesStructure } from "../master/fees-structure.model";
 import { UploadedProfileImage } from "../master/uploaded-profile-image.model";
 
 export class Registration {
-        id: string;
+        registrationId: string;
 
         rollNumber: number;
         studentName     : string;
@@ -49,10 +49,13 @@ export class Registration {
         schoolAddress         : string;
 
         studentFeesStructure: StudentFeesStructure[]= []
+
+        isPromoted: boolean;
+        isActive: boolean;
         
 
         constructor(){
-            this.id = '';
+            this.registrationId = '';
             this.rollNumber= 0;
             this.studentName     ='';
             this.gender          ='';
@@ -92,6 +95,9 @@ export class Registration {
             this.passedClassMarks      = ''; 
             this.schoolAddress         = '';
             // this.profileImage          = new UploadedProfileImage();
+
+            this.isPromoted = false;
+            this.isActive = true;
         }
      
 }

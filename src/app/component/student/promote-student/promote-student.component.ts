@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
-import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { PermissionService } from 'src/app/service/common/permission.service';
@@ -16,21 +15,25 @@ import { AcademicYearService } from 'src/app/service/masters/academic-year.servi
 import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
-
+import { Class } from 'src/app/model/master/class.model';
 
 @Component({
-  selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css']
+  selector: 'app-promote-student',
+  templateUrl: './promote-student.component.html',
+  styleUrls: ['./promote-student.component.css']
 })
-export class StudentListComponent {
+export class PromoteStudentComponent {
   studentInfo: Registration = new Registration();
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
   posts: Registration[] = [];
+  //tempPost: Registration[]=[];
+  tempData: Registration[] =[];
+  promotedStudentList: Registration[]=[];
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
+  checkedFlag: boolean = false;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
@@ -39,6 +42,11 @@ export class StudentListComponent {
     fatherContactNo: new FormControl(),
     studentName: new FormControl()
   });
+
+  promotedStudentGroup=new FormGroup({
+    promotedStandard: new FormControl(),
+    promotedAcademicYearCode: new FormControl(),
+  })
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,6 +67,11 @@ export class StudentListComponent {
     return this.studentgroup.controls;
   }
 
+  //get promoted student controll
+  get promotedStudentFormControll(){
+    return this.promotedStudentGroup.controls;
+  }
+
   ngOnInit() {
     this.customInit();
     this.loadTable();
@@ -66,10 +79,10 @@ export class StudentListComponent {
 
   customInit() {
     this.createStudentForm(new Registration());
+    this.promotedStudentForm();
     this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
-    this.getTableRecord();
   }
 
   private updateEditable(): void {
@@ -85,6 +98,13 @@ export class StudentListComponent {
       academicYearCode: [registartion.academicYearCode],
       fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
       studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
+    });
+  }
+
+  promotedStudentForm() {
+    this.promotedStudentGroup = this.formBuilder.group({
+      promotedStandard: ['',[Validators.required]],
+      promotedAcademicYearCode: ['',[Validators.required]],
     });
   }
 
@@ -119,7 +139,18 @@ export class StudentListComponent {
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
-      ]
+      ],
+    columnDefs: [
+      {
+        'targets': 0,
+        'checkboxes': {
+            'selectRow': true
+        }
+      }
+    ],
+    select: {
+      'style': 'multi'
+    },
     };
   }
 
@@ -135,50 +166,76 @@ export class StudentListComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
-          console.log(this.posts);
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
         }
-      })
+    })
   }
-
-  viewDetails(registration: Registration){
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
-    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
-    this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
-    });
-  }
-
-  setVlaueToUpdate(stuDetails: Registration) {
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
-    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(stuDetails));
-    this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
-    });
-  }
-
-  //Action for Payin Details
-  payFees(registration: Registration) {
-    const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
-    this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
-    });
-}
 
 
   resetForm() {
     this.createStudentForm(new Registration())
     this.posts = [];
+    this.tempData = [];
+    this.promotedStudentList = [];
+    this.checkedFlag = false;
+  }
+
+  checkAllCheckBox(ev: any) {
+    this.posts.forEach(x => x.isPromoted = ev.target.checked)
+    this.checkedFlag = true;
+  }
+  
+  isAllCheckBoxChecked() {
+    return this.posts.every(p => p.isPromoted);
+  }
+
+  promoteStudent(){
+    this.promotedStudentList = [];
+    const promotedAcademicYear = this.promotedStudentFormControll.promotedAcademicYearCode.value;
+    const promotedStandard = this.promotedStudentFormControll.promotedStandard.value;
+    this.registrationService.studentList(this.studentInfo).subscribe(res=>{
+      //prepare promoted student list i.e mark as promote by using checkbox
+      if(res.status === msgTypes.SUCCESS_MESSAGE){
+        this.tempData = res.data;
+        let reg: Registration[] = [];
+        this.posts.forEach(x =>{
+          this.tempData.forEach(data=>{
+             if(data.registrationNo === x.registrationNo && data.registrationId===x.registrationId){
+                if(x.isPromoted !== data.isPromoted){
+                    reg.push(x);
+                    x.registrationId = "";
+                    x.academicYearCode = promotedAcademicYear;
+                    x.standard = promotedStandard;
+                    x.studentFeesStructure = [];
+                    this.promotedStudentList.push(x)
+                }
+             }
+          })
+        })
+        //send request to promote the student
+        //console.log(this.promotedStudentList);
+        this.registrationService.promoteStudent(this.promotedStudentList).subscribe(res=>{
+          if(res.status === msgTypes.SUCCESS_MESSAGE){
+            //Update status of old registration make isActive=false
+            
+            this.registrationService.updateStatusAfterPromote(reg).subscribe(res=>{console.log(res);
+            });
+          }
+        })
+        
+      }
+  })
+  }
+
+  selectCheckBox(registration: Registration, ev: any){
+        this.posts.map(data=>{
+          if(data.registrationId === registration.registrationId && data.registrationNo === registration.registrationNo){
+            data.isPromoted = ev.target.checked;
+            this.checkedFlag = true;
+          }
+        })
   }
 }
+ 

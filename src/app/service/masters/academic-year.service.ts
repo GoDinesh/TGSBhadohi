@@ -21,4 +21,9 @@ export class AcademicYearService {
     return this.httpClient.get<ResponseModel>(url)
   }
 
+  getAllActiveAcademicYear(){
+    const url = this.requestUrl + appurl.endpoint_allActiveRecords;
+    return this.httpClient.get<ResponseModel>(url)
+  }
+
 }

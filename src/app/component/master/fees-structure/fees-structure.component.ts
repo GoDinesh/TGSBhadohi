@@ -132,7 +132,7 @@ export class FeesStructureComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass().pipe(
+    this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
         return res.data;
       })
@@ -140,7 +140,7 @@ export class FeesStructureComponent {
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
@@ -148,7 +148,7 @@ export class FeesStructureComponent {
   };
 
 loadDiscountReason(){
-  this.discountReasonList = this.discountReasonService.getAllDiscountReason().pipe(
+  this.discountReasonList = this.discountReasonService.getAllActiveDiscountReason().pipe(
     map((res)=>{
         return res.data;
       })

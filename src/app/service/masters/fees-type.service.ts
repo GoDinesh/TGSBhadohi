@@ -20,6 +20,11 @@ export class FeesTypeService {
     const url = this.requestUrl + appurl.endpoint_findall;
     return this.httpClient.get<ResponseModel>(url)
   }
+
+  getAllActiveFeesType(){
+    const url = this.requestUrl + appurl.endpoint_allActiveRecords;
+    return this.httpClient.get<ResponseModel>(url)
+  }
  
 //   updateFeesType(feesTypeModel: FeesType){
 //    const url = this.requestUrl + appurl.endpoint_update;

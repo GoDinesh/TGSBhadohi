@@ -99,6 +99,13 @@ export const menuListAdmin: INavbarData[]=[
             "routerLink": student + "/studentList",
             "active": true,
         },
+        {
+            "text": "Promote Student",
+            "icon": "fa fa-line-chart",
+            "routerLink": student + "/promote-student",
+            "active": true,
+        },
+        
     ]},
 
     {

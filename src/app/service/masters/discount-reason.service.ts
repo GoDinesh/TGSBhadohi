@@ -22,6 +22,11 @@ export class DiscountReasonService {
    return this.httpClient.get<ResponseModel>(url)
  }
 
+ getAllActiveDiscountReason(){
+  const url = this.requestUrl + appurl.endpoint_allActiveRecords;
+  return this.httpClient.get<ResponseModel>(url)
+}
+
 //  updateDiscountReason(discountReasonModel: DiscountReason){
 //   const url = this.requestUrl + appurl.endpoint_update;
 //   return this.httpClient.post<ResponseModel>(url, JSON.stringify(discountReasonModel));

@@ -37,6 +37,7 @@ export const msgTypes = {
     NO_RECORD_FOUND: 'No Record Found',
 
     YYYY_MM_DD: 'YYYY-MM-DD',
+    DD_MM_YYYY: 'DD-MM-YYYY',
 
     LUMPSUM: 'Lumpsum',
     INSTALLMENT: 'Installment'

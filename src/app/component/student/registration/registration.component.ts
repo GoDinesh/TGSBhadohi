@@ -55,7 +55,7 @@ export class RegistrationComponent {
 
 
   studentgroup = new FormGroup({
-    id: new FormControl(),
+    registrationId: new FormControl(),
     rollNumber: new FormControl(),
     studentName: new FormControl(),
     gender: new FormControl(),
@@ -68,6 +68,8 @@ export class RegistrationComponent {
     religion: new FormControl(),
     category: new FormControl(),
     registrationNo: new FormControl(),
+    isPromoted: new FormControl(),
+    isActive: new FormControl(),
   });
 
   parentgroup = new FormGroup({
@@ -280,7 +282,7 @@ export class RegistrationComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass().pipe(
+    this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
         return res.data;
       })
@@ -288,7 +290,7 @@ export class RegistrationComponent {
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
@@ -297,7 +299,7 @@ export class RegistrationComponent {
 
   createStudentForm(stuInfo: Registration | Partial<Registration>) {
     this.studentgroup = this.formBuilder.group({
-      id: [stuInfo.id],
+      registrationId: [stuInfo.registrationId],
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
@@ -310,6 +312,8 @@ export class RegistrationComponent {
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
+      isPromoted: [stuInfo.isPromoted],
+      isActive: [stuInfo.isActive]
     });
 
   }
@@ -460,7 +464,7 @@ export class RegistrationComponent {
   }
 
   loadStandard() {
-    this.classService.getAllClass().subscribe(res => {
+    this.classService.getAllActiveClass().subscribe(res => {
       this.standard = res.data
     })
   }

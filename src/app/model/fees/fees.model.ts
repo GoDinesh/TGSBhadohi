@@ -7,7 +7,7 @@ export class Fees {
     paymenttype: string;
 	 paymentMode: string;
 	 amount: number;
-	 paymentDate: Date;
+	 paymentDate: string;
 	 paymentReceivedBy: string;
     remarks: string;
 
@@ -20,7 +20,7 @@ export class Fees {
         this.paymenttype = "";
         this.paymentMode = "";
         this.amount = 0;
-        this.paymentDate = new Date();
+        this.paymentDate = "";
         this.paymentReceivedBy = "";
         this.remarks = "";
      }

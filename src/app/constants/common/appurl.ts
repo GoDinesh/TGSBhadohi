@@ -25,12 +25,15 @@ export const appurl={
                 filter_by_keyword: '/filter-by-keyword',
                 student_fees_installment: '/student_fees_installment',
                 student_fees_structure: '/student-fees-structure',
+                promote_student: '/promote-student',
+                update_status_as_inactive: '/update-status-as-inactive',
 
         menuurl_fees: '/fees',
                 pay_fees: '/pay-fees',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
+    endpoint_allActiveRecords:'/allActiveRecords',
     endpoint_findbyid: '/findbyid',
     endpoint_filter: '/filter'
     //endpoint_update: '/update',

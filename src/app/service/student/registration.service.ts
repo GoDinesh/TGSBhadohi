@@ -42,5 +42,13 @@ export class RegistrationService {
     return this.httpClient.post<ResponseModel>(url, keyword)
   }
 
+  promoteStudent(studentList: Registration[]){
+    const url = this.requestUrl + appurl.promote_student;
+    return this.httpClient.post<ResponseModel>(url, studentList)
+  }
 
+  updateStatusAfterPromote(studentList: Registration[]){
+    const url = this.requestUrl + appurl.update_status_as_inactive;
+    return this.httpClient.post<ResponseModel>(url, studentList)
+  }
 }

@@ -26,13 +26,25 @@ import { MatChipsModule } from '@angular/material/chips';
 import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MatNativeDateModule } from '@angular/material/core';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatDialogModule } from '@angular/material/dialog';
-
+//used to set the date format of material date picker
+export const DateFormats = {
+  parse: {
+      dateInput: ['DD-MM-YYYY']
+  },
+  display: {
+      dateInput: 'DD-MM-YYYY',
+      monthYearLabel: 'MMM YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+//End
 // Pass the FusionCharts library and chart module
 FusionChartsModule.fcRoot(FusionCharts, Charts);
 
@@ -108,7 +120,12 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatCardModule
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: DateFormats
+  }
+  ],
 })
 export class SharedModule {
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, map } from 'rxjs';
@@ -19,6 +20,8 @@ import { AcademicYearService } from 'src/app/service/masters/academic-year.servi
 import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import { FeesReceiptComponent } from '../fees-receipt/fees-receipt.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-pay-fees',
@@ -35,8 +38,19 @@ export class PayFeesComponent {
   formgroup: FormGroup;
   callBylinkFlag: boolean = true;
   discountChanged: boolean = false;
-  lumpsumButtonFlag: boolean = true;
-  isLumpsum: boolean =  false;
+  previewReceiptFlag: boolean = true;
+  maxDate = new Date(); 
+  //set min date value in onInit function
+  minDate = new Date();
+  abc = {"name":'',"contact":''}
+  parentDetails:any []=[];
+  studentDetails: Registration = new Registration();
+  feesData: Fees[] = [];
+  
+  
+
+  // lumpsumButtonFlag: boolean = true;
+  // isLumpsum: boolean =  false;
 
   totalAmount: number = 0;
   totalDiscount: number = 0;
@@ -63,15 +77,18 @@ export class PayFeesComponent {
     private authService: AuthService,
     private studentFeesStructureService: StudentFeesStructureService,
     private alertService: SweetAlertService,
+    public dialog: MatDialog
   ) {
   }
 
   //load ngOnInit
   ngOnInit() {
     const fees = new Fees();
-    fees.paymentDate = new Date();
+    //fees.paymentDate = new Date();
     this.createFeesForm(fees);
     this.customInit();
+
+    this.minDate.setDate(this.minDate.getDate() - 3);
   }
 
   createFeesForm(fees: Fees) {
@@ -80,11 +97,11 @@ export class PayFeesComponent {
       academicYearCode: ['', [Validators.required]],
       registrationNo: ['', [Validators.required]],
 
-      amount: [fees.amount, [Validators.required, CustomValidation.numeric]],
-      //amount: [fees.amount, [Validators.required]],
+     // amount: [fees.amount, [Validators.required, CustomValidation.numeric]],
+      amount: [fees.amount, [Validators.required]],
       paymenttype: [fees.paymenttype,[]],
       paymentMode: [fees.paymentMode, [Validators.required]],
-      paymentDate: [fees.paymentDate, [Validators.required]],
+      paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
       remarks: [fees.remarks, [CustomValidation.alphanumaricSpace]],
 
@@ -126,11 +143,11 @@ export class PayFeesComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass();
+    this.allClassList = this.classService.getAllActiveClass();
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear();
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear();
   };
 
   loadStudentList() {
@@ -153,20 +170,14 @@ export class PayFeesComponent {
     feesModel.registrationNo = this.feesFormControll.registrationNo.value;
     
     this.feesService.getPaidFeesOfStudent(feesModel).subscribe(res => {
+      this.feesData = res.data;
+      if(res.data.length>0){
+        this.previewReceiptFlag = false;
+      }
       for (let i = 0; i < res.data.length; i++) {
-        //To decide the user is select lumpsum mode or installment at the time of first payment
-        if(i===0){
-          if(res.data[i].paymenttype === msgTypes.LUMPSUM)
-            this.isLumpsum= true;
-        }
-        //End
         this.feesPaid = this.feesPaid + res.data[i].amount
       }
       this.amountPaidTillDate = this.feesPaid;
-      //if one time fees is paid then there is no use of lumpsum button
-      if(this.feesPaid>0){
-        this.lumpsumButtonFlag = false;
-      }
       const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
       this.clearFormArray(control);
       this.displayFeesDetails();
@@ -182,6 +193,8 @@ export class PayFeesComponent {
     registration.registrationNo = this.feesFormControll.registrationNo.value;
     this.registrationModel = this.registrationService.studentList(registration);
     this.registrationModel.subscribe(res => {
+      this.prepareParentDetails(res.data[0]);
+      this.studentDetails = res.data[0];
       const feeStructure = res.data[0].studentFeesStructure[0];
       //store to update discounts
       this.studentFeeStructure = feeStructure;
@@ -204,20 +217,18 @@ export class PayFeesComponent {
         this.feesFormControll.regAmountPaid.setValue(regAmountAfterDiscount);
         this.feesFormControll.regNetPayable.setValue(0);
         this.feesPaid = this.feesPaid - regAmountAfterDiscount;
-        //this.totalAmountpaid += regAmountAfterDiscount
         this.regPendingFees = 0;
         this.totalNetPayable += 0;
 
       } else {
         this.feesFormControll.regAmountPaid.setValue(this.feesPaid);
         this.feesFormControll.regNetPayable.setValue(regAmountAfterDiscount - this.feesPaid);
-        // this.totalAmountpaid += this.feesPaid
         this.totalNetPayable += (regAmountAfterDiscount - this.feesPaid);
         this.regPendingFees = regAmountAfterDiscount - this.feesPaid;
         this.feesPaid = 0;
 
       }
-
+      
       this.totalIndividualDiscount = Number(feeStructure.regFeesDiscount);
       this.totalAmount = (Number(feeStructure.annualFees) + Number(feeStructure.registrationFees));
       this.totalAmountAfterDiscount = (Number(this.totalAmount) - Number(feeStructure.discountAmount))
@@ -229,14 +240,13 @@ export class PayFeesComponent {
         this.totalIndividualDiscount += Number(installment[i].discountAmount);
 
         let installmentPaidAmount = 0;
-        if (this.feesPaid > installment[i].installmentAmount) {
+        if (this.feesPaid > (installment[i].installmentAmount - installment[i].discountAmount)) {
           installmentPaidAmount = installment[i].installmentAmount - installment[i].discountAmount;
-          this.feesPaid = this.feesPaid - installment[i].installmentAmount;
+          this.feesPaid = this.feesPaid - installmentPaidAmount;
         } else {
           installmentPaidAmount = this.feesPaid;
           this.feesPaid = 0;
         }
-        //this.totalAmountpaid = this.totalAmountpaid + installmentPaidAmount;
         const payable = (installment[i].installmentAmount - installment[i].discountAmount) - installmentPaidAmount;
         this.totalNetPayable = this.totalNetPayable + payable;
         this.termFees += installment[i].installmentAmount;
@@ -259,6 +269,12 @@ export class PayFeesComponent {
     })
   }
 
+
+  prepareParentDetails(registartion: Registration){
+    this.parentDetails = [];
+    this.parentDetails.push({"name":registartion.fatherName, "contact":registartion.fatherContactNo});
+    this.parentDetails.push({"name":registartion.motherName, "contact":registartion.motherContactNumber});
+  }
   resetForm() {
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -278,21 +294,14 @@ export class PayFeesComponent {
 
   async save() {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
-    if(this.isLumpsum===true){
-      this.feesModel.paymenttype = msgTypes.LUMPSUM;
-    }else{
-      this.feesModel.paymenttype = msgTypes.INSTALLMENT;
-    }
+    this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE)
         this.feesFormControll.amount.reset();
         this.feesFormControll.paymentMode.reset();
-        // this.feesFormControll.paymentDate.reset();
-        this.feesFormControll.paymentReceivedBy.reset();
         this.feesFormControll.remarks.reset();
         this.getFeesDetails();
-        //this.resetForm();
       });
     } catch (error) { }
   }
@@ -305,8 +314,8 @@ export class PayFeesComponent {
     const regFeesDiscount = this.feesFormControll.regFeesDiscount.value;
     const regAmountPaid = this.feesFormControll.regAmountPaid.value;
     const amountAfterDiscount = ((regAndAnnualFees - previousDiscount) - regFeesDiscount);
-
-    if (regFeesDiscount > amountAfterDiscount) {
+   
+    if (amountAfterDiscount<0) {
       this.feesFormControll.regFeesDiscount.setValue(0)
       this.feesFormControll.regAmountAfterDiscount.setValue((regAndAnnualFees - previousDiscount))
       this.feesFormControll.regNetPayable.setValue((regAndAnnualFees - previousDiscount) - regAmountPaid)
@@ -350,7 +359,6 @@ export class PayFeesComponent {
     this.totalNetPayable = this.feesFormControll.regNetPayable.value;
     this.totalIndividualDiscount = Number(this.feesFormControll.regFeesDiscount.value);
 
-
     const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
     for (let i = 0; i < control.value.length; i++) {
       const afterDiscount = (control.value[i].installmentAmount - control.value[i].discountAmount);
@@ -389,12 +397,22 @@ export class PayFeesComponent {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
             this.discountChanged = false;
             this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.STUDENT_FEES_STRUCTURE_UPDATED, msgTypes.SUCCESS, msgTypes.OK_KEY);
+            this.getFeesDetails();
       }
     });
 
   }
 
-  lumpsumButtonClicked(){
-  this.isLumpsum = true;
+  // lumpsumButtonClicked(){
+  // this.isLumpsum = true;
+  // }
+  openDialog(){
+    const dialogRef = this.dialog.open(FeesReceiptComponent, {
+      data: [this.feesData, this.studentDetails],
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

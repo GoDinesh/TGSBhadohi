@@ -16,6 +16,7 @@ export const pageTitle = {
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',
                 STUDENT_LIST    : 'Student List',
+                PROMOTE_STUDENT : 'Promote Student',
         
         FEES: 'Fees',
                 PAY_FEES        : 'PAY FEES',

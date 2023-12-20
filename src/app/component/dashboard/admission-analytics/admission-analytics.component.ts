@@ -91,7 +91,7 @@ export class AdmissionAnalyticsComponent {
   loadClass(academicYear: string) {
 
     forkJoin([
-      this.classService.getAllClass(),
+      this.classService.getAllActiveClass(),
       this.registrationService.studentList(new Registration())
     ]).subscribe(([classRes, studentRes]) => {
       // Assuming classRes and studentRes have a 'data' property
@@ -175,7 +175,7 @@ export class AdmissionAnalyticsComponent {
   
 
   async loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })

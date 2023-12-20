@@ -84,9 +84,36 @@
          <th>Aadhar Number</th>
          <th>Student Name</th>
          <th>Standard</th>
+         <th>Section</th>
          <th>Academic Year</th>
          <th>Gender</th>
          <th>DOB</th>
+         <th>Religion</th>
+         <th>Category</th>
+         <th>Father Name</th>
+         <th>Father Aadhar No</th>
+         <th>Father Contact No</th>
+         <th>Father Qualification</th>
+         <th>Father Profession</th>
+         <th>Father Email</th>
+         <th>Mother Name</th>
+         <th>Mother Aadhar No</th>
+         <th>Mother Contact No</th>
+         <th>Mother Professional</th>
+         <th>Guardian Name</th>
+         <th>Country</th>
+         <th>State</th>
+         <th>City</th>
+         <th>Pincode</th>
+         <th>Area</th>
+         <th>Emergency Contact Person</th>
+         <th>Emergency Number</th>
+         <th>School Name</th>
+         <th>TC Number</th>
+         <th>Passed Class</th>
+         <th>Passed Class Marks</th>
+         <th>School Address</th>
+
          <th>Action</th>
        </tr>
      </thead>
@@ -99,9 +126,36 @@
          <td class="td-medium">{{ post.aadhaarNumber }}</td>
          <td class="td-large">{{ post.studentName}}</td>
          <td class="td-small">{{ post.standard}}</td>
+         <td class="td-small">{{post.section}}</td>
          <td class="td-medium">{{ post.academicYearCode}}</td>
          <td class="td-small">{{ post.gender}}</td>
          <td class="td-small">{{ post.dateOfBirth}}</td>
+         <td class="td-small">{{post.religion}}</td>
+         <td class="td-small">{{post.category}}</td>
+         <td class="td-large">{{ post.fatherName}}</td>
+         <td class="td-large">{{ post.fatherAadharNo}}</td>
+         <td class="td-medium">{{post.fatherContactNo}}</td>
+         <td class="td-medium">{{post.fatherQualification}}</td>
+         <td class="td-medium">{{post.fatherProfession}}</td>
+         <td class="td-large">{{post.fatherEmailId}}</td>
+         <td class="td-large">{{ post.motherName}}</td>
+         <td class="td-large">{{ post.motherAadharNumber}}</td>
+         <td class="td-medium">{{post.motherContactNumber}}</td>
+         <td class="td-large">{{post.motherProfession}}</td>
+         <td class="td-large">{{post.guardianName}}</td>
+         <td class="td-medium">{{post.country}}</td>
+         <td class="td-medium">{{post.state}}</td>
+         <td class="td-medium">{{post.city}}</td>
+         <td class="td-medium">{{post.pincode}}</td>
+         <td class="td-large">{{post.area}}</td>
+         <td class="td-large">{{post.emergencyContactPerson}}</td>
+         <td class="td-large">{{post.emergencyNumber}}</td>
+         <td class="td-large">{{post.schoolName}}</td>
+         <td class="td-large">{{post.tcNumber}}</td>
+         <td class="td-large">{{post.passedClass}}</td>
+         <td class="td-large">{{post.passedClassMarks}}</td>
+         <td class="td-large">{{post.schoolAddress}}</td>
+
          <td class="td-action">  
            <a (click)="viewDetails(post)"><i class="fa fa-eye fa-lg"></i></a>
            &nbsp;&nbsp;
