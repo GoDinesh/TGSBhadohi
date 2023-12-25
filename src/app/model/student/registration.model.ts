@@ -52,6 +52,7 @@ export class Registration {
 
         isPromoted: boolean;
         isActive: boolean;
+        isChecked: boolean;
         
 
         constructor(){
@@ -98,6 +99,7 @@ export class Registration {
 
             this.isPromoted = false;
             this.isActive = true;
+            this.isChecked = false;
         }
      
 }

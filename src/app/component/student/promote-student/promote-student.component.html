@@ -103,7 +103,7 @@
     <tbody>
       <tr *ngFor="let post of posts;let i=index">
         <td class="td-align"><input type="checkbox" class="checkbox-width" value="{{post.registrationNo}}"
-            [(ngModel)]="posts[i].isPromoted" (change)="selectCheckBox(posts[i],$event)"></td>
+            [(ngModel)]="posts[i].isChecked" (change)="selectCheckBox(posts[i],$event)"></td>
         <td class="td-sno">{{i+1}}</td>
         <td class="td-sno" *ngIf="post.profileImage == null"></td>
         <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{post.profileImage.link}}"
@@ -155,7 +155,7 @@
     <!-- begin::Standard -->
     <div class="form-group">
       <label class="form-label required">Promoted Class</label>
-      <mat-select class="form-control form-control-sm" formControlName="promotedStandard" placeholder="Select Promoted Class">
+      <mat-select class="form-control form-control-sm" (selectionChange)="isFeesStructureAvailable()" formControlName="promotedStandard" placeholder="Select Promoted Class">
         <input type="text" class="form-control  form-control-sm" #filterClassName>
         <div *ngIf="allClassList | async as postdata ">
           <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"

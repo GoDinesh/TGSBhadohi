@@ -42,7 +42,8 @@
           <ng-container *ngIf="searchStudent.value.length>0">
             <ng-container *ngIf="studentList | async as filteredStudents">
             <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
-              <div class="message">
+              <ng-container *ngIf="student.isActive===true">
+                <div class="message">
                 <div class="message-avatar">
                   <img [src]="student.profileImage.link" alt="">
                 </div>
@@ -57,6 +58,7 @@
                   </div>
                 </div>
               </div>
+            </ng-container>
               </div>
             </ng-container>
           </ng-container>

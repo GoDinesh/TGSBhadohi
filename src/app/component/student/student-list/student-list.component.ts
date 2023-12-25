@@ -69,7 +69,7 @@ export class StudentListComponent {
     this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
-    this.getTableRecord();
+    //this.getTableRecord();
   }
 
   private updateEditable(): void {
@@ -135,7 +135,6 @@ export class StudentListComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
-          console.log(this.posts);
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }

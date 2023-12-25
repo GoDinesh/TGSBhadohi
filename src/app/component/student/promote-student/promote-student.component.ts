@@ -16,6 +16,8 @@ import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
 import { Class } from 'src/app/model/master/class.model';
+import { FeesStructure } from 'src/app/model/master/fees-structure.model';
+import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
 
 @Component({
   selector: 'app-promote-student',
@@ -58,7 +60,8 @@ export class PromoteStudentComponent {
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
-    private authService:AuthService
+    private authService:AuthService,
+    private feesStructureService: FeesStructureService,
   ) {
   }
 
@@ -165,9 +168,9 @@ export class PromoteStudentComponent {
 
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.posts = res.data;
-          if(res.data.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
+          this.posts = res.data.filter((data: Registration)=>{return data.isActive===true});
+          if(this.posts.length == 0){
+            this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
         }
     })
@@ -183,31 +186,38 @@ export class PromoteStudentComponent {
   }
 
   checkAllCheckBox(ev: any) {
-    this.posts.forEach(x => x.isPromoted = ev.target.checked)
-    this.checkedFlag = true;
+    this.posts.forEach(x => x.isChecked = ev.target.checked)
+    if(ev.target.checked===true)
+      this.checkedFlag = true;
+    else
+    this.checkedFlag = false;
   }
   
   isAllCheckBoxChecked() {
-    return this.posts.every(p => p.isPromoted);
+    return this.posts.every(p => p.isChecked);
   }
 
   promoteStudent(){
     this.promotedStudentList = [];
     const promotedAcademicYear = this.promotedStudentFormControll.promotedAcademicYearCode.value;
     const promotedStandard = this.promotedStudentFormControll.promotedStandard.value;
+
     this.registrationService.studentList(this.studentInfo).subscribe(res=>{
       //prepare promoted student list i.e mark as promote by using checkbox
       if(res.status === msgTypes.SUCCESS_MESSAGE){
         this.tempData = res.data;
         let reg: Registration[] = [];
+        let updateStatus: Registration [] = [];
         this.posts.forEach(x =>{
           this.tempData.forEach(data=>{
              if(data.registrationNo === x.registrationNo && data.registrationId===x.registrationId){
-                if(x.isPromoted !== data.isPromoted){
+                if(x.isChecked){
+                    updateStatus.push(data);
                     reg.push(x);
                     x.registrationId = "";
                     x.academicYearCode = promotedAcademicYear;
                     x.standard = promotedStandard;
+                    x.isPromoted = x.isChecked;
                     x.studentFeesStructure = [];
                     this.promotedStudentList.push(x)
                 }
@@ -218,9 +228,8 @@ export class PromoteStudentComponent {
         //console.log(this.promotedStudentList);
         this.registrationService.promoteStudent(this.promotedStudentList).subscribe(res=>{
           if(res.status === msgTypes.SUCCESS_MESSAGE){
-            //Update status of old registration make isActive=false
-            
-            this.registrationService.updateStatusAfterPromote(reg).subscribe(res=>{console.log(res);
+            this.registrationService.updateStatusAfterPromote(updateStatus).subscribe(res=>{
+              this.resetForm();
             });
           }
         })
@@ -230,12 +239,50 @@ export class PromoteStudentComponent {
   }
 
   selectCheckBox(registration: Registration, ev: any){
+        let count=0;
         this.posts.map(data=>{
+          if(data.isChecked===true){
+            count++;
+          }
           if(data.registrationId === registration.registrationId && data.registrationNo === registration.registrationNo){
-            data.isPromoted = ev.target.checked;
+            data.isChecked = ev.target.checked;
+            if(ev.target.checked===true){
+              count++;
+            }else{
+              count--;
+            }
+          }
+
+          if(count>0){
             this.checkedFlag = true;
+          }else{
+            this.checkedFlag = false;
           }
         })
+
+       
+  }
+
+  isFeesStructureAvailable() {
+    const academicYearCode = this.promotedStudentFormControll.promotedAcademicYearCode.value;
+    const standard = this.promotedStudentFormControll.promotedStandard.value;
+
+    if ((standard != '' && standard != null && standard != undefined) && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)) {
+      const feesStructure = new FeesStructure();
+      feesStructure.academicYearCode = academicYearCode;
+      feesStructure.classCode = standard;
+      this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res) => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          if (res.data.length == 0) {
+            this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
+            this.promotedStudentFormControll.promotedAcademicYearCode.reset();
+            this.promotedStudentFormControll.promotedStandard.reset();
+          }
+        }
+      })
+
+    }
+
   }
 }
  

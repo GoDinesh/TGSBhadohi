@@ -62,10 +62,10 @@
 
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
-                
-                    <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>
-                
-                <app-student-card [studentData]="posts"></app-student-card>
+                <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>
+                <ng-container *ngIf="posts.length>0">
+                  <app-student-card [studentData]="posts"></app-student-card>
+                </ng-container>
                 <button  class="btn btn-danger btn-sm mx-2" (click)="resetForm()">Reset</button>
             </div>
             <!-- end::Buttons -->
