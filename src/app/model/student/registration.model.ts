@@ -53,6 +53,11 @@ export class Registration {
         isPromoted: boolean;
         isActive: boolean;
         isChecked: boolean;
+
+        totalFees: number;
+        paidFees: number;
+        pendingFees: number;
+        isTotalFeesPaid: boolean;
         
 
         constructor(){
@@ -100,6 +105,11 @@ export class Registration {
             this.isPromoted = false;
             this.isActive = true;
             this.isChecked = false;
+
+            this.totalFees = 0;
+            this.paidFees = 0;
+            this.pendingFees=0;
+            this.isTotalFeesPaid = false;
         }
      
 }

@@ -293,17 +293,40 @@ export class PayFeesComponent {
   }
 
   async save() {
-    this.feesModel = { ...this.feesModel, ...this.formgroup.value }
-    this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
-    try {
-      this.feesService.insertFees(this.feesModel).subscribe(res => {
-        if (res.status === msgTypes.SUCCESS_MESSAGE)
-        this.feesFormControll.amount.reset();
-        this.feesFormControll.paymentMode.reset();
-        this.feesFormControll.remarks.reset();
-        this.getFeesDetails();
-      });
-    } catch (error) { }
+    console.log("totalAmountAfterDiscount",this.totalAmountAfterDiscount);
+    console.log("this.amountPaidTillDate", this.amountPaidTillDate);
+    console.log("this.feesModel.amount",this.feesFormControll.amount.value);
+    
+    
+    
+    if(this.totalAmountAfterDiscount>=(Number(this.amountPaidTillDate) + Number(this.feesFormControll.amount.value))){
+          this.feesModel = { ...this.feesModel, ...this.formgroup.value }
+          this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
+          try {
+            this.feesService.insertFees(this.feesModel).subscribe(res => {
+              if (res.status === msgTypes.SUCCESS_MESSAGE){
+                  this.studentDetails.paidFees = (Number(this.amountPaidTillDate) + Number(this.feesModel.amount));
+                  this.studentDetails.pendingFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount));
+                  this.studentDetails.totalFees = this.totalAmountAfterDiscount;
+                  if(this.studentDetails.pendingFees===0){
+                    this.studentDetails.isTotalFeesPaid = true;
+                  }else{
+                    this.studentDetails.isTotalFeesPaid = false;
+                  }
+                  this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res=>{
+                    if (res.status === msgTypes.SUCCESS_MESSAGE){
+                      this.feesFormControll.amount.reset();
+                      this.feesFormControll.paymentMode.reset();
+                      this.feesFormControll.remarks.reset();
+                      this.getFeesDetails();
+                    }
+                  });
+              }
+            });
+          } catch (error) { }
+      }else{
+        this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Total Fees", msgTypes.ERROR, msgTypes.OK_KEY);
+      }
   }
 
   onRegFeesDiscountChange() {

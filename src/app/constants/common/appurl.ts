@@ -27,6 +27,7 @@ export const appurl={
                 student_fees_structure: '/student-fees-structure',
                 promote_student: '/promote-student',
                 update_status_as_inactive: '/update-status-as-inactive',
+                update_fees_details: '/update-fees-details',
 
         menuurl_fees: '/fees',
                 pay_fees: '/pay-fees',

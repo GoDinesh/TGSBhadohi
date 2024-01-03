@@ -133,6 +133,8 @@ export class StudentListComponent {
     studentInfo.studentName = this.studentFormControll.studentName.value;
 
     this.registrationService.studentList(studentInfo).subscribe(res=>{
+      console.log(res);
+      
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
           if(res.data.length == 0){

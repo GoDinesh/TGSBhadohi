@@ -6,3 +6,10 @@
 .td-align{
     padding-right: 20px;
 }
+
+.my_class{
+    /* background-color: rgb(244, 57, 57); */
+    background-color: rgb(245, 228, 228);
+    color: red;
+    font-weight: 500;
+}

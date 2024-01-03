@@ -93,15 +93,15 @@
         <th>Student Name</th>
         <th>Father Name</th>
         <th>Standard</th>
-        <th>Section</th>
+        <th>Total Fees</th>
 
-        <th>Gender</th>
-        <th>DOB</th>
+        <th>Paid Fees</th>
+        <th>Pending Fees</th>
 
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let post of posts;let i=index">
+      <tr *ngFor="let post of posts;let i=index" [ngClass]="{'my_class': !post.isTotalFeesPaid }">
         <td class="td-align"><input type="checkbox" class="checkbox-width" value="{{post.registrationNo}}"
             [(ngModel)]="posts[i].isChecked" (change)="selectCheckBox(posts[i],$event)"></td>
         <td class="td-sno">{{i+1}}</td>
@@ -113,9 +113,9 @@
         <td class="td-large">{{ post.studentName}}</td>
         <td class="td-large">{{ post.fatherName}}</td>
         <td class="td-small">{{ post.standard}}</td>
-        <td class="td-small">{{post.section}}</td>
-        <td class="td-small">{{ post.gender}}</td>
-        <td class="td-small">{{ post.dateOfBirth}}</td>
+        <td class="td-small">{{post.totalFees}}</td>
+        <td class="td-small">{{ post.paidFees}}</td>
+        <td class="td-small">{{ post.pendingFees}}</td>
 
       </tr>
     </tbody>

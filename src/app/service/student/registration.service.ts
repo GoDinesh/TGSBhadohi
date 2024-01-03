@@ -51,4 +51,9 @@ export class RegistrationService {
     const url = this.requestUrl + appurl.update_status_as_inactive;
     return this.httpClient.post<ResponseModel>(url, studentList)
   }
+
+  updateFeesDetails(registration: Registration){
+    const url = this.requestUrl + appurl.update_fees_details;
+    return this.httpClient.post<ResponseModel>(url, registration)
+  }
 }
