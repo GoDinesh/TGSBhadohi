@@ -179,6 +179,8 @@ export class PromoteStudentComponent {
 
   resetForm() {
     this.createStudentForm(new Registration())
+    this.promotedStudentFormControll.promotedAcademicYearCode.reset();
+    this.promotedStudentFormControll.promotedStandard.reset();
     this.posts = [];
     this.tempData = [];
     this.promotedStudentList = [];

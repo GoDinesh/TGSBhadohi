@@ -9,7 +9,7 @@
                     <!-- begin::academic year -->
                     <div class="form-group">
                         <label class="form-label required">Academic Year</label>
-                        <mat-select formControlName="academicYearCode" class="form-control form-control-sm">
+                        <mat-select formControlName="academicYearCode" (selectionChange)="academicYearChange()" class="form-control form-control-sm">
                             <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
                             <div *ngIf="academicYearList | async as postdata ">
                                 <mat-option

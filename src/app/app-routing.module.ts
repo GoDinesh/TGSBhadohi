@@ -89,6 +89,19 @@ const routes: Routes = [
                     },
                     role: Object.values(ROLE_ADMIN)
                 }
+            },
+            {
+                path: 'reports',
+                canLoad: [AuthGuard],
+                loadChildren: ()=> import('./component/reports/reports.module').then(m=> m.ReportsModule),
+                data:{
+                    breadcrumb: {
+                        label: breadcrumb.REPORTS,
+                        title: pageTitle.REPORTS,
+                        disable: true
+                    },
+                    role: Object.values(ROLE_ADMIN_USER)
+                }
             }
         ]
     },

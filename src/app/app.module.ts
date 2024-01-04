@@ -43,8 +43,7 @@ import { StudentCardComponent } from './component/pdf-card/student-card/student-
     DisplayContentComponent,
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
-    StudentCardComponent,   
-   
+    StudentCardComponent,
   ],
   imports: [
     BrowserModule,

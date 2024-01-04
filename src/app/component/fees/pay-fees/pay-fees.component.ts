@@ -152,10 +152,16 @@ export class PayFeesComponent {
 
   loadStudentList() {
     this.studentList = new Observable();
+    this.feesFormControll.registrationNo.reset();
     const reg = new Registration();
     reg.academicYearCode = this.feesFormControll.academicYearCode.value;
     reg.standard = this.feesFormControll.classCode.value;
     this.studentList = this.registrationService.studentList(reg);
+  }
+
+  academicYearChange(){
+    this.feesFormControll.registrationNo.reset();
+    this.feesFormControll.classCode.reset();
   }
 
   //get fees formcontroll

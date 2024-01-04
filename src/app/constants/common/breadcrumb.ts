@@ -20,5 +20,9 @@ export const breadcrumb = {
 
     FEES: 'Fees',
         PAY_FEES        : 'PAY FEES', 
+
+    REPORTS: 'Reports',
+        PENDING_FEES    : 'Pending Fees',
+        AADHAR_DETAILS  : 'Aadhar Details Not Available' 
     
 }
