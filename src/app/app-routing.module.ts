@@ -8,8 +8,13 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { AuthGuard } from './core/guards/auth.guard';
 import { ROLE_ADMIN, ROLE_ADMIN_USER } from './constants/common/roles';
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
+import { HomeComponent } from './component/static-website/home/home.component';
 
 const routes: Routes = [
+    {
+        path: 'home',
+        component: HomeComponent,
+    },
     {
         path: 'login',
         component: LoginComponent,

@@ -28,6 +28,9 @@ import { UnauthorizedAttemptComponent } from './component/shared-component/unaut
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
 import { StudentCardComponent } from './component/pdf-card/student-card/student-card.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { HomeComponent } from './component/static-website/home/home.component';
+import { ContactsComponent } from './component/static-website/contacts/contacts.component';
+import { AboutsComponent } from './component/static-website/abouts/abouts.component';
 
 
 @NgModule({
@@ -45,6 +48,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
     StudentCardComponent,
+    HomeComponent,
+    ContactsComponent,
+    AboutsComponent,
   ],
   imports: [
     BrowserModule,

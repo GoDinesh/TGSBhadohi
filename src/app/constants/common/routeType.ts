@@ -1,5 +1,6 @@
 export const routeType = {
     NAVMENU: 'navmenu',
     DASHBOARD: 'navmenu/dashboard',
-    LOGIN: '/login'
+    LOGIN: '/login',
+    HOME: '/home'
 } 
