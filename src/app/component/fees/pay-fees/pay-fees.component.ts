@@ -76,7 +76,6 @@ export class PayFeesComponent {
     private route: ActivatedRoute,
     private authService: AuthService,
     private studentFeesStructureService: StudentFeesStructureService,
-    private alertService: SweetAlertService,
     public dialog: MatDialog
   ) {
   }
@@ -262,7 +261,8 @@ export class PayFeesComponent {
             classCode: new FormControl(installment[i].classCode),
             academicYearCode: new FormControl(installment[i].academicYearCode),
             installmentNumber: new FormControl((Number(installment[i].installmentNumber) + 1)),
-            installmentDate: new FormControl(installment[i].installmentDate),
+            
+            installmentDate: new FormControl(moment(installment[i].installmentDate).format(msgTypes.DD_MM_YYYY)),
             installmentAmount: new FormControl(installment[i].installmentAmount),
             discountAmount: new FormControl(installment[i].discountAmount),
             discountReason: new FormControl(installment[i].discountReason),

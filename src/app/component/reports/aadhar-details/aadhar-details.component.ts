@@ -134,16 +134,16 @@ export class AadharDetailsComponent {
       })
   }
 
-  //Action for Payin Details
-  payFees(registration: Registration) {
-    const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
+  setVlaueToUpdate(stuDetails: Registration) {
+    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
+    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
+    const encryptData = this.authService.getEncryptText(JSON.stringify(stuDetails));
     this.router.navigate([url], {
         queryParams: {
             data: JSON.stringify(encryptData)
         }
     });
-}
+  }
 
 
   resetForm() {

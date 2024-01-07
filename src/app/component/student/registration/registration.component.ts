@@ -479,10 +479,21 @@ export class RegistrationComponent {
     reg.academicYearCode = academicYear;
     reg.standard = standard;
 
-    this.registrationService.getRollNumber(reg).subscribe(res => {
-      this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
-      this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
-      this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+    this.registrationService.getMaxRegistrationNumber().subscribe(res => {
+      if(res.status === msgTypes.SUCCESS_MESSAGE){
+        this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+        this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+
+      this.registrationService.getRollNumber(reg).subscribe(res=>{
+        if(res.status === msgTypes.SUCCESS_MESSAGE){
+          this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+        }
+      })
+      
+     }else{
+      this.studentFormControll.registrationNo.setValue("");
+     }
+      
     });
   }
 

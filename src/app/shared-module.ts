@@ -32,18 +32,8 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DateFormatPipePipe } from './core/pipes/date-format-pipe.pipe';
 //used to set the date format of material date picker
-export const DateFormats = {
-  parse: {
-      dateInput: ['DD-MM-YYYY']
-  },
-  display: {
-      dateInput: 'DD-MM-YYYY',
-      monthYearLabel: 'MMM YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
 //End
 // Pass the FusionCharts library and chart module
 FusionChartsModule.fcRoot(FusionCharts, Charts);
@@ -51,7 +41,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
 @NgModule({
   declarations: [
     FilterDataPipe,
-    FilterStudentListPipe
+    FilterStudentListPipe,
+    DateFormatPipePipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -107,8 +98,6 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
-    FilterDataPipe,
-    FilterStudentListPipe,
     DragDropModule,
     MatTreeModule,
     MatCheckboxModule,
@@ -117,14 +106,14 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     FusionChartsModule,
     HighchartsChartModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
+
+    FilterDataPipe,
+    FilterStudentListPipe,
+    DateFormatPipePipe
 
   ],
   providers: [
-    {
-      provide: MAT_DATE_FORMATS,
-      useValue: DateFormats
-  }
   ],
 })
 export class SharedModule {

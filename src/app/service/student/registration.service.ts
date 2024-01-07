@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { appurl } from 'src/app/constants/common/appurl';
+import { msgTypes } from 'src/app/constants/common/msgType';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { Registration } from 'src/app/model/student/registration.model';
 
@@ -35,6 +36,11 @@ export class RegistrationService {
   getRollNumber(reg : Registration){
     const url = this.requestUrl + appurl.get_rollnumber ;
     return this.httpClient.post<ResponseModel>(url, reg)
+  }
+
+  getMaxRegistrationNumber(){
+    const url = this.requestUrl + appurl.get_max_registration_number;
+    return this.httpClient.post<ResponseModel>(url, "")
   }
 
   getStudentListByGlobalFilter(keyword : string){

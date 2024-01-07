@@ -161,7 +161,7 @@
         <label class="form-label required">Annual Fees Date</label>
         <input matInput [matDatepicker]="picker" formControlName="annualFeesDate" class="form-control form-control-sm"
           readonly>
-        <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
+        <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position pt-4"
           [disabled]="false"></mat-datepicker-toggle>
         <mat-datepicker #picker [disabled]="false"></mat-datepicker>
         <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFeesDate,"Annual Fees Date")}}
@@ -177,7 +177,7 @@
     <!-- <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
     </div> -->
     <!-- end::Lumsum Amount -->
-
+    
     <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
     <div>
         <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div>
@@ -257,18 +257,18 @@
           <th>Class</th>
           <!-- <th>Fees Type Code</th> -->
           <th>Academic Year</th>
-          <th>Enrollment Type</th>
+          <!-- <th>Enrollment Type</th>
 
           <th>Payment Type</th>
           <th>Validity Srart Date</th>
-          <th>Validity End Date</th>
+          <th>Validity End Date</th> -->
           <th>Total Fees</th>
           <th>Discount Reason</th>
           <th>Net Amount After Discount</th>
           <th>Registration Fees</th>
           <th>Annual Fees</th>
           <th>Annual Fees Date</th>
-          <th>Remark</th>
+          <!-- <th>Remark</th> -->
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -276,19 +276,19 @@
       <tbody>
         <tr *ngFor="let post of postData.data ; let i=index">
           <td class="td-sno">{{i+1}}</td>
-          <td class="td-large">{{ post.classCode }}</td>
-          <td class="td-auto">{{ post.academicYearCode }}</td>
-          <td class="td-large">{{ post.enrollmentType }}</td>
+          <td >{{ post.classCode }}</td>
+          <td >{{ post.academicYearCode }}</td>
+          <!-- <td class="td-large">{{ post.enrollmentType }}</td>
           <td class="td-large">{{ post.paymentType }}</td>
           <td class="td-large">{{ post.validityStartDate }}</td>
-          <td class="td-large">{{ post.validityEndDate }}</td>
-          <td class="td-large">{{ post.totalFees }}</td>
-          <td class="td-large">{{ post.discountReasonCode }}</td>
-          <td class="td-large">{{ post.netAmountAfterDiscount }}</td>
-          <td class="td-large">{{ post.registrationFees }}</td>
-          <td class="td-large">{{ post.annualFees }}</td>
-          <td class="td-large">{{ post.annualFeesDate }}</td>
-          <td class="td-large">{{ post.remarks }}</td>
+          <td class="td-large">{{ post.validityEndDate }}</td> -->
+          <td >{{ post.totalFees }}</td>
+          <td >{{ post.discountReasonCode }}</td>
+          <td >{{ post.netAmountAfterDiscount }}</td>
+          <td >{{ post.registrationFees }}</td>
+          <td >{{ post.annualFees }}</td>
+          <td >{{ post.annualFeesDate | dateFormatPipe }}</td>
+          <!-- <td class="td-large">{{ post.remarks }}</td> -->
           <td class="td-status">
             <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
             </mat-slide-toggle>

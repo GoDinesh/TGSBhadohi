@@ -87,7 +87,7 @@
          <th>Section</th>
          <th>Academic Year</th>
          <th>Gender</th>
-         <th>DOB</th>
+         <th>Date Of Birth</th>
          <th>Religion</th>
          <th>Category</th>
          <th>Father Name</th>
@@ -129,7 +129,7 @@
          <td class="td-small">{{post.section}}</td>
          <td class="td-medium">{{ post.academicYearCode}}</td>
          <td class="td-small">{{ post.gender}}</td>
-         <td class="td-small">{{ post.dateOfBirth}}</td>
+         <td class="td-medium">{{ post.dateOfBirth | dateFormatPipe}}</td>
          <td class="td-small">{{post.religion}}</td>
          <td class="td-small">{{post.category}}</td>
          <td class="td-large">{{ post.fatherName}}</td>

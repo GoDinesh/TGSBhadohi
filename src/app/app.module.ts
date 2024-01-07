@@ -27,6 +27,7 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
 import { StudentCardComponent } from './component/pdf-card/student-card/student-card.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { StudentCardComponent } from './component/pdf-card/student-card/student-
     {
           provide: LocationStrategy,
           useClass: HashLocationStrategy
-    }
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

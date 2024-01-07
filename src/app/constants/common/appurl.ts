@@ -22,6 +22,7 @@ export const appurl={
                 student_list: '/studentList',
                 upload_image: '/upload-image',
                 get_rollnumber: '/get-rollnumber',
+                get_max_registration_number:'/get-max-registration-number',
                 filter_by_keyword: '/filter-by-keyword',
                 student_fees_installment: '/student_fees_installment',
                 student_fees_structure: '/student-fees-structure',
