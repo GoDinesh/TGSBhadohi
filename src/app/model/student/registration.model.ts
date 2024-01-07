@@ -1,7 +1,9 @@
+import { StudentFeesStructure } from "../fees/student-fees-structure.model";
+import { FeesStructure } from "../master/fees-structure.model";
 import { UploadedProfileImage } from "../master/uploaded-profile-image.model";
 
 export class Registration {
-        id: string;
+        registrationId: string;
 
         rollNumber: number;
         studentName     : string;
@@ -45,10 +47,21 @@ export class Registration {
         passedClass           : string; 
         passedClassMarks      : string; 
         schoolAddress         : string;
+
+        studentFeesStructure: StudentFeesStructure[]= []
+
+        isPromoted: boolean;
+        isActive: boolean;
+        isChecked: boolean;
+
+        totalFees: number;
+        paidFees: number;
+        pendingFees: number;
+        isTotalFeesPaid: boolean;
         
 
         constructor(){
-            this.id = '';
+            this.registrationId = '';
             this.rollNumber= 0;
             this.studentName     ='';
             this.gender          ='';
@@ -88,6 +101,15 @@ export class Registration {
             this.passedClassMarks      = ''; 
             this.schoolAddress         = '';
             // this.profileImage          = new UploadedProfileImage();
+
+            this.isPromoted = false;
+            this.isActive = true;
+            this.isChecked = false;
+
+            this.totalFees = 0;
+            this.paidFees = 0;
+            this.pendingFees=0;
+            this.isTotalFeesPaid = false;
         }
      
 }

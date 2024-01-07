@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FeesRoutingModule } from './fees-routing.module';
 import { PayFeesComponent } from './pay-fees/pay-fees.component';
 import { SharedModule } from 'src/app/shared-module';
+import { FeesReceiptComponent } from './fees-receipt/fees-receipt.component';
 
 
 @NgModule({
   declarations: [
-    PayFeesComponent
+    PayFeesComponent,
+    FeesReceiptComponent
   ],
   imports: [
     CommonModule,

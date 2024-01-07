@@ -27,6 +27,10 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
 import { StudentCardComponent } from './component/pdf-card/student-card/student-card.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { HomeComponent } from './component/static-website/home/home.component';
+import { ContactsComponent } from './component/static-website/contacts/contacts.component';
+import { AboutsComponent } from './component/static-website/abouts/abouts.component';
 
 
 @NgModule({
@@ -43,8 +47,10 @@ import { StudentCardComponent } from './component/pdf-card/student-card/student-
     DisplayContentComponent,
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
-    StudentCardComponent,   
-   
+    StudentCardComponent,
+    HomeComponent,
+    ContactsComponent,
+    AboutsComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,7 +81,8 @@ import { StudentCardComponent } from './component/pdf-card/student-card/student-
     {
           provide: LocationStrategy,
           useClass: HashLocationStrategy
-    }
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

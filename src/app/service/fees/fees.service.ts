@@ -20,4 +20,9 @@ export class FeesService {
     const url = this.requestUrl + appurl.endpoint_findall;
     return this.httpClient.get<ResponseModel>(url)
   }
+
+  getPaidFeesOfStudent(feesModel: Fees){
+    const url  = this.requestUrl + appurl.endpoint_filter;
+    return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
+  }
 }

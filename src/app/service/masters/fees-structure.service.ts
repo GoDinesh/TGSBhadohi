@@ -22,9 +22,16 @@ export class FeesStructureService {
     return this.httpClient.get<ResponseModel>(url)
   }
 
+  getAllActiveFeesStructure(){
+    const url = this.requestUrl + appurl.endpoint_allActiveRecords;
+    return this.httpClient.get<ResponseModel>(url)
+  }
+
   getByAcademicYearAndClass(feesStructure: FeesStructure){
     const url = this.requestUrl + appurl.endpoint_findbyid;
     return this.httpClient.post<ResponseModel>(url, feesStructure)
   }
+
+  
  
 }

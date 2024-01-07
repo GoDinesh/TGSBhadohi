@@ -16,8 +16,13 @@ export const breadcrumb = {
     STUDENT: 'Student',
         REGISTRATION    : 'Registration',
         STUDENT_LIST    : 'Student List',
+        PROMOTE_STUDENT : 'Promote Student',
 
     FEES: 'Fees',
         PAY_FEES        : 'PAY FEES', 
+
+    REPORTS: 'Reports',
+        PENDING_FEES    : 'Pending Fees',
+        AADHAR_DETAILS  : 'Aadhar Details Not Available' 
     
 }

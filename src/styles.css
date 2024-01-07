@@ -1209,3 +1209,16 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     border: none; /* Remove any border if present */
   }
 
+
+
+  /* to hide arrow from number type */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -30,7 +30,9 @@ export class AppComponent {
     await this.router.events.subscribe(routerEvent => {
         if (routerEvent instanceof NavigationStart) {
             if (routerEvent.url == "/") {
-                this.router.navigate([routeType.LOGIN])
+                //this.router.navigate([routeType.LOGIN])
+                this.router.navigate([routeType.HOME])
+
             }
         }
     });

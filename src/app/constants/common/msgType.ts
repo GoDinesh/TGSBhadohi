@@ -16,6 +16,7 @@ export const msgTypes = {
     
     LOGIN_MESSAGE : "Login Successfully",
     INVALID_CREDENTIALS: "Invalid Credentials",
+    STUDENT_FEES_STRUCTURE_UPDATED:"Student Fees structure updated successfully",
 
     USER_TYPE: 'userType',
     ADMIN: 'ADMIN',
@@ -34,4 +35,13 @@ export const msgTypes = {
     TOKEN_EXPIRED: 'Token is expired',
     UNAUTHORIZE: 'Unauthorize',
     NO_RECORD_FOUND: 'No Record Found',
+
+    YYYY_MM_DD: 'YYYY-MM-DD',
+    DD_MM_YYYY: 'DD-MM-YYYY',
+
+    LUMPSUM: 'Lumpsum',
+    INSTALLMENT: 'Installment'
+
+
+    
 }

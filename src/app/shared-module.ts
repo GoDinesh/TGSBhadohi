@@ -26,20 +26,23 @@ import { MatChipsModule } from '@angular/material/chips';
 import { FilterStudentListPipe } from './core/pipes/filter-student-list.pipe';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MatNativeDateModule } from '@angular/material/core';
 import { FusionChartsModule } from 'angular-fusioncharts';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { DateFormatPipePipe } from './core/pipes/date-format-pipe.pipe';
+//used to set the date format of material date picker
+//End
 // Pass the FusionCharts library and chart module
 FusionChartsModule.fcRoot(FusionCharts, Charts);
 
 @NgModule({
   declarations: [
     FilterDataPipe,
-    FilterStudentListPipe
+    FilterStudentListPipe,
+    DateFormatPipePipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -95,8 +98,6 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatAutocompleteModule,
     MatToolbarModule,
     FormsModule,
-    FilterDataPipe,
-    FilterStudentListPipe,
     DragDropModule,
     MatTreeModule,
     MatCheckboxModule,
@@ -105,10 +106,15 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     FusionChartsModule,
     HighchartsChartModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
+
+    FilterDataPipe,
+    FilterStudentListPipe,
+    DateFormatPipePipe
 
   ],
-  providers: [],
+  providers: [
+  ],
 })
 export class SharedModule {
 

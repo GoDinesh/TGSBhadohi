@@ -17,6 +17,13 @@ import { appurl } from 'src/app/constants/common/appurl';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, from, throwError } from 'rxjs';
+import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
+import { FeesStructure } from 'src/app/model/master/fees-structure.model';
+import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.model';
+import { forEach } from 'jszip';
+import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
+import * as moment from 'moment';
+import { AuthService } from 'src/app/service/common/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -30,7 +37,7 @@ export class RegistrationComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   registrationNumber: string = "";
-  reg: Registration | Partial<Registration>;
+  reg: Registration;
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
@@ -48,7 +55,7 @@ export class RegistrationComponent {
 
 
   studentgroup = new FormGroup({
-    id: new FormControl(),
+    registrationId: new FormControl(),
     rollNumber: new FormControl(),
     studentName: new FormControl(),
     gender: new FormControl(),
@@ -61,6 +68,8 @@ export class RegistrationComponent {
     religion: new FormControl(),
     category: new FormControl(),
     registrationNo: new FormControl(),
+    isPromoted: new FormControl(),
+    isActive: new FormControl(),
   });
 
   parentgroup = new FormGroup({
@@ -116,8 +125,11 @@ export class RegistrationComponent {
     private academicYearService: AcademicYearService,
     private registrationService: RegistrationService,
     private router: Router,
-    private http: HttpClient,
     private permissionService: PermissionService,
+    private feesStructureService: FeesStructureService,
+    private alertService: SweetAlertService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {
   }
 
@@ -152,9 +164,20 @@ export class RegistrationComponent {
 
     //   }
     // })
-    this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-      if (res && res.studetails && res.studetails.registrationNo && res.studetails.registrationNo.length > 0) {
-        this.reg = res.studetails;
+
+    //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
+      
+      
+    this.route.queryParams.subscribe((params) => {
+      let res;
+      if(params.data!=undefined){
+        const txndata = JSON.parse(params.data);
+        const decryptedData = this.authService.getDecryptText(txndata);
+         res = JSON.parse(decryptedData);
+      }
+
+      if (res  && res.registrationNo && res.registrationNo.length > 0) {
+        this.reg = res;
         this.updateFlag = true;
 
         if (this.reg.profileImage) {
@@ -178,7 +201,7 @@ export class RegistrationComponent {
           });
         }
       } else {
-        this.reg = {};
+        this.reg = new Registration();
         this.updateFlag = false;
         this.selectedStudentPhoto = null;
         this.selectedPhoto = null;
@@ -259,7 +282,7 @@ export class RegistrationComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass().pipe(
+    this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
         return res.data;
       })
@@ -267,7 +290,7 @@ export class RegistrationComponent {
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
@@ -276,7 +299,7 @@ export class RegistrationComponent {
 
   createStudentForm(stuInfo: Registration | Partial<Registration>) {
     this.studentgroup = this.formBuilder.group({
-      id: [stuInfo.id],
+      registrationId: [stuInfo.registrationId],
       rollNumber: [stuInfo.rollNumber],
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       gender: [stuInfo.gender, [Validators.required]],
@@ -289,6 +312,8 @@ export class RegistrationComponent {
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
+      isPromoted: [stuInfo.isPromoted],
+      isActive: [stuInfo.isActive]
     });
 
   }
@@ -439,7 +464,7 @@ export class RegistrationComponent {
   }
 
   loadStandard() {
-    this.classService.getAllClass().subscribe(res => {
+    this.classService.getAllActiveClass().subscribe(res => {
       this.standard = res.data
     })
   }
@@ -454,10 +479,21 @@ export class RegistrationComponent {
     reg.academicYearCode = academicYear;
     reg.standard = standard;
 
-    this.registrationService.getRollNumber(reg).subscribe(res => {
-      this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
-      this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
-      this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+    this.registrationService.getMaxRegistrationNumber().subscribe(res => {
+      if(res.status === msgTypes.SUCCESS_MESSAGE){
+        this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+        this.studentFormControll.registrationNo.setValue(this.registrationNumber);
+
+      this.registrationService.getRollNumber(reg).subscribe(res=>{
+        if(res.status === msgTypes.SUCCESS_MESSAGE){
+          this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+        }
+      })
+      
+     }else{
+      this.studentFormControll.registrationNo.setValue("");
+     }
+      
     });
   }
 
@@ -471,8 +507,6 @@ export class RegistrationComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedPhoto = input.files[0];
-      // console.log(this.selectedPhoto);
-      // this.selectedStudentPhoto = input.files[0];
       this.selectedStudentPhotoName = input.files[0].name;
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -524,7 +558,15 @@ export class RegistrationComponent {
     }
   }
 
-  prepareAcquirerForm() {
+  async prepareAcquirerForm() {
+
+
+
+  }
+
+  //  handle the final submission
+  async finalSubmit() {
+
     this.reg = new Registration();
 
     this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
@@ -532,6 +574,8 @@ export class RegistrationComponent {
     this.reg = { ...this.reg, ...this.addressgroup.value };
     this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
     this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
+
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
@@ -545,14 +589,8 @@ export class RegistrationComponent {
     }
 
     formData.append("requestData", JSON.stringify(this.reg))
-    formData.forEach(data => console.log(data));
-    return formData;
-  }
 
-  //  handle the final submission
-  finalSubmit() {
-    const regData = this.prepareAcquirerForm();
-    this.registrationService.studentRegistrationWithImage(regData).subscribe(res => {
+    this.registrationService.studentRegistrationWithImage(formData).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.resetForm();
         this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
@@ -569,6 +607,28 @@ export class RegistrationComponent {
     this.addressgroup.reset();
     this.selectedStudentPhoto = '';
     this.documents = [];
+  }
+
+  isFeesStructureAvailable() {
+    const academicYearCode = this.studentgroup.controls.academicYearCode.value;
+    const standard = this.studentgroup.controls.standard.value;
+
+    if ((standard != '' && standard != null && standard != undefined) && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)) {
+      const feesStructure = new FeesStructure();
+      feesStructure.academicYearCode = academicYearCode;
+      feesStructure.classCode = standard;
+      this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res) => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          if (res.data.length == 0) {
+            this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
+            this.studentgroup.controls.academicYearCode.reset();
+            this.studentgroup.controls.standard.reset();
+          }
+        }
+      })
+
+    }
+
   }
 
 }

@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>Fees Details</h2>
+<mat-dialog-content >
+    <div style="overflow-x:auto;">
+        <!-- <table>
+          <tr>
+            <th class="td-class">Receipt Number</th>
+            <th class="td-class">Payment Date</th>
+            <th class="td-class">Payment Mode</th>
+            <th class="td-class">Remarks</th>
+            <th class="td-class">Printed on the name of</th>
+            <th class="td-class">Amount</th>
+          </tr>
+          <tr *ngFor="let fees of data">
+            <td class="td-class">{{fees.id}}</td>
+            <td class="td-class">{{fees.paymentDate}}</td>
+            <td class="td-class">{{fees.paymentMode}}</td>
+            <td class="td-class">{{fees.remarks}}</td>
+            <td class="td-class">{{fees.paymentReceivedBy}}</td>
+            <td class="td-class">{{fees.amount}}</td>
+          </tr>
+          <tr>
+            <td class="totalClass" colspan="5" align="left" ><b>Total Paid Fees = </b></td>
+            <td class="totalClass" align="right"><b>{{totalPaidAmount}}</b></td>
+          </tr>
+         </table> -->
+         <!--begin::second Card body-->
+<ng-container *ngIf="feesdetails.length>0">
+    <div class="grid-card-container card-bottom-padding pt-2">
+      <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
+        <thead>
+          <tr>
+            <th class="td-class">Receipt Number</th>
+            <th class="td-class">Payment Date</th>
+            <th class="td-class">Payment Mode</th>
+            <th class="td-class">Remarks</th>
+            <th class="td-class">Printed on the name of</th>
+            <th class="td-class">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let fees of feesdetails;let i=index">
+            <td class="td-auto">{{fees.id}}</td>
+            <td class="td-auto">{{fees.paymentDate}}</td>
+            <td class="td-auto">{{fees.paymentMode}}</td>
+            <td class="td-auto">{{fees.remarks}}</td>
+            <td class="td-auto">{{fees.paymentReceivedBy}}</td>
+            <td class="td-auto">{{fees.amount}}</td>
+          </tr>
+          <!-- <ng-container *ngIf="i===feesdetails.length">
+          <tr>
+            <td class="td-auto"></td>
+            <td class="td-auto"></td>
+            <td class="td-auto"></td>
+            <td class="td-auto"></td>
+            <td class="td-auto">Total Paid Fees</td>
+            <td class="td-auto">{{totalPaidAmount}}</td>
+          </tr>
+        </ng-container> -->
+         </tbody>
+      </table>
+      <!--end::table-->
+     
+    </div>
+  </ng-container>
+  <!--end::second Card body-->
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+</mat-dialog-actions>

@@ -4,6 +4,7 @@ var masters: string = 'masters';
 var student: string = 'student';
 var authorization: string = 'auth';
 var fees: string = "fees";
+var reports: string = "reports"
 
 export const menuListAdmin: INavbarData[]=[
 //dashboard
@@ -99,6 +100,13 @@ export const menuListAdmin: INavbarData[]=[
             "routerLink": student + "/studentList",
             "active": true,
         },
+        {
+            "text": "Promote Student",
+            "icon": "fa fa-line-chart",
+            "routerLink": student + "/promote-student",
+            "active": true,
+        },
+        
     ]},
 
     {
@@ -114,5 +122,23 @@ export const menuListAdmin: INavbarData[]=[
                 "active": true,
             }
         ]},
-
+        {
+            "text": "Reports",
+            "icon": "fa fa-file",
+            "routerLink": reports,
+            "active": true,
+            "children": [
+                {
+                    "text": "Pending Fees",
+                    "icon": "fa fa-money",
+                    "routerLink": reports + "/pending-fees",
+                    "active": true,
+                },
+                {
+                    "text": "Aadhar Details Not Available",
+                    "icon": "fa fa-id-card",
+                    "routerLink": reports + "/aadhar-details",
+                    "active": true,
+                }
+        ]},
 ]

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { appurl } from 'src/app/constants/common/appurl';
+import { msgTypes } from 'src/app/constants/common/msgType';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 import { Registration } from 'src/app/model/student/registration.model';
 
@@ -37,10 +38,28 @@ export class RegistrationService {
     return this.httpClient.post<ResponseModel>(url, reg)
   }
 
+  getMaxRegistrationNumber(){
+    const url = this.requestUrl + appurl.get_max_registration_number;
+    return this.httpClient.post<ResponseModel>(url, "")
+  }
+
   getStudentListByGlobalFilter(keyword : string){
     const url = this.requestUrl + appurl.filter_by_keyword ;
     return this.httpClient.post<ResponseModel>(url, keyword)
   }
 
+  promoteStudent(studentList: Registration[]){
+    const url = this.requestUrl + appurl.promote_student;
+    return this.httpClient.post<ResponseModel>(url, studentList)
+  }
 
+  updateStatusAfterPromote(studentList: Registration[]){
+    const url = this.requestUrl + appurl.update_status_as_inactive;
+    return this.httpClient.post<ResponseModel>(url, studentList)
+  }
+
+  updateFeesDetails(registration: Registration){
+    const url = this.requestUrl + appurl.update_fees_details;
+    return this.httpClient.post<ResponseModel>(url, registration)
+  }
 }

@@ -24,6 +24,11 @@ export class ClassService {
    return this.httpClient.get<ResponseModel>(url)
  }
 
+ getAllActiveClass(){
+  const url = this.requestUrl + appurl.endpoint_allActiveRecords;
+  return this.httpClient.get<ResponseModel>(url)
+}
+
 //  updateClass(classModel: Class){
 //   const url = this.requestUrl + appurl.endpoint_update;
 //   return this.httpClient.post<ResponseModel>(url, JSON.stringify(classModel));

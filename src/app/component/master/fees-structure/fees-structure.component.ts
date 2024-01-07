@@ -18,6 +18,7 @@ import { ClassService } from 'src/app/service/masters/class.service';
 import { DiscountReasonService } from 'src/app/service/masters/discount-reason.service';
 import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
 import { CustomValidation } from 'src/app/validators/customValidation';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-fees-structure',
@@ -29,8 +30,9 @@ export class FeesStructureComponent {
   editable: boolean | undefined;
   actionFlag = true;
   dtOptions: any = {};
-  installments = [1,2,3,4,5,6,7,8,9,10,11,12];
   Count = [];
+  totalInstallmentAmount: number = 0;
+  installmentFlag: boolean = false;
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
@@ -39,22 +41,6 @@ export class FeesStructureComponent {
   discountReasonList: Observable<DiscountReason[]> = new Observable();
   formgroup: FormGroup;
 
-  // createForm(feeStructure: FeesStructure) {
-  // this.formgroup = this.formBuilder.group({
-  //       id: new FormControl(feeStructure.classCode,[]),
-  //       classCode: new FormControl(feeStructure.classCode, [Validators.required]),
-  //       academicYearCode: new FormControl(feeStructure.academicYearCode, [Validators.required]),
-  //       noOfInstallments: new FormControl(feeStructure.noOfInstallments, [Validators.required]),
-  //       totalFees: new FormControl(feeStructure.totalFees, [Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]),
-  //       discountReasonCode: new FormControl(),
-  //       discountAmount: new FormControl(),
-  //       netAmountAfterDiscount: new FormControl(),
-  //       registrationFees: new FormControl(),
-  //       annualFees: new FormControl(),
-  //       lumpsumAmount: new FormControl(),
- 
-  //  })
-  // }
 
    constructor(private formBuilder: FormBuilder,
           public validationMsg: ValidationErrorMessageService,
@@ -85,7 +71,7 @@ export class FeesStructureComponent {
       feeStructureId: [feeStructure.feeStructureId],
       classCode: [feeStructure.classCode,[Validators.required]],
       academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
-      noOfInstallments:[feeStructure.noOfInstallments,[Validators.required]],
+      noOfInstallments:[feeStructure.noOfInstallments,[]],
       totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
       discountAmount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
@@ -93,6 +79,9 @@ export class FeesStructureComponent {
       registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       lumpsumAmount: [feeStructure.lumpsumAmount],
+      annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
+      regFeesDiscount: [feeStructure.regFeesDiscount],
+      regFeesDiscountReason: [feeStructure.regFeesDiscountReason],
       installment: new FormArray([])
 
     })
@@ -104,7 +93,7 @@ export class FeesStructureComponent {
       new FormGroup({
         classCode: new FormControl(this.formgroup.controls.classCode.value),
         academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-        installmentNumber: new FormControl('Instalment  '+(control.length+1) ),
+        installmentNumber: new FormControl(control.length+1),
         installmentDate: new FormControl(),
         installmentAmount: new FormControl()
     })
@@ -132,13 +121,7 @@ export class FeesStructureComponent {
       ]
     };
   }
-  
-  // //get the current route and use it for managing the editable value
-  // private updateEditableValue(): void {
-  //   const currentRoute = this.router.url.substring(1); // Remove the leading '/'
-  //   const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
-  //   this.editable = this.permissionService.getEditableValue(cleanedRoute);
-  // }
+ 
 
   customInit() {
     this.loadTable();
@@ -149,7 +132,7 @@ export class FeesStructureComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass().pipe(
+    this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
         return res.data;
       })
@@ -157,7 +140,7 @@ export class FeesStructureComponent {
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
@@ -165,7 +148,7 @@ export class FeesStructureComponent {
   };
 
 loadDiscountReason(){
-  this.discountReasonList = this.discountReasonService.getAllDiscountReason().pipe(
+  this.discountReasonList = this.discountReasonService.getAllActiveDiscountReason().pipe(
     map((res)=>{
         return res.data;
       })
@@ -178,7 +161,11 @@ get formControll(){
 
 save(){
   this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
+  this.feesStructureModel.installment.map(installment=>{
+        installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
+  })
   this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
+  this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
   try{
           this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
             if(res.status === msgTypes.SUCCESS_MESSAGE)
@@ -237,6 +224,8 @@ update() {
 
 resetForm(){
   this.createForm(new FeesStructure())
+  this.installmentFlag= false;
+  this.totalInstallmentAmount =0 ;
 }
 
 totalFeesChange(){
@@ -252,12 +241,23 @@ totalFeesChange(){
 
     this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
     this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
+
+    this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
 }
 
-// selectNoOfInstallment(){
-//   this.Count.length = this.formControll.noOfInstallments.value;
-// }
+installmentAmountChange(){
+    const control = <FormArray>this.formgroup.controls['installment'];
+    let installmentAmount = 0;
+    for (let i = 0; i < control.value.length; i++) {
+      installmentAmount += (control.value[i].installmentAmount);
+    }
 
+    if(installmentAmount===this.totalInstallmentAmount){
+        this.installmentFlag = true;
+    }else{
+        this.installmentFlag = false;
+    }
+}
 
 
 }

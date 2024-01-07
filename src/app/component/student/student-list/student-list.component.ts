@@ -8,6 +8,7 @@ import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
+import { AuthService } from 'src/app/service/common/auth.service';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
@@ -23,7 +24,6 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./student-list.component.css']
 })
 export class StudentListComponent {
-  //displayedColumns = ["sNo","registrationNo","studentName","gender","dateOfBirth","standard","aadhaarNumber"];
   studentInfo: Registration = new Registration();
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
@@ -50,6 +50,7 @@ export class StudentListComponent {
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
+    private authService:AuthService
   ) {
   }
 
@@ -68,7 +69,7 @@ export class StudentListComponent {
     this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
-    this.getTableRecord();
+    //this.getTableRecord();
   }
 
   private updateEditable(): void {
@@ -88,7 +89,7 @@ export class StudentListComponent {
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllClass().pipe(
+    this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
         return res.data;
       })
@@ -96,7 +97,7 @@ export class StudentListComponent {
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllAcademicYear().pipe(
+    this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
@@ -110,6 +111,11 @@ export class StudentListComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
+      fixedColumns: {
+       // leftColumns: 1,
+        rightColumns: 1,
+      },
+      scrollX : true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
@@ -127,9 +133,10 @@ export class StudentListComponent {
     studentInfo.studentName = this.studentFormControll.studentName.value;
 
     this.registrationService.studentList(studentInfo).subscribe(res=>{
+      console.log(res);
+      
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data;
-          console.log(this.posts);
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
@@ -138,18 +145,38 @@ export class StudentListComponent {
   }
 
   viewDetails(registration: Registration){
-    this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
+    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
+    this.router.navigate([url], {
+        queryParams: {
+            data: JSON.stringify(encryptData)
+        }
+    });
   }
 
   setVlaueToUpdate(stuDetails: Registration) {
-    // console.log(stuDetails);
-    
-    this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
+    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
+    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
+    const encryptData = this.authService.getEncryptText(JSON.stringify(stuDetails));
+    this.router.navigate([url], {
+        queryParams: {
+            data: JSON.stringify(encryptData)
+        }
+    });
   }
 
-  payFees(){
-    
-  }
+  //Action for Payin Details
+  payFees(registration: Registration) {
+    const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
+    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
+    this.router.navigate([url], {
+        queryParams: {
+            data: JSON.stringify(encryptData)
+        }
+    });
+}
+
 
   resetForm() {
     this.createStudentForm(new Registration())

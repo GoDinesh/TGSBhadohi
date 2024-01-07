@@ -1,5 +1,6 @@
 export const appurl={
     baseurl: 'http://localhost:8000',
+    navmenu: '/navmenu',
         menuurl_auth: '/auth',
                 auth_permissionGroup: '/permission-group',
                 auth_user: '/user',
@@ -21,12 +22,20 @@ export const appurl={
                 student_list: '/studentList',
                 upload_image: '/upload-image',
                 get_rollnumber: '/get-rollnumber',
+                get_max_registration_number:'/get-max-registration-number',
                 filter_by_keyword: '/filter-by-keyword',
+                student_fees_installment: '/student_fees_installment',
+                student_fees_structure: '/student-fees-structure',
+                promote_student: '/promote-student',
+                update_status_as_inactive: '/update-status-as-inactive',
+                update_fees_details: '/update-fees-details',
 
         menuurl_fees: '/fees',
+                pay_fees: '/pay-fees',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
+    endpoint_allActiveRecords:'/allActiveRecords',
     endpoint_findbyid: '/findbyid',
     endpoint_filter: '/filter'
     //endpoint_update: '/update',
