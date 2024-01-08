@@ -8,12 +8,25 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { AuthGuard } from './core/guards/auth.guard';
 import { ROLE_ADMIN, ROLE_ADMIN_USER } from './constants/common/roles';
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
-import { HomeComponent } from './component/static-website/home/home.component';
+import { MainPageComponent } from './component/landing-page/main-page/main-page.component';
 
 const routes: Routes = [
+    // {
+    //     path: 'home',
+    //     component: MainPageComponent,
+    // },
     {
         path: 'home',
-        component: HomeComponent,
+       // canLoad: [AuthGuard],
+        loadChildren: () => import('./component/landing-page/landing-page.module').then(m => m.LandingPageModule),
+        data: {
+            breadcrumb: {
+                label: breadcrumb.DASHBOARD,
+                title: pageTitle.DASHBOARD,
+                disable: true
+            },
+            role: Object.values(ROLE_ADMIN)
+        },
     },
     {
         path: 'login',
