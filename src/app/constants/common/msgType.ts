@@ -4,6 +4,7 @@ export const msgTypes = {
     
     SUCCESS: "success",
     ERROR : "error",
+    WARNING: "warning",
     OK_KEY: 'OK',
 
     SUCCESS_MESSAGE: "SUCCESS",

@@ -81,7 +81,7 @@
                 <div *ngIf="registartion.data[0].studentFeesStructure[0] as studentFeesStructure ">
                     <!--Begin:: Student details and lumpsum button -->
                     <div class="card mb-4">
-                        <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
                             <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
                                 {{registartion.data[0].studentName}}
                                 &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class: {{registartion.data[0].standard}}
@@ -134,7 +134,7 @@
                                             class="form-control blue-colour"></td>
                                     <td><input type="text" formControlName="regAmountPaid" readonly
                                             class="form-control blue-colour"></td>
-                                    <td><input type="text" formControlName="regNetPayable" readonly
+                                    <td><input #netpayable type="text" formControlName="regNetPayable" readonly [ngClass]="{'green-colour' : netpayable.value=='0', 'orange-colour': netpayable.value!='0'}"
                                             class="form-control"></td>
                                 </tr>
                                 <tr>
@@ -168,7 +168,7 @@
                                                 <td><input type="text" readonly formControlName="amountPaid"
                                                         class="form-control form-control-sm blue-colour"></td>
                                                 <td><input type="text" readonly formControlName="netPayable"
-                                                        #payableValue class="form-control form-control-sm"></td>
+                                                        #netpayable class="form-control form-control-sm" [ngClass]="{'green-colour' : netpayable.value=='0', 'orange-colour': netpayable.value!='0'}"></td>
                                             </tr>
                                         </ng-container>
                                     </ng-container>

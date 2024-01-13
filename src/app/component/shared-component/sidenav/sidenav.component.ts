@@ -108,6 +108,6 @@ export class SidenavComponent {
   logout(){
     localStorage.clear();
     this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.LOGOUT_MESSAGE, msgTypes.SUCCESS, msgTypes.OK_KEY);
-    this.router.navigate([routeType.LOGIN])
+    this.router.navigate([routeType.HOME])
   }
 }

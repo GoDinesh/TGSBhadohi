@@ -126,8 +126,8 @@ export class AadharDetailsComponent {
           this.posts= this.posts.filter(data=>{
             return data.aadhaarNumber===""
           })
-          if(res.data.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
+          if(this.posts.length == 0){
+            this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
           }
         }
       }

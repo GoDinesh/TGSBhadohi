@@ -8,6 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  images = [
+    {path: '/assets/website/img/carousel-1.jpg'},
+    {path: '/assets/website/img/carousel-2.jpg'},
+    
+]
+
 
   // public customOptions: OwlOptions = {
   //   loop: true,
