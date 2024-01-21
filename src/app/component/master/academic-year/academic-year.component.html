@@ -33,7 +33,7 @@
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as academicYearData ">
-<div class="grid-card-container card-bottom-padding pt-2" *ngIf="academicYearData">    
+<div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="academicYearData">    
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
      <thead>

@@ -1222,3 +1222,12 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
+
+/* media query */
+@media only screen and (max-width: 600px) {
+    .align-table-buttons {
+        display: grid;
+    }
+  }

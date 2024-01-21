@@ -33,7 +33,7 @@
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as discountData">
-<div class="grid-card-container card-bottom-padding pt-2" *ngIf="discountData">    
+<div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="discountData">    
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
      <thead>
        <tr>

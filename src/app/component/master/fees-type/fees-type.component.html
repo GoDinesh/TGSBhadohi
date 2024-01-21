@@ -41,7 +41,7 @@
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as feesData ">
-<div class="grid-card-container card-bottom-padding pt-2" *ngIf="feesData">    
+<div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="feesData">    
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
      <thead>

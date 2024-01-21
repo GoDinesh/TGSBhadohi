@@ -26,7 +26,7 @@
 
  <!--begin::second Card body-->
  <ng-container *ngIf="posts | async as permissionGroupData">
- <div class="grid-card-container card-bottom-padding pt-2" *ngIf="permissionGroupData">     
+ <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="permissionGroupData">     
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
      <thead>
        <tr>

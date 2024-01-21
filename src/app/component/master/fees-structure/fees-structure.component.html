@@ -248,7 +248,7 @@
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as postData ">
-  <div class="grid-card-container card-bottom-padding pt-2" *ngIf="postData.data ">
+  <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="postData.data ">
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
       <thead>

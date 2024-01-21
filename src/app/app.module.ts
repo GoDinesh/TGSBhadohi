@@ -22,7 +22,6 @@ import { SidenavComponent } from './component/shared-component/sidenav/sidenav.c
 import { FooterComponent } from './component/shared-component/footer/footer.component';
 import { LoginComponent } from './component/shared-component/login/login.component';
 import { NavMenuComponent } from './component/shared-component/nav-menu/nav-menu.component';
-import { SideNavbarComponent } from './component/shared-component/side-navbar/side-navbar.component';
 import { DisplayContentComponent } from './component/shared-component/display-content/display-content.component';
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
@@ -35,7 +34,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   declarations: [
     AppComponent,
     NavMenuComponent,
-    SideNavbarComponent,
     LoginComponent,
     FooterComponent,
     ExpandMenuDirective,

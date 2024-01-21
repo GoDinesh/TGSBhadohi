@@ -1,5 +1,11 @@
 export const appurl={
+    //Prod    
+   // baseurl: 'http://51.21.48.174:8080',
+
+    //local
     baseurl: 'http://localhost:8000',
+
+
     navmenu: '/navmenu',
         menuurl_auth: '/auth',
                 auth_permissionGroup: '/permission-group',
