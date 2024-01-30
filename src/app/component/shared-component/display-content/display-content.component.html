@@ -1,18 +1,23 @@
+<mat-toolbar>
+  <div style="display: flex;">
+  <div>
+    <button mat-icon-button *ngIf="sidenav.mode==='over'" (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav.opened">
+        menu
+      </mat-icon>
+      <mat-icon *ngIf="sidenav.opened">
+        close
+      </mat-icon>
+    </button> 
+    <img class="p-1 logo" src="/assets/website/img/logo.png"  alt=""> 
+    <span>Time Global School</span>
+  </div>
 
+  <span class="example-spacer"></span>
 
-<nav class="header navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <!-- Brand Name -->
-    <a class="navbar-brand d-flex align-items-center" href="#">Time Global School</a>
-
-    <!-- Toggler Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- Collapsible Content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <span>
+       <!-- Collapsible Content -->
+    <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
       <div class="searchbar-container">
       <!-- Search Bar -->
       <form [formGroup]="formgroup" class="form-inline my-2 my-lg-0 ml-auto mr-3">
@@ -23,7 +28,6 @@
           <input #searchStudent class="form-control mr-sm-2" id="search" type="text" placeholder="Search..."
             name="search" class="search" (focus)="onFocusIn()" formControlName="searchTerm" autocomplete="off"
             aria-label="Search">
-          <!-- <button class="btn-search" (click)="filterStudents()"> -->
           <button class="btn-search">
             <i class="fa fa-search"></i>
           </button>
@@ -36,9 +40,6 @@
           <div class="loader"></div>
         </div>
         <div class="search-modal-body">
-          <!--Recent searches-->
-          <!--show search results-->
-          <!--<ng-template #searchResults>-->
           <ng-container *ngIf="searchStudent.value.length>0">
             <ng-container *ngIf="studentList | async as filteredStudents">
             <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
@@ -62,33 +63,41 @@
               </div>
             </ng-container>
           </ng-container>
-          <!--</ng-template>-->
-        </div>
+         </div>
       </div>
       </form>
     </div>
+    <!-- </div> -->
+    </span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <div>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+          <mat-icon>facebook</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+          <mat-icon>share</mat-icon>
+        </button>
 
-      <!-- Social Icons and Name -->
-      <ul class="navbar-nav d-flex align-items-center">
-        <li class="nav-item">
-          <button mat-icon-button class="example-icon nav-link" aria-label="Facebook">
-            <mat-icon>facebook</mat-icon>
-          </button>
-          <button mat-icon-button class="example-icon nav-link" aria-label="Favorite">
-            <mat-icon>favorite</mat-icon>
-          </button>
-          <button mat-icon-button class="example-icon nav-link" aria-label="Share">
-            <mat-icon>share</mat-icon>
-          </button>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link"><strong>Hi, {{loginUserName}}</strong></span>
-        </li>
-      </ul>
-    </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>Hi, {{loginUserName}}</span>
   </div>
-</nav>
-
-
-<app-sidenav (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
-<app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]=800></app-nav-menu>
+</div>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav">
+    <div>
+      <app-sidenav ></app-sidenav>      
+    </div>    
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- <app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]=800></app-nav-menu> -->
+    <div >
+      <app-nav-menu></app-nav-menu> 
+    </div>
+    
+  </mat-sidenav-content>
+</mat-sidenav-container>

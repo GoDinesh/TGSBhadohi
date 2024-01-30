@@ -2,7 +2,7 @@
     [images]="images">
 </carousel> -->
 
-<div id="carouselExampleCaptions" class="carousel slide">
+<!-- <div id="carouselExampleCaptions" class="carousel slide">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -33,9 +33,9 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+  </div> -->
 <!-- Carousel Start -->
-<div class="container-fluid p-0 mb-5">
+<!-- <div class="container-fluid p-0 mb-5">
     <div class="owl-carousel header-carousel position-relative">
         <div class="owl-carousel-item position-relative">
             <img class="img-fluid" src="/assets/website/img/carousel-1.jpg" alt="">
@@ -70,54 +70,28 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Carousel End -->
 
 
-<!-- Service Start -->
-<div class="container-xxl py-5">
+<!-- Testimonial Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item text-center pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-                        <h5 class="mb-3">Skilled Instructors</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item text-center pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-globe text-primary mb-4"></i>
-                        <h5 class="mb-3">Online Classes</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item text-center pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-home text-primary mb-4"></i>
-                        <h5 class="mb-3">Home Projects</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item text-center pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                        <h5 class="mb-3">Book Library</h5>
-                        <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- <h2 class="mb-5">Angular Dynamic Owl Carousel Example</h2> -->
+        <owl-carousel-o [options]="customOptions">
+            <ng-container *ngFor="let slide of Slides">
+              <ng-template carouselSlide id="slide.id">
+                <img [src]="slide.src" width="600px" height="400px" [alt]="slide.alt" [title]="slide.title">
+            </ng-template>
+            </ng-container>
+          </owl-carousel-o>
     </div>
 </div>
-<!-- Service End -->
+<!-- Testimonial End -->
+
+<!-- services start -->
+<app-services></app-services>
+<!-- services end -->
 
 
 <!-- About Start -->
@@ -131,30 +105,39 @@
             </div>
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                 <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
-                <h1 class="mb-4">Welcome to eLEARNING</h1>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                <h1 class="mb-4">About Us</h1>
+                <p class="mb-4">The TIME GLOBAL SCHOOL Founded in 2017 by Mr. Ashok Kumar Maurya in Bhadohi district of Uttar Pradesh. 
+                    TIME GLOBAL SCHOOL provides good quality education, an environment to students to know, create, learn,
+                    explore, experiment, analyse and grow with confidence, firmly rooted in our great culture and values.
+                    We also put in efforts to sensitize our students to become loving, responsible and promising citizens of India.
+                    As a TIME family we are committed to soar higher and higher in the field of education.
+                    At TIME GLOBAL SCHOOL we treat each child as individual and give personal attention to shape a well-balanced personality.
+                    
+                    The school consists of Primary Wing, Secondary Wing, Computer Lab, Library, Art studio, Music and Dance Room, Activity room etc..
+                    The school is focused on the holistic development of the children. The school operates in an innovative environment that provides opportunity for flexibility.
+                    Creativity and value addition in education. Play – way method, Wi-Fi campus, Indoor and outdoor Game facilities etc.
+                    TIME GLOBAL SCHOOL's preparatory section is totally based on Experimental studies for a strong foundation to future.</p>
                 <div class="row gy-2 gx-4 mb-4">
                     <div class="col-sm-6">
                         <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Good Infrastructure</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Real-Time Learning</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>High Safety Standars</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Confortable  Environment</p>
                     </div>
                     <div class="col-sm-6">
-                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
+                        <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Large Play Area</p>
                     </div>
                 </div>
-                <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                <!-- <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a> -->
             </div>
         </div>
     </div>
@@ -315,88 +298,7 @@
 
 
 <!-- Team Start -->
-<div class="container-xxl py-5">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Instructors</h6>
-            <h1 class="mb-5">Expert Instructors</h1>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="team-item bg-light">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="/assets/website/img/team-1.jpg" alt="">
-                    </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Instructor Name</h5>
-                        <small>Designation</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="team-item bg-light">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="/assets/website/img/team-2.jpg" alt="">
-                    </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Instructor Name</h5>
-                        <small>Designation</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="team-item bg-light">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="/assets/website/img/team-3.jpg" alt="">
-                    </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Instructor Name</h5>
-                        <small>Designation</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="team-item bg-light">
-                    <div class="overflow-hidden">
-                        <img class="img-fluid" src="/assets/website/img/team-4.jpg" alt="">
-                    </div>
-                    <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                        <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-sm-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                    <div class="text-center p-4">
-                        <h5 class="mb-0">Instructor Name</h5>
-                        <small>Designation</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<app-expert-instructor></app-expert-instructor>
 <!-- Team End -->
 
 
@@ -405,42 +307,16 @@
     <div class="container">
         <div class="text-center">
             <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
-            <h1 class="mb-5">Our Students Say!</h1>
+            <h1 class="mb-5">Students Activities</h1>
         </div>
-        <div class="owl-carousel testimonial-carousel position-relative">
-            <div class="testimonial-item text-center">
-                <img class="border rounded-circle p-2 mx-auto mb-3" src="/assets/website/img/testimonial-1.jpg" style="width: 80px; height: 80px;">
-                <h5 class="mb-0">Client Name</h5>
-                <p>Profession</p>
-                <div class="testimonial-text bg-light text-center p-4">
-                <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                </div>
-            </div>
-            <div class="testimonial-item text-center">
-                <img class="border rounded-circle p-2 mx-auto mb-3" src="/assets/website/img/testimonial-2.jpg" style="width: 80px; height: 80px;">
-                <h5 class="mb-0">Client Name</h5>
-                <p>Profession</p>
-                <div class="testimonial-text bg-light text-center p-4">
-                <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                </div>
-            </div>
-            <div class="testimonial-item text-center">
-                <img class="border rounded-circle p-2 mx-auto mb-3" src="/assets/website/img/testimonial-3.jpg" style="width: 80px; height: 80px;">
-                <h5 class="mb-0">Client Name</h5>
-                <p>Profession</p>
-                <div class="testimonial-text bg-light text-center p-4">
-                <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                </div>
-            </div>
-            <div class="testimonial-item text-center">
-                <img class="border rounded-circle p-2 mx-auto mb-3" src="/assets/website/img/testimonial-4.jpg" style="width: 80px; height: 80px;">
-                <h5 class="mb-0">Client Name</h5>
-                <p>Profession</p>
-                <div class="testimonial-text bg-light text-center p-4">
-                <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                </div>
-            </div>
-        </div>
+        <h3 class="mb-5">Student activities are generally designed to allow students to become more involved on campus. Often, such activities provide the students with opportunities to develop leadership, social responsibility, citizenship, volunteerism, and employment experience.</h3>
+        <owl-carousel-o [options]="customOptions">
+            <ng-container *ngFor="let slide of dynamicSlides">
+              <ng-template carouselSlide id="slide.id">
+                <img [src]="slide.src" width="600px" height="400px" [alt]="slide.alt" [title]="slide.title">
+            </ng-template>
+            </ng-container>
+          </owl-carousel-o>
     </div>
 </div>
 <!-- Testimonial End -->

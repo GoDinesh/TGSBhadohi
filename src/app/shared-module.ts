@@ -33,6 +33,8 @@ import * as Charts from 'fusioncharts/fusioncharts.charts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DateFormatPipePipe } from './core/pipes/date-format-pipe.pipe';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 //import { IvyCarouselModule } from 'angular-responsive-carousel';
 //import { CarouselModule } from 'ngx-owl-carousel-o';
 //used to set the date format of material date picker
@@ -78,6 +80,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatDialogModule,
     MatCardModule,
    //IvyCarouselModule
+   CarouselModule
    
   ],
   exports: [
@@ -111,6 +114,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     HighchartsChartModule,
     MatDialogModule,
     MatCardModule,
+    MatSidenavModule,
 
     FilterDataPipe,
     FilterStudentListPipe,
@@ -118,6 +122,7 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     //CarouselModule
     
     //IvyCarouselModule
+    CarouselModule
     
   ],
   providers: [

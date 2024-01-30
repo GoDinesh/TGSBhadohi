@@ -1,5 +1,7 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Observable, debounceTime, filter, map, startWith } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
@@ -32,17 +34,32 @@ export class DisplayContentComponent {
   filteredStudents: Registration[] = [];
   //recentSearches: string[] = [];
   studentList: Observable<ResponseModel>;
+  @ViewChild(MatSidenav)
+  sidenav!:MatSidenav;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private registrationService: RegistrationService,
     private router: Router,
+    private observer:BreakpointObserver
   ) {
     this.loginUserName = this.authService.getLoginUserName();
   }
 
   async ngOnInit() {
     this.loadStudentList();
+  }
+
+  ngAfterViewInit(){
+    this.observer.observe(['(max-width: 800px)']).subscribe((res=>{
+      if(res.matches){
+        this.sidenav.mode = 'over';
+        this.sidenav.close();
+      }else{
+        this.sidenav.mode = 'side';
+        this.sidenav.open();
+      }
+    }))
   }
 
   loadStudentList() {

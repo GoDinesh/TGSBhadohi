@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
 import { map } from 'rxjs/internal/operators/map';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { routeType } from './constants/common/routeType';
+import { MatSidenav } from '@angular/material/sidenav';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,19 @@ import { routeType } from './constants/common/routeType';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  @ViewChild(MatSidenav)
+  sidenav!:MatSidenav;
+
+
+
   title = 'App';
   constructor(
     private router: Router,
     private titleService: Title,
     //Don't remove
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private observer:BreakpointObserver
   ){
     this.navigate()
   }
@@ -63,4 +72,6 @@ export class AppComponent {
         });
     //End Code To add title on browser tab  
 }
+
+
 }
