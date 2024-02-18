@@ -62,6 +62,10 @@ export const validationMessage = [
     {
         key: 'confirmedValidator',
         value: 'Password does not match.'
+    },
+    {
+        key:'plainText',
+        value: '< > and $ symbol not allowed '
     }
     
     

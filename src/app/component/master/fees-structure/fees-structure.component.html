@@ -159,7 +159,7 @@
     <div class="form-group">
       <div class="datepicker-container">
         <label class="form-label required">Annual Fees Date</label>
-        <input matInput [matDatepicker]="picker" formControlName="annualFeesDate" class="form-control form-control-sm"
+        <input matInput [matDatepicker]="picker"  [max]="today" formControlName="annualFeesDate" class="form-control form-control-sm"
           readonly>
         <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position pt-4"
           [disabled]="false"></mat-datepicker-toggle>
@@ -173,15 +173,18 @@
     <!-- begin::Lumsum Amount-->
     <!-- <div class="form-group">
       <label class="form-label">Lumsum Amount</label> -->
+  
     <input type="hidden" class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
     <!-- <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
     </div> -->
     <!-- end::Lumsum Amount -->
-    
-    <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
-    <div>
+    <div class="padding-top installment-button">
+      <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
+    </div>    
+    <div class="padding-top">
         <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div>
     </div>
+  
     <div></div>
 
     <ng-container formArrayName="installment">
@@ -196,7 +199,7 @@
           <!-- begin installment Date -->
           <div class="form-group">
             <div class="datepicker-container">
-              <input matInput [matDatepicker]="picker" formControlName="installmentDate"
+              <input matInput [max]="today" [matDatepicker]="picker" formControlName="installmentDate"
                 class="form-control form-control-sm" readonly>
               <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
                 [disabled]="false"></mat-datepicker-toggle>

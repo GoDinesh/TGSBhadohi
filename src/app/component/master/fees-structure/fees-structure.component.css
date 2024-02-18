@@ -24,3 +24,13 @@
     color: green;
 }
 
+.padding-top{
+    padding-top: 20px;
+}
+
+.installment-button{
+    /* width: 100%; */
+    display: inline-grid;
+
+}
+

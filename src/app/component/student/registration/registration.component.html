@@ -8,7 +8,7 @@
         <!-- begin::Student Name -->
         <div class="form-group">
           <label class="form-label required">Student Name</label>
-          <input class="form-control form-control-sm" formControlName="studentName" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="studentName" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.studentName,"Student
             Name")}}</div>
         </div>
@@ -32,7 +32,7 @@
         <div class="form-group">
           <label class="form-label required">Date of Birth</label>
           <div class="datepicker-container">
-            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" class="form-control form-control-sm"
+            <input matInput [matDatepicker]="picker" [max]="today" formControlName="dateOfBirth" class="form-control form-control-sm"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"
               class="toggle-datepicker-icon-position" [disabled]="updateFlag"></mat-datepicker-toggle>
@@ -188,7 +188,7 @@
         <!-- begin::Father Name -->
         <div class="form-group">
           <label class="form-label required">Father Name</label>
-          <input class="form-control form-control-sm" formControlName="fatherName" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="fatherName" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherName,"Father Name")}}
           </div>
         </div>
@@ -197,7 +197,7 @@
         <!-- begin:: Mother Name -->
         <div class="form-group">
           <label class="form-label required">Mother Name</label>
-          <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="motherName" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}
           </div>
         </div>
@@ -279,7 +279,7 @@
         <!-- begin:: Guardian Name -->
         <div class="form-group">
           <label class="form-label">Guardian Name</label>
-          <input class="form-control form-control-sm" formControlName="guardianName" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="guardianName" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.guardianName,"Guardian
             Name")}}</div>
         </div>
@@ -308,7 +308,7 @@
         <!-- begin:: State -->
         <div class="form-group">
           <label class="form-label">State</label>
-          <input class="form-control form-control-sm" formControlName="state" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="state" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.state,"State")}}</div>
         </div>
         <!-- end:: Country-->
@@ -316,7 +316,7 @@
         <!-- begin:: City -->
         <div class="form-group">
           <label class="form-label">City</label>
-          <input class="form-control form-control-sm" formControlName="city" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="city" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.city,"City")}}</div>
         </div>
         <!-- end:: Country-->
@@ -334,7 +334,7 @@
         <!-- begin:: Area -->
         <div class="form-group">
           <label class="form-label">Area</label>
-          <input class="form-control form-control-sm" formControlName="area" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="area" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.area,"Area")}}</div>
         </div>
         <!-- end:: Area-->
@@ -387,7 +387,7 @@
         <!-- begin:: School Name -->
         <div class="form-group">
           <label class="form-label">School Name</label>
-          <input class="form-control form-control-sm" formControlName="schoolName" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="schoolName" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolName,"School
             Name")}}</div>
         </div>
@@ -423,7 +423,7 @@
         <!-- begin:: School Address -->
         <div class="form-group">
           <label class="form-label">School Address</label>
-          <input class="form-control form-control-sm" formControlName="schoolAddress" autocomplete="off">
+          <input class="form-control form-control-sm title-case" formControlName="schoolAddress" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolAddress,"School
             Address")}}</div>
         </div>

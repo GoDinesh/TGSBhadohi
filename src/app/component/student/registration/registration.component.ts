@@ -41,6 +41,7 @@ export class RegistrationComponent {
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
+  today = new Date(); 
   // myFiles:string [] = [];
 
   //Upload Student Photo
@@ -323,13 +324,13 @@ export class RegistrationComponent {
       fatherName: [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       fatherAadharNo: [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       fatherContactNo: [parentInfo.fatherContactNo, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      fatherQualification: [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      fatherProfession: [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      fatherQualification: [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
+      fatherProfession: [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       fatherEmailId: [parentInfo.fatherEmailId, [CustomValidation.emailId]],
       motherName: [parentInfo.motherName, [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
       motherAadharNumber: [parentInfo.motherAadharNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       motherContactNumber: [parentInfo.motherContactNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
-      motherProfession: [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      motherProfession: [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
 
     });
@@ -341,7 +342,7 @@ export class RegistrationComponent {
       state: [addressInfo.state,],
       city: [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
       pincode: [addressInfo.pincode, [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
-      area: [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+      area: [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.plainText]],
     });
   }
 
@@ -358,7 +359,7 @@ export class RegistrationComponent {
       tcNumber: [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
       passedClass: [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.numeric]],
       passedClassMarks: [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
-      schoolAddress: [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.alphabetsWithSpace]],
+      schoolAddress: [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.plainText]],
     })
   }
 

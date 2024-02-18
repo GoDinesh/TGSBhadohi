@@ -33,6 +33,7 @@ export class FeesStructureComponent {
   Count = [];
   totalInstallmentAmount: number = 0;
   installmentFlag: boolean = false;
+  today = new Date(); 
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();

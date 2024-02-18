@@ -97,6 +97,20 @@ export class CustomValidation {
         }
     }
 
+    static plainText(fc: FormControl) {
+        if (fc.value != undefined || fc.value != '') {
+            const regex=/^[^<>$]{0,}$/;
+            if (fc.value==='' || regex.test(fc.value)) {
+                return (null);
+            } else {
+                return ({plainText: true });
+            }
+        } else {
+            return ({ plainText: true });
+        }
+    }
+
+
     // static minLength(fc: FormControl) {
     //     if (fc.value != undefined || fc.value != '') {
     //         const minLengthValue = 3;

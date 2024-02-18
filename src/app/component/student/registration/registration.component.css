@@ -181,3 +181,8 @@ td {
   all: initial;
   all: unset;
 }
+
+
+.title-case{
+  text-transform: capitalize;
+}
