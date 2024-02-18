@@ -135,7 +135,7 @@ export const menuListAdmin: INavbarData[]=[
                     "active": true,
                 },
                 {
-                    "text": "Aadhar Details Not Available",
+                    "text": "Aadhar Not Available",
                     "icon": "fa fa-id-card",
                     "routerLink": reports + "/aadhar-details",
                     "active": true,

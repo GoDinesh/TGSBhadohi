@@ -1,20 +1,24 @@
 .body {
-    width: calc(100% - 5rem);
-    margin-left: 5rem;
+    /* width: calc(100% - 5rem); */
+    width:"100%";
+    /* margin-left: 1rem; */
     z-index: 0;
     position: relative;
     top: 0;
     transition: all 0.5s ease;
     background: #f4f7fa;
-    padding-left: 1rem;
+    padding-left: 1px;
+    padding-right: 1px;
 }
 
 .body-trimmed {
-    width: calc(100% - 17rem);
-    margin-left: 17rem;
+    /* width: calc(100% - 17rem); */
+    width: "100%";
+    /* margin-left: 1rem; */
 }
 
 .body-md-screen {
-    width: calc(100% - 4rem);
-    margin-left: 4rem;
+    /* width: calc(100% - 4rem); */
+    width: "100%";
+    /* margin-left: 4rem; */
 }

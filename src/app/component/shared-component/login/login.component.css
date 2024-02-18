@@ -18,6 +18,11 @@
         -webkit-box-shadow: none;
     }
 
+    a:hover {
+        color: royalblue;
+        text-decoration: none;
+    }
+
     @media (min-width: 768px) {
     .gradient-form {
     height: 100vh !important;
