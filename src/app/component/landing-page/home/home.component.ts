@@ -73,6 +73,42 @@ export class HomeComponent {
       alt:'Side 12',
       title:'Side 12'
     },
+    {
+      id: 13,
+      src:'/assets/website/img/activity/13.jpg',
+      alt:'Side 13',
+      title:'Side 13'
+    },
+    {
+      id: 14,
+      src:'/assets/website/img/activity/14.jpg',
+      alt:'Side 14',
+      title:'Side 14'
+    },
+    {
+      id: 15,
+      src:'/assets/website/img/activity/15.jpg',
+      alt:'Side 15',
+      title:'Side 15'
+    },
+    {
+      id: 16,
+      src:'/assets/website/img/activity/16.jpg',
+      alt:'Side 16',
+      title:'Side 16'
+    },
+    {
+      id: 17,
+      src:'/assets/website/img/activity/17.jpg',
+      alt:'Side 17',
+      title:'Side 17'
+    },
+    {
+      id: 18,
+      src:'/assets/website/img/activity/18.jpg',
+      alt:'Side 18',
+      title:'Side 18'
+    },
   ]
 
   Slides = [

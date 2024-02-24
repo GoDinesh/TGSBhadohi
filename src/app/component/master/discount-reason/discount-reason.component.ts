@@ -65,7 +65,7 @@ export class DiscountReasonComponent {
   createForm(discountReason: DiscountReason) {
       this.formgroup = this.formBuilder.group({
             discountReasonCode: [discountReason.discountReasonCode],
-            discountReason: [discountReason.discountReason,[Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+            discountReason: [discountReason.discountReason,[Validators.required, Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
             //discountReasonCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
             active: [discountReason.active,[Validators.required]]
       });
@@ -152,4 +152,7 @@ export class DiscountReasonComponent {
     });
   }
 
+  handleInputChange(formcontrol: FormControl){  
+    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
+  }
 }

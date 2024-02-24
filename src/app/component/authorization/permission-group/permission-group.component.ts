@@ -122,5 +122,9 @@ export class PermissionGroupComponent {
     this.createForm(data);
     this.actionFlag = false;
   }
+
+  handleInputChange(formcontrol: FormControl){  
+    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
+  }
 }
 

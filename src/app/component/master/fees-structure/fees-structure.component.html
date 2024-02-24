@@ -6,6 +6,7 @@
     <div class="form-group">
       <label class="form-label required">Academic Year</label>
       <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode"
+        (selectionChange)="academicYearChange()"
         disableOptionCentering placeholder="Select Academic Year">
         <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
         <div *ngIf="academicYearList | async as postdata ">
@@ -159,7 +160,7 @@
     <div class="form-group">
       <div class="datepicker-container">
         <label class="form-label required">Annual Fees Date</label>
-        <input matInput [matDatepicker]="picker"  [max]="today" formControlName="annualFeesDate" class="form-control form-control-sm"
+        <input matInput [matDatepicker]="picker" [min]="minDate"  [max]="maxDate" formControlName="annualFeesDate" class="form-control form-control-sm"
           readonly>
         <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position pt-4"
           [disabled]="false"></mat-datepicker-toggle>
@@ -199,7 +200,7 @@
           <!-- begin installment Date -->
           <div class="form-group">
             <div class="datepicker-container">
-              <input matInput [max]="today" [matDatepicker]="picker" formControlName="installmentDate"
+              <input matInput [min]="minDate"  [max]="maxDate" [matDatepicker]="picker" formControlName="installmentDate"
                 class="form-control form-control-sm" readonly>
               <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
                 [disabled]="false"></mat-datepicker-toggle>

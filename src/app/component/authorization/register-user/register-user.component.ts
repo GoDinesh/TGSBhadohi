@@ -166,4 +166,8 @@ export class RegisterUserComponent {
     });
   }
 
+  handleInputChange(formcontrol: FormControl){  
+    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
+  }
+
 }

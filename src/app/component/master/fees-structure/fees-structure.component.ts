@@ -34,6 +34,8 @@ export class FeesStructureComponent {
   totalInstallmentAmount: number = 0;
   installmentFlag: boolean = false;
   today = new Date(); 
+  maxDate= new Date();
+  minDate = new Date();
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
@@ -259,6 +261,14 @@ installmentAmountChange(){
         this.installmentFlag = false;
     }
 }
+
+academicYearChange(){
+  const academicYear = this.formgroup.controls.academicYearCode.value;
+  const year1 = (""+academicYear).substring(0,4);
+  const year2 = (""+academicYear).substring(4,8);
+  this.minDate = new Date(year1+"-04-01");
+  this.maxDate = new Date(year2+"-03-31");
+ }
 
 
 }

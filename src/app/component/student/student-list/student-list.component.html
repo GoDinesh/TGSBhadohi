@@ -83,6 +83,7 @@
          <th>Photo</th>
          <th>Registration Number</th>
          <th>Aadhar Number</th>
+         <th>Roll Number</th>
          <th>Student Name</th>
          <th>Standard</th>
          <th>Section</th>
@@ -125,6 +126,7 @@
          <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{post.profileImage.link}}" width="50" height="50"/></td>
          <td class="td-large">{{ post.registrationNo }}</td>
          <td class="td-medium">{{ post.aadhaarNumber }}</td>
+         <td class="td-medium">{{ post.rollNumber }}</td>
          <td class="td-large">{{ post.studentName}}</td>
          <td class="td-small">{{ post.standard}}</td>
          <td class="td-small">{{post.section}}</td>

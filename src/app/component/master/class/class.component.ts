@@ -75,8 +75,8 @@ export class ClassComponent {
   createForm(classModel: Class) {
     this.formgroup = this.formBuilder.group({
       id: [classModel.id],
-      className: [classModel.className, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
-      classCode: [classModel.classCode, [Validators.required, Validators.minLength(3), Validators.maxLength(5), CustomValidation.alphanumaric]],
+      className: [classModel.className, [Validators.required, Validators.minLength(1), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      classCode: [classModel.classCode, [Validators.required, Validators.minLength(1), Validators.maxLength(5), CustomValidation.alphanumaric]],
       active: [false, [Validators.required]]
     });
   }

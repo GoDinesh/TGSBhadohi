@@ -47,9 +47,7 @@ mat-stepper {
     flex-direction: column;
 }
 
-.mat-horizontal-content-container {
-    /* height: 100%; */
-}
+
 
 /* set button at bottom on every page */
 .mat-step-footer-button {
@@ -1226,9 +1224,9 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+/* input[type=number] {
   -moz-appearance: textfield;
-}
+} */
 
 
 
@@ -1237,10 +1235,4 @@ input[type=number] {
     .align-table-buttons {
         display: grid;
     }
-  }
-
-
-
-  .title-case{
-    text-transform: capitalize;
   }
