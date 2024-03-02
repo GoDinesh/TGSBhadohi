@@ -1,9 +1,9 @@
 export const appurl={
     //Prod    
-    baseurl: 'http://13.48.143.218:8080',
+    //baseurl: 'http://13.48.143.218:8080',
 
     //local
-    //baseurl: 'http://localhost:8000',
+    baseurl: 'http://localhost:8000',
 
 
     navmenu: '/navmenu',

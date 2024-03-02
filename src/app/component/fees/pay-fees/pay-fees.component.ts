@@ -206,11 +206,11 @@ export class PayFeesComponent {
       const installment = feeStructure.studentFeesInstallment;
 
 
-      this.feesFormControll.regAndAnnualFees.setValue((feeStructure.annualFees + feeStructure.registrationFees));
+      this.feesFormControll.regAndAnnualFees.setValue((feeStructure.annualFees + feeStructure.registrationFees + feeStructure.discountAmount));
       this.feesFormControll.regPreviousDiscount.setValue(feeStructure.discountAmount);
       this.feesFormControll.regFeesDiscount.setValue(feeStructure.regFeesDiscount);
       this.feesFormControll.regFeesDiscountReason.setValue(feeStructure.regFeesDiscountReason);
-      const regAmountAfterDiscount = ((feeStructure.annualFees + feeStructure.registrationFees) - feeStructure.discountAmount) - feeStructure.regFeesDiscount;
+      const regAmountAfterDiscount = ((feeStructure.annualFees + feeStructure.registrationFees +  feeStructure.discountAmount) - feeStructure.discountAmount) - feeStructure.regFeesDiscount;
       this.feesFormControll.regAmountAfterDiscount.setValue(regAmountAfterDiscount);
 
       this.totalNetPayable = 0;
@@ -235,8 +235,8 @@ export class PayFeesComponent {
       }
       
       this.totalIndividualDiscount = Number(feeStructure.regFeesDiscount);
-      this.totalAmount = (Number(feeStructure.annualFees) + Number(feeStructure.registrationFees));
-      this.totalAmountAfterDiscount = (Number(this.totalAmount) - Number(feeStructure.discountAmount))
+      this.totalAmount = (Number(feeStructure.annualFees) + Number(feeStructure.registrationFees) + Number(feeStructure.discountAmount) );
+      this.totalAmountAfterDiscount = (Number(this.totalAmount) - Number(feeStructure.discountAmount) - Number(feeStructure.regFeesDiscount))
       const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
       for (let i = 0; i < installment.length; i++) {
 
@@ -299,12 +299,6 @@ export class PayFeesComponent {
   }
 
   async save() {
-    console.log("totalAmountAfterDiscount",this.totalAmountAfterDiscount);
-    console.log("this.amountPaidTillDate", this.amountPaidTillDate);
-    console.log("this.feesModel.amount",this.feesFormControll.amount.value);
-    
-    
-    
     if(this.totalAmountAfterDiscount>=(Number(this.amountPaidTillDate) + Number(this.feesFormControll.amount.value))){
           this.feesModel = { ...this.feesModel, ...this.formgroup.value }
           this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
@@ -411,11 +405,10 @@ export class PayFeesComponent {
       const installmentAmount = control.value[i].installmentAmount;
       const installmentDiscount = control.value[i].discountAmount;
       const discountReason = control.value[i].discountReason;
-      const installmentDate = control.value[i].installmentDate;
+      const installmentNumber = Number(control.value[i].installmentNumber)-1;
       
       this.studentFeeStructure.studentFeesInstallment.map(installment=>{
-        if(installment.installmentAmount === installmentAmount 
-          && installment.installmentDate === installmentDate){
+        if(installment.installmentAmount === installmentAmount && installmentNumber === Number(installment.installmentNumber)){
               installment.discountAmount = installmentDiscount;
               installment.discountReason = discountReason;
         }

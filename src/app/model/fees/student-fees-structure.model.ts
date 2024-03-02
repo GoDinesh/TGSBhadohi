@@ -1,8 +1,10 @@
+import { Registration } from "../student/registration.model";
 import { StudentFeesInstallment } from "./student-fees-installment.model";
 
 export class StudentFeesStructure {
     studentFeeStructureId: string;
 	registrationNo: string;
+    registrationId: Registration;
     classCode: string;
     enrollmentType: string;
     academicYearCode: string;
@@ -24,11 +26,12 @@ export class StudentFeesStructure {
     regFeesDiscountReason: string;
 
     studentFeesInstallment: StudentFeesInstallment[];
-
+    
     
     constructor(){
     this.studentFeeStructureId='';
     this.registrationNo= '';
+    this.registrationId = new Registration();
     this.classCode = '';
     this.enrollmentType = '';
     this.academicYearCode = '';
@@ -47,6 +50,5 @@ export class StudentFeesStructure {
     this.regFeesDiscountReason='';
 
     this.studentFeesInstallment=[];
-
     }
 }
