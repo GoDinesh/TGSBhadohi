@@ -12,7 +12,7 @@
 
 .btn-height{
     margin-top: 3px;
-    height: 35px;
+    /* height: 35px; */
 }
 
 .installment-amount-colour{
@@ -22,6 +22,8 @@
 
 .installment-matched{
     color: green;
+    float: right;
+    padding-right: 25px;
 }
 
 .padding-top{
@@ -33,4 +35,45 @@
     display: inline-grid;
 
 }
+
+
+.col-sm-3, .col-sm-2, .col-sm-1 {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.button-align{
+    float: right;
+    margin-right: 40px;
+    margin-top: 20px;
+
+}
+
+.heading-row{
+    background-color: rgb(233, 237, 204);
+    font-weight: 600;
+    padding-top: 10px;
+}
+
+.total-heading{
+    background-color: rgb(232, 232, 234);
+    /* padding-top: 0px; */
+    font-weight: 600;
+    margin-top: 10px
+   
+}
+
+.cell-padding{
+    padding-left: 10px;
+    margin-top: 10px;
+    /* background-color: rgb(223, 225, 225); */
+}
+
+.my_class1{
+    background-color: rgb(191, 238, 186);
+    /* color: white; */
+    font-weight: 600;
+    margin-top: 10px
+}
+
 

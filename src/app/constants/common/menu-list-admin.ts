@@ -75,6 +75,13 @@ export const menuListAdmin: INavbarData[]=[
         "active": true,
     },
     {
+        "text": "Book & Dress Fees",
+        "icon": "fa fa-book",
+        "routerLink": masters + "/book-dress-fees",
+        "active": true,
+    },
+    
+    {
         "text": "Fees Structure",
         "icon": "fa fa-reddit-alien",
         "routerLink": masters + "/fees-structure",

@@ -12,6 +12,7 @@ export const breadcrumb = {
         FEES_TYPE       : 'Fees Type',
         DISCOUNT_REASON : 'Discount Reason',
         FEES_STRUCTURE  : 'Fees Structure',
+        BOOK_DRESS_FEES : 'Book & Dress Fees',
         
     STUDENT: 'Student',
         REGISTRATION    : 'Registration',

@@ -16,6 +16,7 @@ export class Registration {
         religion        : string; 
         category        : string;
         registrationNo  : string;
+        enrollmentType  : string; 
 
         fatherName      : string; 
         fatherAadharNo  : string;

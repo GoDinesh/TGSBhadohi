@@ -1,254 +1,383 @@
-<div class="grid-card-container card-bottom-margin">
-  <form [formGroup]="formgroup" class="grid-form">
+<form [formGroup]="formgroup">
+  <div class="container">
+    <div class="row">
 
-
-    <!-- begin::Academic Year -->
-    <div class="form-group">
-      <label class="form-label required">Academic Year</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode"
-        (selectionChange)="academicYearChange()"
-        disableOptionCentering placeholder="Select Academic Year">
-        <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
-        <div *ngIf="academicYearList | async as postdata ">
-          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
-            [value]="data.academicYearCode">
-            {{data.academicYear}}
-          </mat-option>
-        </div>
-      </mat-select>
-      <div class="invalid-feedback">
-        {{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year")}}
-      </div>
-    </div>
-    <!-- end::Academic Year -->
-
-
-    <!-- begin::Class Name -->
-    <div class="form-group">
-      <label class="form-label required">Class / Standard</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="classCode" disableOptionCentering
-        placeholder="Select Enrollment Type">
-        <input type="text" class="form-control  form-control-sm" #filterClassName>
-        <div *ngIf="allClassList | async as postdata ">
-          <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
-            [value]="data.classCode">
-            {{data.className}}
-          </mat-option>
-        </div>
-      </mat-select>
-      <div class="invalid-feedback">
-        {{validationMsg.getErrorMessage(formControll.classCode,"Class")}}
-      </div>
-    </div>
-    <!-- end::Class Name -->
-
-    <!-- begin::Enrollment Type -->
-    <!-- <div class="form-group">
-            <label class="form-label required">Select Enrollment Type</label>
-            <mat-select formControlName="enrollmentType" disableOptionCentering  placeholder="Select Enrollment Type" class="form-control form-control-sm myPanelClass">
-                    <mat-option value="new">New Student</mat-option>
-                    <mat-option value="enrolled">Already Enrolled</mat-option>
-            </mat-select>
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}</div>
-          </div> -->
-    <!-- end::Enrollment Type -->
-
-
-
-
-    <!-- begin::Payment Type -->
-    <!-- <div class="form-group">
-            <label class="form-label required">Payment Type</label>
-            <mat-select formControlName="paymentType" disableOptionCentering  placeholder="Select Payment Type" class="form-control form-control-sm myPanelClass">
-                    <mat-option value="Instalment">Instalment</mat-option>
-                    <mat-option value="Lumpsum">Lumpsum</mat-option>
-            </mat-select>
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.paymentType,"Payment Type")}}</div>
-        </div> -->
-    <!-- end:: Payment Type -->
-
-    <!-- begin::Validiti Start Date -->
-    <!-- <div class="form-group">
-            <label class="form-label required">Validity Start Date</label>
-            <input class="form-control form-control-sm" formControlName="validityStartDate" placeholder="Start Date" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.validityStartDate,"Validity Start Date")}}</div>
-        </div> -->
-    <!-- end:: Validity Start Date-->
-
-    <!-- begin::Validity End Date -->
-    <!-- <div class="form-group">
-            <label class="form-label required">Validity End Date</label>
-            <input class="form-control form-control-sm" formControlName="validityEndDate" placeholder="End Date" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.validityEndDate,"Validity End Date")}}</div>
-        </div> -->
-    <!-- end:: Validity End Date-->
-
-    <!-- begin::Remarks-->
-    <!-- <div class="form-group">
-            <label class="form-label">Remarks</label>
-            <input class="form-control form-control-sm" formControlName="remarks" placeholder="Enter Remarks" autocomplete="off">
-            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.remarks,"Remarks")}}</div>
-        </div> -->
-    <!-- end:: Remarks -->
-
-    <!-- begin::Total Fees-->
-    <div class="form-group">
-      <label class="form-label required">Total Fees</label>
-      <input class="form-control form-control-sm" (input)="totalFeesChange()" formControlName="totalFees"
-        placeholder="Enter Total Fees" autocomplete="off">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.totalFees,"Total Fees")}}</div>
-    </div>
-    <!-- end:: Remarks -->
-
-    <!-- begin::Discount-->
-    <div class="form-group">
-      <label class="form-label">Select Discount Reason</label>
-      <mat-select class="form-control form-control-sm myPanelClass" formControlName="discountReasonCode"
-        placeholder="Select Discount Reason" disableOptionCentering>
-        <input type="text" class="form-control  form-control-sm" #filterDiscountReason>
-        <div *ngIf="discountReasonList | async as postdata ">
-          <mat-option *ngFor="let data of postdata | filterData: filterDiscountReason.value : 'discountReason'"
-            [value]="data.discountReasonCode">
-            {{data.discountReason}}
-          </mat-option>
-        </div>
-      </mat-select>
-      <div class="invalid-feedback">
-        {{validationMsg.getErrorMessage(formControll.discountReasonCode,"Discount Reason")}}
-      </div>
-    </div>
-    <!-- end:: Discount -->
-
-    <!-- begin::Discount Amount-->
-    <div class="form-group">
-      <label class="form-label">Discount Amount</label>
-      <input class="form-control form-control-sm" formControlName="discountAmount" (input)="totalFeesChange()"
-        placeholder="Enter Discount Amount" autocomplete="off">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountAmount,"")}}</div>
-    </div>
-    <!-- end:: Discount Amount -->
-
-    <!-- begin::Net Amount-->
-    <div class="form-group">
-      <label class="form-label required">Net Amount (After Discount)</label>
-      <input class="form-control form-control-sm" readonly formControlName="netAmountAfterDiscount"
-        placeholder="Enter Net Amount" autocomplete="off">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
-    </div>
-    <!-- end:: Net Amount -->
-
-    <!-- begin::Registration Fees-->
-    <div class="form-group">
-      <label class="form-label required">Registration Fees</label>
-      <input class="form-control form-control-sm" formControlName="registrationFees" (input)="totalFeesChange()"
-        placeholder="Enter Registration Fees" autocomplete="off">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.registrationFees,"Resgistration
-        Fees")}}</div>
-    </div>
-    <!-- end::Registration Fees -->
-
-    <!-- begin::Annual Fees-->
-    <div class="form-group">
-      <label class="form-label required">Annual Fees</label>
-      <input class="form-control form-control-sm" formControlName="annualFees" (input)="totalFeesChange()"
-        placeholder="Enter Annual Fees" autocomplete="off">
-      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFees,"Annual Fees")}}</div>
-    </div>
-    <!-- end::Annual Fees -->
-
-    <!-- begin::Annual Fees Date-->
-    <div class="form-group">
-      <div class="datepicker-container">
-        <label class="form-label required">Annual Fees Date</label>
-        <input matInput [matDatepicker]="picker" [min]="minDate"  [max]="maxDate" formControlName="annualFeesDate" class="form-control form-control-sm"
-          readonly>
-        <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position pt-4"
-          [disabled]="false"></mat-datepicker-toggle>
-        <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-        <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFeesDate,"Annual Fees Date")}}
-        </div>
-      </div>
-    </div>
-    <!-- end::Annual Fees Date-->
-
-    <!-- begin::Lumsum Amount-->
-    <!-- <div class="form-group">
-      <label class="form-label">Lumsum Amount</label> -->
-  
-    <input type="hidden" class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
-    <!-- <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.lumpsumAmount,"")}}</div>
-    </div> -->
-    <!-- end::Lumsum Amount -->
-    <div class="padding-top installment-button">
-      <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
-    </div>    
-    <div class="padding-top">
-        <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div>
-    </div>
-  
-    <div></div>
-
-    <ng-container formArrayName="installment">
-      <ng-container *ngFor="let installmentFormGroup of installmentFormGroups.controls; let i = index">
-        <ng-container [formGroupName]="i">
-          <!-- begin::1 Installment Number-->
-          <div class="form-group">
-            <input type="text" readonly formControlName="installmentNumber" class="form-control form-control-sm">
+      <div class="col-sm-4">
+        <!-- begin::Academic Year -->
+        <div class="form-group">
+          <label class="form-label required">Academic Year</label>
+          <mat-select class="form-control form-control-sm myPanelClass" formControlName="academicYearCode"
+            (selectionChange)="academicYearChange()" disableOptionCentering placeholder="Select Academic Year">
+            <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+            <div *ngIf="academicYearList | async as postdata ">
+              <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                [value]="data.academicYearCode">
+                {{data.academicYear}}
+              </mat-option>
+            </div>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic Year")}}
           </div>
-          <!-- end::Annual Installment Number-->
+        </div>
+        <!-- end::Academic Year -->
+      </div>
 
-          <!-- begin installment Date -->
-          <div class="form-group">
-            <div class="datepicker-container">
-              <input matInput [min]="minDate"  [max]="maxDate" [matDatepicker]="picker" formControlName="installmentDate"
-                class="form-control form-control-sm" readonly>
-              <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
-                [disabled]="false"></mat-datepicker-toggle>
-              <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+      <div class="col-sm-4">
+        <!-- begin::Class Name -->
+        <div class="form-group">
+          <label class="form-label required">Class / Standard</label>
+          <mat-select class="form-control form-control-sm myPanelClass" formControlName="classCode"
+            disableOptionCentering placeholder="Select Enrollment Type">
+            <input type="text" class="form-control  form-control-sm" #filterClassName>
+            <div *ngIf="allClassList | async as postdata ">
+              <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
+                [value]="data.classCode">
+                {{data.className}}
+              </mat-option>
+            </div>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(formControll.classCode,"Class")}}
+          </div>
+        </div>
+        <!-- end::Class Name -->
+      </div>
+
+      <div class="col-sm-4">
+         <!-- begin:: Enrollment type -->
+        <div class="form-group">
+          <label class="form-label required">Enrollment Type</label>
+        <mat-select class="custom-select-option form-control form-control-sm" formControlName="enrollmentType"
+          autocomplete="off">
+          <mat-option value="New Student">New Student</mat-option>
+          <mat-option value="Old Student">Old Student</mat-option>
+        </mat-select>
+        <div class="invalid-feedback">
+          {{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}
+        </div>
+        </div>
+        <!-- End:: Enrollment type -->
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-4">
+        <!-- begin::Total Fees-->
+        <div class="form-group">
+          <label class="form-label required">Total Fees</label>
+          <input class="form-control form-control-sm" (input)="totalFeesChange()" formControlName="totalFees"
+            placeholder="Enter Total Fees" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.totalFees,"Total Fees")}}</div>
+        </div>
+        <!-- end:: Total fees -->
+      </div>
+
+      <div class="col-sm-4">
+        <!-- begin::Discount-->
+        <div class="form-group">
+          <label class="form-label">Select Discount Reason</label>
+          <mat-select class="form-control form-control-sm myPanelClass" formControlName="discountReasonCode"
+            placeholder="Select Discount Reason" disableOptionCentering>
+            <input type="text" class="form-control  form-control-sm" #filterDiscountReason>
+            <div *ngIf="discountReasonList | async as postdata ">
+              <mat-option *ngFor="let data of postdata | filterData: filterDiscountReason.value : 'discountReason'"
+                [value]="data.discountReasonCode">
+                {{data.discountReason}}
+              </mat-option>
+            </div>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(formControll.discountReasonCode,"Discount Reason")}}
+          </div>
+        </div>
+        <!-- end:: Discount -->
+      </div>
+
+      <div class="col-sm-4">
+        <!-- begin::Discount Amount-->
+        <div class="form-group">
+          <label class="form-label">Discount Amount</label>
+          <input class="form-control form-control-sm" formControlName="discountAmount" (input)="totalFeesChange()"
+            placeholder="Enter Discount Amount" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountAmount,"")}}</div>
+        </div>
+        <!-- end:: Discount Amount -->
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-sm-4">
+        <!-- begin::Net Amount-->
+        <div class="form-group">
+          <label class="form-label required">Net Amount (After Discount)</label>
+          <input class="form-control form-control-sm" readonly formControlName="netAmountAfterDiscount"
+            placeholder="Enter Net Amount" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
+        </div>
+        <!-- end:: Net Amount -->
+      </div>
+
+      <div class="col-sm-4">
+      </div>
+
+      <div class="col-sm-4">
+      </div>
+
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label class="form-label required">Registration Fees</label>
+          <input class="form-control form-control-sm" formControlName="registrationFees" (input)="totalFeesChange()"
+            placeholder="Enter Registration Fees" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.registrationFees,"Resgistration
+            Fees")}}</div>
+        </div>
+    </div> -->
+
+      <!-- <div class="col-sm-4">
+        <div class="form-group">
+          <label class="form-label required">Annual Fees</label>
+          <input class="form-control form-control-sm" formControlName="annualFees" (input)="totalFeesChange()"
+            placeholder="Enter Annual Fees" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFees,"Annual Fees")}}</div>
+        </div>
+      </div> -->
+
+      <!-- <div class="col-sm-4">
+        <div class="form-group">
+          <div class="datepicker-container">
+            <label class="form-label required">Annual Fees Date</label>
+            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="annualFeesDate"
+              class="form-control form-control-sm" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position pt-4"
+              [disabled]="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.annualFeesDate,"Annual Fees
+              Date")}}
             </div>
           </div>
-          <!--end::installment Date-->
+        </div>
+      </div>
+    </div>-->
+  </div>
 
-          <!-- begin:: 1 Installment Amount-->
-          <div class="form-group display-flex">
-            <input type="number" formControlName="installmentAmount" (input)="installmentAmountChange()"
-              class="form-control form-control-sm">
-            <button class="btn btn-sm btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
+  <!-- <div class="row">
+    <input type="hidden" class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
+    <div class="col-sm-4">
+      <div class="padding-top installment-button">
+        <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="padding-top">
+        <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div>
+      </div>
+    </div>
+    <div class="col-sm-4"></div>
+  </div> -->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 display-flex">
+        <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>&nbsp;&nbsp;
+        <!-- <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div> -->
+      </div>
+      <div class="col-sm-8">
+        <input type="hidden" class="form-control form-control-sm" readonly formControlName="lumpsumAmount">
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <ng-container formArrayName="installment">
+    <ng-container *ngFor="let installmentFormGroup of installmentFormGroups.controls; let i = index; let last = last;">
+      <ng-container [formGroupName]="i">
+        <div class="container">
+          <!-- Begin:: heading of installment -->
+          <ng-container *ngIf="i==0">
+            <div class="row heading-row">
+              <div class="col-sm-1">
+                <div>
+                  <p>S.No</p>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div>
+                  <p>Installment Type</p>
+                </div>
+              </div>
+              <div class="col-sm-1">
+                <div>
+                  <p>Amount</p>
+                </div>
+              </div>
+              <div class="col-sm-1">
+                <div>
+                  <p>Discount</p>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div>
+                  <p>Installment Date</p>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div>
+                  <p>Amount after discount</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- End:: heading of installment -->
+
+          <!-- Begin:: Form Controll of Installemnt -->
+          <div class="row">
+            <div class="col-sm-1">
+              <div>
+                <input type="text" readonly formControlName="installmentNumber" class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <!-- begin::1 Installment Type-->
+              <div>
+                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType" [disabled]="trueFlag"
+                  autocomplete="off">
+                  <!-- <mat-option value="" disabled>Select Installment</mat-option> -->
+                  <mat-option value="Registration Fees">Registration Fees</mat-option>
+                  <mat-option value="Annual Fees">Annual Fees</mat-option>
+                  <mat-option value="Installment">Installment</mat-option>
+                </mat-select>
+                <!-- <div class="invalid-feedback">
+                      {{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}
+                    </div> -->
+              </div>
+              <!-- end::Annual Installment Type-->
+            </div>
+            <div class="col-sm-1">
+              <!-- begin::1 Installment Amount-->
+              <div>
+                <input type="text" formControlName="installmentAmount" (input)="installmentAmountChange()"
+                  class="form-control form-control-sm">
+              </div>
+              <!-- end::Annual Installment Amount-->
+
+            </div>
+            <div class="col-sm-1">
+              <!-- begin::1 Installment Discount-->
+              <div>
+                <input type="text" formControlName="installmentDiscount" (input)="installmentAmountChange()"
+                  class="form-control form-control-sm">
+              </div>
+              <!-- end::Annual Installment Discount-->
+
+            </div>
+            <div class="col-sm-3">
+              <!-- begin installment Date -->
+              <div>
+                <div class="datepicker-container">
+                  <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
+                    formControlName="installmentDate" class="form-control form-control-sm" readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
+                    [disabled]="false"></mat-datepicker-toggle>
+                  <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+                </div>
+              </div>
+              <!--end::installment Date-->
+
+            </div>
+            <div class="col-sm-2">
+              <!-- begin:: 1 Installment Amount After Discount-->
+              <div>
+                <input type="number" formControlName="installmentAmountAfterDiscount"
+                  readonly class="form-control form-control-sm">
+              </div>
+              <!-- end::Annual Installment Amount after Discount-->
+            </div>
+
+            <div class="col-sm-1">
+              <ng-container *ngIf="i==0 || i==1">
+                <button class="btn btn-sm btn-danger ml-3 sm btn-height" disabled (click)="removeInstallment(i)">Remove</button>
+              </ng-container>
+              <ng-container *ngIf="i>1">
+                <button class="btn btn-sm btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
+              </ng-container>
+            </div>
+
+
           </div>
-          <!-- end::Annual Installment Amount-->
-        </ng-container>
+          <!-- End:: Form controll ofInstallment -->
+
+           <!-- Begin:: total of installment -->
+          <ng-container *ngIf="last">
+            <div class="row" [ngClass]="installmentFlag ? 'my_class1' : 'total-heading'">
+              <div class="col-sm-1">
+              </div>
+              <div class="col-sm-3 cell-padding">
+                <ng-container *ngIf="installmentFlag">
+                  Installment Matched with total
+                </ng-container>
+              </div>
+              <div class="col-sm-1 cell-padding">
+                <div>
+                  <p>{{installmentAmount}}</p>
+                </div>
+              </div>
+              <div class="col-sm-1 cell-padding">
+                <div>
+                  <p>{{installmentDiscount}}</p>
+                </div>
+              </div>
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-2 cell-padding">
+                <div>
+                  <p>{{installmentAfterDiscount}}</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <!-- End:: total of installment -->
+
+        </div>
       </ng-container>
     </ng-container>
+    
+  </ng-container>
 
-
- <!--Begin:: Sum of installment -->
- <ng-container *ngIf="installmentFlag">
-  <div class="grid-button installment-matched">
-    <h4>Installment Matches Total Term Fees You Can Proceed Now!!</h4>
-  </div>
-</ng-container>
-
-<!-- End:: Sum of installment -->
-
-
-    <!-- begin::Buttons -->
-    <div class="grid-button form-group ">
-      <ng-container *ngIf="actionFlag">
-        <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable || !installmentFlag"
-          (click)="save()">Save</button>
-        <!-- <button class="btn btn-sm btn-success mx-3" (click)="save()">Save</button> -->
-      </ng-container>
-      <ng-container *ngIf="!actionFlag">
-        <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable"
-          (click)="update()">Update</button>
-      </ng-container>
-
-      <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
+<!-- <div style="display: inline;"> -->
+  <!--Begin:: Sum of installment -->
+  <!-- <ng-container *ngIf="installmentFlag">
+    <div class="grid-button installment-matched">
+      <h4>Installment Matches Total Term Fees You Can Proceed Now!!</h4>
     </div>
-    <!-- end::Buttons -->
+  </ng-container> -->
 
-  </form>
-</div>
+  <!-- End:: Sum of installment -->
+
+
+  <!-- begin::Buttons -->
+  <div class="form-group button-align">
+    <ng-container *ngIf="actionFlag">
+      <button class="btn btn-md btn-success mx-3" [disabled]="!formgroup.valid || !editable || !installmentFlag"
+        (click)="save()">Save</button>
+      <!-- <button class="btn btn-sm btn-success mx-3" (click)="save()">Save</button> -->
+    </ng-container>
+    <ng-container *ngIf="!actionFlag">
+      <button class="btn btn-md btn-success mx-3" [disabled]="!installmentFlag" (click)="update()">Update</button>
+    </ng-container>
+    <button class="btn btn-md btn-danger" (click)="resetForm()">Reset</button>
+  </div>
+  <!-- end::Buttons -->
+<!-- </div> -->
+</form>
 
 <!--begin::second Card body-->
 <ng-container *ngIf="posts | async as postData ">
@@ -261,17 +390,18 @@
           <th>Class</th>
           <!-- <th>Fees Type Code</th> -->
           <th>Academic Year</th>
-          <!-- <th>Enrollment Type</th>
+          <th>Enrollment Type</th>
 
-          <th>Payment Type</th>
+          <!-- <th>Payment Type</th>
           <th>Validity Srart Date</th>
           <th>Validity End Date</th> -->
           <th>Total Fees</th>
           <th>Discount Reason</th>
+          <th>Discount Amount</th>
           <th>Net Amount After Discount</th>
-          <th>Registration Fees</th>
-          <th>Annual Fees</th>
-          <th>Annual Fees Date</th>
+          <!-- <th>Registration Fees</th> -->
+          <!-- <th>Annual Fees</th> -->
+          <!-- <th>Annual Fees Date</th> -->
           <!-- <th>Remark</th> -->
           <th>Status</th>
           <th>Action</th>
@@ -280,18 +410,19 @@
       <tbody>
         <tr *ngFor="let post of postData.data ; let i=index">
           <td class="td-sno">{{i+1}}</td>
-          <td >{{ post.classCode }}</td>
-          <td >{{ post.academicYearCode }}</td>
-          <!-- <td class="td-large">{{ post.enrollmentType }}</td>
-          <td class="td-large">{{ post.paymentType }}</td>
+          <td>{{ post.classCode }}</td>
+          <td>{{ post.academicYearCode }}</td>
+          <td class="td-large">{{ post.enrollmentType }}</td>
+          <!-- <td class="td-large">{{ post.paymentType }}</td>
           <td class="td-large">{{ post.validityStartDate }}</td>
           <td class="td-large">{{ post.validityEndDate }}</td> -->
-          <td >{{ post.totalFees }}</td>
-          <td >{{ post.discountReasonCode }}</td>
-          <td >{{ post.netAmountAfterDiscount }}</td>
-          <td >{{ post.registrationFees }}</td>
-          <td >{{ post.annualFees }}</td>
-          <td >{{ post.annualFeesDate | dateFormatPipe }}</td>
+          <td>{{ post.totalFees }}</td>
+          <td>{{ post.discountReasonCode }}</td>
+          <td>{{ post.discountAmount}}</td>
+          <td>{{ post.netAmountAfterDiscount }}</td>
+          <!-- <td>{{ post.registrationFees }}</td> -->
+          <!-- <td>{{ post.annualFees }}</td> -->
+          <!-- <td>{{ post.annualFeesDate | dateFormatPipe }}</td> -->
           <!-- <td class="td-large">{{ post.remarks }}</td> -->
           <td class="td-status">
             <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">

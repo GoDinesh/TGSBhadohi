@@ -1,0 +1,117 @@
+<div class="grid-card-container card-bottom-margin form-bg">
+    <form [formGroup]="formgroup" class="grid-form">
+ 
+          <!-- begin::academic year -->
+          <div class="form-group">
+            <label class="form-label required">Academic Year</label>
+            <mat-select formControlName="academicYearCode" class="form-control form-control-sm" placeholder="Select Academic Year">
+                <input type="text"
+                class="form-control  form-control-sm"
+                #filterAcademicYear>
+                <div *ngIf="academicYearList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'" [value]="data.academicYearCode">
+                    {{data.academicYear}}
+                    </mat-option>
+                </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.academicYearCode,"Academic Year")}} </div>
+            </div>
+            <!-- end::academic year -->
+
+            <!-- begin::Standard -->
+            <div class="form-group">
+                <label class="form-label required">Standard</label>
+                <mat-select class="form-control form-control-sm" formControlName="standard" placeholder="Select Standard">
+                <input type="text"
+                class="form-control  form-control-sm"
+                #filterClassName>
+                <div *ngIf="allClassList | async as postdata ">
+                    <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'" [value]="data.classCode">
+                    {{data.className}}
+                    </mat-option>
+                </div>
+            </mat-select>
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.standard,"Standard")}}</div>
+            </div>
+            <!-- end::Standard -->
+
+             <!-- begin::Book Fees -->
+            <div class="form-group">
+                <label class="form-label required">Enter Book Fees</label>
+                <input class="form-control form-control-sm" formControlName="bookFees" placeholder="Enter Book Fees"
+                autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.bookFees,"Book Fees")}}</div>
+            </div>
+            <!-- end::Book Fees -->
+
+             <!-- begin::Boy Dress Fees -->
+             <div class="form-group">
+                <label class="form-label required">Enter Boy Dress Fees</label>
+                <input class="form-control form-control-sm" formControlName="boyDressFees" placeholder="Enter Dress Fees"
+                autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.boyDressFees,"Boy Dress Fees")}}</div>
+            </div>
+            <!-- end::Boy Dress Fees -->
+
+            <!-- begin::Girl Dress Fees -->
+            <div class="form-group">
+                <label class="form-label required">Enter Girl Dress Fees</label>
+                <input class="form-control form-control-sm" formControlName="girlDressFees" placeholder="Enter Dress Fees"
+                autocomplete="off">
+                <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.girlDressFees," Girl Dress Fees")}}</div>
+            </div>
+            <!-- end::Girl Dress Fees -->
+
+             <!-- begin::Buttons -->
+             <div class="grid-button-inline form-group pt-4">
+                <ng-container *ngIf="actionFlag">
+                    <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="save()">Save</button>
+                </ng-container>
+                <ng-container *ngIf="!actionFlag">
+                    <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable" (click)="update()">Update</button>
+                </ng-container>
+                <button  class="btn btn-danger btn-sm mx-2" (click)="resetForm()">Reset</button>
+            </div>
+            <!-- end::Buttons -->
+    </form>
+</div>
+<!-- end:: first div -->
+
+<!--begin::second Card body-->
+<div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="posts.length>0">
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
+     <thead>
+       <tr>
+         <th>S.No</th> 
+         <th>Academic Year</th>
+         <th>Class</th>
+         <th>Book Fees</th>
+         <th>Boy Dress Fees</th>
+         <th>Girl Dress Fees</th>
+         <th>Status</th>
+         <th>Action</th>
+        </tr>
+     </thead>
+     <tbody>
+       <tr *ngFor="let post of posts;let i=index">
+         <td class="td-auto">{{i+1}}</td>
+         <td class="td-large">{{ post.academicYearCode}}</td>
+         <td class="td-large">{{ post.standard}}</td>
+         <td class="td-large">{{ post.bookFees}}</td>
+         <td class="td-auto">{{ post.boyDressFees}}</td>
+         <td class="td-auto">{{ post.girlDressFees}}</td>
+         <td class="td-status">
+            <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+            </mat-slide-toggle>
+        </td>
+        <td class="td-action">  
+            <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+        </td>
+
+        </tr>
+     </tbody>
+   </table>
+   <!--end::table-->
+      
+   </div>
+   <!--end::second Card body-->

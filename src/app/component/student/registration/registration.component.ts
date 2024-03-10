@@ -65,12 +65,14 @@ export class RegistrationComponent {
     standard: new FormControl(),
     section: new FormControl(),
     academicYearCode: new FormControl(),
+    enrollmentType: new FormControl(),
     aadhaarNumber: new FormControl(),
     religion: new FormControl(),
     category: new FormControl(),
     registrationNo: new FormControl(),
     isPromoted: new FormControl(),
     isActive: new FormControl(),
+    
   });
 
   parentgroup = new FormGroup({
@@ -309,6 +311,7 @@ export class RegistrationComponent {
       // standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
       academicYearCode: [{ value: stuInfo.academicYearCode, disabled: this.updateFlag }, [Validators.required]],
+      enrollmentType: [stuInfo.enrollmentType, [Validators.required]],
       aadhaarNumber: [stuInfo.aadhaarNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
@@ -613,12 +616,16 @@ export class RegistrationComponent {
   isFeesStructureAvailable() {
     const academicYearCode = this.studentgroup.controls.academicYearCode.value;
     const standard = this.studentgroup.controls.standard.value;
+    const enrollmentType = this.studentgroup.controls.enrollmentType.value;
 
-    if ((standard != '' && standard != null && standard != undefined) && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)) {
+    if ((standard != '' && standard != null && standard != undefined) 
+      && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)
+      && (enrollmentType != '' && enrollmentType != null && enrollmentType != undefined)
+    ) {
       const feesStructure = new FeesStructure();
       feesStructure.academicYearCode = academicYearCode;
       feesStructure.classCode = standard;
-      this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res) => {
+      this.feesStructureService.getByAcademicYearAndClassAndEnrollmentType(feesStructure).subscribe((res) => {
         if (res.status === msgTypes.SUCCESS_MESSAGE) {
           if (res.data.length == 0) {
             this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)

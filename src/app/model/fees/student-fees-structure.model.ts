@@ -17,13 +17,13 @@ export class StudentFeesStructure {
     discountReasonCode: string;
     discountAmount: number;
     netAmountAfterDiscount: number;
-    registrationFees: number;
-    annualFees: number;
-    annualFeesDate: string;
+    // registrationFees: number;
+    // annualFees: number;
+    // annualFeesDate: string;
     active: boolean;
     lumpsumAmount: number;
-    regFeesDiscount: number;
-    regFeesDiscountReason: string;
+    //regFeesDiscount: number;
+    //regFeesDiscountReason: string;
 
     studentFeesInstallment: StudentFeesInstallment[];
     
@@ -41,13 +41,13 @@ export class StudentFeesStructure {
     this.discountReasonCode = '';
     this.discountAmount = 0;
     this.netAmountAfterDiscount = 0;
-    this.registrationFees = 0;
-    this.annualFees = 0;
-    this.annualFeesDate = '';
+    // this.registrationFees = 0;
+    // this.annualFees = 0;
+    // this.annualFeesDate = '';
     this.active = false;
     this.lumpsumAmount = 0;
-    this.regFeesDiscount= 0;
-    this.regFeesDiscountReason='';
+    //this.regFeesDiscount= 0;
+    //this.regFeesDiscountReason='';
 
     this.studentFeesInstallment=[];
     }

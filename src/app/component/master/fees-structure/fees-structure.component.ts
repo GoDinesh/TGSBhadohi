@@ -28,14 +28,19 @@ import * as moment from 'moment';
 export class FeesStructureComponent {
 
   editable: boolean | undefined;
+  trueFlag=true;
   actionFlag = true;
   dtOptions: any = {};
   Count = [];
-  totalInstallmentAmount: number = 0;
+  //totalInstallmentAmount: number = 0;
   installmentFlag: boolean = false;
   today = new Date(); 
   maxDate= new Date();
   minDate = new Date();
+
+  installmentAmount: number = 0;
+  installmentDiscount: number = 0;
+  installmentAfterDiscount: number =0 ;
 
   feesStructureModel: FeesStructure = new  FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
@@ -74,38 +79,74 @@ export class FeesStructureComponent {
       feeStructureId: [feeStructure.feeStructureId],
       classCode: [feeStructure.classCode,[Validators.required]],
       academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
+      enrollmentType:[feeStructure.enrollmentType,[Validators.required]],
       noOfInstallments:[feeStructure.noOfInstallments,[]],
       totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
       discountAmount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
       netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount],
-      registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-      annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+     // registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+     // annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       lumpsumAmount: [feeStructure.lumpsumAmount],
-      annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
+     // annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
       regFeesDiscount: [feeStructure.regFeesDiscount],
       regFeesDiscountReason: [feeStructure.regFeesDiscountReason],
       installment: new FormArray([])
+      
 
     })
   }
 
   addInstallment(){
     const control = <FormArray>this.formgroup.controls['installment'];
-    control.push(
-      new FormGroup({
-        classCode: new FormControl(this.formgroup.controls.classCode.value),
-        academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-        installmentNumber: new FormControl(control.length+1),
-        installmentDate: new FormControl(),
-        installmentAmount: new FormControl()
-    })
-    )
+    if(control.length===0){
+      control.push(
+        new FormGroup({
+          classCode: new FormControl(this.formgroup.controls.classCode.value),
+          academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+          installmentNumber: new FormControl(control.length+1),
+          installmentType: new FormControl('Registration Fees'),
+          installmentAmount: new FormControl(),
+          installmentDiscount: new FormControl(),
+          installmentDate: new FormControl(),
+          installmentAmountAfterDiscount:new FormControl(),        
+        })
+        )
+
+        control.push(
+          new FormGroup({
+            classCode: new FormControl(this.formgroup.controls.classCode.value),
+            academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+            installmentNumber: new FormControl(control.length+1),
+            installmentType: new FormControl('Annual Fees'),
+            installmentAmount: new FormControl(),
+            installmentDiscount: new FormControl(),
+            installmentDate: new FormControl(),
+            installmentAmountAfterDiscount:new FormControl(),        
+          })
+          )
+    }else{
+      control.push(
+        new FormGroup({
+          classCode: new FormControl(this.formgroup.controls.classCode.value),
+          academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+          installmentNumber: new FormControl(control.length+1),
+          installmentType: new FormControl('Installment'),
+          installmentAmount: new FormControl(),
+          installmentDiscount: new FormControl(),
+          installmentDate: new FormControl(),
+          installmentAmountAfterDiscount:new FormControl(),        
+        })
+        )
+   }
   }
 
   removeInstallment(index: number){
     const control= <FormArray>this.formgroup.controls['installment'];
     control.removeAt(index)
+    if(this.installmentAmount>0){
+      this.installmentAmountChange()
+    }
   }
 
   get installmentFormGroups () {
@@ -168,7 +209,7 @@ save(){
         installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
   })
   this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
-  this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
+  //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
   try{
           this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
             if(res.status === msgTypes.SUCCESS_MESSAGE)
@@ -204,10 +245,15 @@ setValueToUpdate(data: FeesStructure) {
       classCode: new FormControl(installment[i].classCode),
       academicYearCode: new FormControl(installment[i].academicYearCode),
       installmentNumber: new FormControl(installment[i].installmentNumber),
+      installmentType: new FormControl(installment[i].installmentType),
+      installmentAmount: new FormControl(installment[i].installmentAmount),
+      installmentDiscount: new FormControl(installment[i].installmentDiscount),      
       installmentDate: new FormControl(installment[i].installmentDate),
-      installmentAmount: new FormControl(installment[i].installmentAmount)
+      installmentAmountAfterDiscount: new FormControl(installment[i].installmentAmountAfterDiscount),
   })
   )
+
+  this.installmentAmountChange();
 }
   
   this.actionFlag = false;
@@ -228,7 +274,10 @@ update() {
 resetForm(){
   this.createForm(new FeesStructure())
   this.installmentFlag= false;
-  this.totalInstallmentAmount =0 ;
+  //this.totalInstallmentAmount =0 ;
+  this.installmentAmount = 0;
+  this.installmentDiscount = 0;
+  this.installmentAfterDiscount =0 ;
 }
 
 totalFeesChange(){
@@ -245,17 +294,33 @@ totalFeesChange(){
     this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
     this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
 
-    this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
+    // this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
+}
+
+get studentInstallmentFormGroups() {
+  return this.formgroup.get('installment') as FormArray
 }
 
 installmentAmountChange(){
+    this.installmentAmount = 0 ;
+    this.installmentDiscount = 0;
+    this.installmentAfterDiscount = 0 ;
+
+
     const control = <FormArray>this.formgroup.controls['installment'];
-    let installmentAmount = 0;
     for (let i = 0; i < control.value.length; i++) {
-      installmentAmount += (control.value[i].installmentAmount);
+      const inst = Number(control.value[i].installmentAmount);
+      const disc = Number(control.value[i].installmentDiscount);
+      this.studentInstallmentFormGroups.controls[i].get('installmentAmountAfterDiscount')?.setValue(inst-disc);
+      this.installmentAfterDiscount += Number(control.value[i].installmentAmountAfterDiscount);
+      this.installmentAmount  += inst;
+      this.installmentDiscount +=disc;
     }
 
-    if(installmentAmount===this.totalInstallmentAmount){
+    if(this.installmentAmount===Number(this.formControll.totalFees.value) 
+     // && this.installmentDiscount===Number(this.formControll.discountAmount.value)
+    //  && this.installmentAfterDiscount === Number(this.formControll.netAmountAfterDiscount.value)
+      ){
         this.installmentFlag = true;
     }else{
         this.installmentFlag = false;

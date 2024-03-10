@@ -1,5 +1,5 @@
 .show-previous-amount-table > thead > tr > th{
-    padding: 1rem;
+    padding: 5px;
     text-align: left; 
 }
 
@@ -39,4 +39,9 @@
 
 .orange-colour{
     background-color: rgb(202, 174, 121);
+}
+
+.dress-bgcolour{
+    background-color: rgb(233 237 232);
+    padding: 0.5rem;
 }

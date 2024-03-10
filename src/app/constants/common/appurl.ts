@@ -21,6 +21,7 @@ export const appurl={
                 master_feestype: '/feestype',
                 master_discountreason: '/discountreason',
                 master_feeStructure: '/fees-structure',
+                master_bookAndDressFees: '/book-dress-fees',
         
         menuurl_student: '/student',
                 student_registration: '/registration',

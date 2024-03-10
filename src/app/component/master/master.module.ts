@@ -8,6 +8,7 @@ import { FeesTypeComponent } from './fees-type/fees-type.component';
 import { DiscountReasonComponent } from './discount-reason/discount-reason.component';
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { SharedModule } from 'src/app/shared-module';
+import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SharedModule } from 'src/app/shared-module';
     FeesTypeComponent,
     DiscountReasonComponent,
     FeesStructureComponent,
+    BookDressFeesComponent,
   ],
   imports: [
     CommonModule,

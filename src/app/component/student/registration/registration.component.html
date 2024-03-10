@@ -155,6 +155,21 @@
         </div>
         <!-- end::Category -->
 
+        <!-- begin:: Enrollment type -->
+         <div class="form-group">
+           <label class="form-label required">Enrollment Type</label>
+         <mat-select class="custom-select-option form-control form-control-sm" formControlName="enrollmentType"
+           autocomplete="off">
+           <mat-option value="New Student">New Student</mat-option>
+           <mat-option value="Old Student">Old Student</mat-option>
+         </mat-select>
+         <div class="invalid-feedback">
+           {{validationMsg.getErrorMessage(studentFormControll.enrollmentType,"Enrollment Type")}}
+         </div>
+         </div>
+        <!-- End:: Enrollment type -->
+
+
         <!-- begin::Registration No -->
         <div class="form-group">
           <label class="form-label required">Registration No</label>

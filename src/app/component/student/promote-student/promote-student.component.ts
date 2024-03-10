@@ -48,6 +48,7 @@ export class PromoteStudentComponent {
   promotedStudentGroup=new FormGroup({
     promotedStandard: new FormControl(),
     promotedAcademicYearCode: new FormControl(),
+    enrollmentType: new FormControl()
   })
 
   constructor(
@@ -108,6 +109,8 @@ export class PromoteStudentComponent {
     this.promotedStudentGroup = this.formBuilder.group({
       promotedStandard: ['',[Validators.required]],
       promotedAcademicYearCode: ['',[Validators.required]],
+      enrollmentType: ['Old Student',[Validators.required]]
+
     });
   }
 
@@ -268,12 +271,16 @@ export class PromoteStudentComponent {
   isFeesStructureAvailable() {
     const academicYearCode = this.promotedStudentFormControll.promotedAcademicYearCode.value;
     const standard = this.promotedStudentFormControll.promotedStandard.value;
-
-    if ((standard != '' && standard != null && standard != undefined) && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)) {
+    const enrollmentType = this.promotedStudentFormControll.enrollmentType.value;
+    if ((standard != '' && standard != null && standard != undefined) 
+    && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)
+    && (enrollmentType != '' && enrollmentType != null && enrollmentType != undefined)
+    ) {
       const feesStructure = new FeesStructure();
       feesStructure.academicYearCode = academicYearCode;
       feesStructure.classCode = standard;
-      this.feesStructureService.getByAcademicYearAndClass(feesStructure).subscribe((res) => {
+      feesStructure.enrollmentType = enrollmentType;
+      this.feesStructureService.getByAcademicYearAndClassAndEnrollmentType(feesStructure).subscribe((res) => {
         if (res.status === msgTypes.SUCCESS_MESSAGE) {
           if (res.data.length == 0) {
             this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)

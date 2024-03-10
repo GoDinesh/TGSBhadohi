@@ -100,12 +100,12 @@
                     <!-- Previous Amount After Discount Table (Installment details)-->
                     <!-- <ng-container *ngIf="!isLumpsum"> -->
                     <div class="mb-4">
-                        <h2>Annual + Registration Fee: {{studentFeesStructure.annualFees +
-                            studentFeesStructure.registrationFees + studentFeesStructure.discountAmount}}, Pending Fee:{{regPendingFees}} </h2>
+                        <h2>Annual + Registration Fee: {{annualAndRegistrationFee}}, Pending Fee:{{regPendingFees}} </h2>
                         <table class="table show-previous-amount-table">
                             <thead>
                                 <tr style="background-color: rgb(217, 241, 233);">
                                     <th scope="col">S.No</th>
+                                    <th scope="col">Installment Type</th>
                                     <th scope="col">Due Date</th>
                                     <th scope="col">Total Amount</th>
                                     <th scope="col">Previous Discount</th>
@@ -117,49 +117,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr>
-                                    <td colspan="2">Previous Discount</td>
-                                    <td  class="form-control blue-colour">{{studentFeesStructure.discountAmount}}</td>
-                                    <td colspan="6"></td>
-                                </tr> -->
-                                <tr>
-                                    <td><input type="text" readonly value="1" class="form-control form-control-sm"></td>
-                                    <td><input type="text" readonly value="{{studentFeesStructure.annualFeesDate | dateFormatPipe}}"
-                                            class="form-control form-control-sm"></td>
-                                    <td><input type="text" formControlName="regAndAnnualFees" readonly
-                                            class="form-control form-control-sm blue-colour"></td>
-                                    <td><input type="text" formControlName="regPreviousDiscount" readonly
-                                            class="form-control form-control-sm previous-discount-colour"></td>
-                                    <td><input type="number" formControlName="regFeesDiscount"
-                                            (input)="onRegFeesDiscountChange()" class="form-control form-control-sm"></td>
-                                    <td><input type="text" formControlName="regFeesDiscountReason"
-                                            (input)="onDiscountReasonChange()" class="form-control form-control-sm"></td>
-                                    <td><input type="text" formControlName="regAmountAfterDiscount" readonly
-                                            value="{{(studentFeesStructure.annualFees + studentFeesStructure.registrationFees) - studentFeesStructure.discountAmount}}"
-                                            class="form-control form-control-sm blue-colour"></td>
-                                    <td><input type="text" formControlName="regAmountPaid" readonly
-                                            class="form-control form-control-sm blue-colour"></td>
-                                    <td><input #netpayable type="text" formControlName="regNetPayable" readonly [ngClass]="{'green-colour' : netpayable.value=='0', 'orange-colour': netpayable.value!='0'}"
-                                            class="form-control form-control-sm"></td>
-                                </tr>
-                                <tr>
-                                    <td class="leftAlign" colspan="9">
-                                        <h2>Installment (Term Fee: {{termFees}}, Term Fee Pending Amounts :
-                                            {{termFeesPendingAmount}})</h2>
-                                    </td>
-                                </tr>
                                 <ng-container formArrayName="studentFeesInstallment">
                                     <ng-container
                                         *ngFor="let installmentFormGroup of studentInstallmentFormGroups.controls; let i = index">
                                         <ng-container [formGroupName]="i">
+                                            <ng-container *ngIf="i==2"> 
+                                            <tr>
+                                                <td class="leftAlign" colspan="9">
+                                                    <h2>Installment (Term Fee: {{termFees}}, Term Fee Pending Amounts :
+                                                        {{termFeesPendingAmount}})</h2>
+                                                </td>
+                                            </tr>
+                                            </ng-container>
+
                                             <tr>
                                                 <td><input type="text" readonly formControlName="installmentNumber"
                                                         class="form-control form-control-sm"></td>
+                                                <td><input type="text" readonly formControlName="installmentType"
+                                                            class="form-control form-control-sm"></td>
                                                 <td><input type="text" readonly formControlName="installmentDate"
                                                         class="form-control form-control-sm"></td>
                                                 <td><input type="text" readonly formControlName="installmentAmount"
                                                         class="form-control form-control-sm blue-colour"></td>
-                                                <td><input type="text" readonly value="0"
+                                                <td><input type="text" readonly formControlName="installmentDiscount"
                                                         class="form-control form-control-sm previous-discount-colour">
                                                 </td>
                                                 <td><input type="number" formControlName="discountAmount"
@@ -181,9 +161,10 @@
 
                                 <tr class="total">
                                     <td></td>
+                                    <td></td>
                                     <td>Total</td>
                                     <td>{{totalAmount}}</td>
-                                    <td>{{studentFeesStructure.discountAmount}}</td>
+                                    <td>{{installmentDiscount}}</td>
                                     <td>{{totalIndividualDiscount}}</td>
                                     <td></td>
                                     <td>{{totalAmountAfterDiscount}}</td>
@@ -193,15 +174,69 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- </ng-container> -->
                     <!-- End:: Installment Details -->
 
-                    <!-- Begin:: Lumpsum details -->
-                    <!-- <ng-container *ngIf="isLumpsum">
-                        <h3>Lumpsump details</h3>
+                    <!-- Begin:: Book Dress Fees Begin -->
+                    <ng-container *ngIf="bookAndDressFeesModel">
+                        <div class="mb-4">
+                            <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: 5000 </h2>
+                            <table class="table show-previous-amount-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">S.No</th>
+                                        <th scope="col">Fees Type</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Total Amount</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Amount Paid</th>
+                                        <th scope="col">Net Payable</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                                <!-- Begin: Book Fees -->
+                                                <tr>
+                                                    <td><input type="text" readonly value="1" class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly value="Book Fees" class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly value="{{bookAndDressFeesModel.bookFees}}" class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm "></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly value="{{payableBookFees}}" class="form-control form-control-sm"> </td>
+                                                </tr>
+                                                <!-- End:Book fees -->
+                                                
+                                                <!-- Begin::Dress Fees -->
+                                                <tr>
+                                                    <td><input type="text" readonly value="2" class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly value="Dress Fees" class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <ng-container *ngIf="studentDetails.gender==='M'">
+                                                        <td><input type="text"  readonly value="{{bookAndDressFeesModel.boyDressFees}}" class="form-control form-control-sm blue-colour"></td>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="studentDetails.gender==='F'">
+                                                        <td><input type="text"  readonly value="{{bookAndDressFeesModel.girlDressFees}}" class="form-control form-control-sm blue-colour"></td>
+                                                    </ng-container>
+                                                    <td><input type="text" readonly class="form-control form-control-sm "></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly  value="{{dressFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly value="{{payableDressFees}}" class="form-control form-control-sm"> </td>
+                                                </tr>
+                                                <!-- End:: Dress fees -->
+                                    </tbody>
+                            </table>
+                        </div>
+                    </ng-container>
+                    <!-- End:: Installment Details -->
+                    <!-- End:: Book Dress Fees Begin -->
 
-                    </ng-container> -->
-                    <!-- End :: Lumnpsum Details -->
 
                     <!--Begin:: Fee Payment Details-->
                         <div class="mb-4">
@@ -217,6 +252,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class="form-label required">Amount</th>
+                                        <th scope="col" class="form-label required">Payment Type</th>
                                         <th scope="col">Remarks</th>
                                         <th scope="col" class="form-label required">Payment Mode </th>
                                         <th scope="col" class="form-label required">Payment Date </th>
@@ -232,6 +268,19 @@
                                                 <div class="invalid-feedback">
                                                     {{validationMsg.getErrorMessage(feesFormControll.amount,"Amount")}}
                                                 </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <select class="form-select" formControlName="paymenttype"
+                                                    class="form-control">
+                                                    <option value="Fees">Fees</option>
+                                                    <option value="Book Fees">Book Fees</option>
+                                                    <option value="Dress Fees">Dress Fees</option>                                                   
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
+                                                    Type")}}</div>
                                             </div>
                                         </td>
                                         <td>
@@ -272,17 +321,6 @@
                                         </td>
                                         <td>
 
-                                            <!-- <div class="form-group">
-                                                <select class="form-select" formControlName="paymentReceivedBy"
-                                                    class="form-control">
-                                                    <option selected>Select Name</option>
-                                                    <option value="1">Shubhanshu Maurya</option>
-                                                    <option value="2">Dinesh Kumar</option>
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentReceivedBy,"Payment
-                                                    Received by")}}</div>
-                                            </div> -->
                                             <!-- begin::Parent details -->
                                             <div>
                                                 <!-- <label class="form-label required">Academic Year</label> -->
@@ -296,11 +334,7 @@
                                                         </mat-option>
                                                     </div>
                                                 </mat-select>
-                                                <!-- <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentReceivedBy,"Payment
-                                                    Received by")}}
-                                                </div> -->
-                                            </div>
+                                             </div>
                                             <!-- end::academic year -->
                                         
                                     </tr>
