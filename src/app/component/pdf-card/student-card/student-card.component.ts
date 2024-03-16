@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { msgTypes } from 'src/app/constants/common/msgType';
 
 @Component({
   selector: 'app-student-card',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./student-card.component.css']
 })
 export class StudentCardComponent {
-
+schoolName = msgTypes.TIME_GLOBAL_SCHOOL;
 }

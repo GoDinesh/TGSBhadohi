@@ -36,6 +36,7 @@ export class DisplayContentComponent {
   studentList: Observable<ResponseModel>;
   @ViewChild(MatSidenav)
   sidenav!:MatSidenav;
+  schoolName = msgTypes.TIME_GLOBAL_SCHOOL;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -64,6 +65,12 @@ export class DisplayContentComponent {
 
   loadStudentList() {
     this.studentList = this.registrationService.studentList(new Registration())
+    this.studentList.subscribe(res=>{
+      console.log(res);
+      
+    })
+    
+    
   }
 
   onToggleSideNav(data: SideNavToggle) {

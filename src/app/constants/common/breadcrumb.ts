@@ -24,6 +24,7 @@ export const breadcrumb = {
 
     REPORTS: 'Reports',
         PENDING_FEES    : 'Pending Fees',
-        AADHAR_DETAILS  : 'Aadhar Details Not Available' 
+        AADHAR_DETAILS  : 'Aadhar Details Not Available' ,
+        FEES_COLLECTION : 'Fees Collection'
     
 }

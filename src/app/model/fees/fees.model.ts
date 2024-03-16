@@ -10,6 +10,10 @@ export class Fees {
 	 paymentDate: string;
 	 paymentReceivedBy: string;
     remarks: string;
+    studentName: string;
+
+    startDate: string;
+    endDate: string;
 
 
      constructor(){
@@ -23,5 +27,9 @@ export class Fees {
         this.paymentDate = "";
         this.paymentReceivedBy = "";
         this.remarks = "";
+        this.studentName= "";
+
+        this.startDate = "";
+        this.endDate = "";
      }
 }

@@ -83,10 +83,11 @@
                     <div class="card mb-4">
                         <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
                             <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
-                                {{registartion.data[0].studentName}}
-                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class: {{registartion.data[0].standard}}
+                                <strong>{{registartion.data[0].studentName}}</strong>&nbsp;&nbsp;&nbsp;
+                                Academic Year:&nbsp;<strong>{{registartion.data[0].academicYearCode}}</strong>
+                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class: <strong>{{registartion.data[0].standard}}</strong>
                                 &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Father Name:
-                                {{registartion.data[0].fatherName}}</span>
+                            <strong>{{registartion.data[0].fatherName}}</strong></span>
                             <!-- <span><b>Registration Number: {{registartion.data[0].registrationNo}}</b></span> -->
                             <!-- <span><b>Contact Number: {{registartion.data[0].fatherContactNo}}</b></span> -->
                             <!-- <ng-container *ngIf="lumpsumButtonFlag"> -->
@@ -179,7 +180,7 @@
                     <!-- Begin:: Book Dress Fees Begin -->
                     <ng-container *ngIf="bookAndDressFeesModel">
                         <div class="mb-4">
-                            <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: 5000 </h2>
+                            <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2>
                             <table class="table show-previous-amount-table">
                                 <thead>
                                     <tr>
@@ -207,7 +208,7 @@
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
-                                                    <td><input type="text" readonly value="{{payableBookFees}}" class="form-control form-control-sm"> </td>
+                                                    <td><input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'orange-colour': payableBookFees!=0}" class="form-control form-control-sm"> </td>
                                                 </tr>
                                                 <!-- End:Book fees -->
                                                 
@@ -226,8 +227,8 @@
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly  value="{{dressFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
-                                                    <td><input type="text" readonly value="{{payableDressFees}}" class="form-control form-control-sm"> </td>
+                                                    <td ><input type="text" readonly  value="{{dressFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly value="{{payableDressFees}}" [ngClass]="{'green-colour' : payableDressFees==0, 'orange-colour': payableDressFees!=0}" class="form-control form-control-sm"> </td>
                                                 </tr>
                                                 <!-- End:: Dress fees -->
                                     </tbody>

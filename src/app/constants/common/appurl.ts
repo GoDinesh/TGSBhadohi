@@ -39,6 +39,7 @@ export const appurl={
 
         menuurl_fees: '/fees',
                 pay_fees: '/pay-fees',
+                get_fees_by_date_class: '/get-fees-by-date-class',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

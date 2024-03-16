@@ -41,7 +41,8 @@ export const msgTypes = {
     DD_MM_YYYY: 'DD-MM-YYYY',
 
     LUMPSUM: 'Lumpsum',
-    INSTALLMENT: 'Installment'
+    INSTALLMENT: 'Installment',
+    TIME_GLOBAL_SCHOOL: 'TIME GLOBAL SCHOOL'
 
 
     

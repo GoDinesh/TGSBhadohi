@@ -111,10 +111,10 @@ export class StudentListComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      fixedColumns: {
-       // leftColumns: 1,
-        rightColumns: 1,
-      },
+      // fixedColumns: {
+      //  // leftColumns: 1,
+      //   rightColumns: 1,
+      // },
       scrollX : true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [

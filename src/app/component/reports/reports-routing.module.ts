@@ -6,6 +6,7 @@ import { breadcrumb } from 'src/app/constants/common/breadcrumb';
 import { pageTitle } from 'src/app/constants/common/page-title';
 import { ROLE_ADMIN_USER } from 'src/app/constants/common/roles';
 import { AadharDetailsComponent } from './aadhar-details/aadhar-details.component';
+import { FeesCollectionComponent } from './fees-collection/fees-collection.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,16 @@ const routes: Routes = [
                     role: Object.values(ROLE_ADMIN_USER)
               }
         },
+        {
+            path: 'fees-collection',
+            component: FeesCollectionComponent,
+            canActivate: [AuthGuard],
+            data: {
+                  breadcrumb: breadcrumb.FEES_COLLECTION,
+                  title: pageTitle.FEES_COLLECTION,
+                  role: Object.values(ROLE_ADMIN_USER)
+            }
+      },
     ]
   }
 ];

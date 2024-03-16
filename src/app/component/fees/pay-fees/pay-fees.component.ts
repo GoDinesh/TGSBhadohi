@@ -171,6 +171,8 @@ export class PayFeesComponent {
 
     this.feesService.getPaidFeesOfStudent(feesModel).subscribe(async (res) => {
       this.feesData = res.data;
+      console.log("Fees",res.data);
+      
       if(res.data.length>0){
         this.previewReceiptFlag = false;
       }
@@ -188,7 +190,7 @@ export class PayFeesComponent {
       const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
       this.clearFormArray(control);
       await this.displayFeesDetails();
-      this.loadBookDressFees()
+     
     });
   }
 
@@ -202,6 +204,9 @@ export class PayFeesComponent {
       this.prepareParentDetails(res.data[0]);
       this.studentDetails = res.data[0];
       const feeStructure = res.data[0].studentFeesStructure[0];
+
+      this.loadBookDressFees();
+
       //store to update discounts
       this.studentFeeStructure = feeStructure;
       const installment = feeStructure.studentFeesInstallment;
@@ -326,6 +331,7 @@ export class PayFeesComponent {
   payFees(){
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
+    this.feesModel.studentName = this.studentDetails.studentName;
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE){
@@ -438,6 +444,8 @@ export class PayFeesComponent {
 
 //Book Fees related functions
 loadBookDressFees(){
+  this.payableBookFees =0;
+  this.payableDressFees = 0;
   const bookDressFees: BookAndDressFees = new BookAndDressFees();
   bookDressFees.academicYearCode = this.feesFormControll.academicYearCode.value;
   bookDressFees.standard = this.feesFormControll.classCode.value;

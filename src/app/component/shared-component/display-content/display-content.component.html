@@ -10,7 +10,7 @@
       </mat-icon>
     </button> 
     <img class="p-1 logo" src="/assets/website/img/logo.png"  alt=""> 
-    <span>Time Global School</span>
+    <span>{{schoolName}}</span>
   </div>
 
   <span class="example-spacer"></span>
@@ -45,9 +45,9 @@
             <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
               <ng-container *ngIf="student.isActive===true">
                 <div class="message">
-                <div class="message-avatar">
+                <!-- <div class="message-avatar">
                   <img [src]="student.profileImage.link" alt="">
-                </div>
+                </div> -->
                 <div class="message-body">
                   <p><b>Name:</b> {{ student.studentName }}</p>
                   <p><b>Father Name:</b> {{student.fatherName}}</p>

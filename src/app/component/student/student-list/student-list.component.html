@@ -82,12 +82,12 @@
          <th>S.No</th> 
          <th>Photo</th>
          <th>Registration Number</th>
-         <th>Aadhar Number</th>
-         <th>Roll Number</th>
          <th>Student Name</th>
+         <th>Roll Number</th>
          <th>Standard</th>
          <th>Section</th>
          <th>Academic Year</th>
+         <th>Aadhar Number</th>
          <th>Gender</th>
          <th>Date Of Birth</th>
          <th>Religion</th>
@@ -125,14 +125,15 @@
          <td class="td-sno" *ngIf="post.profileImage == null"></td>
          <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{post.profileImage.link}}" width="50" height="50"/></td>
          <td class="td-large">{{ post.registrationNo }}</td>
-         <td class="td-medium">{{ post.aadhaarNumber }}</td>
-         <td class="td-medium">{{ post.rollNumber }}</td>
          <td class="td-large">{{ post.studentName}}</td>
+         <td class="td-medium">{{ post.rollNumber }}</td>
          <td class="td-small">{{ post.standard}}</td>
          <td class="td-small">{{post.section}}</td>
          <td class="td-medium">{{ post.academicYearCode}}</td>
+         <td class="td-medium">{{ post.aadhaarNumber }}</td>
          <td class="td-small">{{ post.gender}}</td>
-         <td class="td-medium">{{ post.dateOfBirth | dateFormatPipe}}</td>
+         <td class="td-large">{{ post.dateOfBirth | dateFormatPipe}}</td>
+
          <td class="td-small">{{post.religion}}</td>
          <td class="td-small">{{post.category}}</td>
          <td class="td-large">{{ post.fatherName}}</td>

@@ -146,6 +146,13 @@ export const menuListAdmin: INavbarData[]=[
                     "icon": "fa fa-id-card",
                     "routerLink": reports + "/aadhar-details",
                     "active": true,
-                }
+                },
+                {
+                    "text": "Fees Collections",
+                    "icon": "fa fa-id-card",
+                    "routerLink": reports + "/fees-collection",
+                    "active": true,
+                },
+                
         ]},
 ]

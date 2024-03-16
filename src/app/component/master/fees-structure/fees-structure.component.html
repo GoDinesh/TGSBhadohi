@@ -75,8 +75,8 @@
         <!-- end:: Total fees -->
       </div>
 
-      <div class="col-sm-4">
-        <!-- begin::Discount-->
+      <!-- begin::Discount-->
+      <!-- <div class="col-sm-4">
         <div class="form-group">
           <label class="form-label">Select Discount Reason</label>
           <mat-select class="form-control form-control-sm myPanelClass" formControlName="discountReasonCode"
@@ -93,23 +93,19 @@
             {{validationMsg.getErrorMessage(formControll.discountReasonCode,"Discount Reason")}}
           </div>
         </div>
-        <!-- end:: Discount -->
-      </div>
+      </div> -->
+      <!-- end:: Discount -->
 
-      <div class="col-sm-4">
-        <!-- begin::Discount Amount-->
+      <!-- begin::Discount Amount-->
+      <!-- <div class="col-sm-4">
         <div class="form-group">
           <label class="form-label">Discount Amount</label>
           <input class="form-control form-control-sm" formControlName="discountAmount" (input)="totalFeesChange()"
             placeholder="Enter Discount Amount" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.discountAmount,"")}}</div>
         </div>
-        <!-- end:: Discount Amount -->
-      </div>
-
-    </div>
-
-    <div class="row">
+      </div> -->
+      <!-- end:: Discount Amount -->
 
       <div class="col-sm-4">
         <!-- begin::Net Amount-->
@@ -122,13 +118,25 @@
         <!-- end:: Net Amount -->
       </div>
 
-      <div class="col-sm-4">
-      </div>
-
-      <div class="col-sm-4">
-      </div>
-
     </div>
+
+    <!-- <div class="row">
+       <div class="col-sm-4">
+        <div class="form-group">
+          <label class="form-label required">Net Amount (After Discount)</label>
+          <input class="form-control form-control-sm" readonly formControlName="netAmountAfterDiscount"
+            placeholder="Enter Net Amount" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
+        </div>
+      </div>
+      
+      <div class="col-sm-4">
+      </div>
+
+      <div class="col-sm-4">
+      </div>
+
+    </div> -->
 
     <!-- <div class="row">
       <div class="col-sm-4">
@@ -184,7 +192,7 @@
     <div class="col-sm-4"></div>
   </div> -->
 
-  <div class="container">
+  <div class="container p-3">
     <div class="row">
       <div class="col-sm-4 display-flex">
         <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>&nbsp;&nbsp;
