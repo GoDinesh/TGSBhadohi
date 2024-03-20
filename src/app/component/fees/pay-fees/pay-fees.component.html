@@ -180,7 +180,8 @@
                     <!-- Begin:: Book Dress Fees Begin -->
                     <ng-container *ngIf="bookAndDressFeesModel">
                         <div class="mb-4">
-                            <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2>
+                            <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2> -->
+                            <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2> 
                             <table class="table show-previous-amount-table">
                                 <thead>
                                     <tr>
@@ -213,7 +214,7 @@
                                                 <!-- End:Book fees -->
                                                 
                                                 <!-- Begin::Dress Fees -->
-                                                <tr>
+                                                <!-- <tr>
                                                     <td><input type="text" readonly value="2" class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly value="Dress Fees" class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
@@ -229,7 +230,7 @@
                                                     <td><input type="text" readonly class="form-control form-control-sm"></td>
                                                     <td ><input type="text" readonly  value="{{dressFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
                                                     <td><input type="text" readonly value="{{payableDressFees}}" [ngClass]="{'green-colour' : payableDressFees==0, 'orange-colour': payableDressFees!=0}" class="form-control form-control-sm"> </td>
-                                                </tr>
+                                                </tr> -->
                                                 <!-- End:: Dress fees -->
                                     </tbody>
                             </table>
@@ -277,7 +278,7 @@
                                                     class="form-control">
                                                     <option value="Fees">Fees</option>
                                                     <option value="Book Fees">Book Fees</option>
-                                                    <option value="Dress Fees">Dress Fees</option>                                                   
+                                                    <!-- <option value="Dress Fees">Dress Fees</option>                                                    -->
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment

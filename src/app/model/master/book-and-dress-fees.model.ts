@@ -3,8 +3,8 @@ export class BookAndDressFees {
     standard: string;
     academicYearCode: string;
     bookFees: string;
-    boyDressFees: string;
-    girlDressFees: string;
+    // boyDressFees: string;
+    // girlDressFees: string;
     active: boolean;
 
     constructor(){
@@ -12,8 +12,8 @@ export class BookAndDressFees {
         this.standard = '';
         this.academicYearCode = '';
         this.bookFees = '';
-        this.boyDressFees = '';  
-        this.girlDressFees = '';
+        // this.boyDressFees = '';  
+        // this.girlDressFees = '';
         this.active  = true;
     }
 }

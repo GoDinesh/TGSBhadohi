@@ -107,16 +107,16 @@
       </div> -->
       <!-- end:: Discount Amount -->
 
-      <div class="col-sm-4">
-        <!-- begin::Net Amount-->
+      <!-- begin::Net Amount-->
+      <!-- <div class="col-sm-4">
         <div class="form-group">
           <label class="form-label required">Net Amount (After Discount)</label>
           <input class="form-control form-control-sm" readonly formControlName="netAmountAfterDiscount"
             placeholder="Enter Net Amount" autocomplete="off">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
         </div>
-        <!-- end:: Net Amount -->
-      </div>
+      </div> -->
+      <!-- end:: Net Amount -->
 
     </div>
 
@@ -256,7 +256,7 @@
             <div class="col-sm-3">
               <!-- begin::1 Installment Type-->
               <div>
-                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType" [disabled]="trueFlag"
+                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType" 
                   autocomplete="off">
                   <!-- <mat-option value="" disabled>Select Installment</mat-option> -->
                   <mat-option value="Registration Fees">Registration Fees</mat-option>
@@ -275,6 +275,9 @@
                 <input type="text" formControlName="installmentAmount" (input)="installmentAmountChange()"
                   class="form-control form-control-sm">
               </div>
+               <!-- <div class="invalid-feedback">
+                      {{validationMsg.getErrorMessage(formControll.installmentAmount,"Religion")}}
+                    </div> -->
               <!-- end::Annual Installment Amount-->
 
             </div>

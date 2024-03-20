@@ -45,21 +45,21 @@
             <!-- end::Book Fees -->
 
              <!-- begin::Boy Dress Fees -->
-             <div class="form-group">
+             <!-- <div class="form-group">
                 <label class="form-label required">Enter Boy Dress Fees</label>
                 <input class="form-control form-control-sm" formControlName="boyDressFees" placeholder="Enter Dress Fees"
                 autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.boyDressFees,"Boy Dress Fees")}}</div>
-            </div>
+            </div> -->
             <!-- end::Boy Dress Fees -->
 
             <!-- begin::Girl Dress Fees -->
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label class="form-label required">Enter Girl Dress Fees</label>
                 <input class="form-control form-control-sm" formControlName="girlDressFees" placeholder="Enter Dress Fees"
                 autocomplete="off">
                 <div class="invalid-feedback">{{validationMsg.getErrorMessage(formgroupControll.girlDressFees," Girl Dress Fees")}}</div>
-            </div>
+            </div> -->
             <!-- end::Girl Dress Fees -->
 
              <!-- begin::Buttons -->
@@ -86,8 +86,8 @@
          <th>Academic Year</th>
          <th>Class</th>
          <th>Book Fees</th>
-         <th>Boy Dress Fees</th>
-         <th>Girl Dress Fees</th>
+         <!-- <th>Boy Dress Fees</th>
+         <th>Girl Dress Fees</th> -->
          <th>Status</th>
          <th>Action</th>
         </tr>
@@ -98,8 +98,8 @@
          <td class="td-large">{{ post.academicYearCode}}</td>
          <td class="td-large">{{ post.standard}}</td>
          <td class="td-large">{{ post.bookFees}}</td>
-         <td class="td-auto">{{ post.boyDressFees}}</td>
-         <td class="td-auto">{{ post.girlDressFees}}</td>
+         <!-- <td class="td-auto">{{ post.boyDressFees}}</td>
+         <td class="td-auto">{{ post.girlDressFees}}</td> -->
          <td class="td-status">
             <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
             </mat-slide-toggle>

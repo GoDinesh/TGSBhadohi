@@ -1,19 +1,5 @@
 <div class="grid-card-container card-bottom-margin form-bg">
     <form [formGroup]="studentgroup" class="grid-form">
-
-        <!-- Begin:: Date range -->
-        <div class="form-group">
-            <label class="form-label required">Academic Year</label>
-            <div class="datepicker-container form-control  form-control-sm">
-              <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate formControlName="startDate" placeholder="Start date">
-              <input matEndDate formControlName="endDate" placeholder="End date">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-        </div>
-          </div>
-        <!-- End:: date Range -->
  
           <!-- begin::academic year -->
           <div class="form-group">
@@ -50,7 +36,44 @@
             </div>
             <!-- end::Standard -->
 
-         
+            
+        <!-- Begin:: Date range -->
+        <!-- <div class="form-group">
+          <label class="form-label required">Date Range</label>
+          <div class="input-group">
+          <div class="datepicker-container form-control form-control-sm">
+            <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate formControlName="startDate" placeholder="Start date">
+            <input matEndDate formControlName="endDate" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </div> 
+      </div>
+        </div> -->
+       
+         <!--begin::Date Range-->
+         <div class="form-group">
+          <label class="form-label required">Date Range</label>
+          <div class="input-group">
+              <mat-date-range-input [rangePicker]="picker" class="form-control form-control-sm range-color" [max]="maxDate" [disabled]="isDisabled">
+                  <input matStartDate placeholder="Select date-range" formControlName="startDate">
+                  <input matEndDate formControlName="endDate" >
+              </mat-date-range-input>
+              <div class="input-group-text form-padding-date-range rounded-0 p-0">
+                  <!-- <mat-icon *ngIf="accountStatementForm.startDate.value" matDatepickerToggleIcon (click)="clearDate($event)" class="date-clear-button">clear</mat-icon> -->
+                  <mat-icon matDatepickerToggleIcon [clearFields]="[studentFormControll.startDate, studentFormControll.endDate]" class="date-clear-button">clear</mat-icon>
+                  <mat-datepicker-toggle [for]="picker" class="mat-icon-account"></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker [disabled]="!isDisabled"></mat-date-range-picker>
+              </div>
+          </div>
+          <div id="dateError" class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.startDate,"Date Range") || validationMsg.getErrorMessage(studentFormControll.endDate,"To date")}}</div>
+      </div>
+      <!--end::Date Range-->
+      <!-- End:: date Range -->
+
+         <div></div>
+         <div></div>
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
                 <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>

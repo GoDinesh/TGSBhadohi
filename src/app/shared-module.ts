@@ -35,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DateFormatPipePipe } from './core/pipes/date-format-pipe.pipe';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { ClearFieldsDirective } from './core/directives/clear-fields.directive';
 //import { IvyCarouselModule } from 'angular-responsive-carousel';
 //import { CarouselModule } from 'ngx-owl-carousel-o';
 //used to set the date format of material date picker
@@ -46,7 +47,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
   declarations: [
     FilterDataPipe,
     FilterStudentListPipe,
-    DateFormatPipePipe
+    DateFormatPipePipe,
+    ClearFieldsDirective
+
   ],
   imports: [
     ReactiveFormsModule,
@@ -80,7 +83,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatDialogModule,
     MatCardModule,
    //IvyCarouselModule
-   CarouselModule
+   CarouselModule,
+
+   
    
   ],
   exports: [
@@ -122,7 +127,9 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     //CarouselModule
     
     //IvyCarouselModule
-    CarouselModule
+    CarouselModule,
+
+    ClearFieldsDirective
     
   ],
   providers: [

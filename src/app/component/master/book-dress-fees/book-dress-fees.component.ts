@@ -40,8 +40,8 @@ export class BookDressFeesComponent {
     standard: new FormControl(),
     academicYearCode: new FormControl(),
     bookFees: new FormControl(),
-    boyDressFees: new FormControl(),
-    girlDressFees: new FormControl(),
+    // boyDressFees: new FormControl(),
+    // girlDressFees: new FormControl(),
     active: new FormControl(),
 
   });
@@ -91,8 +91,8 @@ export class BookDressFeesComponent {
       standard: [bookAndDressFees.standard,[Validators.required]],
       academicYearCode: [bookAndDressFees.academicYearCode,[Validators.required]],
       bookFees: [bookAndDressFees.bookFees,[Validators.required, CustomValidation.amountValidation]],
-      boyDressFees: [bookAndDressFees.boyDressFees,[Validators.required, CustomValidation.amountValidation ]],
-      girlDressFees: [bookAndDressFees.girlDressFees,[Validators.required, CustomValidation.amountValidation ]],
+      // boyDressFees: [bookAndDressFees.boyDressFees,[Validators.required, CustomValidation.amountValidation ]],
+      // girlDressFees: [bookAndDressFees.girlDressFees,[Validators.required, CustomValidation.amountValidation ]],
       active: [bookAndDressFees.active, [Validators.required]]
      });
   }

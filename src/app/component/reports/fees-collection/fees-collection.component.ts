@@ -28,6 +28,8 @@ export class FeesCollectionComponent {
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
   posts: Fees[] = [];
+  maxDate = new Date();
+  isDisabled = true;
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;

@@ -203,20 +203,37 @@ get formControll(){
   return this.formgroup.controls;
 }
 
-save(){
-  this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
-  this.feesStructureModel.installment.map(installment=>{
-        installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
-  })
-  this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
-  //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
-  try{
-          this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
-            if(res.status === msgTypes.SUCCESS_MESSAGE)
-            this.getTableRecord();
-            this.resetForm();
-          });
-    }catch(error){}
+async save(){
+  const flag = await this.validateAllInstallmentrecord();
+  if(flag){
+          this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
+          this.feesStructureModel.installment.map(installment=>{
+                installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
+          })
+          this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
+          //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
+          try{
+                  this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
+                    if(res.status === msgTypes.SUCCESS_MESSAGE)
+                    this.getTableRecord();
+                    this.resetForm();
+                  });
+            }catch(error){}
+  }
+}
+
+async validateAllInstallmentrecord(){
+  let flag=true;
+  const control = <FormArray>this.formgroup.controls['installment'];
+  for (let i = 0; i < control.value.length; i++) {
+    const installmentDate = control.value[i].installmentDate;
+    if(installmentDate===null){
+      flag=false;
+      this.alertService.showAlert(msgTypes.ERROR, "Installment date should not be blank",msgTypes.ERROR, msgTypes.OK_KEY)
+      break;
+    }
+  }
+  return flag;
 }
 
 getTableRecord(){
@@ -293,6 +310,11 @@ totalFeesChange(){
 
     this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
     this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
+
+    const control = <FormArray>this.formgroup.controls['installment'];
+    if(control.length>0){
+      this.installmentAmountChange();
+    }
 
     // this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
 }

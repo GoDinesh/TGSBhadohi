@@ -1,3 +1,5 @@
+import { Registration } from "../student/registration.model";
+
 export class Fees {
 
     id: string;
@@ -14,6 +16,7 @@ export class Fees {
 
     startDate: string;
     endDate: string;
+//    registrationId: string;
 
 
      constructor(){
@@ -31,5 +34,6 @@ export class Fees {
 
         this.startDate = "";
         this.endDate = "";
+      //  this.registrationId="";
      }
 }

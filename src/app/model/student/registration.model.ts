@@ -1,3 +1,4 @@
+import { Fees } from "../fees/fees.model";
 import { StudentFeesStructure } from "../fees/student-fees-structure.model";
 import { FeesStructure } from "../master/fees-structure.model";
 import { UploadedProfileImage } from "../master/uploaded-profile-image.model";
@@ -59,6 +60,8 @@ export class Registration {
         paidFees: number;
         pendingFees: number;
         isTotalFeesPaid: boolean;
+
+        fees: Fees[]=[]
         
 
         constructor(){

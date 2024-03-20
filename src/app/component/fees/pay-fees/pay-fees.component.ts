@@ -59,7 +59,7 @@ export class PayFeesComponent {
   bookFeesPaid: number = 0;
   dressFeesPaid: number = 0;
   payableBookFees: number = 0;
-  payableDressFees: number = 0;
+  //payableDressFees: number = 0;
   amountPaidTillDate: number = 0;
   termFees: number = 0;
   annualAndRegistrationFee: number = 0;
@@ -311,20 +311,21 @@ export class PayFeesComponent {
         }else{
           this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Book Fees", msgTypes.ERROR, msgTypes.OK_KEY);
         }
-    }else if(this.feesFormControll.paymenttype.value === 'Dress Fees'){
-      let dressfees=0;
-      if(this.studentDetails.gender==='M'){
-        dressfees = Number(this.bookAndDressFeesModel.boyDressFees);
-      }else{
-        dressfees = Number(this.bookAndDressFeesModel.girlDressFees);
-      }
-
-      if(dressfees>=(Number(this.dressFeesPaid) + Number(this.feesFormControll.amount.value))){
-          this.payFees();       
-      }else{
-        this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Dress Fees", msgTypes.ERROR, msgTypes.OK_KEY);
-      }
     }
+    // else if(this.feesFormControll.paymenttype.value === 'Dress Fees'){
+    //   let dressfees=0;
+    //   if(this.studentDetails.gender==='M'){
+    //     dressfees = Number(this.bookAndDressFeesModel.boyDressFees);
+    //   }else{
+    //     dressfees = Number(this.bookAndDressFeesModel.girlDressFees);
+    //   }
+
+    //   if(dressfees>=(Number(this.dressFeesPaid) + Number(this.feesFormControll.amount.value))){
+    //       this.payFees();       
+    //   }else{
+    //     this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Dress Fees", msgTypes.ERROR, msgTypes.OK_KEY);
+    //   }
+    // }
   }
 
   //pay fees
@@ -332,6 +333,8 @@ export class PayFeesComponent {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
+   // this.feesModel.registrationId = this.studentDetails.registrationId;
+    
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE){
@@ -445,7 +448,7 @@ export class PayFeesComponent {
 //Book Fees related functions
 loadBookDressFees(){
   this.payableBookFees =0;
-  this.payableDressFees = 0;
+//  this.payableDressFees = 0;
   const bookDressFees: BookAndDressFees = new BookAndDressFees();
   bookDressFees.academicYearCode = this.feesFormControll.academicYearCode.value;
   bookDressFees.standard = this.feesFormControll.classCode.value;
@@ -453,10 +456,10 @@ loadBookDressFees(){
     if (res.status === msgTypes.SUCCESS_MESSAGE) {
           this.bookAndDressFeesModel = res.data[0];
           this.payableBookFees = Number(this.bookAndDressFeesModel.bookFees) - Number(this.bookFeesPaid);
-          if(this.studentDetails.gender==='M')
-            this.payableDressFees = Number(this.bookAndDressFeesModel.boyDressFees) - Number(this.dressFeesPaid);
-          else
-            this.payableDressFees = Number(this.bookAndDressFeesModel.girlDressFees) - Number(this.dressFeesPaid);
+          // if(this.studentDetails.gender==='M')
+          //   this.payableDressFees = Number(this.bookAndDressFeesModel.boyDressFees) - Number(this.dressFeesPaid);
+          // else
+          //   this.payableDressFees = Number(this.bookAndDressFeesModel.girlDressFees) - Number(this.dressFeesPaid);
 
     }
   });
