@@ -63,9 +63,10 @@ export class LoginComponent {
     let data = this.preparedata();
     this.authService.authanticate(data).subscribe((res: any) => {
       if (res.username === data.email) {
-        const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken);
+        //const encryptedAccessToken = this.authService.getEncryptText(res.jwtToken);
+        const accessToken = res.jwtToken;
 
-        localStorage.setItem("access_token", encryptedAccessToken)
+        localStorage.setItem("access_token", accessToken)
 
         this.userService.getUserByEmailId(data.email).subscribe(res => {
           const encryptedUserType = this.authService.getEncryptText(res.data[0].role);

@@ -1,0 +1,13 @@
+<h4 mat-dialog-title>{{data.name}}</h4>
+<mat-dialog-content >
+    <div class="container wow slideInUp"  data-wow-delay="0.2s">
+        <div class="row">
+            <div class="col-md-12">
+                {{data.description}}
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions class="float-right">
+  <button mat-button (click)="onNoClick()">Close</button>
+</mat-dialog-actions>

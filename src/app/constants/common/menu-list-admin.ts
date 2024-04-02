@@ -75,7 +75,7 @@ export const menuListAdmin: INavbarData[]=[
         "active": true,
     },
     {
-        "text": "Book & Dress Fees",
+        "text": "Book Fees",
         "icon": "fa fa-book",
         "routerLink": masters + "/book-dress-fees",
         "active": true,

@@ -45,7 +45,7 @@ export class FeesStructure {
     // this.registrationFees = 0;
     // this.annualFees = 0;
     // this.annualFeesDate = '';
-    this.active = false;
+    this.active = true;
     this.lumpsumAmount = 0;
     this.regFeesDiscount= 0;
     this.regFeesDiscountReason='';

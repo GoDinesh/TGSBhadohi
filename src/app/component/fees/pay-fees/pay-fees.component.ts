@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -65,6 +65,8 @@ export class PayFeesComponent {
   annualAndRegistrationFee: number = 0;
   termFeesPendingAmount: number = 0;
   regPendingFees: number = 0;
+
+  @ViewChild('printAndSaveButton') printAndSaveButton: ElementRef<HTMLElement>;
 
   constructor(private formBuilder: FormBuilder,
     public validationMsg: ValidationErrorMessageService,
@@ -333,30 +335,42 @@ export class PayFeesComponent {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
-   // this.feesModel.registrationId = this.studentDetails.registrationId;
+    console.log(this.feesModel);
+    
     
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE){
-            this.studentDetails.paidFees = (Number(this.amountPaidTillDate) + Number(this.feesModel.amount));
-            this.studentDetails.pendingFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount));
-            this.studentDetails.totalFees = this.totalAmountAfterDiscount;
-            if(this.studentDetails.pendingFees===0){
-              this.studentDetails.isTotalFeesPaid = true;
+            if(this.feesModel.paymenttype==="Fees"){
+                this.studentDetails.paidFees = (Number(this.amountPaidTillDate) + Number(this.feesModel.amount));
+                this.studentDetails.pendingFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount));
+                this.studentDetails.totalFees = this.totalAmountAfterDiscount;
+                if(this.studentDetails.pendingFees===0){
+                  this.studentDetails.isTotalFeesPaid = true;
+                }else{
+                  this.studentDetails.isTotalFeesPaid = false;
+                }
+                this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res=>{
+                  if (res.status === msgTypes.SUCCESS_MESSAGE){
+                    this.clearPaymentDetails();
+                  }
+                });
             }else{
-              this.studentDetails.isTotalFeesPaid = false;
+                this.clearPaymentDetails();
             }
-            this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res=>{
-              if (res.status === msgTypes.SUCCESS_MESSAGE){
-                this.feesFormControll.amount.reset();
-                this.feesFormControll.paymentMode.reset();
-                this.feesFormControll.remarks.reset();
-                this.getFeesDetails();
-              }
-            });
+
+            let el: HTMLElement = this.printAndSaveButton.nativeElement;
+            el.click();
         }
       });
     } catch (error) { }
+  }
+
+  clearPaymentDetails(){
+    this.feesFormControll.amount.reset();
+    this.feesFormControll.paymentMode.reset();
+    this.feesFormControll.remarks.reset();
+    this.getFeesDetails();
   }
 
   onDiscountReasonChange(){

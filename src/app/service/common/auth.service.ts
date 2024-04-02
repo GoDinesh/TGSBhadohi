@@ -23,13 +23,13 @@ export class AuthService {
     return this.httpClient.post('/auth/login', JSON.stringify(credentials), { headers: headers });
   }
 
-  getToken() {
-    let EncryptedAccessToken = localStorage.getItem('access_token');
-    if (EncryptedAccessToken) {
-      return this.getDecryptText(EncryptedAccessToken)
-    }
-    return '';
-  }
+  // getToken() {
+  //   let EncryptedAccessToken = localStorage.getItem('access_token');
+  //   if (EncryptedAccessToken) {
+  //     return this.getDecryptText(EncryptedAccessToken)
+  //   }
+  //   return '';
+  // }
 
   getUserType() {
     let EncryptedUsertype = localStorage.getItem('userType');

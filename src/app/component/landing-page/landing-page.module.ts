@@ -9,6 +9,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { SharedModule } from 'src/app/shared-module';
 import { ServicesComponent } from './services/services.component';
 import { ExpertInstructorComponent } from './expert-instructor/expert-instructor.component';
+import { ExpertInstructorDialogComponent } from './expert-instructor-dialog/expert-instructor-dialog.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ExpertInstructorComponent } from './expert-instructor/expert-instructor
     MainPageComponent,
     ServicesComponent,
     ExpertInstructorComponent,
+    ExpertInstructorDialogComponent,
   ],
   imports: [
     CommonModule,

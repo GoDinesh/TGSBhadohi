@@ -172,6 +172,8 @@ export class PromoteStudentComponent {
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
           this.posts = res.data.filter((data: Registration)=>{return data.isActive===true});
+          console.log("Posts-",this.posts);
+          
           if(this.posts.length == 0){
             this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }

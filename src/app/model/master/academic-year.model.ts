@@ -8,6 +8,6 @@ export class AcademicYear {
         this.id = '';
         this.academicYearCode = '';
         this.academicYear = '';
-        this.active = false;
+        this.active = true;
     }
 }

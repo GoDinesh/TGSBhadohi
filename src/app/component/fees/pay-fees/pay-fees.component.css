@@ -45,3 +45,33 @@
     background-color: rgb(233 237 232);
     padding: 0.5rem;
 }
+
+.dotted-border{
+border-style: dashed;
+}
+
+.bold-label{
+    padding: 5px;
+    text-align: left; 
+    font-size: 14;
+    font-weight: 400;
+}
+
+.col-md-2 {
+    padding:2px;
+}
+
+.col-md-4{
+    padding:2px;
+}
+.col-md-1{
+    padding:2px;
+}
+.col-md-5{
+    padding:2px;
+}
+
+.bold-label-heading{
+font-size: 14px;
+font-weight: 400;
+}

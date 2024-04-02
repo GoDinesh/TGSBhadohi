@@ -27,6 +27,8 @@ import { UnauthorizedAttemptComponent } from './component/shared-component/unaut
 import { BreadcrumbComponent } from './component/shared-component/breadcrumb/breadcrumb.component';
 import { StudentCardComponent } from './component/pdf-card/student-card/student-card.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptor } from './core/interceptors/api.interceptor';
 
 
 
@@ -80,7 +82,13 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
           provide: LocationStrategy,
           useClass: HashLocationStrategy
     },
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    // Auth
+  // {
+  //   provide: HTTP_INTERCEPTORS,
+  //   useClass: ApiInterceptor,
+  //   multi: true
+  // }
   ],
   bootstrap: [AppComponent]
 })

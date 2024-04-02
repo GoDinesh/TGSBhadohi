@@ -210,13 +210,16 @@ async save(){
           this.feesStructureModel.installment.map(installment=>{
                 installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
           })
+          this.feesStructureModel.discountAmount = this.installmentDiscount;
+          this.feesStructureModel.netAmountAfterDiscount = this.installmentAfterDiscount;
           this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
           //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
           try{
                   this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
-                    if(res.status === msgTypes.SUCCESS_MESSAGE)
+                    if(res.status === msgTypes.SUCCESS_MESSAGE){
                     this.getTableRecord();
                     this.resetForm();
+                    }
                   });
             }catch(error){}
   }
@@ -277,15 +280,15 @@ setValueToUpdate(data: FeesStructure) {
 }
 
 //update the record
-update() {
-  this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
-  this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe((res) => {
-    if (res.status === msgTypes.SUCCESS_MESSAGE) {
-      this.getTableRecord();
-      this.resetForm();
-    }
-  });
-}
+// update() {
+//   this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
+//   this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe((res) => {
+//     if (res.status === msgTypes.SUCCESS_MESSAGE) {
+//       this.getTableRecord();
+//       this.resetForm();
+//     }
+//   });
+// }
 
 
 resetForm(){

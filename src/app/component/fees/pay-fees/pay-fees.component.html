@@ -182,7 +182,34 @@
                         <div class="mb-4">
                             <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2> -->
                             <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2> 
-                            <table class="table show-previous-amount-table">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <label> S.No</label>
+                                        <input type="text" readonly value="1" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label>Fees Type </label>
+                                        <input type="text" readonly value="Book Fees" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Total Amount </label>
+                                        <input type="text" readonly value="{{bookAndDressFeesModel.bookFees}}" class="form-control form-control-sm blue-colour">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label> Amount Paid</label>
+                                        <input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Net Payable </label>
+                                        <input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'orange-colour': payableBookFees!=0}" class="form-control form-control-sm">
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <table class="table show-previous-amount-table">
                                 <thead>
                                     <tr>
                                         <th scope="col">S.No</th>
@@ -198,7 +225,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                                <!-- Begin: Book Fees -->
+                                              
                                                 <tr>
                                                     <td><input type="text" readonly value="1" class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly value="Book Fees" class="form-control form-control-sm"></td>
@@ -211,29 +238,8 @@
                                                     <td><input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
                                                     <td><input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'orange-colour': payableBookFees!=0}" class="form-control form-control-sm"> </td>
                                                 </tr>
-                                                <!-- End:Book fees -->
-                                                
-                                                <!-- Begin::Dress Fees -->
-                                                <!-- <tr>
-                                                    <td><input type="text" readonly value="2" class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly value="Dress Fees" class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <ng-container *ngIf="studentDetails.gender==='M'">
-                                                        <td><input type="text"  readonly value="{{bookAndDressFeesModel.boyDressFees}}" class="form-control form-control-sm blue-colour"></td>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="studentDetails.gender==='F'">
-                                                        <td><input type="text"  readonly value="{{bookAndDressFeesModel.girlDressFees}}" class="form-control form-control-sm blue-colour"></td>
-                                                    </ng-container>
-                                                    <td><input type="text" readonly class="form-control form-control-sm "></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td ><input type="text" readonly  value="{{dressFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
-                                                    <td><input type="text" readonly value="{{payableDressFees}}" [ngClass]="{'green-colour' : payableDressFees==0, 'orange-colour': payableDressFees!=0}" class="form-control form-control-sm"> </td>
-                                                </tr> -->
-                                                <!-- End:: Dress fees -->
-                                    </tbody>
-                            </table>
+                                        </tbody>
+                            </table> -->
                         </div>
                     </ng-container>
                     <!-- End:: Installment Details -->
@@ -250,31 +256,19 @@
                                             Discount</button>
                                     </ng-container>
                                 </div>
-                            <table class="table fee-payment-table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" class="form-label required">Amount</th>
-                                        <th scope="col" class="form-label required">Payment Type</th>
-                                        <th scope="col">Remarks</th>
-                                        <th scope="col" class="form-label required">Payment Mode </th>
-                                        <th scope="col" class="form-label required">Payment Date </th>
-                                        <th scope="col" class="form-label ">Receipt to be Printed on the name of </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div>
+                                <div class="container m-0">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                                <label class="fw-bold required">Amount</label>
                                                 <input type="text" formControlName="amount" class="form-control"
                                                     placeholder="Enter Amount" />
                                                 <div class="invalid-feedback">
                                                     {{validationMsg.getErrorMessage(feesFormControll.amount,"Amount")}}
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <select class="form-select" formControlName="paymenttype"
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="fw-bold required">Payment Type</label>
+                                            <select class="form-select" formControlName="paymenttype"
                                                     class="form-control">
                                                     <option value="Fees">Fees</option>
                                                     <option value="Book Fees">Book Fees</option>
@@ -282,18 +276,17 @@
                                                 </select>
                                                 <div class="invalid-feedback">
                                                     {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
-                                                    Type")}}</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div >
-                                                <input type="text" formControlName="remarks" class="form-control"
+                                                    Type")}}
+                                                </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="fw-bold">Remarks</label>
+                                            <input type="text" formControlName="remarks" class="form-control"
                                                     placeholder="Enter Remarks" />
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <select class="form-select" formControlName="paymentMode"
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="fw-bold required">Payment Mode</label>
+                                            <select class="form-select" formControlName="paymentMode"
                                                     class="form-control">
                                                     <option selected>Select Mode</option>
                                                     <option value="CASH">CASH</option>
@@ -303,30 +296,24 @@
                                                 <div class="invalid-feedback">
                                                     {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
                                                     Mode")}}</div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="fw-bold required">Payment Date</label>
+                                            <div class="datepicker-container">
+                                                <input matInput [matDatepicker]="picker" formControlName="paymentDate"
+                                                    [max]="maxDate" [min]="minDate" class="form-control" readonly>
+                                                <mat-datepicker-toggle matSuffix [for]="picker"
+                                                    class="toggle-datepicker-icon-position"
+                                                    [disabled]="false"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker [disabled]="false"></mat-datepicker>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <div class="datepicker-container">
-                                                    <input matInput [matDatepicker]="picker" formControlName="paymentDate"
-                                                        [max]="maxDate" [min]="minDate" class="form-control" readonly>
-                                                    <mat-datepicker-toggle matSuffix [for]="picker"
-                                                        class="toggle-datepicker-icon-position"
-                                                        [disabled]="false"></mat-datepicker-toggle>
-                                                    <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-                                                </div>
-                                                <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentDate,"Payment
-                                                    Date")}}</div>
-                                            </div>
-
-                                        </td>
-                                        <td>
-
-                                            <!-- begin::Parent details -->
-                                            <div>
-                                                <!-- <label class="form-label required">Academic Year</label> -->
-                                                <mat-select formControlName="paymentReceivedBy"
+                                            <div class="invalid-feedback">
+                                                {{validationMsg.getErrorMessage(feesFormControll.paymentDate,"Payment
+                                                Date")}}</div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="fw-bold">Receipt to be Printed</label>
+                                            <mat-select formControlName="paymentReceivedBy"
                                                     class="form-control">
                                                     <div>
                                                         <mat-option
@@ -336,16 +323,24 @@
                                                         </mat-option>
                                                     </div>
                                                 </mat-select>
-                                             </div>
-                                            <!-- end::academic year -->
+                                        </div>
                                         
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </div>
+                                </div>
+                            <hr>    
+                            
                             <div class="justify-content-start">
                                 <div>
                                     <button (click)="openDialog()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Preview Receipt</button>
-                                    <button class="btn btn-sm btn-warning m-2">Save & Print</button>
+                                    <button class="btn btn-sm btn-warning m-2 d-none" 
+                                        printSectionId="print-section" 
+                                        ngxPrint 
+                                        [useExistingCss]="true" 
+                                        #printAndSaveButton>Print</button>
+
+                                    <!-- <button class="btn btn-sm btn-warning m-2" 
+                                        [disabled]="!formgroup.valid || discountChanged"
+                                        (click)="printAndSave()">Save & Print</button> -->
                                     <button class="btn btn-sm btn-success m-2"
                                         [disabled]="!formgroup.valid || discountChanged" (click)="save()">Save</button>
                                 </div>
@@ -366,4 +361,95 @@
 
         </div>
     </form>
+</div>
+
+
+
+<div  id="print-section" class="d-none"> 
+    <ng-container *ngFor="let number of [0,1]">
+   <div class="container border pt-2">
+        <div class="row">
+            <div class="col-md-12 p-4">
+                <div class="text-center">                
+                    <div><img class=" p-1 logo" src="/assets/website/img/logo.png"  width="150" height="120"></div>
+                    <div>Indra Gandi Marg, Chaksaif, Bhadohi - 221401</div>
+                    <div><b>FEES RECEIPT</b></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center p-2">
+                    <ng-container *ngIf="number===0"><h5><u>STUDENT COPY</u></h5> </ng-container> 
+                    <ng-container *ngIf="number===1"><h5><u>SCHOOL COPY</u></h5> </ng-container> 
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                 <table class="p-2">
+                    <tr>
+                        <td>Date</td>
+                        <td><b>: 13-03-2024</b></td>
+                    </tr>
+                    <tr>
+                        <td>Receipt No</td>
+                        <td><b>: TGS2023/284</b></td>
+                    </tr>
+                    <tr>
+                        <td>ID Card Number</td>
+                        <td><b>: TGS2023PP2/01</b></td>
+                    </tr>
+                    <tr>
+                        <td>Class</td>
+                        <td><b>: PP2</b></td>
+                    </tr>
+                 </table>
+            </div>
+            <div class="col-md-8 p-2">
+                <table>
+                    <tr>
+                        <td>Received with thanks From</td>
+                        <td><b>: Anwith Jaiswal</b></td>
+                    </tr>
+                    <tr>
+                        <td>an amount of rupees (fig) </td>
+                        <td><b>: {{feesModel.amount}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>(words) </td>
+                        <td><b>: vbnm</b></td>
+                    </tr>
+                    <tr>
+                        <td>towards </td>
+                        <td><b>: Fees</b></td>
+                    </tr>
+                    <tr>
+                        <td>for Academic year</td>
+                        <td><b>: 2023-2024</b></td>
+                    </tr>
+                    <tr>
+                        <td>Paymant through </td>
+                        <td><b>: Cash</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row mt-5 mb-5">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6">
+                <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
+                <div>Authorised Singnatory</div>
+            </div>
+        </div>
+        <div class="row border">
+            <div class="col-md-12">
+                <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realistion. Kids shall not attend the course in case the cheque is dishonured
+                    due to any reason.</div>
+            </div>
+        </div>
+   </div>
+   
+    </ng-container>
 </div>

@@ -1,8 +1,8 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Instructors</h6>
-            <h1 class="mb-5">Expert Instructors</h1>
+            <h6 class="section-title bg-white text-center text-primary px-3">Administration</h6>
+            <h1 class="mb-5">Our Administration</h1>
         </div>
         <div class="row g-4">
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -20,6 +20,7 @@
                     <div class="text-center p-4">
                         <h3 class="mb-0">Mr. ASHOK MAURYA</h3>
                         <h3 class="mb-0">CHAIRMAN</h3>
+                        <button mat-raised-button (click)="openDialog(1)">Read</button>
                         <!-- <small>Mr. Ashok Maurya, the visionary founder and chairman of TIME GLOBAL SCHOOL ....</small>
                         <button type="button" (click)="alterDescriptionText()">
                             {{ showShortDesciption ? 'SHOW ALL': 'SHOW LESS' }}
@@ -38,7 +39,7 @@
             <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                 <div class="team-item bg-light">
                     <div class="overflow-hidden">
-                        <img class="img-fluid" src="/assets/website/img/instructors/team-2.JPG" alt="">
+                        <img class="img-fluid" src="/assets/website/img/instructors/team-2.png" alt="">
                     </div>
                     <!-- <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                         <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -49,7 +50,8 @@
                     </div> -->
                     <div class="text-center p-4">
                         <h3 class="mb-0">Mr. PRATEEK MAURYA</h3>
-                        <h3 class="mb-0">MANAGING DIRECTON</h3>
+                        <h3 class="mb-0">MANAGING DIRECTOR</h3>
+                        <button mat-raised-button (click)="openDialog(2)">Read</button>
                         <!-- <small>Designation</small> -->
                     </div>
                 </div>
@@ -69,6 +71,7 @@
                     <div class="text-center p-4">
                         <h3 class="mb-0">Mrs. DEEPIKA KUSHWAHA</h3>
                         <h3 class="mb-0">PRINCIPAL</h3>
+                        <button mat-raised-button (click)="openDialog(3)">Read</button>
                         <!-- <small>CHAIRMAN</small> -->
                     </div>
                 </div>
@@ -88,6 +91,7 @@
                     <div class="text-center p-4">
                         <h3 class="mb-0">Mrs. MUDRIKA MAURYA</h3>
                         <h3 class="mb-0">VICE-PRINCIPAL</h3>
+                        <button mat-raised-button (click)="openDialog(4)">Read</button>
                         <!-- <small>Designation</small> -->
                     </div>
                 </div>

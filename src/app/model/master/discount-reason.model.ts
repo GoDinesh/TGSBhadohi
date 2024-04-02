@@ -8,6 +8,6 @@ export class DiscountReason {
       //  this.id = '',
         this.discountReason = '',
         this.discountReasonCode = '',
-        this.active = false 
+        this.active = true 
     }
 }

@@ -118,13 +118,11 @@ export class BookDressFeesComponent {
   loadTable() {
     this.dtOptions = {
       processing: true,
-      scrollY: "300px",
       scrollCollapse: true,
-      scrollX : true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
-      ]
+      ],
     };
   }
 
