@@ -98,8 +98,8 @@ export class PromoteStudentComponent {
   createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
       registrationNo: [registartion.registrationNo, [CustomValidation.alphanumaricSpace]],
-      standard: [registartion.standard],
-      academicYearCode: [registartion.academicYearCode],
+      standard: [registartion.standard,[Validators.required]],
+      academicYearCode: [registartion.academicYearCode, [Validators.required]],
       fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
       studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
     });

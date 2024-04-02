@@ -59,6 +59,7 @@ export class Registration {
         totalFees: number;
         paidFees: number;
         pendingFees: number;
+        discountAmount:number;
         isTotalFeesPaid: boolean;
 
         fees: Fees[]=[]
@@ -113,6 +114,7 @@ export class Registration {
             this.totalFees = 0;
             this.paidFees = 0;
             this.pendingFees=0;
+            this.discountAmount=0;
             this.isTotalFeesPaid = false;
         }
      

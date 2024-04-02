@@ -47,7 +47,7 @@
         <div class="form-group">
           <label class="form-label required">Academic Year</label>
           <!-- <input class="form-control form-control-sm" formControlName="academicYear" autocomplete="off"> -->
-          <mat-select formControlName="academicYearCode" (selectionChange)="isFeesStructureAvailable()"  class="form-control form-control-sm">
+          <mat-select formControlName="academicYearCode"  class="form-control form-control-sm">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterAcademicYear>
             </div>
@@ -68,7 +68,7 @@
         <div class="form-group">
           <label class="form-label required">Standard</label>
           <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
-          <mat-select class="form-control form-control-sm" (selectionChange)="isFeesStructureAvailable()" [disabled]="updateFlag" formControlName="standard">
+          <mat-select class="form-control form-control-sm"  [disabled]="updateFlag" formControlName="standard">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterClassName>
             </div>
@@ -158,7 +158,7 @@
         <!-- begin:: Enrollment type -->
          <div class="form-group">
            <label class="form-label required">Enrollment Type</label>
-         <mat-select class="custom-select-option form-control form-control-sm" formControlName="enrollmentType"
+         <mat-select class="custom-select-option form-control form-control-sm"  (selectionChange)="isFeesStructureAvailable()" formControlName="enrollmentType"
            autocomplete="off">
            <mat-option value="New Student">New Student</mat-option>
            <mat-option value="Old Student">Old Student</mat-option>

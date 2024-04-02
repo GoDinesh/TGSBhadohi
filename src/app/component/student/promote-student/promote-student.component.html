@@ -3,7 +3,7 @@
 
     <!-- begin::academic year -->
     <div class="form-group">
-      <label class="form-label">Academic Year</label>
+      <label class="form-label required">Academic Year</label>
       <mat-select formControlName="academicYearCode" class="form-control form-control-sm"
         placeholder="Select Academic Year">
         <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
@@ -21,7 +21,7 @@
 
     <!-- begin::Standard -->
     <div class="form-group">
-      <label class="form-label">Standard</label>
+      <label class="form-label required">Standard</label>
       <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
       <mat-select class="form-control form-control-sm" formControlName="standard" placeholder="Select Standard">
         <input type="text" class="form-control  form-control-sm" #filterClassName>
@@ -94,6 +94,7 @@
         <th>Father Name</th>
         <th>Standard</th>
         <th>Total Fees</th>
+        <th>Discount</th>
 
         <th>Paid Fees</th>
         <th>Pending Fees</th>
@@ -114,6 +115,7 @@
         <td class="td-large">{{ post.fatherName}}</td>
         <td class="td-small">{{ post.standard}}</td>
         <td class="td-small">{{ post.totalFees}}</td>
+        <td class="td-small">{{ post.discountAmount}}</td>
         <td class="td-small">{{ post.paidFees}}</td>
         <td class="td-small">{{ post.pendingFees}}</td>
 

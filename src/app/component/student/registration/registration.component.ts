@@ -625,12 +625,14 @@ export class RegistrationComponent {
       const feesStructure = new FeesStructure();
       feesStructure.academicYearCode = academicYearCode;
       feesStructure.classCode = standard;
+      feesStructure.enrollmentType = enrollmentType;
       this.feesStructureService.getByAcademicYearAndClassAndEnrollmentType(feesStructure).subscribe((res) => {
         if (res.status === msgTypes.SUCCESS_MESSAGE) {
           if (res.data.length == 0) {
             this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
             this.studentgroup.controls.academicYearCode.reset();
             this.studentgroup.controls.standard.reset();
+            this.studentgroup.controls.enrollmentType.reset();
           }
         }
       })
