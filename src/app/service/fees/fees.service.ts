@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { appurl } from 'src/app/constants/common/appurl';
+import { msgTypes } from 'src/app/constants/common/msgType';
 import { Fees } from 'src/app/model/fees/fees.model';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
@@ -24,5 +25,10 @@ export class FeesService {
   getPaidFeesOfStudent(feesModel: Fees){
     const url  = this.requestUrl + appurl.endpoint_filter;
     return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
+  }
+
+  getMaxReceiptNo(){
+    const url  = this.requestUrl + appurl.get_receipt_number;
+    return this.httpClient.get<ResponseModel>(url)
   }
 }

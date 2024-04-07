@@ -30,9 +30,10 @@ export class PromoteStudentComponent {
   dtOptions: any = {};
   posts: Registration[] = [];
   //tempPost: Registration[]=[];
-  tempData: Registration[] =[];
-  promotedStudentList: Registration[]=[];
+  tempData: Registration[] = [];
+  promotedStudentList: Registration[] = [];
   allClassList: Observable<Class[]> = new Observable();
+  classList: Class[] = [];
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
   checkedFlag: boolean = false;
@@ -45,7 +46,7 @@ export class PromoteStudentComponent {
     studentName: new FormControl()
   });
 
-  promotedStudentGroup=new FormGroup({
+  promotedStudentGroup = new FormGroup({
     promotedStandard: new FormControl(),
     promotedAcademicYearCode: new FormControl(),
     enrollmentType: new FormControl()
@@ -61,7 +62,7 @@ export class PromoteStudentComponent {
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
-    private authService:AuthService,
+    private authService: AuthService,
     private feesStructureService: FeesStructureService,
   ) {
   }
@@ -72,7 +73,7 @@ export class PromoteStudentComponent {
   }
 
   //get promoted student controll
-  get promotedStudentFormControll(){
+  get promotedStudentFormControll() {
     return this.promotedStudentGroup.controls;
   }
 
@@ -98,7 +99,7 @@ export class PromoteStudentComponent {
   createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
       registrationNo: [registartion.registrationNo, [CustomValidation.alphanumaricSpace]],
-      standard: [registartion.standard,[Validators.required]],
+      standard: [registartion.standard, [Validators.required]],
       academicYearCode: [registartion.academicYearCode, [Validators.required]],
       fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
       studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
@@ -107,9 +108,9 @@ export class PromoteStudentComponent {
 
   promotedStudentForm() {
     this.promotedStudentGroup = this.formBuilder.group({
-      promotedStandard: ['',[Validators.required]],
-      promotedAcademicYearCode: ['',[Validators.required]],
-      enrollmentType: ['Old Student',[Validators.required]]
+      promotedStandard: ['', [Validators.required]],
+      promotedAcademicYearCode: ['', [Validators.required]],
+      enrollmentType: ['Old Student', [Validators.required]]
 
     });
   }
@@ -117,6 +118,7 @@ export class PromoteStudentComponent {
   loadClass() {
     this.allClassList = this.classService.getAllActiveClass().pipe(
       map((res) => {
+        this.classList = res.data;
         return res.data;
       })
     )
@@ -138,25 +140,25 @@ export class PromoteStudentComponent {
       scrollY: "300px",
       scrollCollapse: true,
       fixedColumns: {
-       // leftColumns: 1,
+        // leftColumns: 1,
         rightColumns: 1,
       },
-      scrollX : true,
+      scrollX: true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
       ],
-    columnDefs: [
-      {
-        'targets': 0,
-        'checkboxes': {
+      columnDefs: [
+        {
+          'targets': 0,
+          'checkboxes': {
             'selectRow': true
+          }
         }
-      }
-    ],
-    select: {
-      'style': 'multi'
-    },
+      ],
+      select: {
+        'style': 'multi'
+      },
     };
   }
 
@@ -169,15 +171,13 @@ export class PromoteStudentComponent {
     studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
     studentInfo.studentName = this.studentFormControll.studentName.value;
 
-    this.registrationService.studentList(studentInfo).subscribe(res=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.posts = res.data.filter((data: Registration)=>{return data.isActive===true});
-          console.log("Posts-",this.posts);
-          
-          if(this.posts.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
-          }
+    this.registrationService.studentList(studentInfo).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        this.posts = res.data.filter((data: Registration) => { return data.isActive === true });
+        if (this.posts.length == 0) {
+          this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
         }
+      }
     })
   }
 
@@ -194,31 +194,46 @@ export class PromoteStudentComponent {
 
   checkAllCheckBox(ev: any) {
     this.posts.forEach(x => x.isChecked = ev.target.checked)
-    if(ev.target.checked===true)
+    if (ev.target.checked === true)
       this.checkedFlag = true;
     else
-    this.checkedFlag = false;
+      this.checkedFlag = false;
   }
-  
+
   isAllCheckBoxChecked() {
     return this.posts.every(p => p.isChecked);
   }
 
-  promoteStudent(){
+  convertIntoTwoDegit(n:string) {
+    n = String(n)
+    if (n.length == 1)
+      n = '0' + n
+    return n
+  }
+
+  promoteStudent() {
     this.promotedStudentList = [];
     const promotedAcademicYear = this.promotedStudentFormControll.promotedAcademicYearCode.value;
     const promotedStandard = this.promotedStudentFormControll.promotedStandard.value;
 
-    this.registrationService.studentList(this.studentInfo).subscribe(res=>{
-      //prepare promoted student list i.e mark as promote by using checkbox
-      if(res.status === msgTypes.SUCCESS_MESSAGE){
-        this.tempData = res.data;
-        let reg: Registration[] = [];
-        let updateStatus: Registration [] = [];
-        this.posts.forEach(x =>{
-          this.tempData.forEach(data=>{
-             if(data.registrationNo === x.registrationNo && data.registrationId===x.registrationId){
-                if(x.isChecked){
+    let reg: Registration = new Registration();
+    reg.academicYearCode = promotedAcademicYear;
+    reg.standard = promotedStandard;
+
+    this.registrationService.getRollNumber(reg).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        let rollnumber = res.data[0].rollNumber;
+
+        this.registrationService.studentList(this.studentInfo).subscribe(res => {
+          //prepare promoted student list i.e mark as promote by using checkbox
+          if (res.status === msgTypes.SUCCESS_MESSAGE) {
+            this.tempData = res.data;
+            let reg: Registration[] = [];
+            let updateStatus: Registration[] = [];
+            this.posts.forEach(x => {
+              this.tempData.forEach(data => {
+                if (data.registrationNo === x.registrationNo && data.registrationId === x.registrationId) {
+                  if (x.isChecked) {
                     updateStatus.push(data);
                     reg.push(x);
                     x.registrationId = "";
@@ -226,78 +241,88 @@ export class PromoteStudentComponent {
                     x.standard = promotedStandard;
                     x.isPromoted = x.isChecked;
                     x.studentFeesStructure = [];
+                    const classData = this.classList.filter((res) => {
+                      return res.classCode === x.standard
+                    })
+                    // rollnumber = rollnumber + 1;
+                    const increasedRollNumber = this.convertIntoTwoDegit(rollnumber);
+                    rollnumber = rollnumber + 1;
+                    x.idCardNumber = "TGS" + promotedAcademicYear.substring(0, 4) + classData[0].className + "/" +increasedRollNumber
                     this.promotedStudentList.push(x)
+                  }
                 }
-             }
-          })
-        })
-        //send request to promote the student
-        //console.log(this.promotedStudentList);
-        this.registrationService.promoteStudent(this.promotedStudentList).subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
-            this.registrationService.updateStatusAfterPromote(updateStatus).subscribe(res=>{
-              this.resetForm();
-            });
+              })
+            })
+            //send request to promote the student
+            //console.log(this.promotedStudentList);
+            this.registrationService.promoteStudent(this.promotedStudentList).subscribe(res => {
+              if (res.status === msgTypes.SUCCESS_MESSAGE) {
+                this.registrationService.updateStatusAfterPromote(updateStatus).subscribe(res => {
+                  this.resetForm();
+                });
+              }
+            })
+
           }
         })
-        
+      }else{
+        this.sweetAlertService.showAlert("Id Card Error", "Id Card not generated", msgTypes.ERROR, msgTypes.OK_KEY);
       }
-  })
+    })//closing if get rollnumber if
   }
 
-  selectCheckBox(registration: Registration, ev: any){
-        let count=0;
-        this.posts.map(data=>{
-          if(data.isChecked===true){
+      selectCheckBox(registration: Registration, ev: any){
+        let count = 0;
+        this.posts.map(data => {
+          if (data.isChecked === true) {
             count++;
           }
-          if(data.registrationId === registration.registrationId && data.registrationNo === registration.registrationNo){
+          if (data.registrationId === registration.registrationId && data.registrationNo === registration.registrationNo) {
             data.isChecked = ev.target.checked;
-            if(ev.target.checked===true){
+            if (ev.target.checked === true) {
               count++;
-            }else{
+            } else {
               count--;
             }
           }
 
-          if(count>0){
+          if (count > 0) {
             this.checkedFlag = true;
-          }else{
+          } else {
             this.checkedFlag = false;
           }
         })
 
-       
-  }
 
-  isFeesStructureAvailable() {
-    const academicYearCode = this.promotedStudentFormControll.promotedAcademicYearCode.value;
-    const standard = this.promotedStudentFormControll.promotedStandard.value;
-    const enrollmentType = this.promotedStudentFormControll.enrollmentType.value;
-    if ((standard != '' && standard != null && standard != undefined) 
-    && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)
-    && (enrollmentType != '' && enrollmentType != null && enrollmentType != undefined)
-    ) {
-      const feesStructure = new FeesStructure();
-      feesStructure.academicYearCode = academicYearCode;
-      feesStructure.classCode = standard;
-      feesStructure.enrollmentType = enrollmentType;
-      this.feesStructureService.getByAcademicYearAndClassAndEnrollmentType(feesStructure).subscribe((res) => {
-        if (res.status === msgTypes.SUCCESS_MESSAGE) {
-          if (res.data.length == 0) {
-            this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
-            this.promotedStudentFormControll.promotedAcademicYearCode.reset();
-            this.promotedStudentFormControll.promotedStandard.reset();
-          }
+      }
+
+      isFeesStructureAvailable() {
+        const academicYearCode = this.promotedStudentFormControll.promotedAcademicYearCode.value;
+        const standard = this.promotedStudentFormControll.promotedStandard.value;
+        const enrollmentType = this.promotedStudentFormControll.enrollmentType.value;
+        if ((standard != '' && standard != null && standard != undefined)
+          && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)
+          && (enrollmentType != '' && enrollmentType != null && enrollmentType != undefined)
+        ) {
+          const feesStructure = new FeesStructure();
+          feesStructure.academicYearCode = academicYearCode;
+          feesStructure.classCode = standard;
+          feesStructure.enrollmentType = enrollmentType;
+          this.feesStructureService.getByAcademicYearAndClassAndEnrollmentType(feesStructure).subscribe((res) => {
+            if (res.status === msgTypes.SUCCESS_MESSAGE) {
+              if (res.data.length == 0) {
+                this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
+                this.promotedStudentFormControll.promotedAcademicYearCode.reset();
+                this.promotedStudentFormControll.promotedStandard.reset();
+              }
+            }
+          })
+
         }
-      })
 
+      }
+
+      handleInputChange(formcontrol: FormControl){
+        formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first: string) => first.toLocaleUpperCase()));
+      }
     }
-
-  }
-
-  handleInputChange(formcontrol: FormControl){  
-    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
-  }
-}
- 

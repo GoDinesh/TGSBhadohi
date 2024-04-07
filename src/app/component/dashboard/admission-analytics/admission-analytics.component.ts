@@ -78,8 +78,6 @@ export class AdmissionAnalyticsComponent {
   async customInit(){
     await this.loadAcademicyear();
     this.formgroup.controls.academicYearCode.setValue(this.currentAcademicYear)
-    console.log("academic year list"+this.academicYearList);
-    console.log("academic year code"+this.formgroup.controls.academicYearCode.value);  
     this.updateChartData();
   }
 
@@ -131,24 +129,12 @@ export class AdmissionAnalyticsComponent {
               this.selectedClass = event.point.category as string;
               this.selectedStudents = event.point.y as number;
 
-              console.log(this.selectedStudents);
-              console.log(this.selectedClass)
-
               const selectedClassObj = classes.find((c: { className: string; }) => c.className === this.selectedClass);
 
               if (selectedClassObj) {
                 this.selectedClassCode = selectedClassObj.classCode;
               }
-
-              console.log(this.selectedClass)
               this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear);
-              // .map(student => ({
-              //   studentName: student.studentName,
-              //   standard: student.standard,
-              //   profileImage: student.profileImage.link
-              // }));
-              // Open the modal and populate it with data
-              // Open Angular Material Dialog
               const dialogRef = this.dialog.open(StudentDetailsModalComponent, {
                 data: {
                   students: this.studentDetails,

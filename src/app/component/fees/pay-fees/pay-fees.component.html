@@ -11,13 +11,20 @@
                         <label class="form-label required">Academic Year</label>
                         <mat-select formControlName="academicYearCode" (selectionChange)="academicYearChange()" class="form-control form-control-sm">
                             <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
-                            <div *ngIf="academicYearList | async as postdata ">
+                            <!-- <div *ngIf="academicYearList | async as postdata ">
                                 <mat-option
                                     *ngFor="let data of postdata.data | filterData: filterAcademicYear.value : 'academicYear'"
                                     [value]="data.academicYearCode">
                                     {{data.academicYear}}
                                 </mat-option>
-                            </div>
+                            </div> -->
+                             
+                                <mat-option
+                                    *ngFor="let data of academicyearList | filterData: filterAcademicYear.value : 'academicYear'"
+                                    [value]="data.academicYearCode">
+                                    {{data.academicYear}}
+                                </mat-option>
+                            
                         </mat-select>
                         <div class="invalid-feedback">
                             {{validationMsg.getErrorMessage(feesFormControll.academicYearCode,"Academic Year")}}
@@ -31,13 +38,20 @@
                         <mat-select class="form-control form-control-sm" (selectionChange)="loadStudentList()"
                             formControlName="classCode">
                             <input type="text" class="form-control  form-control-sm" #filterClassName>
-                            <div *ngIf="allClassList | async as postdata ">
+                            <!-- <div *ngIf="allClassList | async as postdata ">
                                 <mat-option
                                     *ngFor="let data of postdata.data | filterData: filterClassName.value : 'className'"
                                     [value]="data.classCode">
                                     {{data.className}}
                                 </mat-option>
-                            </div>
+                            </div> -->
+                           
+                                <mat-option
+                                    *ngFor="let data of classList | filterData: filterClassName.value : 'className'"
+                                    [value]="data.classCode">
+                                    {{data.className}}
+                                </mat-option>
+                           
                         </mat-select>
                         <div class="invalid-feedback">
                             {{validationMsg.getErrorMessage(feesFormControll.classCode,"Standard")}}
@@ -389,27 +403,27 @@
                  <table class="p-2">
                     <tr>
                         <td>Date</td>
-                        <td><b>: 13-03-2024</b></td>
+                        <td><b>: {{feesModel.paymentDate | dateFormatPipe}}</b></td>
                     </tr>
                     <tr>
                         <td>Receipt No</td>
-                        <td><b>: TGS2023/284</b></td>
+                        <td><b>: {{feesModel.receiptNo}}</b></td>
                     </tr>
                     <tr>
                         <td>ID Card Number</td>
-                        <td><b>: TGS2023PP2/01</b></td>
+                        <td><b>: {{feesModel.idCardNumber}}</b></td>
                     </tr>
                     <tr>
                         <td>Class</td>
-                        <td><b>: PP2</b></td>
+                        <td><b>: {{feesModel.className}}</b></td>
                     </tr>
                  </table>
             </div>
             <div class="col-md-8 p-2">
-                <table>
+                <table class="background-color">
                     <tr>
                         <td>Received with thanks From</td>
-                        <td><b>: Anwith Jaiswal</b></td>
+                        <td><b>: {{feesModel.paymentReceivedBy}}</b></td>
                     </tr>
                     <tr>
                         <td>an amount of rupees (fig) </td>
@@ -417,19 +431,19 @@
                     </tr>
                     <tr>
                         <td>(words) </td>
-                        <td><b>: vbnm</b></td>
+                        <td><b>: {{feesModel.amountInWords}}</b></td>
                     </tr>
                     <tr>
                         <td>towards </td>
-                        <td><b>: Fees</b></td>
+                        <td><b>: {{feesModel.paymenttype}}</b></td>
                     </tr>
                     <tr>
                         <td>for Academic year</td>
-                        <td><b>: 2023-2024</b></td>
+                        <td><b>: {{feesModel.academicYear}}</b></td>
                     </tr>
                     <tr>
                         <td>Paymant through </td>
-                        <td><b>: Cash</b></td>
+                        <td><b>: {{feesModel.paymentMode}}</b></td>
                     </tr>
                 </table>
             </div>

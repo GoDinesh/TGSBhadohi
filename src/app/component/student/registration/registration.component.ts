@@ -72,6 +72,7 @@ export class RegistrationComponent {
     registrationNo: new FormControl(),
     isPromoted: new FormControl(),
     isActive: new FormControl(),
+    idCardNumber: new FormControl()
     
   });
 
@@ -316,6 +317,7 @@ export class RegistrationComponent {
       religion: [stuInfo.religion, [Validators.required]],
       category: [stuInfo.category, [Validators.required]],
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
+      idCardNumber: [stuInfo.idCardNumber],
       isPromoted: [stuInfo.isPromoted],
       isActive: [stuInfo.isActive]
     });
@@ -473,6 +475,25 @@ export class RegistrationComponent {
     })
   }
 
+  convertIntoTwoDegit(n:string) {
+    n = String(n)
+    if (n.length == 1)
+      n = '0' + n
+    return n
+  }
+
+  //generate id card Number
+  async generateIdCardNumber(){
+    const academicyear = ""+this.studentFormControll.academicYearCode.value;
+    const standardCode = ""+this.studentFormControll.standard.value;
+    const className = this.standard.filter(data=>{
+      return data.classCode===standardCode;
+    })
+    const rollNumber = this.convertIntoTwoDegit(this.studentFormControll.rollNumber.value);
+    this.studentFormControll.idCardNumber.setValue("TGS"+academicyear.substring(0,4)+className[0].className+"/"+rollNumber);
+  }
+
+
   // generate registration number
   async generateRegistrationNumber() {
     // Get the values from the form group
@@ -572,6 +593,7 @@ export class RegistrationComponent {
   async finalSubmit() {
 
     this.reg = new Registration();
+    await this.generateIdCardNumber();
 
     this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
     this.reg = { ...this.reg, ...this.parentgroup.value };
@@ -579,7 +601,7 @@ export class RegistrationComponent {
     this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
     this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
-    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);    
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
@@ -601,6 +623,40 @@ export class RegistrationComponent {
       }
     });
   }
+
+
+    //  update student details
+    async updateStudentDetails() {
+
+      this.reg = new Registration();
+      this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
+      this.reg = { ...this.reg, ...this.parentgroup.value };
+      this.reg = { ...this.reg, ...this.addressgroup.value };
+      this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
+      this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
+  
+      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);    
+  
+      // const formData = new FormData();
+      // if (this.documents && this.documents.length > 0) {
+      //   for (let i = 0; i <= this.documents.length - 1; i++) {
+      //     formData.append("documentUpload[]", <File>this.documents[i]);
+      //   }
+      // }
+  
+      // if (this.selectedPhoto) {
+      //   formData.append("profileImage", <File>this.selectedPhoto);
+      // }
+  
+      // formData.append("requestData", JSON.stringify(this.reg))
+  
+      this.registrationService.updateStudentdetails(this.reg).subscribe(res => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          this.resetForm();
+          this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
+        }
+      });
+    }
 
   resetForm() {
     this.studentgroup.reset();

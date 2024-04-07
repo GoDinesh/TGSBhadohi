@@ -18,6 +18,7 @@ export class Registration {
         category        : string;
         registrationNo  : string;
         enrollmentType  : string; 
+        idCardNumber    : string;
 
         fatherName      : string; 
         fatherAadharNo  : string;
@@ -61,6 +62,7 @@ export class Registration {
         pendingFees: number;
         discountAmount:number;
         isTotalFeesPaid: boolean;
+        temp: string;
 
         fees: Fees[]=[]
         
@@ -78,6 +80,7 @@ export class Registration {
             this.religion        =''; 
             this.category        ='';
             this.registrationNo  ='';
+            this.idCardNumber    ='';
 
             this.fatherName      = ''; 
             this.fatherAadharNo  = '';
@@ -116,6 +119,8 @@ export class Registration {
             this.pendingFees=0;
             this.discountAmount=0;
             this.isTotalFeesPaid = false;
+
+            this.temp = ''
         }
      
 }

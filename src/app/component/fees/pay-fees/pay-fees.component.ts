@@ -22,6 +22,9 @@ import { FeesReceiptComponent } from '../fees-receipt/fees-receipt.component';
 import * as moment from 'moment';
 import { BookAndDressFeesService } from 'src/app/service/masters/book-and-dress-fees.service';
 import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model';
+import { ToWords } from 'to-words';
+import { Class } from 'src/app/model/master/class.model';
+import { AcademicYear } from 'src/app/model/master/academic-year.model';
 
 @Component({
   selector: 'app-pay-fees',
@@ -29,25 +32,27 @@ import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model
   styleUrls: ['./pay-fees.component.css']
 })
 export class PayFeesComponent {
-  allClassList: Observable<ResponseModel> = new Observable();
-  academicYearList: Observable<ResponseModel> = new Observable();
+ // allClassList: Observable<ResponseModel> = new Observable();
+ // academicYearList: Observable<ResponseModel> = new Observable();
   studentList: Observable<ResponseModel> = new Observable();
   registrationModel: Observable<ResponseModel> = new Observable();
   studentFeeStructure: StudentFeesStructure = new StudentFeesStructure();
+  classList: Class[] = [];
+  academicyearList: AcademicYear[]=[];
   feesModel: Fees = new Fees();
   formgroup: FormGroup;
   callBylinkFlag: boolean = true;
   discountChanged: boolean = false;
   previewReceiptFlag: boolean = true;
-  maxDate = new Date(); 
+  maxDate = new Date();
   //set min date value in onInit function
   minDate = new Date();
-  abc = {"name":'',"contact":''}
-  parentDetails:any []=[];
+  abc = { "name": '', "contact": '' }
+  parentDetails: any[] = [];
   studentDetails: Registration = new Registration();
   bookAndDressFeesModel: BookAndDressFees = new BookAndDressFees();
   feesData: Fees[] = [];
-  
+
   totalAmount: number = 0;
   installmentDiscount: number = 0;
   totalDiscount: number = 0;
@@ -65,6 +70,9 @@ export class PayFeesComponent {
   annualAndRegistrationFee: number = 0;
   termFeesPendingAmount: number = 0;
   regPendingFees: number = 0;
+
+  receiptnumber: string = '0';
+  toWords = new ToWords();
 
   @ViewChild('printAndSaveButton') printAndSaveButton: ElementRef<HTMLElement>;
 
@@ -90,7 +98,6 @@ export class PayFeesComponent {
     //fees.paymentDate = new Date();
     this.createFeesForm(fees);
     this.customInit();
-
     this.minDate.setDate(this.minDate.getDate() - 3);
   }
 
@@ -101,7 +108,7 @@ export class PayFeesComponent {
       registrationNo: ['', [Validators.required]],
 
       amount: [fees.amount, [Validators.required]],
-      paymenttype: [fees.paymenttype,[]],
+      paymenttype: [fees.paymenttype, []],
       paymentMode: [fees.paymentMode, [Validators.required]],
       paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
@@ -119,29 +126,46 @@ export class PayFeesComponent {
 
   async callParam() {
     this.route.queryParams.subscribe((params) => {
-          if(params.data!=undefined){
-          const txndata = JSON.parse(params.data);
-          const decryptedData = this.authService.getDecryptText(txndata);
-          const data = JSON.parse(decryptedData);
-          this.callBylinkFlag = false;
+      if (params.data != undefined) {
+        const txndata = JSON.parse(params.data);
+        const decryptedData = this.authService.getDecryptText(txndata);
+        const data = JSON.parse(decryptedData);
+        this.callBylinkFlag = false;
 
-          //To open the selected student fees details
-          this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
-          this.feesFormControll.classCode.setValue(data.standard);
-          this.feesFormControll.registrationNo.setValue(data.registrationNo);
-          this.getFeesDetails();
+        //To open the selected student fees details
+        this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
+        this.feesFormControll.classCode.setValue(data.standard);
+        this.feesFormControll.registrationNo.setValue(data.registrationNo);
+        this.getFeesDetails();
       }
 
     })
   }
 
   loadClass() {
-    this.allClassList = this.classService.getAllActiveClass();
+    this.classService.getAllActiveClass().subscribe(res=>{
+      this.classList = res.data
+    });
   };
 
   loadAcademicyear() {
-    this.academicYearList = this.academicYearService.getAllActiveAcademicYear();
+     this.academicYearService.getAllActiveAcademicYear().subscribe(res=>{
+      this.academicyearList= res.data;
+     });
   };
+
+  getFeesReceiptNumber() {
+    this.feesService.getMaxReceiptNo().subscribe((res) => {
+      console.log("receipt number"+res);
+      
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        this.receiptnumber = res.data;
+        this.payFees();
+      }else{
+        this.sweetAlertService.showAlert("Receipt Number", "Receipt Number not Generated", msgTypes.ERROR, msgTypes.OK_KEY);
+      }
+    })
+  }
 
   loadStudentList() {
     this.studentList = new Observable();
@@ -152,7 +176,7 @@ export class PayFeesComponent {
     this.studentList = this.registrationService.studentList(reg);
   }
 
-  academicYearChange(){
+  academicYearChange() {
     this.feesFormControll.registrationNo.reset();
     this.feesFormControll.classCode.reset();
   }
@@ -167,36 +191,34 @@ export class PayFeesComponent {
     feesModel.academicYearCode = this.feesFormControll.academicYearCode.value;
     feesModel.classCode = this.feesFormControll.classCode.value;
     feesModel.registrationNo = this.feesFormControll.registrationNo.value;
-    
+
     this.bookFeesPaid = 0;
-    this.dressFeesPaid = 0 ;
+    this.dressFeesPaid = 0;
 
     this.feesService.getPaidFeesOfStudent(feesModel).subscribe(async (res) => {
       this.feesData = res.data;
-      console.log("Fees",res.data);
-      
-      if(res.data.length>0){
+      if (res.data.length > 0) {
         this.previewReceiptFlag = false;
       }
       for (let i = 0; i < res.data.length; i++) {
-        if(res.data[i].paymenttype==='Fees'){
+        if (res.data[i].paymenttype === 'Fees') {
           this.feesPaid = this.feesPaid + res.data[i].amount;
-        }else if(res.data[i].paymenttype==='Book Fees'){
+        } else if (res.data[i].paymenttype === 'Book Fees') {
           this.bookFeesPaid += res.data[i].amount;
-        }else if(res.data[i].paymenttype==='Dress Fees'){
+        } else if (res.data[i].paymenttype === 'Dress Fees') {
           this.dressFeesPaid += res.data[i].amount;
         }
       }
-      
+
       this.amountPaidTillDate = this.feesPaid;
       const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
       this.clearFormArray(control);
       await this.displayFeesDetails();
-     
+
     });
   }
 
- async displayFeesDetails() {
+  async displayFeesDetails() {
     const registration: Registration = new Registration();
     registration.academicYearCode = this.feesFormControll.academicYearCode.value;
     registration.standard = this.feesFormControll.classCode.value;
@@ -222,14 +244,14 @@ export class PayFeesComponent {
       this.regPendingFees = 0;
       this.termFeesPendingAmount = 0;
       this.totalIndividualDiscount = 0;
-      this.totalAmountAfterDiscount=0;
-      this.totalIndividualDiscount=0;
+      this.totalAmountAfterDiscount = 0;
+      this.totalIndividualDiscount = 0;
 
       const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
       for (let i = 0; i < installment.length; i++) {
 
         this.totalAmount += installment[i].installmentAmount;
-        this.installmentDiscount+=installment[i].installmentDiscount;
+        this.installmentDiscount += installment[i].installmentDiscount;
         this.totalAmountAfterDiscount += (installment[i].installmentAmountAfterDiscount - installment[i].discountAmount);
         this.totalIndividualDiscount += Number(installment[i].discountAmount);
 
@@ -246,10 +268,10 @@ export class PayFeesComponent {
 
         //first and second installment is preserved for registration and annual 
         //hence term fees calculate from third installment
-        if(i<=1){
+        if (i <= 1) {
           this.annualAndRegistrationFee += installment[i].installmentAmount;
           this.regPendingFees += payable;
-        }else{
+        } else {
           this.termFees += installment[i].installmentAmount;
           this.termFeesPendingAmount += payable;
         }
@@ -273,14 +295,14 @@ export class PayFeesComponent {
         )
       }
     })
-    
+
   }
 
 
-  prepareParentDetails(registartion: Registration){
+  prepareParentDetails(registartion: Registration) {
     this.parentDetails = [];
-    this.parentDetails.push({"name":registartion.fatherName, "contact":registartion.fatherContactNo});
-    this.parentDetails.push({"name":registartion.motherName, "contact":registartion.motherContactNumber});
+    this.parentDetails.push({ "name": registartion.fatherName, "contact": registartion.fatherContactNo });
+    this.parentDetails.push({ "name": registartion.motherName, "contact": registartion.motherContactNumber });
   }
 
   resetForm() {
@@ -301,18 +323,18 @@ export class PayFeesComponent {
   }
 
   async save() {
-    if(this.feesFormControll.paymenttype.value === 'Fees'){
-      if(this.totalAmountAfterDiscount>=(Number(this.amountPaidTillDate) + Number(this.feesFormControll.amount.value))){
-          this.payFees();       
-      }else{
+    if (this.feesFormControll.paymenttype.value === 'Fees') {
+      if (this.totalAmountAfterDiscount >= (Number(this.amountPaidTillDate) + Number(this.feesFormControll.amount.value))) {
+        this.getFeesReceiptNumber();
+      } else {
         this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Total Fees", msgTypes.ERROR, msgTypes.OK_KEY);
       }
-    }else if(this.feesFormControll.paymenttype.value === 'Book Fees'){
-        if(Number(this.bookAndDressFeesModel.bookFees)>=(Number(this.bookFeesPaid) + Number(this.feesFormControll.amount.value))){
-            this.payFees();       
-        }else{
-          this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Book Fees", msgTypes.ERROR, msgTypes.OK_KEY);
-        }
+    } else if (this.feesFormControll.paymenttype.value === 'Book Fees') {
+      if (Number(this.bookAndDressFeesModel.bookFees) >= (Number(this.bookFeesPaid) + Number(this.feesFormControll.amount.value))) {
+        this.getFeesReceiptNumber();
+      } else {
+        this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Book Fees", msgTypes.ERROR, msgTypes.OK_KEY);
+      }
     }
     // else if(this.feesFormControll.paymenttype.value === 'Dress Fees'){
     //   let dressfees=0;
@@ -331,49 +353,61 @@ export class PayFeesComponent {
   }
 
   //pay fees
-  payFees(){
+  async payFees() {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
-    console.log(this.feesModel);
+    const year = this.feesModel.academicYearCode.substring(0,4);
     
-    
+    this.feesModel.receiptNo = ("TGS" + year + "/" + this.receiptnumber);
+    this.feesModel.idCardNumber = this.studentDetails.idCardNumber;
+    this.feesModel.amountInWords =  this.toWords.convert(Number(this.feesModel.amount));
+    const classData = this.classList.filter(data=>{
+        return data.classCode===this.feesModel.classCode;
+    })
+    this.feesModel.className =classData[0].className;
+    const academicdata = this.academicyearList.filter(data=>{
+      return data.academicYearCode===this.feesModel.academicYearCode;
+    })
+    this.feesModel.academicYear =academicdata[0].academicYear;
+
+
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
-        if (res.status === msgTypes.SUCCESS_MESSAGE){
-            if(this.feesModel.paymenttype==="Fees"){
-                this.studentDetails.paidFees = (Number(this.amountPaidTillDate) + Number(this.feesModel.amount));
-                this.studentDetails.pendingFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount));
-                this.studentDetails.totalFees = this.totalAmountAfterDiscount;
-                if(this.studentDetails.pendingFees===0){
-                  this.studentDetails.isTotalFeesPaid = true;
-                }else{
-                  this.studentDetails.isTotalFeesPaid = false;
-                }
-                this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res=>{
-                  if (res.status === msgTypes.SUCCESS_MESSAGE){
-                    this.clearPaymentDetails();
-                  }
-                });
-            }else{
-                this.clearPaymentDetails();
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          if (this.feesModel.paymenttype === "Fees") {
+            this.studentDetails.paidFees = (Number(this.amountPaidTillDate) + Number(this.feesModel.amount));
+            this.studentDetails.pendingFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount));
+            this.studentDetails.totalFees = this.totalAmountAfterDiscount;
+            if (this.studentDetails.pendingFees === 0) {
+              this.studentDetails.isTotalFeesPaid = true;
+            } else {
+              this.studentDetails.isTotalFeesPaid = false;
             }
+            this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res => {
+              if (res.status === msgTypes.SUCCESS_MESSAGE) {
+                this.clearPaymentDetails();
+              }
+            });
+          } else {
+            this.clearPaymentDetails();
+          }
 
-            let el: HTMLElement = this.printAndSaveButton.nativeElement;
-            el.click();
+          let el: HTMLElement = this.printAndSaveButton.nativeElement;
+          el.click();
         }
       });
     } catch (error) { }
   }
 
-  clearPaymentDetails(){
+  clearPaymentDetails() {
     this.feesFormControll.amount.reset();
     this.feesFormControll.paymentMode.reset();
     this.feesFormControll.remarks.reset();
     this.getFeesDetails();
   }
 
-  onDiscountReasonChange(){
+  onDiscountReasonChange() {
     this.discountChanged = true;
   }
 
@@ -415,8 +449,8 @@ export class PayFeesComponent {
 
   async updateFeeStructureDiscount() {
     // discount on registration fees 
-   // this.studentFeeStructure.regFeesDiscount = this.feesFormControll.regFeesDiscount.value;
-   // this.studentFeeStructure.regFeesDiscountReason = this.feesFormControll.regFeesDiscountReason.value;
+    // this.studentFeeStructure.regFeesDiscount = this.feesFormControll.regFeesDiscount.value;
+    // this.studentFeeStructure.regFeesDiscountReason = this.feesFormControll.regFeesDiscountReason.value;
 
     //discount on installment
     const control = <FormArray>this.formgroup.controls['studentFeesInstallment'];
@@ -425,20 +459,20 @@ export class PayFeesComponent {
       const installmentDiscount = control.value[i].discountAmount;
       const discountReason = control.value[i].discountReason;
       const installmentNumber = Number(control.value[i].installmentNumber);
-      
-      this.studentFeeStructure.studentFeesInstallment.map(installment=>{
-        if(installment.installmentAmount === installmentAmount && installmentNumber === Number(installment.installmentNumber)){
-              installment.discountAmount = installmentDiscount;
-              installment.discountReason = discountReason;
+
+      this.studentFeeStructure.studentFeesInstallment.map(installment => {
+        if (installment.installmentAmount === installmentAmount && installmentNumber === Number(installment.installmentNumber)) {
+          installment.discountAmount = installmentDiscount;
+          installment.discountReason = discountReason;
         }
       })
     }
 
-    this.studentFeesStructureService.insertStudentFeesStructure(this.studentFeeStructure).subscribe(res=>{
+    this.studentFeesStructureService.insertStudentFeesStructure(this.studentFeeStructure).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
-            this.discountChanged = false;
-            this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.STUDENT_FEES_STRUCTURE_UPDATED, msgTypes.SUCCESS, msgTypes.OK_KEY);
-            this.getFeesDetails();
+        this.discountChanged = false;
+        this.sweetAlertService.showAlert(msgTypes.SUCCESS_MESSAGE, msgTypes.STUDENT_FEES_STRUCTURE_UPDATED, msgTypes.SUCCESS, msgTypes.OK_KEY);
+        this.getFeesDetails();
       }
     });
 
@@ -447,7 +481,7 @@ export class PayFeesComponent {
   // lumpsumButtonClicked(){
   // this.isLumpsum = true;
   // }
-  openDialog(){
+  openDialog() {
     const dialogRef = this.dialog.open(FeesReceiptComponent, {
       data: [this.feesData, this.studentDetails],
     });
@@ -459,25 +493,25 @@ export class PayFeesComponent {
 
 
 
-//Book Fees related functions
-loadBookDressFees(){
-  this.payableBookFees =0;
-//  this.payableDressFees = 0;
-  const bookDressFees: BookAndDressFees = new BookAndDressFees();
-  bookDressFees.academicYearCode = this.feesFormControll.academicYearCode.value;
-  bookDressFees.standard = this.feesFormControll.classCode.value;
-  this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res=>{
-    if (res.status === msgTypes.SUCCESS_MESSAGE) {
-          this.bookAndDressFeesModel = res.data[0];
-          this.payableBookFees = Number(this.bookAndDressFeesModel.bookFees) - Number(this.bookFeesPaid);
-          // if(this.studentDetails.gender==='M')
-          //   this.payableDressFees = Number(this.bookAndDressFeesModel.boyDressFees) - Number(this.dressFeesPaid);
-          // else
-          //   this.payableDressFees = Number(this.bookAndDressFeesModel.girlDressFees) - Number(this.dressFeesPaid);
+  //Book Fees related functions
+  loadBookDressFees() {
+    this.payableBookFees = 0;
+    //  this.payableDressFees = 0;
+    const bookDressFees: BookAndDressFees = new BookAndDressFees();
+    bookDressFees.academicYearCode = this.feesFormControll.academicYearCode.value;
+    bookDressFees.standard = this.feesFormControll.classCode.value;
+    this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        this.bookAndDressFeesModel = res.data[0];
+        this.payableBookFees = Number(this.bookAndDressFeesModel.bookFees) - Number(this.bookFeesPaid);
+        // if(this.studentDetails.gender==='M')
+        //   this.payableDressFees = Number(this.bookAndDressFeesModel.boyDressFees) - Number(this.dressFeesPaid);
+        // else
+        //   this.payableDressFees = Number(this.bookAndDressFeesModel.girlDressFees) - Number(this.dressFeesPaid);
 
-    }
-  });
-}
+      }
+    });
+  }
 
 
 }

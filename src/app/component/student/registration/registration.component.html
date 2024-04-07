@@ -617,8 +617,13 @@
           <div class="card-footer preview-actions">
             <button class="btn btn-sm btn-secondary" matStepperPrevious>Back</button>
             <mat-slide-toggle (change)="toggleConfirm($event)">I confirm the details</mat-slide-toggle>
-            <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
-          </div>
+            <ng-container *ngIf="!updateFlag">
+              <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
+            </ng-container>
+            <ng-container *ngIf="updateFlag">
+              <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="updateStudentDetails()">Update</button>
+            </ng-container>
+            </div>
         </div>
       </div>
     </form>

@@ -37,10 +37,12 @@ export const appurl={
                 promote_student: '/promote-student',
                 update_status_as_inactive: '/update-status-as-inactive',
                 update_fees_details: '/update-fees-details',
+                update_student_details:'/update-student-details',
 
         menuurl_fees: '/fees',
                 pay_fees: '/pay-fees',
                 get_fees_by_date_class: '/get-fees-by-date-class',
+                get_receipt_number: '/get-receipt-number',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

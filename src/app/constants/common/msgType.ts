@@ -45,5 +45,7 @@ export const msgTypes = {
     TIME_GLOBAL_SCHOOL: 'TIME GLOBAL SCHOOL'
 
 
-    
+
+
+   
 }
