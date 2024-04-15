@@ -31,4 +31,11 @@ export class FeesService {
     const url  = this.requestUrl + appurl.get_receipt_number;
     return this.httpClient.get<ResponseModel>(url)
   }
+
+  // getFeesDetailsByReceiptNo(fees: Fees){
+  //   console.log(JSON.stringify(fees));
+    
+  //   const url  = this.requestUrl + appurl.get_receipt_number;
+  //   return this.httpClient.post<ResponseModel>(url, fees)
+  // }
 }

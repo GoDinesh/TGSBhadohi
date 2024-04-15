@@ -32,6 +32,7 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
     StudentCardComponent,
+    
     
 
     

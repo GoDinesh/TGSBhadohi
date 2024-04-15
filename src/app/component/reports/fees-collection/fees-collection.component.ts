@@ -33,6 +33,7 @@ export class FeesCollectionComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
+  totalCollection: number = 0;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
@@ -79,10 +80,10 @@ export class FeesCollectionComponent {
 
   createStudentForm(fees: Fees) {
     this.studentgroup = this.formBuilder.group({
-      standard: [fees.classCode,[Validators.required]],
+      standard: [fees.classCode],
       academicYearCode: [fees.academicYearCode,[Validators.required]],
-      startDate:[fees.startDate, [Validators.required]],
-      endDate: [ fees.endDate, [Validators.required]]
+      startDate:[fees.startDate],
+      endDate: [ fees.endDate]
      });
   }
 
@@ -130,13 +131,17 @@ export class FeesCollectionComponent {
     fees.endDate = moment(this.studentFormControll.endDate.value).format(msgTypes.YYYY_MM_DD);
 
     this.feesService.getPaidFeesOfStudent(fees).subscribe(res=>{
-     if(res.status === msgTypes.SUCCESS_MESSAGE){
+      this.totalCollection = 0;
+    if(res.status === msgTypes.SUCCESS_MESSAGE){
       if(res.data.length>0){
           this.posts = res.data;
-          if(this.posts.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
-          }
-        }
+          res.data.forEach((data:Fees) => {
+            this.totalCollection+=data.amount;
+          });
+      }else{
+        this.posts = [];
+        this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
+      }
       }
       })
   }
@@ -146,5 +151,6 @@ export class FeesCollectionComponent {
   resetForm() {
     this.createStudentForm(new Fees())
     this.posts = [];
+    this.totalCollection = 0;
   }
 }

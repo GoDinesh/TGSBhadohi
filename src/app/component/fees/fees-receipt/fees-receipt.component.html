@@ -35,16 +35,18 @@
             <th class="td-class">Remarks</th>
             <th class="td-class">Printed on the name of</th>
             <th class="td-class">Amount</th>
+            <th class="td-class">Print</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let fees of feesdetails;let i=index">
-            <td class="td-auto">{{fees.id}}</td>
-            <td class="td-auto">{{fees.paymentDate}}</td>
-            <td class="td-auto">{{fees.paymentMode}}</td>
-            <td class="td-auto">{{fees.remarks}}</td>
-            <td class="td-auto">{{fees.paymentReceivedBy}}</td>
-            <td class="td-auto">{{fees.amount}}</td>
+          <tr *ngFor="let feesModel of feesdetails;let i=index">
+            <td class="td-auto">{{feesModel.id}}</td>
+            <td class="td-auto">{{feesModel.paymentDate | dateFormatPipe}}</td>
+            <td class="td-auto">{{feesModel.paymentMode}}</td>
+            <td class="td-auto">{{feesModel.remarks}}</td>
+            <td class="td-auto">{{feesModel.paymentReceivedBy}}</td>
+            <td class="td-auto">{{feesModel.amount}}</td>
+            <td class="td-auto"><app-fees-receipt-printout [feesModel]="feesModel" ></app-fees-receipt-printout></td>
           </tr>
           <!-- <ng-container *ngIf="i===feesdetails.length">
           <tr>

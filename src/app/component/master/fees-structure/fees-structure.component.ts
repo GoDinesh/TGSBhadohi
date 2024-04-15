@@ -28,21 +28,21 @@ import * as moment from 'moment';
 export class FeesStructureComponent {
 
   editable: boolean | undefined;
-  trueFlag=true;
+  trueFlag = true;
   actionFlag = true;
   dtOptions: any = {};
   Count = [];
   //totalInstallmentAmount: number = 0;
   installmentFlag: boolean = false;
-  today = new Date(); 
-  maxDate= new Date();
+  today = new Date();
+  maxDate = new Date();
   minDate = new Date();
 
   installmentAmount: number = 0;
   installmentDiscount: number = 0;
-  installmentAfterDiscount: number =0 ;
+  installmentAfterDiscount: number = 0;
 
-  feesStructureModel: FeesStructure = new  FeesStructure();
+  feesStructureModel: FeesStructure = new FeesStructure();
   posts: Observable<ResponseModel> = new Observable();
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
@@ -50,19 +50,19 @@ export class FeesStructureComponent {
   formgroup: FormGroup;
 
 
-   constructor(private formBuilder: FormBuilder,
-          public validationMsg: ValidationErrorMessageService,
-          private classService: ClassService,
-          private discountReasonService: DiscountReasonService,
-          private academicYearService: AcademicYearService,
-          private feesStructureService: FeesStructureService,
-          private permissionService: PermissionService,
-          private router: Router,
-          private alertService: SweetAlertService,
-          ){
-   }
+  constructor(private formBuilder: FormBuilder,
+    public validationMsg: ValidationErrorMessageService,
+    private classService: ClassService,
+    private discountReasonService: DiscountReasonService,
+    private academicYearService: AcademicYearService,
+    private feesStructureService: FeesStructureService,
+    private permissionService: PermissionService,
+    private router: Router,
+    private alertService: SweetAlertService,
+  ) {
+  }
 
-   ngOnInit(){
+  ngOnInit() {
     this.createForm(new FeesStructure());
     this.updateEditable();
     this.customInit();
@@ -74,82 +74,82 @@ export class FeesStructureComponent {
     });
   }
 
-   createForm(feeStructure: FeesStructure) {
+  createForm(feeStructure: FeesStructure) {
     this.formgroup = this.formBuilder.group({
       feeStructureId: [feeStructure.feeStructureId],
-      classCode: [feeStructure.classCode,[Validators.required]],
-      academicYearCode: [feeStructure.academicYearCode,[Validators.required]],
-      enrollmentType:[feeStructure.enrollmentType,[Validators.required]],
-      noOfInstallments:[feeStructure.noOfInstallments,[]],
-      totalFees: [feeStructure.totalFees,[Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      classCode: [feeStructure.classCode, [Validators.required]],
+      academicYearCode: [feeStructure.academicYearCode, [Validators.required]],
+      enrollmentType: [feeStructure.enrollmentType, [Validators.required]],
+      noOfInstallments: [feeStructure.noOfInstallments, []],
+      totalFees: [feeStructure.totalFees, [Validators.required, Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       discountReasonCode: [feeStructure.discountReasonCode],
-      discountAmount: [feeStructure.discountAmount,[Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]], 
+      discountAmount: [feeStructure.discountAmount, [Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       netAmountAfterDiscount: [feeStructure.netAmountAfterDiscount],
-     // registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
-     // annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      // registrationFees: [feeStructure.registrationFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
+      // annualFees: [feeStructure.annualFees,[Validators.required ,Validators.minLength(1), Validators.maxLength(10), CustomValidation.amountValidation]],
       lumpsumAmount: [feeStructure.lumpsumAmount],
-     // annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
+      // annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
       regFeesDiscount: [feeStructure.regFeesDiscount],
       regFeesDiscountReason: [feeStructure.regFeesDiscountReason],
       installment: new FormArray([])
-      
+
 
     })
   }
 
-  addInstallment(){
+  addInstallment() {
     const control = <FormArray>this.formgroup.controls['installment'];
-    if(control.length===0){
+    if (control.length === 0) {
       control.push(
         new FormGroup({
           classCode: new FormControl(this.formgroup.controls.classCode.value),
           academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-          installmentNumber: new FormControl(control.length+1),
+          installmentNumber: new FormControl(control.length + 1),
           installmentType: new FormControl('Registration Fees'),
           installmentAmount: new FormControl(),
           installmentDiscount: new FormControl(),
           installmentDate: new FormControl(),
-          installmentAmountAfterDiscount:new FormControl(),        
+          installmentAmountAfterDiscount: new FormControl(),
         })
-        )
+      )
 
-        control.push(
-          new FormGroup({
-            classCode: new FormControl(this.formgroup.controls.classCode.value),
-            academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-            installmentNumber: new FormControl(control.length+1),
-            installmentType: new FormControl('Annual Fees'),
-            installmentAmount: new FormControl(),
-            installmentDiscount: new FormControl(),
-            installmentDate: new FormControl(),
-            installmentAmountAfterDiscount:new FormControl(),        
-          })
-          )
-    }else{
       control.push(
         new FormGroup({
           classCode: new FormControl(this.formgroup.controls.classCode.value),
           academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-          installmentNumber: new FormControl(control.length+1),
+          installmentNumber: new FormControl(control.length + 1),
+          installmentType: new FormControl('Annual Fees'),
+          installmentAmount: new FormControl(),
+          installmentDiscount: new FormControl(),
+          installmentDate: new FormControl(),
+          installmentAmountAfterDiscount: new FormControl(),
+        })
+      )
+    } else {
+      control.push(
+        new FormGroup({
+          classCode: new FormControl(this.formgroup.controls.classCode.value),
+          academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+          installmentNumber: new FormControl(control.length + 1),
           installmentType: new FormControl('Installment'),
           installmentAmount: new FormControl(),
           installmentDiscount: new FormControl(),
           installmentDate: new FormControl(),
-          installmentAmountAfterDiscount:new FormControl(),        
+          installmentAmountAfterDiscount: new FormControl(),
         })
-        )
-   }
+      )
+    }
   }
 
-  removeInstallment(index: number){
-    const control= <FormArray>this.formgroup.controls['installment'];
+  removeInstallment(index: number) {
+    const control = <FormArray>this.formgroup.controls['installment'];
     control.removeAt(index)
-    if(this.installmentAmount>0){
+    if (this.installmentAmount > 0) {
       this.installmentAmountChange()
     }
   }
 
-  get installmentFormGroups () {
+  get installmentFormGroups() {
     return this.formgroup.get('installment') as FormArray
   }
 
@@ -165,7 +165,7 @@ export class FeesStructureComponent {
       ]
     };
   }
- 
+
 
   customInit() {
     this.loadTable();
@@ -191,174 +191,186 @@ export class FeesStructureComponent {
     )
   };
 
-loadDiscountReason(){
-  this.discountReasonList = this.discountReasonService.getAllActiveDiscountReason().pipe(
-    map((res)=>{
+  loadDiscountReason() {
+    this.discountReasonList = this.discountReasonService.getAllActiveDiscountReason().pipe(
+      map((res) => {
         return res.data;
       })
     )
   };
 
-get formControll(){
-  return this.formgroup.controls;
-}
-
-async save(){
-  const flag = await this.validateAllInstallmentrecord();
-  if(flag){
-          this.feesStructureModel = {...this.feesStructureModel,...this.formgroup.value}
-          this.feesStructureModel.installment.map(installment=>{
-                installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
-          })
-          this.feesStructureModel.discountAmount = this.installmentDiscount;
-          this.feesStructureModel.netAmountAfterDiscount = this.installmentAfterDiscount;
-          this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
-          //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
-          try{
-                  this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res=>{
-                    if(res.status === msgTypes.SUCCESS_MESSAGE){
-                    this.getTableRecord();
-                    this.resetForm();
-                    }
-                  });
-            }catch(error){}
+  get formControll() {
+    return this.formgroup.controls;
   }
-}
 
-async validateAllInstallmentrecord(){
-  let flag=true;
-  const control = <FormArray>this.formgroup.controls['installment'];
-  for (let i = 0; i < control.value.length; i++) {
-    const installmentDate = control.value[i].installmentDate;
-    if(installmentDate===null){
-      flag=false;
-      this.alertService.showAlert(msgTypes.ERROR, "Installment date should not be blank",msgTypes.ERROR, msgTypes.OK_KEY)
-      break;
+  async save() {
+    const flag = await this.validateAllInstallmentrecord();
+    if (flag) {
+      this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
+      this.feesStructureModel.installment.map(installment => {
+        installment.installmentDate = moment(installment.installmentDate).format(msgTypes.YYYY_MM_DD);
+      })
+      this.feesStructureModel.discountAmount = this.installmentDiscount;
+      this.feesStructureModel.netAmountAfterDiscount = this.installmentAfterDiscount;
+      this.feesStructureModel.noOfInstallments = this.feesStructureModel.installment.length;
+      //this.feesStructureModel.annualFeesDate = moment(this.feesStructureModel.annualFeesDate).format(msgTypes.YYYY_MM_DD);
+      try {
+        this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe(res => {
+          if (res.status === msgTypes.SUCCESS_MESSAGE) {
+            this.getTableRecord();
+            this.resetForm();
+          }
+        });
+      } catch (error) { }
     }
   }
-  return flag;
-}
 
-getTableRecord(){
-    this.posts = this.feesStructureService.getAllFeesStructure();
-}
-
- //change the status
- async slideToggleChange(element: MatSlideToggleChange, data: FeesStructure) {
-  const flag = await this.alertService.updateAlert()
-  if (flag) {
-    data.active = !data.active;
-    this.feesStructureService.insertFeesStructure(data).subscribe();
-  } else {
-    element.source.checked = data.active;
+  async validateAllInstallmentrecord() {
+    let flag = true;
+    const control = <FormArray>this.formgroup.controls['installment'];
+    for (let i = 0; i < control.value.length; i++) {
+      const installmentDate = control.value[i].installmentDate;
+      if (installmentDate === null) {
+        flag = false;
+        this.alertService.showAlert(msgTypes.ERROR, "Installment date should not be blank", msgTypes.ERROR, msgTypes.OK_KEY)
+        break;
+      }
+    }
+    return flag;
   }
-}
 
-//set value in formfield to update
-setValueToUpdate(data: FeesStructure) {
-  this.createForm(data);
-  const installment = data.installment;
-  const control = <FormArray>this.formgroup.controls['installment'];
-  for(let i=0;i<installment.length;i++){
-  control.push(
-    new FormGroup({
-      classCode: new FormControl(installment[i].classCode),
-      academicYearCode: new FormControl(installment[i].academicYearCode),
-      installmentNumber: new FormControl(installment[i].installmentNumber),
-      installmentType: new FormControl(installment[i].installmentType),
-      installmentAmount: new FormControl(installment[i].installmentAmount),
-      installmentDiscount: new FormControl(installment[i].installmentDiscount),      
-      installmentDate: new FormControl(installment[i].installmentDate),
-      installmentAmountAfterDiscount: new FormControl(installment[i].installmentAmountAfterDiscount),
-  })
-  )
+  getTableRecord() {
+    this.posts = this.feesStructureService.getAllFeesStructure();
+  }
 
-  this.installmentAmountChange();
-}
-  
-  this.actionFlag = false;
-}
+  //change the status
+  async slideToggleChange(element: MatSlideToggleChange, data: FeesStructure) {
+    const flag = await this.alertService.updateAlert()
+    if (flag) {
+      data.active = !data.active;
+      this.feesStructureService.insertFeesStructure(data).subscribe();
+    } else {
+      element.source.checked = data.active;
+    }
+  }
 
-//update the record
-// update() {
-//   this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
-//   this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe((res) => {
-//     if (res.status === msgTypes.SUCCESS_MESSAGE) {
-//       this.getTableRecord();
-//       this.resetForm();
-//     }
-//   });
-// }
+  //set value in formfield to update
+  setValueToUpdate(data: FeesStructure) {
+    this.createForm(data);
+    const installment = data.installment;
+    const control = <FormArray>this.formgroup.controls['installment'];
+    for (let i = 0; i < installment.length; i++) {
+      control.push(
+        new FormGroup({
+          classCode: new FormControl(installment[i].classCode),
+          academicYearCode: new FormControl(installment[i].academicYearCode),
+          installmentNumber: new FormControl(installment[i].installmentNumber),
+          installmentType: new FormControl(installment[i].installmentType),
+          installmentAmount: new FormControl(installment[i].installmentAmount),
+          installmentDiscount: new FormControl(installment[i].installmentDiscount),
+          installmentDate: new FormControl(installment[i].installmentDate),
+          installmentAmountAfterDiscount: new FormControl(installment[i].installmentAmountAfterDiscount),
+        })
+      )
+
+      this.installmentAmountChange();
+    }
+
+    this.actionFlag = false;
+  }
+
+  //update the record
+  // update() {
+  //   this.feesStructureModel = { ...this.feesStructureModel, ...this.formgroup.value }
+  //   this.feesStructureService.insertFeesStructure(this.feesStructureModel).subscribe((res) => {
+  //     if (res.status === msgTypes.SUCCESS_MESSAGE) {
+  //       this.getTableRecord();
+  //       this.resetForm();
+  //     }
+  //   });
+  // }
 
 
-resetForm(){
-  this.createForm(new FeesStructure())
-  this.installmentFlag= false;
-  //this.totalInstallmentAmount =0 ;
-  this.installmentAmount = 0;
-  this.installmentDiscount = 0;
-  this.installmentAfterDiscount =0 ;
-}
+  resetForm() {
+    this.createForm(new FeesStructure())
+    this.installmentFlag = false;
+    //this.totalInstallmentAmount =0 ;
+    this.installmentAmount = 0;
+    this.installmentDiscount = 0;
+    this.installmentAfterDiscount = 0;
+  }
 
-totalFeesChange(){
+  totalFeesChange() {
     let totalFees = (this.formControll.totalFees.value);
-    if(totalFees.NaN){
+    if (totalFees.NaN) {
       totalFees = 0;
     }
 
     let discountAmount = this.formControll.discountAmount.value;
-    if(discountAmount.NaN){
+    if (discountAmount.NaN) {
       discountAmount = 0;
     }
 
-    this.formControll.netAmountAfterDiscount.setValue((Number(totalFees)-Number(discountAmount)));
-    this.formControll.lumpsumAmount.setValue((Number(totalFees)-Number(discountAmount)));
+    this.formControll.netAmountAfterDiscount.setValue((Number(totalFees) - Number(discountAmount)));
+    this.formControll.lumpsumAmount.setValue((Number(totalFees) - Number(discountAmount)));
 
     const control = <FormArray>this.formgroup.controls['installment'];
-    if(control.length>0){
+    if (control.length > 0) {
       this.installmentAmountChange();
     }
 
     // this.totalInstallmentAmount=(this.formControll.totalFees.value-this.formControll.discountAmount.value-this.formControll.registrationFees.value-this.formControll.annualFees.value)
-}
+  }
 
-get studentInstallmentFormGroups() {
-  return this.formgroup.get('installment') as FormArray
-}
+  get studentInstallmentFormGroups() {
+    return this.formgroup.get('installment') as FormArray
+  }
 
-installmentAmountChange(){
-    this.installmentAmount = 0 ;
+  installmentAmountChange() {
+    this.installmentAmount = 0;
     this.installmentDiscount = 0;
-    this.installmentAfterDiscount = 0 ;
+    this.installmentAfterDiscount = 0;
 
 
     const control = <FormArray>this.formgroup.controls['installment'];
     for (let i = 0; i < control.value.length; i++) {
       const inst = Number(control.value[i].installmentAmount);
       const disc = Number(control.value[i].installmentDiscount);
-      this.studentInstallmentFormGroups.controls[i].get('installmentAmountAfterDiscount')?.setValue(inst-disc);
+      this.studentInstallmentFormGroups.controls[i].get('installmentAmountAfterDiscount')?.setValue(inst - disc);
       this.installmentAfterDiscount += Number(control.value[i].installmentAmountAfterDiscount);
-      this.installmentAmount  += inst;
-      this.installmentDiscount +=disc;
+      this.installmentAmount += inst;
+      this.installmentDiscount += disc;
     }
 
-    if(this.installmentAmount===Number(this.formControll.totalFees.value) 
-     // && this.installmentDiscount===Number(this.formControll.discountAmount.value)
-    //  && this.installmentAfterDiscount === Number(this.formControll.netAmountAfterDiscount.value)
-      ){
-        this.installmentFlag = true;
-    }else{
-        this.installmentFlag = false;
+    if (this.installmentAmount === Number(this.formControll.totalFees.value)
+      // && this.installmentDiscount===Number(this.formControll.discountAmount.value)
+      //  && this.installmentAfterDiscount === Number(this.formControll.netAmountAfterDiscount.value)
+    ) {
+      this.installmentFlag = true;
+    } else {
+      this.installmentFlag = false;
     }
-}
+  }
 
-academicYearChange(){
-  const academicYear = this.formgroup.controls.academicYearCode.value;
-  const year1 = (""+academicYear).substring(0,4);
-  const year2 = (""+academicYear).substring(4,8);
-  this.minDate = new Date(year1+"-04-01");
-  this.maxDate = new Date(year2+"-03-31");
- }
+  academicYearChange() {
+    const academicYear = this.formgroup.controls.academicYearCode.value;
+    const year1 = ("" + academicYear).substring(0, 4);
+    const year2 = ("" + academicYear).substring(4, 8);
+    this.minDate = new Date(year1 + "-04-01");
+    this.maxDate = new Date(year2 + "-03-31");
+  }
 
+  installmentDateChange(index: number) {
+    if (index > 0) {
+      const control = <FormArray>this.formgroup.controls['installment'];
+      for (let i = 0; i < control.value.length; i++) {
+        const instDate = new Date(control.value[i].installmentDate);
+        const selectedDate = new Date(control.value[index].installmentDate);
+        if (selectedDate.getTime() < instDate.getTime()) {
+          this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Installment date should be greater than previous entered date", msgTypes.ERROR, msgTypes.OK_KEY)
+        }
+      }
+    }
+  }
 
 }

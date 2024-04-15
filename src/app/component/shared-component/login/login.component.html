@@ -1,10 +1,10 @@
 <section class="h-90 gradient-form" style="background-color: #eee;">
   <div class="container py-1 h-90">
     <div class="row d-flex justify-content-center align-items-center h-90">
-      <div class="col-xl-10">
+      <!-- <div class="col-xl-10"> -->
         <div class="card rounded-3 text-black">
           <div class="row g-0">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
               <div class="p-4"><a  routerLink="/home"><i class="fa fa-arrow-left ms-3"></i>&nbsp;Back</a></div>
               <div class="card-body p-md-5 mx-md-4">
                 <div class="text-center">
@@ -30,7 +30,7 @@
                     <label class="form-label" for="form2Example11">Username / Email</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <span class="form-control input-group-text" id="email"><i class="fa fa-user"></i></span>
+                        <span class="form-control" id="email"><i class="fa fa-user"></i></span>
                       </div>
                       <input formControlName="email" autocomplete="off" id="email" class="form-control"  placeholder="Enter User Name" aria-describedby="email"/>                    
                     </div>
@@ -41,7 +41,7 @@
                     <label class="form-label" for="form2Example22">Password</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
-                        <span class="form-control input-group-text" id="email"><i class="fa fa-lock"></i></span>
+                        <span class="form-control" id="email"><i class="fa fa-lock"></i></span>
                       </div>
                     <input 
                     [type] = "showPassword ? 'text' : 'password'" 
@@ -53,7 +53,7 @@
                     id="form2Example22" 
                     class="form-control" />
                     <div class="input-group-append">
-                      <span class="input-group-text form-control" (click)="toggleShowPassword()">
+                      <span class="form-control" (click)="toggleShowPassword()">
                         <i class="fa fa-eye"*ngIf="showPassword" ></i>
                         <i class="fa fa-eye-slash"*ngIf="!showPassword"></i>
                       </span>
@@ -70,7 +70,7 @@
 
               </div>
             </div>
-            <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+            <!-- <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
               <div class="text-white ">
                 <h4 class="mb-4"><u>Importance of Education! </u></h4>
                 <table>
@@ -86,10 +86,12 @@
                   <tr><td>10-</td><td><p class="small mb-1">“Never be afraid to try something new. Remember amateurs built the ark, but professionals built the Titanic.”</p></td></tr>
                 </table>
                </div>
-            </div>
+            </div> -->
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </section>
+
+

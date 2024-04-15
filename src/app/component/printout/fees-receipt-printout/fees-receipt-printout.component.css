@@ -1,0 +1,20 @@
+.contact_details{
+    font-size: 10;
+    padding-right: 10;
+    float: right;
+}
+
+.table_td_width1{
+    width: 40%;
+}
+
+.table_td_width2{
+    width: 60%;
+}
+
+.shift_right{
+    float: right;
+}
+.content_table_width{
+    width: 100%;
+}

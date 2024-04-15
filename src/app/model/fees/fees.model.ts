@@ -22,6 +22,10 @@ export class Fees {
 
   startDate: string;
   endDate: string;
+  rollnumber: string;
+  balanceFees: number;
+  balanceBookFees: number;
+  updatedBy: String;
   //    registrationId: string;
 
 

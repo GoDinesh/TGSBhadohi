@@ -168,7 +168,7 @@
                                                 <td><input type="text" readonly formControlName="amountPaid"
                                                         class="form-control form-control-sm blue-colour"></td>
                                                 <td><input type="text" readonly formControlName="netPayable"
-                                                        #netpayable class="form-control form-control-sm" [ngClass]="{'green-colour' : netpayable.value=='0', 'orange-colour': netpayable.value!='0'}"></td>
+                                                        #netpayable class="form-control form-control-sm" [ngClass]="{'green-colour' : netpayable.value=='0', 'red-colour': netpayable.value!='0'}"></td>
                                             </tr>
                                         </ng-container>
                                     </ng-container>
@@ -216,7 +216,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label>Net Payable </label>
-                                        <input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'orange-colour': payableBookFees!=0}" class="form-control form-control-sm">
+                                        <input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'red-colour': payableBookFees!=0}" class="form-control form-control-sm">
                                     </div>
                                     
 
@@ -346,13 +346,12 @@
                             <div class="justify-content-start">
                                 <div>
                                     <button (click)="openDialog()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Preview Receipt</button>
-                                    <button class="btn btn-sm btn-warning m-2 d-none" 
-                                        printSectionId="print-section" 
-                                        ngxPrint 
-                                        [useExistingCss]="true" 
-                                        #printAndSaveButton>Print</button>
 
-                                    <!-- <button class="btn btn-sm btn-warning m-2" 
+                                    <button class="btn btn-sm btn-info m-2 d-none" printSectionId="print-section" [useExistingCss]="true" ngxPrint #printAndSaveButton>Print</button>
+                                    
+                                     <!-- <app-fees-receipt-printout [feesModel]="feesModel" ></app-fees-receipt-printout> -->
+                                    
+                                        <!-- <button class="btn btn-sm btn-warning m-2" 
                                         [disabled]="!formgroup.valid || discountChanged"
                                         (click)="printAndSave()">Save & Print</button> -->
                                     <button class="btn btn-sm btn-success m-2"
@@ -378,92 +377,138 @@
 </div>
 
 
-
-<div  id="print-section" class="d-none"> 
-    <ng-container *ngFor="let number of [0,1]">
-   <div class="container border pt-2">
-        <div class="row">
-            <div class="col-md-12 p-4">
-                <div class="text-center">                
-                    <div><img class=" p-1 logo" src="/assets/website/img/logo.png"  width="150" height="120"></div>
-                    <div>Indra Gandi Marg, Chaksaif, Bhadohi - 221401</div>
-                    <div><b>FEES RECEIPT</b></div>
+<ng-container *ngIf="feesModel">
+    <div  id="print-section" class="d-none"> 
+       
+            <ng-container *ngFor="let number of [0,1]">
+        <div class="container border pt-2">
+                <div class="row">
+                    <div class="col-md-12 float-right">
+                        <div class="contact_details">Phone: 8957666699  Mail: timebdh@gmail.com  Web: tgsbhadohi.com</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-center p-2">
-                    <ng-container *ngIf="number===0"><h5><u>STUDENT COPY</u></h5> </ng-container> 
-                    <ng-container *ngIf="number===1"><h5><u>SCHOOL COPY</u></h5> </ng-container> 
-            </div>
-            <hr>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                 <table class="p-2">
-                    <tr>
-                        <td>Date</td>
-                        <td><b>: {{feesModel.paymentDate | dateFormatPipe}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Receipt No</td>
-                        <td><b>: {{feesModel.receiptNo}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>ID Card Number</td>
-                        <td><b>: {{feesModel.idCardNumber}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Class</td>
-                        <td><b>: {{feesModel.className}}</b></td>
-                    </tr>
-                 </table>
-            </div>
-            <div class="col-md-8 p-2">
-                <table class="background-color">
-                    <tr>
-                        <td>Received with thanks From</td>
-                        <td><b>: {{feesModel.paymentReceivedBy}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>an amount of rupees (fig) </td>
-                        <td><b>: {{feesModel.amount}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>(words) </td>
-                        <td><b>: {{feesModel.amountInWords}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>towards </td>
-                        <td><b>: {{feesModel.paymenttype}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>for Academic year</td>
-                        <td><b>: {{feesModel.academicYear}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Paymant through </td>
-                        <td><b>: {{feesModel.paymentMode}}</b></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="row mt-5 mb-5">
-            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 p-4">
+                        <div class="text-center">                
+                            <div><img class="p-1 logo" src="/assets/website/img/logo.png"  width="150" height="120"></div>
+                            <div>Indra Gandi Marg, Chaksaif, Bhadohi - 221401</div>
+                            <div><b>FEES RECEIPT</b></div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                            <ng-container *ngIf="number===0"><h5><u><b><div style="padding-bottom: 10;">STUDENT COPY</div></b></u></h5> </ng-container> 
+                            <ng-container *ngIf="number===1"><h5><u><b><div style="padding-bottom: 10;">SCHOOL COPY</div></b></u></h5> </ng-container> 
+                    </div>
+                    <hr>
+                </div>
+                <div>
+                    <table class="content_table_width">
+                        <tr>
+                            <td class="table_td_width1">
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td><b>: {{feesModel.studentName}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date</td>
+                                            <td><b>: {{feesModel.paymentDate}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Receipt No</td>
+                                            <td><b>: {{feesModel.receiptNo}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ID Card Number</td>
+                                            <td><b>: {{feesModel.idCardNumber}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Class</td>
+                                            <td><b>: {{feesModel.className}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Roll Number </td>
+                                            <td><b>: {{feesModel.rollnumber}}</b></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="table_td_width1">
+                                <div>
+                                    <table>
+                                        <tr>
+                                            <td>Received with thanks From</td>
+                                            <td><b>: {{feesModel.paymentReceivedBy}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>an amount of rupees (fig) </td>
+                                            <td><b>: {{feesModel.amount}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>(words) </td>
+                                            <td><b>: {{feesModel.amountInWords}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>towards </td>
+                                            <td><b>: {{feesModel.paymenttype}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>for Academic year</td>
+                                            <td><b>: {{feesModel.academicYear}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Paymant through </td>
+                                            <td><b>: {{feesModel.paymentMode}}</b></td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>Balance Fees </td>
+                                            <td><b>: {{feesModel.balanceFees}}/-</b></td>
+                                        </tr>
+                                        <tr *ngIf="feesModel.balanceBookFees>0">
+                                            <td>Balance Book Fees </td>
+                                            <td><b>: {{feesModel.balanceBookFees}}/-</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Remarks </td>
+                                            <td><b>: {{feesModel.remarks}}/-</b></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                   
+                </div>
+                <div class="row mt-5 mb-5">
+                    <div class="col-md-12 float-right">
+                        <div>
+                            <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
+                            <div>Authorised Singnatory</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        Fees receipt generated by: {{feesModel.updatedBy}}
+                    </div>
 
-            </div>
-            <div class="col-md-6">
-                <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
-                <div>Authorised Singnatory</div>
-            </div>
+                </div>
+                <div class="row border">
+                    <div class="col-md-12">
+                        <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realistion. Kids shall not attend the course in case the cheque is dishonured
+                            due to any reason.</div>
+                    </div>
+                </div>
         </div>
-        <div class="row border">
-            <div class="col-md-12">
-                <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realistion. Kids shall not attend the course in case the cheque is dishonured
-                    due to any reason.</div>
-            </div>
-        </div>
-   </div>
-   
-    </ng-container>
-</div>
+        <br><br>
+        
+            </ng-container>
+       
+    </div>
+</ng-container>

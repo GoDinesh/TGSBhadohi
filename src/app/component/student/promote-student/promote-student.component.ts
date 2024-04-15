@@ -35,6 +35,8 @@ export class PromoteStudentComponent {
   allClassList: Observable<Class[]> = new Observable();
   classList: Class[] = [];
   academicYearList: Observable<AcademicYear[]> = new Observable();
+  promoteYear: AcademicYear[] = [];
+  promoteAcademicYearList: AcademicYear[]=[];
   editable: boolean | undefined;
   checkedFlag: boolean = false;
 
@@ -127,6 +129,7 @@ export class PromoteStudentComponent {
   loadAcademicyear() {
     this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
+        this.promoteYear = res.data;
         return res.data;
       })
     )
@@ -292,8 +295,6 @@ export class PromoteStudentComponent {
             this.checkedFlag = false;
           }
         })
-
-
       }
 
       isFeesStructureAvailable() {
@@ -324,5 +325,15 @@ export class PromoteStudentComponent {
 
       handleInputChange(formcontrol: FormControl){
         formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first: string) => first.toLocaleUpperCase()));
+      }
+
+      academicYearChange(){
+            const selectedYear= this.studentgroup.controls.academicYearCode.value;
+            this.promoteAcademicYearList=[];
+            this.promoteAcademicYearList = this.promoteYear.filter(res=>{
+              return res.academicYearCode.substring(0,4)===selectedYear.substring(4,8); 
+            })
+            this.resetForm();
+            this.studentFormControll.academicYearCode.setValue(selectedYear);
       }
     }

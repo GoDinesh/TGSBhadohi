@@ -17,6 +17,6 @@ export class User {
         this.email = ''; 
         this.password = '';
         this.confirmPassword = ''; 
-        this.active = false;
+        this.active = true;
     }
 }

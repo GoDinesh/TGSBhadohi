@@ -357,11 +357,11 @@ export class PayFeesComponent {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
-    const year = this.feesModel.academicYearCode.substring(0,4);
+    const year = this.feesModel.academicYearCode.substring(2,4)+"-"+this.feesModel.academicYearCode.substring(6,8);
     
     this.feesModel.receiptNo = ("TGS" + year + "/" + this.receiptnumber);
     this.feesModel.idCardNumber = this.studentDetails.idCardNumber;
-    this.feesModel.amountInWords =  this.toWords.convert(Number(this.feesModel.amount));
+    this.feesModel.amountInWords =  this.toWords.convert(Number(this.feesModel.amount))+" Only";
     const classData = this.classList.filter(data=>{
         return data.classCode===this.feesModel.classCode;
     })
@@ -370,6 +370,18 @@ export class PayFeesComponent {
       return data.academicYearCode===this.feesModel.academicYearCode;
     })
     this.feesModel.academicYear =academicdata[0].academicYear;
+    this.feesModel.rollnumber = this.studentDetails.rollNumber.toString();
+    if(this.feesModel.paymenttype==='Fees'){
+      this.feesModel.balanceFees = (Number(this.totalNetPayable) - Number(this.feesModel.amount)) 
+    }else{
+      this.feesModel.balanceFees = this.totalNetPayable 
+    }
+    if(this.feesModel.paymenttype==='Book Fees'){
+      this.feesModel.balanceBookFees = (Number(this.payableBookFees) - Number(this.feesModel.amount)) 
+    }else{
+      this.feesModel.balanceBookFees = this.payableBookFees 
+    }
+    this.feesModel.updatedBy = this.authService.getLoginUserName();
 
 
     try {

@@ -490,9 +490,18 @@ export class RegistrationComponent {
       return data.classCode===standardCode;
     })
     const rollNumber = this.convertIntoTwoDegit(this.studentFormControll.rollNumber.value);
-    this.studentFormControll.idCardNumber.setValue("TGS"+academicyear.substring(0,4)+className[0].className+"/"+rollNumber);
+    this.studentFormControll.idCardNumber.setValue("TGS"+academicyear.substring(2,4)+"-"+academicyear.substring(6,8)+className[0].className+"/"+rollNumber);
   }
 
+
+  convertIntoThreeDegit(n:string) {
+    n = String(n)
+    if (n.length == 1){
+      n = '00' + n
+    }else if (n.length == 2)
+      n = '0' + n
+    return n
+  }
 
   // generate registration number
   async generateRegistrationNumber() {
@@ -506,14 +515,16 @@ export class RegistrationComponent {
 
     this.registrationService.getMaxRegistrationNumber().subscribe(res => {
       if(res.status === msgTypes.SUCCESS_MESSAGE){
-        this.registrationNumber = academicYear + standard + res.data[0].rollNumber;
+        let academic = academicYear.substring(2,4)
+        academic += academicYear.substring(6,8)
+        this.registrationNumber = "TGS"+academic+standard+"/"+ this.convertIntoThreeDegit(res.data[0].rollNumber);
         this.studentFormControll.registrationNo.setValue(this.registrationNumber);
 
-      this.registrationService.getRollNumber(reg).subscribe(res=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
-        }
-      })
+        this.registrationService.getRollNumber(reg).subscribe(res=>{
+          if(res.status === msgTypes.SUCCESS_MESSAGE){
+            this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
+          }
+        })
       
      }else{
       this.studentFormControll.registrationNo.setValue("");

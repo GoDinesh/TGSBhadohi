@@ -7,10 +7,12 @@ import { SharedModule } from 'src/app/shared-module';
 import { FeesReceiptComponent } from './fees-receipt/fees-receipt.component';
 
 
+
 @NgModule({
   declarations: [
     PayFeesComponent,
-    FeesReceiptComponent
+    FeesReceiptComponent,
+    
   ],
   imports: [
     CommonModule,

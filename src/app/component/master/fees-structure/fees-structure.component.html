@@ -295,7 +295,7 @@
               <div>
                 <div class="datepicker-container">
                   <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
-                    formControlName="installmentDate" class="form-control form-control-sm" readonly>
+                    formControlName="installmentDate" class="form-control form-control-sm" (dateChange)="installmentDateChange(i)" readonly>
                   <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
                     [disabled]="false"></mat-datepicker-toggle>
                   <mat-datepicker #picker [disabled]="false"></mat-datepicker>

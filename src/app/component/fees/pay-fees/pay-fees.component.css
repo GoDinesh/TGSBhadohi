@@ -75,7 +75,9 @@ border-style: dashed;
 font-size: 14px;
 font-weight: 400;
 }
-
-.background-color{
-    background-color:yellow;
+.red-colour{
+    background-color: rgb(229, 38, 38);
+    color: white;
+    font-weight: bold;
 }
+

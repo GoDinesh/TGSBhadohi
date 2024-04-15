@@ -5,7 +5,7 @@
     <div class="form-group">
       <label class="form-label required">Academic Year</label>
       <mat-select formControlName="academicYearCode" class="form-control form-control-sm"
-        placeholder="Select Academic Year">
+        placeholder="Select Academic Year" (selectionChange)="academicYearChange()">
         <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
         <div *ngIf="academicYearList | async as postdata ">
           <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
@@ -141,13 +141,19 @@
       <label class="form-label required">Academic Year</label>
       <mat-select formControlName="promotedAcademicYearCode" class="form-control form-control-sm"
         placeholder="Select Academic Year">
-        <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
-        <div *ngIf="academicYearList | async as postdata ">
-          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+        <!-- <input type="text" class="form-control  form-control-sm" #filterAcademicYear> -->
+        <div *ngIf="promoteAcademicYearList.length>0"> 
+          <mat-option *ngFor="let data of promoteAcademicYearList"
             [value]="data.academicYearCode">
             {{data.academicYear}}
           </mat-option>
         </div>
+        <!-- <div *ngIf="promoteYear.length==0"> 
+          <mat-option class="no-record" disabled
+            value="">
+            Academic Year Not available
+          </mat-option>
+        </div> -->
       </mat-select>
       <div class="invalid-feedback">{{validationMsg.getErrorMessage(promotedStudentFormControll.promotedAcademicYearCode,"Academic
         Year")}} </div>
