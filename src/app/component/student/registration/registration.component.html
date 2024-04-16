@@ -35,8 +35,8 @@
             <input matInput [matDatepicker]="picker" [max]="today" formControlName="dateOfBirth" class="form-control form-control-sm"
               readonly>
             <mat-datepicker-toggle matSuffix [for]="picker"
-              class="toggle-datepicker-icon-position" [disabled]="updateFlag"></mat-datepicker-toggle>
-            <mat-datepicker #picker [disabled]="updateFlag"></mat-datepicker>
+              class="toggle-datepicker-icon-position"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </div>
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
@@ -128,7 +128,7 @@
             autocomplete="off">
             <mat-option value="" disabled>Select one</mat-option>
             <mat-option value="Hinduism">Hinduism</mat-option>
-            <mat-option value="Islam">Islam</mat-option>
+            <mat-option value="Muslim">Muslim</mat-option>
             <mat-option value="Christianity">Christianity</mat-option>
             <mat-option value="Buddhism">Buddhism</mat-option>
           </mat-select>
@@ -136,8 +136,28 @@
             {{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}
           </div>
         </div>
-
         <!-- end::Religion -->
+
+        <!-- Begin::Blood group -->
+        <div class="form-group">
+          <label class="form-label required">Blood Group</label>
+          <mat-select class="custom-select-option form-control form-control-sm" formControlName="bloodGroup"
+            autocomplete="off">
+            <mat-option value="" disabled>Select one</mat-option>
+            <mat-option value="A+">A+</mat-option>
+            <mat-option value="A-">A-</mat-option>
+            <mat-option value="B+">B+</mat-option>
+            <mat-option value="B-">B-</mat-option>
+            <mat-option value="O+">O+</mat-option>
+            <mat-option value="O-">O-</mat-option>
+            <mat-option value="AB+">AB+</mat-option>
+            <mat-option value="AB-">AB-</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(studentFormControll.religion,"Religion")}}
+          </div>
+        </div>
+        <!-- End:: Blood gropu -->
 
         <!-- begin::Category -->
         <div class="form-group">

@@ -96,12 +96,20 @@ export class AdmissionAnalyticsComponent {
       const classes = classRes.data;
       this.posts = studentRes.data;
 
-      const categories = classes.map((c: { className: any; }) => c.className);
-      const classCode = classes.map((c: { classCode: any; }) => c.classCode);
-
+      const categories = classes.map((c: { className: string; }) => c.className);
+      const classCode = classes.map((c: { classCode: string; }) => c.classCode);
+      
       // Count the number of students for each class
       const studentCounts = classCode.map((standard: string) => {
         return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear).length;
+      });
+
+      const boysCounts = classCode.map((standard: string) => {
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender==='M').length;
+      });
+
+      const girlsCounts = classCode.map((standard: string) => {
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender==='F').length;
       });
 
       this.chartOptions = {
@@ -147,7 +155,65 @@ export class AdmissionAnalyticsComponent {
               });
             }
           }
-        }]
+        },
+        {
+          type: 'column',
+          name: 'Boys',
+          data: boysCounts,
+          events: {
+            click: (event:any) => {
+              this.selectedClass = event.point.category as string;
+              this.selectedStudents = event.point.y as number;
+
+              const selectedClassObj = classes.find((c: { className: string; }) => c.className === this.selectedClass);
+
+              if (selectedClassObj) {
+                this.selectedClassCode = selectedClassObj.classCode;
+              }
+              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender==='M');
+              const dialogRef = this.dialog.open(StudentDetailsModalComponent, {
+                data: {
+                  students: this.studentDetails,
+                  class: this.selectedClass
+                }
+              });
+
+              dialogRef.afterClosed().subscribe(result => {
+                console.log(`Dialog closed: ${result}`);
+              });
+            }
+          }
+        },
+        {
+          type: 'column',
+          name: 'Girls',
+          data: girlsCounts,
+          events: {
+            click: (event:any) => {
+              this.selectedClass = event.point.category as string;
+              this.selectedStudents = event.point.y as number;
+
+              const selectedClassObj = classes.find((c: { className: string; }) => c.className === this.selectedClass);
+
+              if (selectedClassObj) {
+                this.selectedClassCode = selectedClassObj.classCode;
+              }
+              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender==='F');
+              const dialogRef = this.dialog.open(StudentDetailsModalComponent, {
+                data: {
+                  students: this.studentDetails,
+                  class: this.selectedClass
+                }
+              });
+
+              dialogRef.afterClosed().subscribe(result => {
+                console.log(`Dialog closed: ${result}`);
+              });
+            }
+          }
+          
+        }
+      ]
       };
 
     });

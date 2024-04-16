@@ -27,7 +27,7 @@
                         <th scope="row">Registration No.</th>
                         <td>{{ student.registrationNo}}</td>
                         <th scope="row" class="ps-3">Date of Birth</th>
-                        <td>{{ student.dateOfBirth }}</td>
+                        <td>{{ student.dateOfBirth | dateFormatPipe }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Student Name</th>
@@ -36,13 +36,13 @@
                     <tr>
                         <th scope="row">Class</th>
                         <td>{{ student.standard }}</td>
-                        <th scope="row" class="ps-3">Email Id</th>
-                        <td></td>
+                        <th scope="row" class="ps-3">Parents Email Id</th>
+                        <td>{{student.fatherEmailId}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Contact Number</th>
                         <td>{{student.fatherContactNo}}</td>
-                        <th scope="row" class="ps-3">Res. Tel No.</th>
+                        <th scope="row"></th>
                         <td></td>
                     </tr>
                     <tr>
@@ -69,8 +69,8 @@
                     </tr>
                     <tr>
                         <th scope="row">Profession</th>
-                        <td>{{student.motherProfession}}</td>
                         <td>{{student.fatherProfession}}</td>
+                        <td>{{student.motherProfession}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Qualification</th>
@@ -90,23 +90,21 @@
                 <thead></thead>
                 <tbody class="additional-details">
                     <tr>
-                        <th scope="row">Minority</th>
-                        <td></td>
+                        <!-- <th scope="row">Minority</th>
+                        <td></td> -->
                         <th scope="row" class="ps-3">Religion</th>
                         <td>{{student.religion}}</td>
-                    </tr>
-                    <tr>
                         <th scope="row">Category</th>
                         <td>{{student.category}}</td>
-                        <th scope="row" class="ps-3">Blood Group</th>
-                        <td></td>
                     </tr>
                     <tr>
-                        <th scope="row">Medical History</th>
-                        <td></td>
+                        
+                        <th scope="row" class="ps-3">Blood Group</th>
+                        <td>{{student.bloodGroup}}</td>
                         <th scope="row" class="ps-3">Emergency Contact</th>
-                        <td>{{student.emergencyNumber}}</td>
+                        <td>{{student.emergencyNumber}} ( {{student.emergencyContactPerson}} ) </td>
                     </tr>
+                    
                     <tr>
                         <th scope="row">Nationality</th>
                         <td>{{student.country}}</td>

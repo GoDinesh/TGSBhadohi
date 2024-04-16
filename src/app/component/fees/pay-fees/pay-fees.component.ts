@@ -333,7 +333,7 @@ export class PayFeesComponent {
       if (Number(this.bookAndDressFeesModel.bookFees) >= (Number(this.bookFeesPaid) + Number(this.feesFormControll.amount.value))) {
         this.getFeesReceiptNumber();
       } else {
-        this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Book Fees", msgTypes.ERROR, msgTypes.OK_KEY);
+        this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than SSM Fees", msgTypes.ERROR, msgTypes.OK_KEY);
       }
     }
     // else if(this.feesFormControll.paymenttype.value === 'Dress Fees'){

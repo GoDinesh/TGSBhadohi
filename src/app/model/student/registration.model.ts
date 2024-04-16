@@ -15,6 +15,7 @@ export class Registration {
         academicYearCode: string; 
         aadhaarNumber   : string; 
         religion        : string; 
+        bloodGroup      : string;
         category        : string;
         registrationNo  : string;
         enrollmentType  : string; 
@@ -78,6 +79,7 @@ export class Registration {
             this.academicYearCode=''; 
             this.aadhaarNumber   =''; 
             this.religion        =''; 
+            this.bloodGroup      ='';
             this.category        ='';
             this.registrationNo  ='';
             this.idCardNumber    ='';

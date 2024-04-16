@@ -9,11 +9,16 @@
     <div class="custom-content">
       <div class="row custom-row" *ngFor="let student of data.students">
         <div class="col-md-2 avatar-cell">
-          <img [src]="student.profileImage.link" alt="Student's avatar" class="avatar">
+          <ng-container *ngIf="student.profileImage!=null">
+            <img [src]="student.profileImage.link" alt="Student's avatar" class="avatar">
+          </ng-container>
+          <ng-container *ngIf="student.profileImage==null">
+            <img src="/assets/images/no_image.png" alt="Student's avatar" class="avatar">
+          </ng-container>
         </div>
         <div class="col-md-7 details-cell">
-          <strong>{{ student.studentName }}</strong><br>
-          <small>{{ student.standard }}</small>
+          <strong>{{ student.studentName }} Parent-{{student.fatherName}}</strong><br>
+          <small>{{ student.standard }} DOB-{{student.gender}} </small>
         </div>
         <div class="col-md-3 action-cell">
           <button class="btn btn-sm btn-info btn-sm" (click)="viewDetails(student)">View Profile</button>
