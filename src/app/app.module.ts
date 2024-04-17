@@ -29,6 +29,7 @@ import { StudentCardComponent } from './component/pdf-card/student-card/student-
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
+import { LoaderComponent } from './component/shared-component/loader/loader.component';
 
 
 
@@ -47,6 +48,7 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
     StudentCardComponent,
+   
     
     
 
@@ -69,7 +71,7 @@ import { ApiInterceptor } from './core/interceptors/api.interceptor';
     BreadcrumbModule,
     SharedModule,
     CoreModule,
-    
+    LoaderComponent,
     
     
   ],

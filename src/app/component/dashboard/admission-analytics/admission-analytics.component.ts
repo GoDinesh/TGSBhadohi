@@ -23,6 +23,7 @@ export class AdmissionAnalyticsComponent {
   posts: Registration[] = [];
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
+  totalStudents:number = 0;
 
   constructor(private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -52,7 +53,7 @@ export class AdmissionAnalyticsComponent {
   formgroup = new FormGroup({
     academicYearCode: new FormControl(),
   });
- 
+
   createForm(academicyear: AcademicYear) {
     this.formgroup = this.formBuilder.group({
       academicYearCode: [academicyear.academicYearCode]
@@ -75,7 +76,7 @@ export class AdmissionAnalyticsComponent {
 
   }
 
-  async customInit(){
+  async customInit() {
     await this.loadAcademicyear();
     this.formgroup.controls.academicYearCode.setValue(this.currentAcademicYear)
     this.updateChartData();
@@ -98,18 +99,23 @@ export class AdmissionAnalyticsComponent {
 
       const categories = classes.map((c: { className: string; }) => c.className);
       const classCode = classes.map((c: { classCode: string; }) => c.classCode);
+
+      // Count the number of total students
+      this.totalStudents = this.posts.filter(post => post.isActive === true).length;
       
+
+
       // Count the number of students for each class
       const studentCounts = classCode.map((standard: string) => {
         return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear).length;
       });
 
       const boysCounts = classCode.map((standard: string) => {
-        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender==='M').length;
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'M').length;
       });
 
       const girlsCounts = classCode.map((standard: string) => {
-        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender==='F').length;
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'F').length;
       });
 
       this.chartOptions = {
@@ -133,7 +139,7 @@ export class AdmissionAnalyticsComponent {
           name: 'Students',
           data: studentCounts,
           events: {
-            click: (event:any) => {
+            click: (event: any) => {
               this.selectedClass = event.point.category as string;
               this.selectedStudents = event.point.y as number;
 
@@ -161,7 +167,7 @@ export class AdmissionAnalyticsComponent {
           name: 'Boys',
           data: boysCounts,
           events: {
-            click: (event:any) => {
+            click: (event: any) => {
               this.selectedClass = event.point.category as string;
               this.selectedStudents = event.point.y as number;
 
@@ -170,7 +176,7 @@ export class AdmissionAnalyticsComponent {
               if (selectedClassObj) {
                 this.selectedClassCode = selectedClassObj.classCode;
               }
-              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender==='M');
+              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender === 'M');
               const dialogRef = this.dialog.open(StudentDetailsModalComponent, {
                 data: {
                   students: this.studentDetails,
@@ -189,7 +195,7 @@ export class AdmissionAnalyticsComponent {
           name: 'Girls',
           data: girlsCounts,
           events: {
-            click: (event:any) => {
+            click: (event: any) => {
               this.selectedClass = event.point.category as string;
               this.selectedStudents = event.point.y as number;
 
@@ -198,7 +204,7 @@ export class AdmissionAnalyticsComponent {
               if (selectedClassObj) {
                 this.selectedClassCode = selectedClassObj.classCode;
               }
-              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender==='F');
+              this.studentDetails = this.posts.filter(student => student.standard === this.selectedClassCode && student.academicYearCode === academicYear && student.gender === 'F');
               const dialogRef = this.dialog.open(StudentDetailsModalComponent, {
                 data: {
                   students: this.studentDetails,
@@ -211,9 +217,9 @@ export class AdmissionAnalyticsComponent {
               });
             }
           }
-          
+
         }
-      ]
+        ]
       };
 
     });
@@ -224,14 +230,14 @@ export class AdmissionAnalyticsComponent {
     const nextYear = currentYear + 1;
     return `${currentYear}${nextYear}`;
   }
-  
+
 
   async loadAcademicyear() {
     this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
         return res.data;
       })
-      
+
     )
   };
 

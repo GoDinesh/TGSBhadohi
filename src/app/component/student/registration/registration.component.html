@@ -140,7 +140,7 @@
 
         <!-- Begin::Blood group -->
         <div class="form-group">
-          <label class="form-label required">Blood Group</label>
+          <label class="form-label">Blood Group</label>
           <mat-select class="custom-select-option form-control form-control-sm" formControlName="bloodGroup"
             autocomplete="off">
             <mat-option value="" disabled>Select one</mat-option>
@@ -276,9 +276,9 @@
 
         <!-- begin::Father Email Id -->
         <div class="form-group">
-          <label class="form-label">Father Email Id</label>
+          <label class="form-label">Parents Email</label>
           <input class="form-control form-control-sm" formControlName="fatherEmailId" autocomplete="off">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Father Email
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Parents Email
             Id")}}</div>
         </div>
         <!-- end::Father Email Id -->
@@ -574,7 +574,7 @@
             <!-- Student Photo and Basic Details -->
             <div class="row">
               <div class="col-md-9">
-                <h5>Student Details</h5>
+                <h3><b><u>Student Details</u></b></h3>
                 <div class="row">
                   <div class="col-md-4">
                     <p><strong>Name:</strong> {{ studentFormControll.studentName.value }}</p>
@@ -583,12 +583,12 @@
                   </div>
                   <div class="col-md-4">
                     <p><strong>Gender:</strong> {{ studentFormControll.gender.value }}</p>
-                    <p><strong>Standard:</strong> {{ studentFormControll.standard.value }}</p>
+                    <p><strong>Standard:</strong> {{ studentFormControll.standard.value }} ( {{studentFormControll.enrollmentType.value}}  )</p>
                     <p><strong>Category:</strong> {{ studentFormControll.category.value }}</p>
                   </div>
                   <div class="col-md-4">
                     <p><strong>Adhar Number:</strong> {{ studentFormControll.aadhaarNumber.value }}</p>
-                    <p><strong>DOB:</strong> {{ studentFormControll.dateOfBirth.value }}</p>
+                    <p><strong>DOB:</strong> {{ studentFormControll.dateOfBirth.value | dateFormatPipe }}</p>
                     <p><strong>Religion:</strong> {{ studentFormControll.religion.value }}</p>
                   </div>
                 </div>
@@ -601,7 +601,7 @@
 
             <!-- Additional Sections (Student Details, Parent Details, etc.) -->
             <div *ngFor="let section of getSections()">
-              <h5>{{ section.title }}</h5>
+              <h3><b><u>{{ section.title }}</u></b></h3>
               <div class="row">
                 <div class="col-md-4" *ngFor="let field of section.fields">
                   <p><strong>{{ field.label }}:</strong> {{ field.value }}</p>
@@ -611,7 +611,7 @@
             </div>
 
             <!-- Uploaded Documents -->
-            <h5>Uploaded Documents</h5>
+            <h3><b><u>Uploaded Documents</u></b></h3>
             <div *ngIf="documents.length > 0">
               <table class="table table-bordered">
                 <thead>

@@ -306,7 +306,7 @@ export class RegistrationComponent {
     this.studentgroup = this.formBuilder.group({
       registrationId: [stuInfo.registrationId],
       rollNumber: [stuInfo.rollNumber],
-      studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
       gender: [stuInfo.gender, [Validators.required]],
       dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
       standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
@@ -364,7 +364,7 @@ export class RegistrationComponent {
     this.lastSchoolFormGroup = this.formBuilder.group({
       schoolName: [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
       tcNumber: [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
-      passedClass: [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.numeric]],
+      passedClass: [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       passedClassMarks: [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
       schoolAddress: [lastSchoolInfo.schoolAddress, [Validators.minLength(2), Validators.maxLength(100), CustomValidation.plainText]],
     })

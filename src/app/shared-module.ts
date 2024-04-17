@@ -37,6 +37,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { ClearFieldsDirective } from './core/directives/clear-fields.directive';
 import { FeesReceiptPrintoutComponent } from './component/printout/fees-receipt-printout/fees-receipt-printout.component';
+import { LoaderComponent } from './component/shared-component/loader/loader.component';
 //import { IvyCarouselModule } from 'angular-responsive-carousel';
 //import { CarouselModule } from 'ngx-owl-carousel-o';
 //used to set the date format of material date picker
@@ -84,7 +85,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     MatCardModule,
    //IvyCarouselModule
    CarouselModule,
-   FeesReceiptPrintoutComponent
+   FeesReceiptPrintoutComponent,
+   LoaderComponent
 
    
    
@@ -131,7 +133,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     CarouselModule,
 
     ClearFieldsDirective,
-    FeesReceiptPrintoutComponent
+    FeesReceiptPrintoutComponent,
+    LoaderComponent
     
   ],
   providers: [

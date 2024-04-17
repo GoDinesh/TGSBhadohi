@@ -1,7 +1,7 @@
 export const appurl={
     //Prod    
     //baseurl: 'https://13.48.143.218:8080',
-   // baseurl: 'https://api.tgsbhadohi.com',
+    //baseurl: 'https://api.tgsbhadohi.com',
 
     //local
     baseurl: 'http://localhost:8000',
