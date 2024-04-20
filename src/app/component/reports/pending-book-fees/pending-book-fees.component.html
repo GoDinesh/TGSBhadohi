@@ -57,14 +57,13 @@
          <th>S.No</th> 
          <!-- <th>Photo</th> -->
          <th>Student Name</th>
-         <th>Standard</th>
          <th>Academic Year</th>
-         <th>Enrollment Type</th>
-         <th>Father Name</th>
-         <th>Total Fees</th>
-         <th>Discount</th>
-         <th>Paid Amount</th>
-         <th>Pending Fees</th>
+         <th>Standard</th>
+         <th>R.No.</th>
+         <!-- <th>Enrollment Type</th> -->
+         <th>Total SSM Fees</th>
+         <th>Paid SSM Fees</th>
+         <th>Pending SSM Fees</th>
          <th>Action</th>
        </tr>
      </thead>
@@ -72,14 +71,14 @@
        <tr *ngFor="let post of posts;let i=index">
          <td class="td-sno">{{i+1}}</td>
          <td class="td-large">{{ post.studentName}}</td>
-         <td class="td-small">{{ post.standard}}</td>
          <td class="td-medium">{{ post.academicYearCode}}</td>
-         <td class="td-medium">{{ post.enrollmentType}}</td>
-         <td class="td-large">{{ post.fatherName}}</td>
-         <td class="td-medium">{{post.totalFees}}</td>
-         <td class="td-medium">{{post.discountAmount}}</td>
-         <td class="td-medium">{{post.paidFees}}</td>
-         <td class="td-medium font-colour">{{post.pendingFees}}</td>
+         <td class="td-medium">{{ post.standard}}</td>
+         <td class="td-small">{{ post.rollNumber}}</td>         
+         <!-- <td class="td-medium">{{ post.enrollmentType}}</td> -->
+         <!-- <td class="td-large">{{ post.fatherName}}</td> -->
+         <td class="td-medium">{{post.bookFees}}</td>
+         <td class="td-medium">{{post.paidBookFees}}</td>
+         <td class="td-medium font-colour">{{post.pendingBookFees}}</td>
        
          <td class="td-action">  
            <a (click)="payFees(post)"><i class="fa fa-money fa-lg"></i></a>

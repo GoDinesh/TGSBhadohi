@@ -10,6 +10,7 @@ export class Registration {
         studentName     : string;
         gender          : string;
         dateOfBirth     : string; 
+        dateOfAdmission : string;
         standard        : string; 
         section         : string; 
         academicYearCode: string; 
@@ -64,6 +65,10 @@ export class Registration {
         discountAmount:number;
         isTotalFeesPaid: boolean;
         temp: string;
+        bookFees: number;
+        pendingBookFees: number;
+        paidBookFees: number;
+        isTotalBookFeesPaid: boolean;
 
         fees: Fees[]=[]
         
@@ -74,6 +79,7 @@ export class Registration {
             this.studentName     ='';
             this.gender          ='';
             this.dateOfBirth     =''; 
+            this.dateOfAdmission = '';
             this.standard        =''; 
             this.section         =''; 
             this.academicYearCode=''; 
@@ -123,6 +129,10 @@ export class Registration {
             this.isTotalFeesPaid = false;
 
             this.temp = ''
+            this.bookFees = 0;
+            this.pendingBookFees = 0;
+            this.paidBookFees = 0;
+            this.isTotalBookFeesPaid = false;
         }
      
 }

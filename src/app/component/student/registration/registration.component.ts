@@ -24,6 +24,8 @@ import { forEach } from 'jszip';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import * as moment from 'moment';
 import { AuthService } from 'src/app/service/common/auth.service';
+import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model';
+import { BookAndDressFeesService } from 'src/app/service/masters/book-and-dress-fees.service';
 
 @Component({
   selector: 'app-registration',
@@ -42,6 +44,7 @@ export class RegistrationComponent {
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
   today = new Date(); 
+  bookFees: number =0;
   // myFiles:string [] = [];
 
   //Upload Student Photo
@@ -62,6 +65,7 @@ export class RegistrationComponent {
     gender: new FormControl(),
     // parentContactNumber : new FormControl(),
     dateOfBirth: new FormControl(),
+    dateOfAdmission: new FormControl(),
     standard: new FormControl(),
     section: new FormControl(),
     academicYearCode: new FormControl(),
@@ -135,6 +139,7 @@ export class RegistrationComponent {
     private alertService: SweetAlertService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private bookDressFeesService: BookAndDressFeesService
   ) {
   }
 
@@ -309,6 +314,7 @@ export class RegistrationComponent {
       studentName: [stuInfo.studentName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
       gender: [stuInfo.gender, [Validators.required]],
       dateOfBirth: [stuInfo.dateOfBirth, [Validators.required]],
+      dateOfAdmission: [stuInfo.dateOfAdmission, [Validators.required]],
       standard: [{ value: stuInfo.standard, disabled: this.updateFlag }, [Validators.required]],
       // standard: [stuInfo.standard, [Validators.required]],
       section: [stuInfo.section, [Validators.required]],
@@ -328,17 +334,17 @@ export class RegistrationComponent {
 
   createParentForm(parentInfo: Registration | Partial<Registration>) {
     this.parentgroup = this.formBuilder.group({
-      fatherName: [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      fatherName: [parentInfo.fatherName, [Validators.required, Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
       fatherAadharNo: [parentInfo.fatherAadharNo, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       fatherContactNo: [parentInfo.fatherContactNo, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
       fatherQualification: [parentInfo.fatherQualification, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       fatherProfession: [parentInfo.fatherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       fatherEmailId: [parentInfo.fatherEmailId, [CustomValidation.emailId]],
-      motherName: [parentInfo.motherName, [Validators.required, CustomValidation.alphabetsWithSpace, Validators.minLength(3), Validators.maxLength(50)]],
+      motherName: [parentInfo.motherName, [Validators.required, CustomValidation.plainText, Validators.minLength(3), Validators.maxLength(50)]],
       motherAadharNumber: [parentInfo.motherAadharNumber, [Validators.minLength(12), Validators.maxLength(12), CustomValidation.aadhaarValidation]],
       motherContactNumber: [parentInfo.motherContactNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
       motherProfession: [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
-      guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphanumaricSpace]],
+      guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
 
     });
   }
@@ -347,7 +353,7 @@ export class RegistrationComponent {
     this.addressgroup = this.formBuilder.group({
       country: [addressInfo.country,],
       state: [addressInfo.state,],
-      city: [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.alphanumaricSpace]],
+      city: [addressInfo.city, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.plainText]],
       pincode: [addressInfo.pincode, [Validators.minLength(6), Validators.maxLength(6), CustomValidation.numeric]],
       area: [addressInfo.area, [Validators.minLength(3), Validators.maxLength(100), CustomValidation.plainText]],
     });
@@ -355,14 +361,14 @@ export class RegistrationComponent {
 
   createEmergencyContactForm(contactInfo: Registration | Partial<Registration>) {
     this.emergencyContactFormGroup = this.formBuilder.group({
-      emergencyContactPerson: [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      emergencyContactPerson: [contactInfo.emergencyContactPerson, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
       emergencyNumber: [contactInfo.emergencyNumber, [Validators.minLength(10), Validators.maxLength(10), CustomValidation.numeric]],
     });
   }
 
   createLastSchoolForm(lastSchoolInfo: Registration | Partial<Registration>) {
     this.lastSchoolFormGroup = this.formBuilder.group({
-      schoolName: [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphabetsWithSpace]],
+      schoolName: [lastSchoolInfo.schoolName, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.plainText]],
       tcNumber: [lastSchoolInfo.tcNumber, [Validators.minLength(2), Validators.maxLength(50), CustomValidation.alphanumaric]],
       passedClass: [lastSchoolInfo.passedClass, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       passedClassMarks: [lastSchoolInfo.passedClassMarks, [Validators.minLength(2), Validators.maxLength(3), CustomValidation.numeric]],
@@ -614,7 +620,10 @@ export class RegistrationComponent {
     this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
     this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
-    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);    
+    this.reg.bookFees = this.bookFees;
+    this.reg.pendingBookFees =  this.bookFees;
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD); 
+    this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD);
 
     const formData = new FormData();
     if (this.documents && this.documents.length > 0) {
@@ -648,7 +657,8 @@ export class RegistrationComponent {
       this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
       this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
   
-      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);    
+      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);  
+      this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD)  ;
   
       // const formData = new FormData();
       // if (this.documents && this.documents.length > 0) {
@@ -714,5 +724,31 @@ export class RegistrationComponent {
   handleInputChange(formcontrol: FormControl){  
     formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
   }
+
+
+//Book Fees related functions
+loadBookFees() {
+  this.bookFees=0;
+
+  const bookDressFees: BookAndDressFees = new BookAndDressFees();
+  bookDressFees.academicYearCode = this.studentgroup.controls.academicYearCode.value;
+  bookDressFees.standard = this.studentgroup.controls.standard.value;
+
+  if(bookDressFees.academicYearCode.length>0 && bookDressFees.standard.length>0){
+    this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        if(res.data.length>0){
+          this.bookFees=res.data[0].bookFees;
+        }else{
+          this.studentgroup.controls.standard.reset();
+          this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+        }
+      }
+    });
+  }else{
+    this.studentgroup.controls.standard.reset();
+    this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+  }
+}
 
 }

@@ -6,7 +6,7 @@
       <div class="preview-details">
         <!-- student details with photo -->
         <ng-container class="preview-section">
-          <h4 class="detail-heading card-title">Student Data Preview</h4>
+          <h4 class="detail-heading card-title">Student Data Preview <div class="float-right p-1"> <a (click)="editRecord(reg)"><i class="fa fa-pencil-square-o fa-lg"></i>Edit</a></div></h4>
           <div class="row mb-4">
             <!-- begin::student photo preview -->
             <div class="col-md-3">
@@ -36,6 +36,9 @@
                 </div>
                 <div>
                   <strong>Registration Number : </strong> {{reg.registrationNo}}
+                </div>
+                <div>
+                  <strong>Date Of Admission : </strong> {{reg.dateOfAdmission | dateFormatPipe}}
                 </div>
               </div>
             </div>

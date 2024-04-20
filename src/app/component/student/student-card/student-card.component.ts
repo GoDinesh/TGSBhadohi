@@ -8,6 +8,7 @@ import { Registration } from 'src/app/model/student/registration.model';
 })
 export class StudentCardComponent {
   @Input() studentData: Registration[] = [];
+  @Input() academicYear: string;
 
   constructor(){
     

@@ -46,7 +46,7 @@ export class PendingFeesComponent {
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
-    private authService:AuthService
+    private authService: AuthService
   ) {
   }
 
@@ -75,9 +75,9 @@ export class PendingFeesComponent {
 
   createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
-      standard: [registartion.standard,[Validators.required]],
-      academicYearCode: [registartion.academicYearCode,[Validators.required]],
-     });
+      standard: [registartion.standard],
+      academicYearCode: [registartion.academicYearCode, [Validators.required]],
+    });
   }
 
   loadClass() {
@@ -104,10 +104,10 @@ export class PendingFeesComponent {
       scrollY: "300px",
       scrollCollapse: true,
       fixedColumns: {
-       // leftColumns: 1,
+        // leftColumns: 1,
         rightColumns: 1,
       },
-      scrollX : true,
+      scrollX: true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
@@ -120,32 +120,37 @@ export class PendingFeesComponent {
     const studentInfo: Registration = new Registration();
     studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
     studentInfo.standard = this.studentFormControll.standard.value;
-  
-    this.registrationService.studentList(studentInfo).subscribe(res=>{
-     if(res.status === msgTypes.SUCCESS_MESSAGE){
-      if(res.data.length>0){
+
+    this.registrationService.studentList(studentInfo).subscribe(res => {
+      this.posts = [];
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        if (res.data.length > 0) {
           this.posts = res.data;
-          this.posts= this.posts.filter(data=>{
-            return data.isTotalFeesPaid===false
+          this.posts = this.posts.filter(data => {
+            return data.isTotalFeesPaid === false
           })
-          if(this.posts.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
-          }
         }
+        if (this.posts.length == 0) {
+          this.posts = [];
+          this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
+        }
+      }else{
+        this.posts = [];
+        this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
       }
-      })
+    })
   }
 
   //Action for Payin Details
   payFees(registration: Registration) {
-    const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
+    const url = appurl.navmenu + appurl.menuurl_fees + appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
+      queryParams: {
+        data: JSON.stringify(encryptData)
+      }
     });
-}
+  }
 
 
   resetForm() {

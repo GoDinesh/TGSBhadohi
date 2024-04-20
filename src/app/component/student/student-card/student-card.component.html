@@ -3,17 +3,25 @@
 </button>
 <div class="container d-none" id="student-card">
     <div class="container card-container" *ngFor="let student of studentData; let i = index" id="student-card-{{i}}">
-    <div class="student-card border p-2 mt-2">
-        <div class="card-header bg-white d-flex justify-content-center align-items-center pt-2 mb-3 position-relative"
-            style="padding-bottom:2rem;">
+    <div class="student-card border p-1 mt-1">
+        <div class="card-header bg-white d-flex justify-content-center align-items-center pt-1 mb-1 position-relative"
+            style="padding-bottom:1rem;">
             <div class="position-relative w-100 text-center school-details">
-                <h4>TIME GLOBAL SCHOOL</h4>
-                <p>ACADEMIC YEAR: 2023-2024</p>
-                <strong style="font-size:large;">Information Updation Slip</strong>
-                <div class="position-absolute top-0 end-0" style="top: 5px; right: 5px;">
-                    <!-- <img src="{{student.profileImage.link}}" alt="Student Photo" class="shadow-sm"
-                        style="width:5.5rem;height:6.5rem;object-fit:cover;"> -->
+                <div class="text-left w-30 p-1 position-absolute">
+                    <ng-container *ngIf="student.profileImage!=null">
+                        <img [src]="student.profileImage.link" alt="Student's avatar" class="border" width="100" height="80">
+                      </ng-container>
+                      <ng-container *ngIf="student.profileImage==null">
+                        <img src="/assets/images/no_image.png" alt="Student's avatar" class="border" width="100" height="80">
+                      </ng-container>
                 </div>
+                <h4>TIME GLOBAL SCHOOL</h4>
+                <p>ACADEMIC YEAR: {{academicYear}}</p>
+                <strong style="font-size:large;">Information Updation Slip</strong>
+                <!-- <div class="position-absolute top-0 end-0" style="top: 5px; right: 5px;">
+                    <img src="{{student.profileImage.link}}" alt="Student Photo" class="shadow-sm"
+                        style="width:5.5rem;height:6.5rem;object-fit:cover;">
+                </div> -->
             </div>
         </div>
 
@@ -48,8 +56,8 @@
                     <tr>
                         <th scope="row">Contact Number</th>
                         <td>{{student.fatherContactNo}}</td>
-                        <th scope="row" class="ps-3">Parents Email Id</th>
-                        <td>{{student.fatherEmailId}}</td>
+                        <th scope="row">Aadhar Card No.</th>
+                        <td>{{student.aadhaarNumber}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Current Address</th>
@@ -93,6 +101,11 @@
                         <td>{{student.fatherContactNo}}</td>
                         <td>{{student.motherContactNumber}}</td>
                     </tr>
+                    <tr>
+                        <th scope="row">Email Id</th>
+                        <td>{{student.fatherEmailId}}</td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -119,8 +132,10 @@
                     <tr>
                         <th scope="row">Nationality</th>
                         <td>{{student.country}}</td>
-                        <th scope="row" class="ps-3">Aadhar Card No.</th>
-                        <td>{{student.aadhaarNumber}}</td>
+                        <th scope="row" class="ps-3">Date Of Admission</th>
+                        <td>{{student.dateOfAdmission}}</td>
+                        <!-- <th scope="row" class="ps-3">Aadhar Card No.</th>
+                        <td>{{student.aadhaarNumber}}</td> -->
                     </tr>
                 </tbody>
             </table>

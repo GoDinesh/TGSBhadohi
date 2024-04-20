@@ -142,6 +142,12 @@ export const menuListAdmin: INavbarData[]=[
                     "active": true,
                 },
                 {
+                    "text": "Pending SSM Fees",
+                    "icon": "fa fa-slideshare",
+                    "routerLink": reports + "/pending-book-fees",
+                    "active": true,
+                },
+                {
                     "text": "Aadhar Not Available",
                     "icon": "fa fa-id-card",
                     "routerLink": reports + "/aadhar-details",

@@ -18,6 +18,8 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 import { Class } from 'src/app/model/master/class.model';
 import { FeesStructure } from 'src/app/model/master/fees-structure.model';
 import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
+import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model';
+import { BookAndDressFeesService } from 'src/app/service/masters/book-and-dress-fees.service';
 
 @Component({
   selector: 'app-promote-student',
@@ -39,6 +41,7 @@ export class PromoteStudentComponent {
   promoteAcademicYearList: AcademicYear[]=[];
   editable: boolean | undefined;
   checkedFlag: boolean = false;
+  bookFees: number = 0;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
@@ -66,6 +69,7 @@ export class PromoteStudentComponent {
     private router: Router,
     private authService: AuthService,
     private feesStructureService: FeesStructureService,
+    private bookDressFeesService: BookAndDressFeesService
   ) {
   }
 
@@ -244,6 +248,8 @@ export class PromoteStudentComponent {
                     x.standard = promotedStandard;
                     x.isPromoted = x.isChecked;
                     x.studentFeesStructure = [];
+                    x.bookFees = this.bookFees;
+                    x.pendingBookFees = this.bookFees;
                     const classData = this.classList.filter((res) => {
                       return res.classCode === x.standard
                     })
@@ -315,6 +321,8 @@ export class PromoteStudentComponent {
                 this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Fees Structure is not created", msgTypes.ERROR, msgTypes.OK_KEY)
                 this.promotedStudentFormControll.promotedAcademicYearCode.reset();
                 this.promotedStudentFormControll.promotedStandard.reset();
+              }else{
+                  this.loadBookFees();
               }
             }
           })
@@ -336,4 +344,32 @@ export class PromoteStudentComponent {
             this.resetForm();
             this.studentFormControll.academicYearCode.setValue(selectedYear);
       }
+
+
+      //Book Fees related functions
+loadBookFees() {
+  this.bookFees=0;
+
+  const bookDressFees: BookAndDressFees = new BookAndDressFees();
+  bookDressFees.academicYearCode = this.studentgroup.controls.academicYearCode.value;
+  bookDressFees.standard = this.studentgroup.controls.standard.value;
+
+  if(bookDressFees.academicYearCode.length>0 && bookDressFees.standard.length>0){
+    this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        if(res.data.length>0){
+          this.bookFees=res.data[0].bookFees;
+        }else{
+          this.promotedStudentFormControll.promotedAcademicYearCode.reset();
+          this.promotedStudentFormControll.promotedStandard.reset();
+          this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+        }
+      }
+    });
+  }else{
+    this.promotedStudentFormControll.promotedAcademicYearCode.reset();
+    this.promotedStudentFormControll.promotedStandard.reset();
+    this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+  }
+}
     }

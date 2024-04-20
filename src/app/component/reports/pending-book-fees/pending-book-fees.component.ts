@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, NavigationEnd, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { Observable, map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
@@ -15,15 +16,14 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
-import { CustomValidation } from 'src/app/validators/customValidation';
 
 
 @Component({
-  selector: 'app-student-list',
-  templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.css']
+  selector: 'app-pending-fees',
+  templateUrl: './pending-book-fees.component.html',
+  styleUrls: ['./pending-book-fees.component.css']
 })
-export class StudentListComponent {
+export class PendingBookFeesComponent {
   studentInfo: Registration = new Registration();
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
@@ -31,14 +31,10 @@ export class StudentListComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
-  academicYear: string;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
     academicYearCode: new FormControl(),
-    registrationNo: new FormControl(),
-    fatherContactNo: new FormControl(),
-    studentName: new FormControl()
   });
 
   constructor(
@@ -46,12 +42,11 @@ export class StudentListComponent {
     private registrationService: RegistrationService,
     private classService: ClassService,
     private academicYearService: AcademicYearService,
-    private alertService: SweetAlertService,
     public validationMsg: ValidationErrorMessageService,
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
-    private authService:AuthService
+    private authService: AuthService
   ) {
   }
 
@@ -70,7 +65,6 @@ export class StudentListComponent {
     this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
-    //this.getTableRecord();
   }
 
   private updateEditable(): void {
@@ -81,11 +75,8 @@ export class StudentListComponent {
 
   createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
-      registrationNo: [registartion.registrationNo, [CustomValidation.alphanumaricSpace]],
       standard: [registartion.standard],
-      academicYearCode: [registartion.academicYearCode],
-      fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
-      studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
+      academicYearCode: [registartion.academicYearCode, [Validators.required]],
     });
   }
 
@@ -112,11 +103,11 @@ export class StudentListComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      // fixedColumns: {
-      //  // leftColumns: 1,
-      //   rightColumns: 1,
-      // },
-      scrollX : true,
+      fixedColumns: {
+        // leftColumns: 1,
+        rightColumns: 1,
+      },
+      scrollX: true,
       dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
@@ -129,55 +120,37 @@ export class StudentListComponent {
     const studentInfo: Registration = new Registration();
     studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
     studentInfo.standard = this.studentFormControll.standard.value;
-    studentInfo.registrationNo = this.studentFormControll.registrationNo.value;
-    studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
-    studentInfo.studentName = this.studentFormControll.studentName.value;
 
-    //pass for printout as a argument
-    this.academicYear = studentInfo.academicYearCode.substring(0,4)+"-"+studentInfo.academicYearCode.substring(4,8);
-
-    this.registrationService.studentList(studentInfo).subscribe(res=>{
-        if(res.status === msgTypes.SUCCESS_MESSAGE){
+    this.registrationService.studentList(studentInfo).subscribe(res => {
+      this.posts = [];
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        if (res.data.length > 0) {
           this.posts = res.data;
-          if(res.data.length == 0){
-            this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
-          }
+          this.posts = this.posts.filter(data => {
+            return data.isTotalBookFeesPaid === false
+          })
         }
-      })
-  }
-
-  viewDetails(registration: Registration){
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
-    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
-    this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
+        if (this.posts.length == 0) {
+          this.posts = [];
+          this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
         }
-    });
-  }
-
-  setVlaueToUpdate(stuDetails: Registration) {
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_registration, { state: { studetails: stuDetails } });
-    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
-    const encryptData = this.authService.getEncryptText(JSON.stringify(stuDetails));
-    this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
-    });
+      }else{
+        this.posts = [];
+        this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
+      }
+    })
   }
 
   //Action for Payin Details
   payFees(registration: Registration) {
-    const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
+    const url = appurl.navmenu + appurl.menuurl_fees + appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
+      queryParams: {
+        data: JSON.stringify(encryptData)
+      }
     });
-}
+  }
 
 
   resetForm() {

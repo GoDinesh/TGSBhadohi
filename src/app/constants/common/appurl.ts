@@ -37,6 +37,7 @@ export const appurl={
                 promote_student: '/promote-student',
                 update_status_as_inactive: '/update-status-as-inactive',
                 update_fees_details: '/update-fees-details',
+                update_book_fees_details: '/update-book-fees-details',
                 update_student_details:'/update-student-details',
 
         menuurl_fees: '/fees',

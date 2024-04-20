@@ -63,6 +63,11 @@ export class RegistrationService {
     return this.httpClient.post<ResponseModel>(url, registration)
   }
 
+  updateBookFeesDetails(registration: Registration){
+    const url = this.requestUrl + appurl.update_book_fees_details;
+    return this.httpClient.post<ResponseModel>(url, registration)
+  }
+
   updateStudentdetails(registration: Registration){
     const url = this.requestUrl + appurl.update_student_details;
     return this.httpClient.post<ResponseModel>(url, registration)

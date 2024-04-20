@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { appurl } from 'src/app/constants/common/appurl';
 import { Registration } from 'src/app/model/student/registration.model';
 import { AuthService } from 'src/app/service/common/auth.service';
 
@@ -32,5 +33,15 @@ export class ViewStudentDetailsComponent {
     });
   }
 
+
+  editRecord(reg: Registration){
+      const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
+      const encryptData = this.authService.getEncryptText(JSON.stringify(reg));
+      this.router.navigate([url], {
+          queryParams: {
+              data: JSON.stringify(encryptData)
+          }
+      });
+  }
 
 }

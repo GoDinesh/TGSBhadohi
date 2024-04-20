@@ -41,6 +41,7 @@
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
         </div>
+       
         <!-- end:: DOB -->
 
         <!-- begin::academic year -->
@@ -68,7 +69,7 @@
         <div class="form-group">
           <label class="form-label required">Standard</label>
           <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
-          <mat-select class="form-control form-control-sm"  [disabled]="updateFlag" formControlName="standard">
+          <mat-select class="form-control form-control-sm"  [disabled]="updateFlag" formControlName="standard" (selectionChange)="loadBookFees()">
             <div class="p-1">
               <input type="text" class="form-control form-control-sm" #filterClassName>
             </div>
@@ -85,10 +86,24 @@
         <!-- end::Standard -->
 
         <!-- begin::section -->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label class="form-label required">Section</label>
           <input class="form-control form-control-sm" formControlName="section" autocomplete="off" (input)="handleInputChange(studentFormControll.section)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.section,"Section")}}</div>
+        </div> -->
+        <div class="form-group">
+          <label class="form-label required">Section</label>
+          <mat-select class="custom-select-option form-control form-control-sm" formControlName="section"
+            autocomplete="off">
+            <mat-option value="" disabled>Select one</mat-option>
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+            <mat-option value="D">D</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(studentFormControll.section,"Section")}}
+          </div>
         </div>
         <!-- end::Section -->
 
@@ -188,6 +203,22 @@
          </div>
          </div>
         <!-- End:: Enrollment type -->
+
+        <!--Begin:: Date of admission -->
+        <div class="form-group">
+          <label class="form-label required">Date of Admission</label>
+          <div class="datepicker-container">
+            <input matInput [matDatepicker]="picker1" [max]="today" formControlName="dateOfAdmission" class="form-control form-control-sm"
+              readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"
+              class="toggle-datepicker-icon-position"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </div>
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfAdmission, "Date Of
+            Admission")}}</div>
+        </div>
+        <!-- End:: Date of admission -->
+
 
 
         <!-- begin::Registration No -->
@@ -580,6 +611,7 @@
                     <p><strong>Name:</strong> {{ studentFormControll.studentName.value }}</p>
                     <p><strong>Academic Year:</strong> {{ studentFormControll.academicYearCode.value }}</p>
                     <p><strong>Registration No:</strong> {{ studentFormControll.registrationNo.value }}</p>
+                    <p><strong>Date Of Admission:</strong>{{ studentFormControll.dateOfAdmission.value | dateFormatPipe}}</p>
                   </div>
                   <div class="col-md-4">
                     <p><strong>Gender:</strong> {{ studentFormControll.gender.value }}</p>

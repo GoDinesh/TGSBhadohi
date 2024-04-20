@@ -24,6 +24,7 @@ export const pageTitle = {
         
         REPORTS: 'Reports',
                 PENDING_FEES    : 'Pending Fees',
+                PENDING_SSM_FEES: 'Pending SSM Fees',
                 AADHAR_DETAILS  : 'Aadhar Details Not Available',
                 FEES_COLLECTION : 'Fees Collection'
 }

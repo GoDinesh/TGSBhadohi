@@ -56,6 +56,11 @@
     cursor: not-allowed;
   }
 
+  .edit-button{
+    height: "25px";
+    font-size: 12;
+  }
+
   
   
   

@@ -7,6 +7,7 @@ import { pageTitle } from 'src/app/constants/common/page-title';
 import { ROLE_ADMIN_USER } from 'src/app/constants/common/roles';
 import { AadharDetailsComponent } from './aadhar-details/aadhar-details.component';
 import { FeesCollectionComponent } from './fees-collection/fees-collection.component';
+import { PendingBookFeesComponent } from './pending-book-fees/pending-book-fees.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,17 @@ const routes: Routes = [
                     role: Object.values(ROLE_ADMIN_USER)
               }
         },
+        {
+            path: 'pending-book-fees',
+            component: PendingBookFeesComponent,
+            canActivate: [AuthGuard],
+            data: {
+                  breadcrumb: breadcrumb.PENDING_SSM_FEES,
+                  title: pageTitle.PENDING_SSM_FEES,
+                  role: Object.values(ROLE_ADMIN_USER)
+            }
+      },
+        
         {
               path: 'aadhar-details',
               component: AadharDetailsComponent,
