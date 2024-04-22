@@ -1,362 +1,346 @@
-<div class="container mt-2">
+<ng-container *ngIf="!displayAllReceipt">
+    <div class="container mt-2">
 
-    <!-- Filter details -->
-    <form [formGroup]="formgroup">
-        <div class="grid-card-container card-bottom-margin form-bg">
-            <!-- Begin:: Filer  -->
-            <ng-container *ngIf="callBylinkFlag">
-                <div class="grid-form">
-                    <!-- begin::academic year -->
-                    <div class="form-group">
-                        <label class="form-label required">Academic Year</label>
-                        <mat-select formControlName="academicYearCode" (selectionChange)="academicYearChange()" class="form-control form-control-sm">
-                            <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
-                            <!-- <div *ngIf="academicYearList | async as postdata ">
+        <!-- Filter details -->
+        <form [formGroup]="formgroup">
+            <div class="grid-card-container card-bottom-margin form-bg">
+                <!-- Begin:: Filer  -->
+                <ng-container *ngIf="callBylinkFlag">
+                    <div class="grid-form">
+                        <!-- begin::academic year -->
+                        <div class="form-group">
+                            <label class="form-label required">Academic Year</label>
+                            <mat-select formControlName="academicYearCode" (selectionChange)="academicYearChange()"
+                                class="form-control form-control-sm">
+                                <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+                                <!-- <div *ngIf="academicYearList | async as postdata ">
                                 <mat-option
                                     *ngFor="let data of postdata.data | filterData: filterAcademicYear.value : 'academicYear'"
                                     [value]="data.academicYearCode">
                                     {{data.academicYear}}
                                 </mat-option>
                             </div> -->
-                             
+
                                 <mat-option
                                     *ngFor="let data of academicyearList | filterData: filterAcademicYear.value : 'academicYear'"
                                     [value]="data.academicYearCode">
                                     {{data.academicYear}}
                                 </mat-option>
-                            
-                        </mat-select>
-                        <div class="invalid-feedback">
-                            {{validationMsg.getErrorMessage(feesFormControll.academicYearCode,"Academic Year")}}
+
+                            </mat-select>
+                            <div class="invalid-feedback">
+                                {{validationMsg.getErrorMessage(feesFormControll.academicYearCode,"Academic Year")}}
+                            </div>
                         </div>
-                    </div>
-                    <!-- end::academic year -->
-                    <!-- begin::Standard -->
-                    <div class="form-group">
-                        <label class="form-label required">Standard</label>
-                        <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
-                        <mat-select class="form-control form-control-sm" (selectionChange)="loadStudentList()"
-                            formControlName="classCode">
-                            <input type="text" class="form-control  form-control-sm" #filterClassName>
-                            <!-- <div *ngIf="allClassList | async as postdata ">
+                        <!-- end::academic year -->
+                        <!-- begin::Standard -->
+                        <div class="form-group">
+                            <label class="form-label required">Standard</label>
+                            <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
+                            <mat-select class="form-control form-control-sm" (selectionChange)="loadStudentList()"
+                                formControlName="classCode">
+                                <input type="text" class="form-control  form-control-sm" #filterClassName>
+                                <!-- <div *ngIf="allClassList | async as postdata ">
                                 <mat-option
                                     *ngFor="let data of postdata.data | filterData: filterClassName.value : 'className'"
                                     [value]="data.classCode">
                                     {{data.className}}
                                 </mat-option>
                             </div> -->
-                           
+
                                 <mat-option
                                     *ngFor="let data of classList | filterData: filterClassName.value : 'className'"
                                     [value]="data.classCode">
                                     {{data.className}}
                                 </mat-option>
-                           
-                        </mat-select>
-                        <div class="invalid-feedback">
-                            {{validationMsg.getErrorMessage(feesFormControll.classCode,"Standard")}}
-                        </div>
-                    </div>
-                    <!-- end::Standard -->
 
-                    <!-- begin::Student Name -->
-                    <div class="form-group">
-                        <label class="form-label required">Select Student</label>
-                        <mat-select class="form-control form-control-sm" formControlName="registrationNo">
-                            <input type="text" class="form-control  form-control-sm" #filterStudent>
-                            <div *ngIf="studentList | async as postdata ">
-                                <mat-option
-                                    *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
-                                    [value]="data.registrationNo">
-                                    {{data.studentName}}
-                                </mat-option>
+                            </mat-select>
+                            <div class="invalid-feedback">
+                                {{validationMsg.getErrorMessage(feesFormControll.classCode,"Standard")}}
                             </div>
-                        </mat-select>
-                        <div class="invalid-feedback">
-                            {{validationMsg.getErrorMessage(feesFormControll.registrationNo,"Student Name")}}</div>
-                    </div>
-                    <!-- end::Student Name -->
-
-                    <!-- begin::Buttons -->
-                    <div class="grid-button form-group pt-4">
-                        <button class="btn btn-sm btn-success mx-3"
-                            [disabled]="!(feesFormControll.registrationNo.value && feesFormControll.classCode.value && feesFormControll.academicYearCode.value)"
-                            (click)="getFeesDetails()">Get Fees
-                            Details</button>
-                        <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
-                    </div>
-                    <!-- end::Buttons -->
-                </div>
-            </ng-container>
-            <!-- End:: Filter -->
-
-            <div *ngIf="registrationModel | async as registartion">
-                <!-- Fee Structure Card -->
-                <div *ngIf="registartion.data[0].studentFeesStructure[0] as studentFeesStructure ">
-                    <!--Begin:: Student details and lumpsum button -->
-                    <div class="card mb-4">
-                        <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
-                            <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
-                                <strong>{{registartion.data[0].studentName}}</strong>&nbsp;&nbsp;&nbsp;
-                                Academic Year:&nbsp;<strong>{{registartion.data[0].academicYearCode}}</strong>
-                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class: <strong>{{registartion.data[0].standard}}</strong>
-                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Father Name:
-                            <strong>{{registartion.data[0].fatherName}}</strong></span>
-                            <!-- <span><b>Registration Number: {{registartion.data[0].registrationNo}}</b></span> -->
-                            <!-- <span><b>Contact Number: {{registartion.data[0].fatherContactNo}}</b></span> -->
-                            <!-- <ng-container *ngIf="lumpsumButtonFlag"> -->
-                            <!-- <button (click)="lumpsumButtonClicked()" class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button> -->
-                            <!-- <button class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button> -->
-                            <!-- </ng-container> -->
                         </div>
-                    </div>
-                    <!--End:: Student details and lumpsum button -->
+                        <!-- end::Standard -->
 
-                    <!-- Previous Amount After Discount Table (Installment details)-->
-                    <!-- <ng-container *ngIf="!isLumpsum"> -->
-                    <div class="mb-4">
-                        <h2>Annual + Registration Fee: {{annualAndRegistrationFee}}, Pending Fee:{{regPendingFees}} </h2>
-                        <table class="table show-previous-amount-table">
-                            <thead>
-                                <tr style="background-color: rgb(217, 241, 233);">
-                                    <th scope="col">S.No</th>
-                                    <th scope="col">Installment Type</th>
-                                    <th scope="col">Due Date</th>
-                                    <th scope="col">Total Amount</th>
-                                    <th scope="col">Previous Discount</th>
-                                    <th scope="col">Enter Discount</th>
-                                    <th scope="col">Reason for Discount</th>
-                                    <th scope="col">Amount After Discount</th>
-                                    <th scope="col">Amount Paid</th>
-                                    <th scope="col">Net Payable</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container formArrayName="studentFeesInstallment">
-                                    <ng-container
-                                        *ngFor="let installmentFormGroup of studentInstallmentFormGroups.controls; let i = index">
-                                        <ng-container [formGroupName]="i">
-                                            <ng-container *ngIf="i==2"> 
-                                            <tr>
-                                                <td class="leftAlign" colspan="9">
-                                                    <h2>Installment (Term Fee: {{termFees}}, Term Fee Pending Amounts :
-                                                        {{termFeesPendingAmount}})</h2>
-                                                </td>
-                                            </tr>
-                                            </ng-container>
-
-                                            <tr>
-                                                <td><input type="text" readonly formControlName="installmentNumber"
-                                                        class="form-control form-control-sm"></td>
-                                                <td><input type="text" readonly formControlName="installmentType"
-                                                            class="form-control form-control-sm"></td>
-                                                <td><input type="text" readonly formControlName="installmentDate"
-                                                        class="form-control form-control-sm"></td>
-                                                <td><input type="text" readonly formControlName="installmentAmount"
-                                                        class="form-control form-control-sm blue-colour"></td>
-                                                <td><input type="text" readonly formControlName="installmentDiscount"
-                                                        class="form-control form-control-sm previous-discount-colour">
-                                                </td>
-                                                <td><input type="number" formControlName="discountAmount"
-                                                        (input)="onInstallmentDiscountChange(i)"
-                                                        class="form-control form-control-sm"></td>
-                                                <td><input type="text" formControlName="discountReason"
-                                                        (input)="onDiscountReasonChange()"
-                                                        class="form-control form-control-sm"></td>
-                                                <td><input type="text" readonly formControlName="amountAfterDiscount"
-                                                        class="form-control form-control-sm blue-colour"></td>
-                                                <td><input type="text" readonly formControlName="amountPaid"
-                                                        class="form-control form-control-sm blue-colour"></td>
-                                                <td><input type="text" readonly formControlName="netPayable"
-                                                        #netpayable class="form-control form-control-sm" [ngClass]="{'green-colour' : netpayable.value=='0', 'red-colour': netpayable.value!='0'}"></td>
-                                            </tr>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-
-                                <tr class="total">
-                                    <td></td>
-                                    <td></td>
-                                    <td>Total</td>
-                                    <td>{{totalAmount}}</td>
-                                    <td>{{installmentDiscount}}</td>
-                                    <td>{{totalIndividualDiscount}}</td>
-                                    <td></td>
-                                    <td>{{totalAmountAfterDiscount}}</td>
-                                    <td>{{amountPaidTillDate}}</td>
-                                    <td>{{totalNetPayable}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- End:: Installment Details -->
-
-                    <!-- Begin:: Book Dress Fees Begin -->
-                    <ng-container *ngIf="bookAndDressFeesModel">
-                        <div class="mb-4">
-                            <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2> -->
-                            <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2>  -->
-                            <h2>SSM: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2> 
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <label> S.No</label>
-                                        <input type="text" readonly value="1" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <label>Fees Type </label>
-                                        <input type="text" readonly value="SSM Fees" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Total Amount </label>
-                                        <input type="text" readonly value="{{bookAndDressFeesModel.bookFees}}" class="form-control form-control-sm blue-colour">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label> Amount Paid</label>
-                                        <input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Net Payable </label>
-                                        <input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'red-colour': payableBookFees!=0}" class="form-control form-control-sm">
-                                    </div>
-                                    
-
+                        <!-- begin::Student Name -->
+                        <div class="form-group">
+                            <label class="form-label required">Select Student</label>
+                            <mat-select class="form-control form-control-sm" formControlName="registrationNo">
+                                <input type="text" class="form-control  form-control-sm" #filterStudent>
+                                <div *ngIf="studentList | async as postdata ">
+                                    <mat-option
+                                        *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
+                                        [value]="data.registrationNo">
+                                        {{data.studentName}}
+                                    </mat-option>
                                 </div>
+                            </mat-select>
+                            <div class="invalid-feedback">
+                                {{validationMsg.getErrorMessage(feesFormControll.registrationNo,"Student Name")}}</div>
+                        </div>
+                        <!-- end::Student Name -->
+
+                        <!-- begin::Buttons -->
+                        <div class="grid-button form-group pt-4">
+                            <button class="btn btn-sm btn-success mx-3"
+                                [disabled]="!(feesFormControll.registrationNo.value && feesFormControll.classCode.value && feesFormControll.academicYearCode.value)"
+                                (click)="getFeesDetails()">Get Fees
+                                Details</button>
+                            <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
+                        </div>
+                        <!-- end::Buttons -->
+                    </div>
+                </ng-container>
+                <!-- End:: Filter -->
+
+                <div *ngIf="registrationModel | async as registartion">
+                    <!-- Fee Structure Card -->
+                    <div *ngIf="registartion.data[0].studentFeesStructure[0] as studentFeesStructure ">
+                        <!--Begin:: Student details and lumpsum button -->
+                        <div class="card mb-4">
+                            <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
+                                <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
+                                    <strong>{{registartion.data[0].studentName}}</strong>&nbsp;&nbsp;&nbsp;
+                                    Academic Year:&nbsp;<strong>{{registartion.data[0].academicYearCode}}</strong>
+                                    &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class:
+                                    <strong>{{registartion.data[0].standard}}</strong>
+                                    &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Father Name:
+                                    <strong>{{registartion.data[0].fatherName}}</strong></span>
+                                <!-- <span><b>Registration Number: {{registartion.data[0].registrationNo}}</b></span> -->
+                                <!-- <span><b>Contact Number: {{registartion.data[0].fatherContactNo}}</b></span> -->
+                                <!-- <ng-container *ngIf="lumpsumButtonFlag"> -->
+                                <!-- <button (click)="lumpsumButtonClicked()" class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button> -->
+                                <!-- <button class="btn btn-sm btn-info">Please Click if you want to Convert To Lumpsum</button> -->
+                                <!-- </ng-container> -->
                             </div>
-                            <hr>
-                            <!-- <table class="table show-previous-amount-table">
+                        </div>
+                        <!--End:: Student details and lumpsum button -->
+
+                        <!-- Previous Amount After Discount Table (Installment details)-->
+                        <!-- <ng-container *ngIf="!isLumpsum"> -->
+                        <div class="mb-4">
+                            <h2>Annual + Registration Fee: {{annualAndRegistrationFee}}, Pending Fee:{{regPendingFees}}
+                            </h2>
+                            <table class="table show-previous-amount-table">
                                 <thead>
-                                    <tr>
+                                    <tr style="background-color: rgb(217, 241, 233);">
                                         <th scope="col">S.No</th>
-                                        <th scope="col">Fees Type</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Installment Type</th>
+                                        <th scope="col">Due Date</th>
                                         <th scope="col">Total Amount</th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Previous Discount</th>
+                                        <th scope="col">Enter Discount</th>
+                                        <th scope="col">Reason for Discount</th>
+                                        <th scope="col">Amount After Discount</th>
                                         <th scope="col">Amount Paid</th>
                                         <th scope="col">Net Payable</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                              
+                                    <ng-container formArrayName="studentFeesInstallment">
+                                        <ng-container
+                                            *ngFor="let installmentFormGroup of studentInstallmentFormGroups.controls; let i = index">
+                                            <ng-container [formGroupName]="i">
+                                                <ng-container *ngIf="i==2">
+                                                    <tr>
+                                                        <td class="leftAlign" colspan="9">
+                                                            <h2>Installment (Term Fee: {{termFees}}, Term Fee Pending
+                                                                Amounts :
+                                                                {{termFeesPendingAmount}})</h2>
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+
                                                 <tr>
-                                                    <td><input type="text" readonly value="1" class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly value="Book Fees" class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly value="{{bookAndDressFeesModel.bookFees}}" class="form-control form-control-sm blue-colour"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm "></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly class="form-control form-control-sm"></td>
-                                                    <td><input type="text" readonly value="{{bookFeesPaid}}" class="form-control form-control-sm blue-colour"></td>
-                                                    <td><input type="text" readonly value="{{payableBookFees}}" [ngClass]="{'green-colour' : payableBookFees==0, 'orange-colour': payableBookFees!=0}" class="form-control form-control-sm"> </td>
+                                                    <td><input type="text" readonly formControlName="installmentNumber"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly formControlName="installmentType"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly formControlName="installmentDate"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly formControlName="installmentAmount"
+                                                            class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly
+                                                            formControlName="installmentDiscount"
+                                                            class="form-control form-control-sm previous-discount-colour">
+                                                    </td>
+                                                    <td><input type="number" formControlName="discountAmount"
+                                                            (input)="onInstallmentDiscountChange(i)"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" formControlName="discountReason"
+                                                            (input)="onDiscountReasonChange()"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly
+                                                            formControlName="amountAfterDiscount"
+                                                            class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly formControlName="amountPaid"
+                                                            class="form-control form-control-sm blue-colour"></td>
+                                                    <td><input type="text" readonly formControlName="netPayable"
+                                                            #netpayable class="form-control form-control-sm"
+                                                            [ngClass]="{'green-colour' : netpayable.value=='0', 'red-colour': netpayable.value!='0'}">
+                                                    </td>
                                                 </tr>
-                                        </tbody>
-                            </table> -->
-                        </div>
-                    </ng-container>
-                    <!-- End:: Installment Details -->
-                    <!-- End:: Book Dress Fees Begin -->
-
-
-                    <!--Begin:: Fee Payment Details-->
-                        <div class="mb-4">
-                                <div class="d-flex">
-                                    <h2>Fee Payment - Please Enter Payment Details Below: (Amount Paid Till Date
-                                        :{{amountPaidTillDate}})</h2>
-                                    <ng-container *ngIf="discountChanged">
-                                        <button class="btn btn-sm btn-success m-2" (click)="updateFeeStructureDiscount()">Save
-                                            Discount</button>
+                                            </ng-container>
+                                        </ng-container>
                                     </ng-container>
-                                </div>
-                                <div class="container m-0">
+
+                                    <tr class="total">
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>{{totalAmount}}</td>
+                                        <td>{{installmentDiscount}}</td>
+                                        <td>{{totalIndividualDiscount}}</td>
+                                        <td></td>
+                                        <td>{{totalAmountAfterDiscount}}</td>
+                                        <td>{{amountPaidTillDate}}</td>
+                                        <td>{{totalNetPayable}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- End:: Installment Details -->
+
+                        <!-- Begin:: Book Dress Fees Begin -->
+                        <ng-container *ngIf="bookAndDressFeesModel">
+                            <div class="mb-4">
+                                <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2> -->
+                                <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2>  -->
+                                <h2>SSM: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2>
+                                <div class="container">
                                     <div class="row">
-                                        <div class="col-md-2">
-                                                <label class="fw-bold required">Amount</label>
-                                                <input type="text" formControlName="amount" class="form-control"
-                                                    placeholder="Enter Amount" />
-                                                <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.amount,"Amount")}}
-                                                </div>
+                                        <div class="col-md-1">
+                                            <label> S.No</label>
+                                            <input type="text" readonly value="1" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label>Fees Type </label>
+                                            <input type="text" readonly value="SSM Fees"
+                                                class="form-control form-control-sm">
                                         </div>
                                         <div class="col-md-2">
-                                            <label class="fw-bold required">Payment Type</label>
-                                            <select class="form-select" formControlName="paymenttype"
-                                                    class="form-control">
-                                                    <option value="Fees">Fees</option>
-                                                    <option value="Book Fees">SSM Fees</option>
-                                                    <!-- <option value="Dress Fees">Dress Fees</option>                                                    -->
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
-                                                    Type")}}
-                                                </div>
+                                            <label>Total Amount </label>
+                                            <input type="text" readonly value="{{bookAndDressFeesModel.bookFees}}"
+                                                class="form-control form-control-sm blue-colour">
                                         </div>
                                         <div class="col-md-2">
-                                            <label class="fw-bold">Remarks</label>
-                                            <input type="text" formControlName="remarks" class="form-control"
-                                                    placeholder="Enter Remarks" />
+                                            <label> Amount Paid</label>
+                                            <input type="text" readonly value="{{bookFeesPaid}}"
+                                                class="form-control form-control-sm blue-colour">
                                         </div>
                                         <div class="col-md-2">
-                                            <label class="fw-bold required">Payment Mode</label>
-                                            <select class="form-select" formControlName="paymentMode"
-                                                    class="form-control">
-                                                    <option selected>Select Mode</option>
-                                                    <option value="CASH">CASH</option>
-                                                    <option value="ONLINE">ONLINE</option>
-                                                    <option value="CHEQUE">CHEQUE</option>
-                                                </select>
-                                                <div class="invalid-feedback">
-                                                    {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
-                                                    Mode")}}</div>
+                                            <label>Net Payable </label>
+                                            <input type="text" readonly value="{{payableBookFees}}"
+                                                [ngClass]="{'green-colour' : payableBookFees==0, 'red-colour': payableBookFees!=0}"
+                                                class="form-control form-control-sm">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label class="fw-bold required">Payment Date</label>
-                                            <div class="datepicker-container">
-                                                <input matInput [matDatepicker]="picker" formControlName="paymentDate"
-                                                    [max]="maxDate" [min]="minDate" class="form-control" readonly>
-                                                <mat-datepicker-toggle matSuffix [for]="picker"
-                                                    class="toggle-datepicker-icon-position"
-                                                    [disabled]="false"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker [disabled]="false"></mat-datepicker>
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                {{validationMsg.getErrorMessage(feesFormControll.paymentDate,"Payment
-                                                Date")}}</div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="fw-bold">Receipt to be Printed</label>
-                                            <mat-select formControlName="paymentReceivedBy"
-                                                    class="form-control">
-                                                    <div>
-                                                        <mat-option
-                                                            *ngFor="let data of parentDetails"
-                                                            [value]="data.name">
-                                                            {{data.name}}
-                                                        </mat-option>
-                                                    </div>
-                                                </mat-select>
-                                        </div>
-                                        
+
+
                                     </div>
                                 </div>
-                            <hr>    
-                            
+                                <hr>
+                            </div>
+                        </ng-container>
+                        <!-- End:: Installment Details -->
+                        <!-- End:: Book Dress Fees Begin -->
+
+
+                        <!--Begin:: Fee Payment Details-->
+                        <div class="mb-4">
+                            <div class="d-flex">
+                                <h2>Fee Payment - Please Enter Payment Details Below: (Amount Paid Till Date
+                                    :{{amountPaidTillDate}})</h2>
+                                <ng-container *ngIf="discountChanged">
+                                    <button class="btn btn-sm btn-success m-2"
+                                        (click)="updateFeeStructureDiscount()">Save
+                                        Discount</button>
+                                </ng-container>
+                            </div>
+                            <div class="container m-0">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="fw-bold required">Amount</label>
+                                        <input type="text" formControlName="amount" class="form-control"
+                                            placeholder="Enter Amount" />
+                                        <div class="invalid-feedback">
+                                            {{validationMsg.getErrorMessage(feesFormControll.amount,"Amount")}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="fw-bold required">Payment Type</label>
+                                        <select class="form-select" formControlName="paymenttype" class="form-control">
+                                            <option value="Fees">Fees</option>
+                                            <option value="Book Fees">SSM Fees</option>
+                                            <!-- <option value="Dress Fees">Dress Fees</option>                                                    -->
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
+                                            Type")}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="fw-bold">Remarks</label>
+                                        <input type="text" formControlName="remarks" class="form-control"
+                                            placeholder="Enter Remarks" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="fw-bold required">Payment Mode</label>
+                                        <select class="form-select" formControlName="paymentMode" class="form-control">
+                                            <option selected>Select Mode</option>
+                                            <option value="CASH">CASH</option>
+                                            <option value="ONLINE">ONLINE</option>
+                                            <option value="CHEQUE">CHEQUE</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
+                                            Mode")}}</div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="fw-bold required">Payment Date</label>
+                                        <div class="datepicker-container">
+                                            <input matInput [matDatepicker]="picker" formControlName="paymentDate"
+                                                [max]="maxDate" [min]="minDate" class="form-control" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"
+                                                class="toggle-datepicker-icon-position"
+                                                [disabled]="false"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker [disabled]="false"></mat-datepicker>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            {{validationMsg.getErrorMessage(feesFormControll.paymentDate,"Payment
+                                            Date")}}</div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="fw-bold">Receipt to be Printed</label>
+                                        <mat-select formControlName="paymentReceivedBy" class="form-control">
+                                            <div>
+                                                <mat-option *ngFor="let data of parentDetails" [value]="data.name">
+                                                    {{data.name}}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+
                             <div class="justify-content-start">
                                 <div>
-                                    <button (click)="openDialog()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Preview Receipt</button>
+                                    <!-- <button (click)="openDialog()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Preview Receipt</button> -->
 
-                                    <button class="btn btn-sm btn-info m-2 d-none" printSectionId="print-section" [useExistingCss]="true" ngxPrint #printAndSaveButton>Print</button>
-                                    
-                                     <!-- <app-fees-receipt-printout [feesModel]="feesModel" ></app-fees-receipt-printout> -->
-                                    
-                                        <!-- <button class="btn btn-sm btn-warning m-2" 
+                                    <button (click)="previewReceipt()" [disabled]="previewReceiptFlag"
+                                        class="btn btn-sm btn-info m-2">Preview All Payment Receipt</button>
+
+
+                                    <!-- <button class="btn btn-sm btn-info m-2 d-none" printSectionId="print-section"
+                                        [useExistingCss]="true" ngxPrint #printAndSaveButton>Print</button> -->
+
+                                  <div class="d-none"><app-fees-receipt-printout #childComponent  [feesModel]="feesModel" ></app-fees-receipt-printout></div> 
+
+                                    <!-- <button class="btn btn-sm btn-warning m-2" 
                                         [disabled]="!formgroup.valid || discountChanged"
                                         (click)="printAndSave()">Save & Print</button> -->
                                     <button class="btn btn-sm btn-success m-2"
-                                        [disabled]="!formgroup.valid || discountChanged" (click)="save()">Save</button>
+                                        [disabled]="!formgroup.valid || discountChanged" (click)="save()">Save & Print</button>
                                 </div>
                                 <div>
                                     <ng-container *ngIf="discountChanged && formgroup.valid">
@@ -367,149 +351,75 @@
                                 </div>
                             </div>
                         </div>
-                    <!--End:: Fee Payment Details-->
+                        <!--End:: Fee Payment Details-->
 
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</ng-container>
+
+
+
+
+<ng-container *ngIf="displayAllReceipt">
+    <div >
+        <ng-container *ngIf="feesData.length>0">
+            <button (click)="previewReceipt()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Back To
+                Fees Details</button>
+            <div *ngIf="registrationModel | async as registartion">
+                <div *ngIf="registartion.data[0].studentFeesStructure[0] as studentFeesStructure ">
+                    <!--Begin:: Student details and lumpsum button -->
+                    <div class="card mb-4">
+                        <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
+                            <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
+                                <strong>{{registartion.data[0].studentName}}</strong>&nbsp;&nbsp;&nbsp;
+                                Academic Year:&nbsp;<strong>{{registartion.data[0].academicYearCode}}</strong>
+                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class:
+                                <strong>{{registartion.data[0].standard}}</strong>
+                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Father Name:
+                                <strong>{{registartion.data[0].fatherName}}</strong></span>
+                        </div>
+                    </div>
+                    <!--End:: Student details and lumpsum button -->
                 </div>
             </div>
-
-
-        </div>
-    </form>
-</div>
-
-
-<ng-container *ngIf="feesModel">
-    <div  id="print-section" class="d-none"> 
-       
-            <ng-container *ngFor="let number of [0,1]">
-        <div class="container border pt-2">
-                <div class="row">
-                    <div class="col-md-12 float-right">
-                        <div class="contact_details">Phone: 8957666699  Mail: timebdh@gmail.com  Web: tgsbhadohi.com</div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 p-4">
-                        <div class="text-center">                
-                            <div><img class="p-1 logo" src="/assets/website/img/logo.png"  width="150" height="120"></div>
-                            <div>Indra Gandi Marg, Chaksaif, Bhadohi - 221401</div>
-                            <div><b>FEES RECEIPT</b></div>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                            <ng-container *ngIf="number===0"><h5><u><b><div style="padding-bottom: 10;">STUDENT COPY</div></b></u></h5> </ng-container> 
-                            <ng-container *ngIf="number===1"><h5><u><b><div style="padding-bottom: 10;">SCHOOL COPY</div></b></u></h5> </ng-container> 
-                    </div>
-                    <hr>
-                </div>
-                <div>
-                    <table class="content_table_width">
+            <div class="grid-card-container card-bottom-padding pt-2 table-responsive">
+                <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table overflow">
+                    <thead>
                         <tr>
-                            <td class="table_td_width1">
-                                <div>
-                                    <table>
-                                        <tr>
-                                            <td>Name</td>
-                                            <td><b>: {{feesModel.studentName}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Date</td>
-                                            <td><b>: {{feesModel.paymentDate}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Receipt No</td>
-                                            <td><b>: {{feesModel.receiptNo}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ID Card Number</td>
-                                            <td><b>: {{feesModel.idCardNumber}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Class</td>
-                                            <td><b>: {{feesModel.className}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Roll Number </td>
-                                            <td><b>: {{feesModel.rollnumber}}</b></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                            <td class="table_td_width1">
-                                <div>
-                                    <table>
-                                        <tr>
-                                            <td>Received with thanks From</td>
-                                            <td><b>: {{feesModel.paymentReceivedBy}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>an amount of rupees (fig) </td>
-                                            <td><b>: {{feesModel.amount}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>(words) </td>
-                                            <td><b>: {{feesModel.amountInWords}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>towards </td>
-                                            <td><b>: {{feesModel.paymenttype}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>for Academic year</td>
-                                            <td><b>: {{feesModel.academicYear}}</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Paymant through </td>
-                                            <td><b>: {{feesModel.paymentMode}}</b></td>
-                                        </tr>
-                                    
-                                        <tr>
-                                            <td>Balance Fees </td>
-                                            <td><b>: {{feesModel.balanceFees}}/-</b></td>
-                                        </tr>
-                                        <tr *ngIf="feesModel.balanceBookFees>0">
-                                            <td>Balance SSM Fees </td>
-                                            <td><b>: {{feesModel.balanceBookFees}}/-</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Remarks </td>
-                                            <td><b>: {{feesModel.remarks}}/-</b></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    
-                   
-                </div>
-                <div class="row mt-5 mb-5">
-                    <div class="col-md-12 float-right">
-                        <div>
-                            <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
-                            <div>Authorised Singnatory</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        Fees receipt generated by: {{feesModel.updatedBy}}
-                    </div>
+                            <th class="td-class">Receipt Number</th>
+                            <th class="td-class">Payment Date</th>
+                            <th class="td-class">Payment Mode</th>
+                            <th class="td-class">Remarks</th>
+                            <!-- <th class="td-class">Printed on the name of</th> -->
+                            <th class="td-class">Fees Taken By</th>
+                            <th class="td-class">Amount</th>
 
-                </div>
-                <div class="row border">
-                    <div class="col-md-12">
-                        <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realistion. Kids shall not attend the course in case the cheque is dishonured
-                            due to any reason.</div>
-                    </div>
-                </div>
-        </div>
-        <br><br>
-        
-            </ng-container>
-       
+                            <th class="td-class">Print</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let feesModel of feesData;let i=index">
+                            <td class="td-auto">{{feesModel.receiptNo}}</td>
+                            <td class="td-auto">{{feesModel.paymentDate | dateFormatPipe}}</td>
+                            <td class="td-auto">{{feesModel.paymentMode}}</td>
+                            <td class="td-auto">{{feesModel.remarks}}</td>
+                            <!-- <td class="td-auto">{{feesModel.paymentReceivedBy}}</td> -->
+                            <td class="td-auto">{{feesModel.updatedBy}}</td>
+                            <td class="td-auto">{{feesModel.amount}}</td>
+                            <td class="td-auto"><app-fees-receipt-printout
+                                    [feesModel]="feesModel"></app-fees-receipt-printout></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--end::table-->
+
+            </div>
+        </ng-container>
+        <!--end::second Card body-->
     </div>
 </ng-container>

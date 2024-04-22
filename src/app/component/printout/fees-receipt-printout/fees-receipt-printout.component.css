@@ -6,10 +6,12 @@
 
 .table_td_width1{
     width: 40%;
+    vertical-align: top;
 }
 
 .table_td_width2{
     width: 60%;
+    vertical-align: top;
 }
 
 .shift_right{
@@ -17,4 +19,13 @@
 }
 .content_table_width{
     width: 100%;
+}
+.floatright{
+    float: right;
+    text-align: right;
+    padding-right: 50px;
+}
+
+.td-width{
+    width: 35%;
 }

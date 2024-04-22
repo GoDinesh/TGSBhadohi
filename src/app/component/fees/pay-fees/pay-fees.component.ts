@@ -25,6 +25,7 @@ import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model
 import { ToWords } from 'to-words';
 import { Class } from 'src/app/model/master/class.model';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
+import { FeesReceiptPrintoutComponent } from '../../printout/fees-receipt-printout/fees-receipt-printout.component';
 
 @Component({
   selector: 'app-pay-fees',
@@ -52,6 +53,8 @@ export class PayFeesComponent {
   studentDetails: Registration = new Registration();
   bookAndDressFeesModel: BookAndDressFees = new BookAndDressFees();
   feesData: Fees[] = [];
+  dtOptions: any = {};
+  displayAllReceipt:boolean=false;
 
   totalAmount: number = 0;
   installmentDiscount: number = 0;
@@ -74,7 +77,7 @@ export class PayFeesComponent {
   receiptnumber: string = '0';
   toWords = new ToWords();
 
-  @ViewChild('printAndSaveButton') printAndSaveButton: ElementRef<HTMLElement>;
+  @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
 
   constructor(private formBuilder: FormBuilder,
     public validationMsg: ValidationErrorMessageService,
@@ -112,7 +115,7 @@ export class PayFeesComponent {
       paymentMode: [fees.paymentMode, [Validators.required]],
       paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
-      remarks: [fees.remarks, [CustomValidation.alphanumaricSpace]],
+      remarks: [fees.remarks, [CustomValidation.plainText]],
 
       studentFeesInstallment: new FormArray([])
     });
@@ -418,7 +421,8 @@ export class PayFeesComponent {
             this.clearPaymentDetails();
           }
 
-          let el: HTMLElement = this.printAndSaveButton.nativeElement;
+          
+          let el: HTMLElement = this.childComponent.childElement.nativeElement;
           el.click();
         }
       });
@@ -536,6 +540,24 @@ export class PayFeesComponent {
 
       }
     });
+  }
+
+  //load the table
+  loadTable() {
+    this.dtOptions = {
+      processing: true,
+      // scrollY: "300px",
+      bPaginate: false,
+      scrollCollapse: true,
+      dom: '<"align-table-buttons"B>rt<"bottom align-table-buttons"l><"clear">',
+      buttons: [
+        'copy', 'csv', 'excel', 'print'
+      ],
+    };
+  }
+
+  previewReceipt(){
+    this.displayAllReceipt = !this.displayAllReceipt;
   }
 
 
