@@ -41,6 +41,7 @@ export class PayFeesComponent {
   classList: Class[] = [];
   academicyearList: AcademicYear[] = [];
   feesModel: Fees = new Fees();
+  receiptFeesModel: Fees = new Fees();
   formgroup: FormGroup;
   callBylinkFlag: boolean = true;
   discountChanged: boolean = false;
@@ -78,6 +79,8 @@ export class PayFeesComponent {
   toWords = new ToWords();
 
   @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
+  @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
+  
 
   constructor(private formBuilder: FormBuilder,
     public validationMsg: ValidationErrorMessageService,
@@ -421,12 +424,24 @@ export class PayFeesComponent {
             this.clearPaymentDetails();
           }
 
-          
-          let el: HTMLElement = this.childComponent.childElement.nativeElement;
-          el.click();
+          this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.DD_MM_YYYY);
+          setTimeout(() => {
+              let el: HTMLElement = this.childComponent.childElement.nativeElement;
+              el.click();
+          }, 200);
         }
       });
     } catch (error) { }
+  }
+
+  async printReceipt(i:number)  {
+    this.receiptFeesModel = this.feesData[i];
+    this.receiptFeesModel.paymentDate = moment(this.receiptFeesModel.paymentDate).format(msgTypes.DD_MM_YYYY);
+    setTimeout(() => {
+      let el: HTMLElement = this.receiptComponent.childElement.nativeElement;
+      el.click();  
+    }, 200);
+    
   }
 
   clearPaymentDetails() {

@@ -403,21 +403,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let feesModel of feesData;let i=index">
-                            <td class="td-auto">{{feesModel.receiptNo}}</td>
-                            <td class="td-auto">{{feesModel.paymentDate | dateFormatPipe}}</td>
-                            <td class="td-auto">{{feesModel.paymentMode}}</td>
-                            <td class="td-auto">{{feesModel.remarks}}</td>
-                            <!-- <td class="td-auto">{{feesModel.paymentReceivedBy}}</td> -->
-                            <td class="td-auto">{{feesModel.updatedBy}}</td>
-                            <td class="td-auto">{{feesModel.amount}}</td>
-                            <td class="td-auto"><app-fees-receipt-printout
-                                    [feesModel]="feesModel"></app-fees-receipt-printout></td>
+                        <tr *ngFor="let data of feesData;let i=index">
+                            <td class="td-auto">{{data.receiptNo}}</td>
+                            <td class="td-auto">{{data.paymentDate | dateFormatPipe}}</td>
+                            <td class="td-auto">{{data.paymentMode}}</td>
+                            <td class="td-auto">{{data.remarks}}</td>
+                            <!-- <td class="td-auto">{{data.paymentReceivedBy}}</td> -->
+                            <td class="td-auto">{{data.updatedBy}}</td>
+                            <td class="td-auto">{{data.amount}}</td>
+                            <td class="td-auto"><button  (click)="printReceipt(i)" class="btn btn-sm btn-warning">Print</button></td>
                         </tr>
                     </tbody>
                 </table>
                 <!--end::table-->
-
+                <app-fees-receipt-printout #receiptComponent  [feesModel]="receiptFeesModel" class="d-none" ></app-fees-receipt-printout>
             </div>
         </ng-container>
         <!--end::second Card body-->

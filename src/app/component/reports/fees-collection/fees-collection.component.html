@@ -117,7 +117,7 @@
          <td class="td-medium">{{post.paymentMode}}</td>
          <td class="td-medium">{{post.paymentReceivedBy}}</td>
          <td class="td-large">{{post.updatedBy}}</td>
-         <td><app-fees-receipt-printout [feesModel]="post" ></app-fees-receipt-printout></td>
+         <td><button  (click)="printReceipt(post)" class="btn btn-sm btn-warning">Print</button></td>
        
          <!-- <td class="td-action">  
            <a (click)="payFees(post)"><i class="fa fa-money fa-lg"></i></a>
@@ -125,6 +125,7 @@
        </tr>
      </tbody>
    </table>
+   <app-fees-receipt-printout #receiptComponent  [feesModel]="receiptFeesModel" class="d-none" ></app-fees-receipt-printout>
    <!--end::table-->
       
    </div>

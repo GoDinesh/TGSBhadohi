@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { FeesService } from 'src/app/service/fees/fees.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
+import { FeesReceiptPrintoutComponent } from '../../printout/fees-receipt-printout/fees-receipt-printout.component';
 
 
 @Component({
@@ -28,12 +29,14 @@ export class FeesCollectionComponent {
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
   posts: Fees[] = [];
+  receiptFeesModel: Fees = new Fees();
   maxDate = new Date();
   isDisabled = true;
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
   totalCollection: number = 0;
+  @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),
@@ -152,5 +155,15 @@ export class FeesCollectionComponent {
     this.createStudentForm(new Fees())
     this.posts = [];
     this.totalCollection = 0;
+  }
+
+  async printReceipt(data:Fees)  {
+    this.receiptFeesModel = data;
+    this.receiptFeesModel.paymentDate = moment(this.receiptFeesModel.paymentDate).format(msgTypes.DD_MM_YYYY);
+    setTimeout(() => {
+      let el: HTMLElement = this.receiptComponent.childElement.nativeElement;
+      el.click();  
+    }, 200);
+    
   }
 }

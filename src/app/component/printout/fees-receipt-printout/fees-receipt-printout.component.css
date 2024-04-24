@@ -27,5 +27,31 @@
 }
 
 .td-width{
-    width: 35%;
+    width: 38%;
+    /* padding: 4px; */
+    padding-top: 5px;
+
+}
+
+
+#scissors {
+    height: 3rem;
+    width: 100%;
+    margin: auto auto;
+    position: relative;
+}
+
+#scissors img {
+    height: 1rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#scissors div {
+    position: relative;
+    top: 50%;
+    border-top: 1px dashed black;
+    margin-top: -1px;
 }

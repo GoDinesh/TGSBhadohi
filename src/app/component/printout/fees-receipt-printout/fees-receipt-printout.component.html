@@ -1,9 +1,9 @@
-<button class="btn btn-sm btn-warning" #printButton printSectionId="print-section"   [useExistingCss]="true" ngxPrint >Print</button>
+<button class="btn btn-sm btn-warning" #printButton printSectionId="print-section" printTitle="Print Receipt"  [useExistingCss]="true" ngxPrint >Print</button>
 
     <div  id="print-section" class="d-none"> 
-        <ng-container *ngIf="feesModel1">
+        <ng-container *ngIf="feesModel">
         <!-- <ng-container *ngIf="feesDetails | async as value"> -->
-            <!-- <div *ngFor="let feesModel1 of value.data; let i = index" id="student-card-{{i}}">  -->
+            <!-- <div *ngFor="let feesModel of value.data; let i = index" id="student-card-{{i}}">  -->
             <ng-container *ngFor="let number of [0,1]">
         <div class="container border">
                 <div class="row">
@@ -33,73 +33,89 @@
                         <tr>
                             <td class="table_td_width1">
                                 <div>
-                                    <table style="width:100%">
+                                    <table style="width:100%;">
                                         <tr>
                                             <td class="td-width">Name</td>
-                                            <td><b>: {{feesModel1.studentName}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.studentName}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Date</td>
-                                            <td><b>: {{feesModel1.paymentDate}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.paymentDate}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Receipt No</td>
-                                            <td><b>: {{feesModel1.receiptNo}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.receiptNo}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">ID Card Number</td>
-                                            <td><b>: {{feesModel1.idCardNumber}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.idCardNumber}}</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="td-width">Academic year</td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.academicYear}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Class</td>
-                                            <td><b>: {{feesModel1.className}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.className}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Roll Number </td>
-                                            <td><b>: {{feesModel1.rollnumber}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.rollnumber}}</b></td>
                                         </tr>
                                     </table>
                                 </div>
                             </td>
                             <td class="table_td_width2">
                                 <div>
-                                    <table style="width:100%">
+                                    <table style="width:100%;">
                                         <tr>
                                             <td class="td-width">Received with thanks From</td>
-                                            <td><b>: {{feesModel1.paymentReceivedBy}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b><u>{{feesModel.paymentReceivedBy}}</u></b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">an amount of rupees (fig) </td>
-                                            <td><b>: {{feesModel1.amount}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b><u>{{feesModel.amount}} /-</u></b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">(words) </td>
-                                            <td><b>: {{feesModel1.amountInWords}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b><u>{{feesModel.amountInWords}}</u></b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">towards </td>
-                                            <td><b>: {{feesModel1.paymenttype}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.paymenttype}}</b></td>
                                         </tr>
-                                        <tr>
-                                            <td class="td-width">for Academic year</td>
-                                            <td><b>: {{feesModel1.academicYear}}</b></td>
-                                        </tr>
+                                        
                                         <tr>
                                             <td class="td-width">Paymant through </td>
-                                            <td><b>: {{feesModel1.paymentMode}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.paymentMode}}</b></td>
                                         </tr>
                                     
                                         <tr>
                                             <td class="td-width">Balance Fees </td>
-                                            <td><b>: {{feesModel1.balanceFees}}/-</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.balanceFees}}/-</b></td>
                                         </tr>
-                                        <tr *ngIf="feesModel1.balanceBookFees>0">
+                                        <tr *ngIf="feesModel.balanceBookFees>0">
                                             <td class="td-width">Balance SSM Fees </td>
-                                            <td><b>: {{feesModel1.balanceBookFees}}/-</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.balanceBookFees}}/-</b></td>
                                         </tr>
-                                        <tr *ngIf="feesModel1.remarks.length>0">
+                                        <tr *ngIf="feesModel.remarks.length>0">
                                             <td class="td-width">Remarks </td>
-                                            <td><b>: {{feesModel1.remarks}}</b></td>
+                                            <td> :&nbsp; </td>
+                                            <td><b>{{feesModel.remarks}}</b></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -109,7 +125,7 @@
                     
                    
                 </div>
-                <div class="row mt-5 mb-5">
+                <div class="row mt-4 mb-1 mt-3 pt-3" >
                     <div class="col-md-12 floatright" align="right">
                         <div>
                             <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
@@ -120,7 +136,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <ng-container *ngIf="number===1">
-                            Fees receipt generated by: {{feesModel1.updatedBy}}
+                            Fees receipt generated by: {{feesModel.updatedBy}}
                         </ng-container>
                     </div>
 
@@ -132,10 +148,18 @@
                     </div>
                 </div>
         </div>
-        <br><br>
+        <br>
+        <ng-container *ngIf="number==0">
+        <div id="scissors">
+            <img src="https://i.stack.imgur.com/cXciH.png" alt="Scissors">
+            <div></div>
+        </div>
+    </ng-container>
+        <br>
         
             </ng-container>
             <!-- </div> -->
         <!-- </ng-container> -->
         </ng-container>
     </div>
+    
