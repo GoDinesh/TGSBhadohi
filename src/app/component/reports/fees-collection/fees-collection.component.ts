@@ -43,6 +43,8 @@ export class FeesCollectionComponent {
     academicYearCode: new FormControl(),
     startDate: new FormControl(),
     endDate: new FormControl(),
+    paymentMode: new FormControl(),
+    paymenttype: new FormControl()
   });
 
   constructor(
@@ -86,7 +88,10 @@ export class FeesCollectionComponent {
       standard: [fees.classCode],
       academicYearCode: [fees.academicYearCode,[Validators.required]],
       startDate:[fees.startDate],
-      endDate: [ fees.endDate]
+      endDate: [ fees.endDate],
+      paymentMode: [fees.paymentMode],
+      paymenttype: [fees.paymenttype]
+
      });
   }
 
@@ -132,6 +137,8 @@ export class FeesCollectionComponent {
     fees.classCode = this.studentFormControll.standard.value;
     fees.startDate = moment(this.studentFormControll.startDate.value).format(msgTypes.YYYY_MM_DD);
     fees.endDate = moment(this.studentFormControll.endDate.value).format(msgTypes.YYYY_MM_DD);
+    fees.paymentMode = this.studentFormControll.paymentMode.value;
+    fees.paymenttype = this.studentFormControll.paymenttype.value;
 
     this.feesService.getPaidFeesOfStudent(fees).subscribe(res=>{
       this.totalCollection = 0;

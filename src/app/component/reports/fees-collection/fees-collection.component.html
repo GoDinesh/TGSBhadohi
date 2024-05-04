@@ -72,8 +72,35 @@
       <!--end::Date Range-->
       <!-- End:: date Range -->
 
-         <div></div>
-         <div></div>
+      <!-- Begin Payment Type -->
+      
+          <div class="form-group">
+            <label class="form-label">Payment Type</label>
+            <mat-select class="form-control form-control-sm" formControlName="paymenttype" placeholder="Select Payment Type">
+              <mat-option value="Fees">Fees</mat-option>
+              <mat-option value="Book Fees">SSM Fees</mat-option>
+            </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(studentFormControll.paymenttype,"Payment Type")}}
+            </div>
+          </div>
+      
+         <!-- End:: Payment type -->
+
+         <!-- Begin:: Payment Mode -->
+          <div class="form-group">
+            <label class="form-label">Payment Mode</label>
+            <mat-select class="form-control form-control-sm" formControlName="paymentMode" placeholder="Select Payment Mode">
+              <mat-option value="CASH">CASH</mat-option>
+              <mat-option value="ONLINE">ONLINE</mat-option>
+              <mat-option value="CHEQUE">CHEQUE</mat-option>
+            </mat-select>
+            <div class="invalid-feedback">
+              {{validationMsg.getErrorMessage(studentFormControll.paymentMode,"Payment Mode")}}
+            </div>
+          </div>
+        
+         <!-- End:: Payment Mode -->
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
                 <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>

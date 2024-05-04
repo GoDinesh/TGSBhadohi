@@ -36,7 +36,34 @@
             </div>
             <!-- end::Standard -->
 
-         
+            <!-- Begin::Month -->
+            <div class="form-group">
+              <label class="form-label required">Month</label>
+              <mat-select class="custom-select-option form-control form-control-sm" formControlName="temp"
+                autocomplete="off">
+                <mat-option value="" disabled>Select Month</mat-option>
+                <mat-option value="04">Apr</mat-option>
+                <mat-option value="05">May</mat-option>
+                <mat-option value="06">Jun</mat-option>
+                <mat-option value="07">Jul</mat-option>
+                <mat-option value="08">Aug</mat-option>
+                <mat-option value="09">Sep</mat-option>
+                <mat-option value="10">Oct</mat-option>
+                <mat-option value="11">Nov</mat-option>
+                <mat-option value="12">Dec</mat-option>
+                <mat-option value="01">Jan</mat-option>
+                <mat-option value="02">Feb</mat-option>
+                <mat-option value="03">Mar</mat-option>
+                
+              </mat-select>
+              <div class="invalid-feedback">
+                {{validationMsg.getErrorMessage(studentFormControll.temp,"Month")}}
+              </div>
+            </div>
+            <!-- End:: Month -->
+
+            <div></div>
+            <div></div>
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
                 <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button>
@@ -61,7 +88,9 @@
          <th>Academic Year</th>
          <th>Enrollment Type</th>
          <th>Father Name</th>
-         <th>Total Fees</th>
+         <th>Contact Number</th>
+         <th>Year Fees</th>
+         <th>Total Fees up to Month</th>
          <th>Discount</th>
          <th>Paid Amount</th>
          <th>Pending Fees</th>
@@ -76,7 +105,9 @@
          <td class="td-medium">{{ post.academicYearCode}}</td>
          <td class="td-medium">{{ post.enrollmentType}}</td>
          <td class="td-large">{{ post.fatherName}}</td>
-         <td class="td-medium">{{post.totalFees}}</td>
+         <td class="td-large">{{post.fatherContactNo}}</td>
+         <td class="td-large">{{post.totalFees}}</td>
+         <td class="td-medium">{{post.temp}}</td>
          <td class="td-medium">{{post.discountAmount}}</td>
          <td class="td-medium">{{post.paidFees}}</td>
          <td class="td-medium font-colour">{{post.pendingFees}}</td>

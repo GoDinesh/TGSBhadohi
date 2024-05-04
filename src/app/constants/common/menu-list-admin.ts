@@ -68,12 +68,12 @@ export const menuListAdmin: INavbarData[]=[
     //     "routerLink": masters + "/fees-type",
     //     "active": true,
     // },
-    {
-        "text": "Discount Reason",
-        "icon": "fa fa-gg-circle",
-        "routerLink": masters + "/discount-reason",
-        "active": true,
-    },
+    // {
+    //     "text": "Discount Reason",
+    //     "icon": "fa fa-gg-circle",
+    //     "routerLink": masters + "/discount-reason",
+    //     "active": true,
+    // },
     {
         "text": "SSM Fees",
         "icon": "fa fa-book",

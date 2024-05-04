@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col-md-12 p-2">
                         <div class="text-center">                
-                            <div><img class="p-1 logo" src="/assets/website/img/print-logo.jpg"  width="150" height="120"></div>
-                            <div>Indra Gandi Marg, Chaksaif, Bhadohi - 221401</div>
+                            <div><img class="p-1 logo" src="/assets/website/img/print-logo.jpg"  width="200" height="150"></div>
+                            <div>Indra Gandhi Marg, Chaksaif, Bhadohi - 221401</div>
                             <div><b>FEES RECEIPT</b></div>
                         </div>
                     </div>
@@ -37,37 +37,37 @@
                                         <tr>
                                             <td class="td-width">Name</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.studentName}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.studentName}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Date</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.paymentDate}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.paymentDate}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Receipt No</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.receiptNo}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.receiptNo}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">ID Card Number</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.idCardNumber}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.idCardNumber}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Academic year</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.academicYear}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.academicYear}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Class</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.className}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.className}}</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">Roll Number </td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.rollnumber}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.rollnumber}}</b></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -78,44 +78,49 @@
                                         <tr>
                                             <td class="td-width">Received with thanks From</td>
                                             <td> :&nbsp; </td>
-                                            <td><b><u>{{feesModel.paymentReceivedBy}}</u></b></td>
+                                            <td class="dotted"><b>{{feesModel.paymentReceivedBy}}</b></td>
                                         </tr>
                                         <tr>
-                                            <td class="td-width">an amount of rupees (fig) </td>
+                                            <td class="td-width">An amount of rupees (fig) </td>
                                             <td> :&nbsp; </td>
-                                            <td><b><u>{{feesModel.amount}} /-</u></b></td>
+                                            <td class="dotted"><b>{{feesModel.amount}}/-</b></td>
                                         </tr>
                                         <tr>
                                             <td class="td-width">(words) </td>
                                             <td> :&nbsp; </td>
-                                            <td><b><u>{{feesModel.amountInWords}}</u></b></td>
+                                            <td class="dotted"><b>{{feesModel.amountInWords}}</b></td>
                                         </tr>
                                         <tr>
-                                            <td class="td-width">towards </td>
+                                            <td class="td-width">Towards </td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.paymenttype}}</b></td>
+                                            <td class="dotted">
+                                                <b>
+                                                <ng-container *ngIf="feesModel.paymenttype==='Book Fees'">SSM Fees</ng-container>
+                                                <ng-container *ngIf="feesModel.paymenttype==='Fees'">Fees</ng-container>                                                    
+                                                </b>
+                                            </td>
                                         </tr>
                                         
                                         <tr>
-                                            <td class="td-width">Paymant through </td>
+                                            <td class="td-width">Paymant Mode</td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.paymentMode}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.paymentMode}}</b></td>
                                         </tr>
                                     
                                         <tr>
                                             <td class="td-width">Balance Fees </td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.balanceFees}}/-</b></td>
+                                            <td class="dotted"><b>{{feesModel.balanceFees}}/-</b></td>
                                         </tr>
                                         <tr *ngIf="feesModel.balanceBookFees>0">
                                             <td class="td-width">Balance SSM Fees </td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.balanceBookFees}}/-</b></td>
+                                            <td class="dotted"><b>{{feesModel.balanceBookFees}}/-</b></td>
                                         </tr>
                                         <tr *ngIf="feesModel.remarks.length>0">
                                             <td class="td-width">Remarks </td>
                                             <td> :&nbsp; </td>
-                                            <td><b>{{feesModel.remarks}}</b></td>
+                                            <td class="dotted"><b>{{feesModel.remarks}}</b></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -129,7 +134,7 @@
                     <div class="col-md-12 floatright" align="right">
                         <div>
                             <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
-                            <div>Authorised Singnatory</div>
+                            <div>Authorized Singnatory</div>
                         </div>
                     </div>
                 </div>
@@ -143,7 +148,7 @@
                 </div>
                 <div class="row border">
                     <div class="col-md-12">
-                        <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realistion. Kids shall not attend the course in case the cheque is dishonured
+                        <div>Note: Fees once paid will not be refunded under any circumstances. Cheques are subject to realisation. Kids shall not attend the course in case the cheque is dishonoured
                             due to any reason.</div>
                     </div>
                 </div>

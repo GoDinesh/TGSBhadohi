@@ -182,4 +182,9 @@ td {
   all: unset;
 }
 
+.next-button{
+  position: inherit;
+  padding: 0;
+}
+
 

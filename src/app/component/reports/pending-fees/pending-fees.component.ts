@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
+import { Fees } from 'src/app/model/fees/fees.model';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
@@ -13,6 +14,7 @@ import { AuthService } from 'src/app/service/common/auth.service';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
+import { FeesService } from 'src/app/service/fees/fees.service';
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
@@ -35,6 +37,7 @@ export class PendingFeesComponent {
   studentgroup = new FormGroup({
     standard: new FormControl(),
     academicYearCode: new FormControl(),
+    temp: new FormControl()
   });
 
   constructor(
@@ -46,7 +49,8 @@ export class PendingFeesComponent {
     private sweetAlertService: SweetAlertService,
     private permissionService: PermissionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private feesService:FeesService
   ) {
   }
 
@@ -73,10 +77,11 @@ export class PendingFeesComponent {
     });
   }
 
-  createStudentForm(registartion: Registration) {
+  createStudentForm(reg: Registration) {
     this.studentgroup = this.formBuilder.group({
-      standard: [registartion.standard],
-      academicYearCode: [registartion.academicYearCode, [Validators.required]],
+      standard: [reg.standard],
+      academicYearCode: [reg.academicYearCode, [Validators.required]],
+      temp: [reg.temp, [Validators.required]]
     });
   }
 
@@ -117,28 +122,39 @@ export class PendingFeesComponent {
 
   //To get Student List
   async getTableRecord() {
-    const studentInfo: Registration = new Registration();
-    studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
-    studentInfo.standard = this.studentFormControll.standard.value;
-
-    this.registrationService.studentList(studentInfo).subscribe(res => {
-      this.posts = [];
-      if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        if (res.data.length > 0) {
-          this.posts = res.data;
-          this.posts = this.posts.filter(data => {
-            return data.isTotalFeesPaid === false
-          })
-        }
-        if (this.posts.length == 0) {
-          this.posts = [];
-          this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
-        }
-      }else{
-        this.posts = [];
-        this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
-      }
+    
+    const reg: Registration = new Registration();
+    reg.academicYearCode = this.studentFormControll.academicYearCode.value;
+    reg.standard = this.studentFormControll.standard.value;
+    reg.temp = this.studentFormControll.temp.value;
+    this.posts = [];
+    this.feesService.getPendingFees(reg).subscribe(res=>{
+      this.posts = res.data 
     })
+
+
+    // const studentInfo: Registration = new Registration();
+    // studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
+    // studentInfo.standard = this.studentFormControll.standard.value;
+   
+    // this.registrationService.studentList(studentInfo).subscribe(res => {
+    //   this.posts = [];
+    //   if (res.status === msgTypes.SUCCESS_MESSAGE) {
+    //     if (res.data.length > 0) {
+    //       this.posts = res.data;
+    //       this.posts = this.posts.filter(data => {
+    //         return data.isTotalFeesPaid === false
+    //       })
+    //     }
+    //     if (this.posts.length == 0) {
+    //       this.posts = [];
+    //       this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
+    //     }
+    //   }else{
+    //     this.posts = [];
+    //     this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
+    //   }
+    // })
   }
 
   //Action for Payin Details

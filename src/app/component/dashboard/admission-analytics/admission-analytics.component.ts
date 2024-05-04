@@ -120,8 +120,8 @@ export class AdmissionAnalyticsComponent {
 
       this.chartOptions = {
         chart: {
-          width: 500,  // Width of the chart
-          height: 300  // Height of the chart
+          //width: 500,  // Width of the chart
+          //height: 300  // Height of the chart
         },
         title: {
           text: 'Student Admissions Statistics',

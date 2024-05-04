@@ -1,10 +1,10 @@
 export const appurl={
     //Prod    
     //baseurl: 'https://13.48.143.218:8080',
-    baseurl: 'https://api.tgsbhadohi.com',
+    //baseurl: 'https://api.tgsbhadohi.com',
 
     //local
-    //baseurl: 'http://localhost:8000',
+    baseurl: 'http://localhost:8000',
 
 
     navmenu: '/navmenu',
@@ -45,6 +45,7 @@ export const appurl={
                 get_fees_by_date_class: '/get-fees-by-date-class',
                 get_receipt_number: '/get-receipt-number',
                 filter_by_receipt:'/filter-by-receipt',
+                pending_fees: '/pending-fees',
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

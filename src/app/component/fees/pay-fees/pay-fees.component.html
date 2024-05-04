@@ -200,6 +200,18 @@
                         </div>
                         <!-- End:: Installment Details -->
 
+                        <div class="row p-0">
+                            <div class="col-md-12">
+                                <div class="float-right">
+                                    <ng-container *ngIf="discountChanged">
+                                        <button class="btn btn-sm btn-success m-2"
+                                            (click)="updateFeeStructureDiscount()">Save
+                                            Discount</button>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Begin:: Book Dress Fees Begin -->
                         <ng-container *ngIf="bookAndDressFeesModel">
                             <div class="mb-4">
@@ -249,11 +261,6 @@
                             <div class="d-flex">
                                 <h2>Fee Payment - Please Enter Payment Details Below: (Amount Paid Till Date
                                     :{{amountPaidTillDate}})</h2>
-                                <ng-container *ngIf="discountChanged">
-                                    <button class="btn btn-sm btn-success m-2"
-                                        (click)="updateFeeStructureDiscount()">Save
-                                        Discount</button>
-                                </ng-container>
                             </div>
                             <div class="container m-0">
                                 <div class="row">

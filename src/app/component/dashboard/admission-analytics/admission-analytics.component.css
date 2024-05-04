@@ -11,4 +11,12 @@
     line-height: 1.5;  /* Increase the default line height */
   }
 
+  .chart-autoScroll{
+    overflow: scroll;
+    width: 500px;
+    /* height: 40vh; */
+    padding: 0px;
+    margin: 0px;
+  }
+
   

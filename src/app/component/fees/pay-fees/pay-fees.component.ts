@@ -162,8 +162,6 @@ export class PayFeesComponent {
 
   getFeesReceiptNumber() {
     this.feesService.getMaxReceiptNo().subscribe((res) => {
-      console.log("receipt number" + res);
-
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.receiptnumber = res.data;
         this.payFees();

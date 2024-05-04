@@ -7,6 +7,7 @@
 .table_td_width1{
     width: 40%;
     vertical-align: top;
+    padding-right: 40px;
 }
 
 .table_td_width2{
@@ -55,3 +56,8 @@
     border-top: 1px dashed black;
     margin-top: -1px;
 }
+
+.dotted{
+    border-bottom: 1px dashed #999;
+    text-decoration: none; 
+  }

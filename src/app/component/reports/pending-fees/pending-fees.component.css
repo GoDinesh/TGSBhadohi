@@ -2,3 +2,7 @@
     color: red;
     font-weight: 500;
 }
+
+.dataTables_filter{
+    margin-bottom: 20px;
+}

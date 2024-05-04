@@ -45,9 +45,14 @@
             <div *ngFor="let student of filteredStudents.data | filterStudentList: searchStudent.value">
               <ng-container *ngIf="student.isActive===true">
                 <div class="message">
-                <!-- <div class="message-avatar">
-                  <img [src]="student.profileImage.link" alt="">
-                </div> -->
+                <div class="message-avatar">
+                  <ng-container *ngIf="student.profileImage!=null">
+                      <img src={{student.profileImage.link}} alt="">
+                  </ng-container>
+                  <ng-container *ngIf="student.profileImage==null">
+                    <img src="/assets/images/no_image.png" alt="">
+                  </ng-container>
+                </div>
                 <div class="message-body">
                   <p><b>Name:</b> {{ student.studentName }}</p>
                   <p><b>Father Name:</b> {{student.fatherName}}</p>

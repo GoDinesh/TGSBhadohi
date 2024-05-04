@@ -4,6 +4,7 @@ import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Fees } from 'src/app/model/fees/fees.model';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
+import { Registration } from 'src/app/model/student/registration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,11 @@ export class FeesService {
   getMaxReceiptNo(){
     const url  = this.requestUrl + appurl.get_receipt_number;
     return this.httpClient.get<ResponseModel>(url)
+  }
+
+  getPendingFees(reg: Registration){
+    const url  = this.requestUrl + appurl.pending_fees;
+    return this.httpClient.post<ResponseModel>(url, JSON.stringify(reg));
   }
 
   // getFeesDetailsByReceiptNo(fees: Fees){

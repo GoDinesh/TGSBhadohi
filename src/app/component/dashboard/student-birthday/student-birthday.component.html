@@ -10,7 +10,12 @@
       <div class="card birthday-card m-2">
         <div class="card-body d-flex flex-row">
           <div class="avatar">
-            <img src="{{student.profileImage.link}}" alt="{{student.studentName}}" class="avatar-img">
+            <ng-container *ngIf="student.profileImage!=null">
+              <img src="{{student.profileImage.link}}" alt="{{student.studentName}}" class="avatar-img">
+            </ng-container>
+            <ng-container *ngIf="student.profileImage==null">
+              <img src="/assets/images/no_image.png" alt="{{student.studentName}}" class="avatar-img">
+            </ng-container>
           </div>
           <div class="ml-2">
             <span class="card-title">{{student.studentName}}</span>

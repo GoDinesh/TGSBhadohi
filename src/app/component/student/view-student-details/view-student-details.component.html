@@ -10,14 +10,14 @@
           <div class="row mb-4">
             <!-- begin::student photo preview -->
             <div class="col-md-3">
-              <ng-container *ngIf="reg.profileImage">
+              <ng-container *ngIf="reg.profileImage!=null">
                 <div class="image-container">
                   <img src={{reg.profileImage.link}} alt="Student Photo" class="img-thumbnail mb-2">
                 </div>
               </ng-container>
-              <ng-container *ngIf="!reg.profileImage">
+              <ng-container *ngIf="reg.profileImage==null">
                 <div class="image-container">
-                  <img src="/src/assets/images/no_image.png" alt="Student Photo" class="img-thumbnail mb-2">
+                  <img src="/assets/images/no_image.png" alt="Student Photo" class="img-thumbnail mb-2">
                 </div>
               </ng-container>
               
