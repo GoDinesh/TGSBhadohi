@@ -22,7 +22,7 @@
     "@angular/router": "^15.2.5",
     "@types/crypto-js": "^4.1.1",
     "@types/jquery": "^3.5.21",
-    "angular-datatables": "^6.0.0",
+    "angular-datatables": "^16.0.0",
     "angular-fusioncharts": "^4.0.3",
     "bootstrap": "^4.6.2",
     "crypto-js": "^4.1.1",
