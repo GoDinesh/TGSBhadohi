@@ -33,8 +33,23 @@ export class PendingFeesComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
-
-  studentgroup = new FormGroup({
+  monthName: string ="";
+  monthArray=[
+        {key:"Apr", value:"04"},
+        {key:"May", value:"05"},
+        {key:"Jun", value:"06"},
+        {key:"Jul", value:"07"},
+        {key:"Aug", value:"08"},
+        {key:"Sep", value:"09"},
+        {key:"Oct", value:"10"},
+        {key:"Nov", value:"11"},
+        {key:"Dec", value:"12"},
+        {key:"Jan", value:"01"},
+        {key:"Feb", value:"02"},
+        {key:"Mar", value:"03"},
+      ];
+ 
+    studentgroup = new FormGroup({
     standard: new FormControl(),
     academicYearCode: new FormControl(),
     temp: new FormControl()
@@ -172,5 +187,13 @@ export class PendingFeesComponent {
   resetForm() {
     this.createStudentForm(new Registration())
     this.posts = [];
+  }
+
+  monthChange(){
+    const month= this.studentgroup.controls.temp.value;
+    const monthData = this.monthArray.filter((data)=>{
+       return data.value == month;
+    })
+    this.monthName = monthData[0].key;
   }
 }

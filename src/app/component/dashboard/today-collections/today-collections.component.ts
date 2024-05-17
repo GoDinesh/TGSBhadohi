@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { Observable, forkJoin } from 'rxjs';
-import { Fees } from 'src/app/model/fees/fees.model';
-import { Class } from 'src/app/model/master/class.model';
 import { Registration } from 'src/app/model/student/registration.model';
 import { FeesService } from 'src/app/service/fees/fees.service';
-import { ClassService } from 'src/app/service/masters/class.service';
 
 @Component({
-  selector: 'app-pendingfees-of-all-class',
-  templateUrl: './pendingfees-of-all-class.component.html',
-  styleUrls: ['./pendingfees-of-all-class.component.css']
+  selector: 'app-today-collections',
+  templateUrl: './today-collections.component.html',
+  styleUrls: ['./today-collections.component.css']
 })
-export class PendingfeesOfAllClassComponent {
+export class TodayCollectionsComponent {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
   constructor(private feesService: FeesService
@@ -48,10 +44,10 @@ export class PendingfeesOfAllClassComponent {
         height: 290  // Height of the chart
       },
       title: {
-        text: 'Pending Fees Class Wise',
+        text: 'Today Fees Collections',
       },
       xAxis: {
-        categories: categories
+        categories: ["Cash","online","Cheque"]
       },
       yAxis: {
         title: {
@@ -72,3 +68,4 @@ export class PendingfeesOfAllClassComponent {
  }
 
  }
+

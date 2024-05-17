@@ -64,8 +64,10 @@
   .card {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 16px;
+    padding: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 300px;
+    overflow-wrap:inherit
   }
   
   @media (max-width: 767px) {
@@ -74,3 +76,6 @@
     }
   }
   
+  .col-md-4 .col-md-3 .col-md-5{
+    padding-right: 0px;
+  }

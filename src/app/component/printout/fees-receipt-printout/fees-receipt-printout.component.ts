@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild} from '@angular/core';
-import * as moment from 'moment';
 import { NgxPrintModule } from 'ngx-print';
-import { msgTypes } from 'src/app/constants/common/msgType';
-import { DateFormatPipePipe } from 'src/app/core/pipes/date-format-pipe.pipe';
 import { Fees } from 'src/app/model/fees/fees.model';
-import { SharedModule } from 'src/app/shared-module';
 
 @Component({
   selector: 'app-fees-receipt-printout',
@@ -17,6 +13,14 @@ import { SharedModule } from 'src/app/shared-module';
 export class FeesReceiptPrintoutComponent{
   @Input() feesModel:Fees;
   @ViewChild('printButton') childElement:any;
+
+  constructor(){
+    console.log("Fees Model-"+this.feesModel);
+  }
+
+  ngOnInit(){
+    console.log("Fees Model-"+JSON.stringify(this.feesModel));
+  }
  
 }
 

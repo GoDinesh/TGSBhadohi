@@ -19,6 +19,8 @@ export class FeesReceiptComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any[]) {
     this.feesdetails = data[0];
+    console.log(this.feesdetails);
+    
     this.studentDetails = data[1];
 
     this.feesdetails.map(element=>{

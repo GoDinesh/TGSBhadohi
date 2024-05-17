@@ -38,6 +38,11 @@ export class FeesService {
     return this.httpClient.post<ResponseModel>(url, JSON.stringify(reg));
   }
 
+  getTotalPendingFeesClassWise(reg: Registration){
+    const url  = this.requestUrl + appurl.Pending_fees_class_wise;
+    return this.httpClient.post<ResponseModel>(url, JSON.stringify(reg));
+  }
+
   // getFeesDetailsByReceiptNo(fees: Fees){
   //   console.log(JSON.stringify(fees));
     

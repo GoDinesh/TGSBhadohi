@@ -102,7 +102,7 @@
                                         </tr>
                                         
                                         <tr>
-                                            <td class="td-width">Paymant Mode</td>
+                                            <td class="td-width">Payment Mode</td>
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.paymentMode}}</b></td>
                                         </tr>
@@ -117,7 +117,7 @@
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.balanceBookFees}}/-</b></td>
                                         </tr>
-                                        <tr *ngIf="feesModel.remarks.length>0">
+                                        <tr *ngIf="feesModel.remarks!=null">
                                             <td class="td-width">Remarks </td>
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.remarks}}</b></td>
@@ -134,7 +134,7 @@
                     <div class="col-md-12 floatright" align="right">
                         <div>
                             <div><img class=" p-1 logo" src="/assets/images/signature.png"  width="120" height="50"></div>
-                            <div>Authorized Singnatory</div>
+                            <div>Authorized Signatory</div>
                         </div>
                     </div>
                 </div>

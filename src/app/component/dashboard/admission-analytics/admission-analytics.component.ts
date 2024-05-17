@@ -31,25 +31,6 @@ export class AdmissionAnalyticsComponent {
     private classService: ClassService,
     private academicYearService: AcademicYearService) { }
 
-  // type = 'column2d';
-  // width = '600';
-  // height = '400';
-  // data = {
-  //   chart: {
-  //     caption: "Student Admissions by Session",
-  //     subCaption: "For the academic year 2022-2023",
-  //     xAxisName: "Session",
-  //     yAxisName: "Number of Admissions",
-  //     numberSuffix: "",
-  //     theme: "fusion"
-  //   },
-  //   data: [
-  //     { label: "Session 1", value: "50" },
-  //     { label: "Session 2", value: "30" },
-  //     { label: "Session 3", value: "20" }
-  //   ]
-  // };
-
   formgroup = new FormGroup({
     academicYearCode: new FormControl(),
   });
@@ -120,8 +101,8 @@ export class AdmissionAnalyticsComponent {
 
       this.chartOptions = {
         chart: {
-          //width: 500,  // Width of the chart
-          //height: 300  // Height of the chart
+          width: 450,  // Width of the chart
+          height: 230  // Height of the chart
         },
         title: {
           text: 'Student Admissions Statistics',
@@ -131,7 +112,7 @@ export class AdmissionAnalyticsComponent {
         },
         yAxis: {
           title: {
-            text: 'Number of Students'
+            text: 'No. of Students'
           }
         },
         series: [{

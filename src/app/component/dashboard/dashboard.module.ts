@@ -7,7 +7,8 @@ import { StudentBirthdayComponent } from './student-birthday/student-birthday.co
 import { AdmissionAnalyticsComponent } from './admission-analytics/admission-analytics.component';
 import { SharedModule } from 'src/app/shared-module';
 import { StudentDetailsModalComponent } from './student-details-modal/student-details-modal.component';
-import { PendingfeesOfAllClassComponent } from './pendingfees-of-all-class/pendingfees-of-all-class.component'
+import { PendingfeesOfAllClassComponent } from './pendingfees-of-all-class/pendingfees-of-all-class.component';
+import { TodayCollectionsComponent } from './today-collections/today-collections.component'
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PendingfeesOfAllClassComponent } from './pendingfees-of-all-class/pendi
     StudentBirthdayComponent,
     AdmissionAnalyticsComponent,
     StudentDetailsModalComponent,
-    PendingfeesOfAllClassComponent
+    PendingfeesOfAllClassComponent,
+    TodayCollectionsComponent
   ],
   imports: [
     CommonModule,
