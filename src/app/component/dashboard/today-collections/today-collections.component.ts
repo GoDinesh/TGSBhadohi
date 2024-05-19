@@ -40,7 +40,7 @@ export class TodayCollectionsComponent {
 
     this.chartOptions = {
       chart: {
-        width: 380,  // Width of the chart
+        width: 290,  // Width of the chart
         height: 290  // Height of the chart
       },
       title: {
@@ -51,11 +51,11 @@ export class TodayCollectionsComponent {
       },
       yAxis: {
         title: {
-          text: 'Pending Amount'
+          text: 'Fees Collections'
         }
       },
       series: [{
-        type: 'column',
+        type: 'pie',
         name: 'Pending Fees',
         data: dataValue,
       },

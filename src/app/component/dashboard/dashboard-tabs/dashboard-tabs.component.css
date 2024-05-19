@@ -1,0 +1,21 @@
+.card-height{
+    height: 130px;
+    padding: 0px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.card1{
+    background-color: rgb(72 81 204 / 19%);
+}
+
+.card2{
+    background-color: rgb(42 177 64 / 22%);
+}
+
+.card3{
+    background-color: rgba(193, 196, 10, 0.22);
+}
+
+.card4{
+    background-color: rgb(246 40 0 / 24%);
+}

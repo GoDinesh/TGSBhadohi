@@ -8,7 +8,8 @@ import { AdmissionAnalyticsComponent } from './admission-analytics/admission-ana
 import { SharedModule } from 'src/app/shared-module';
 import { StudentDetailsModalComponent } from './student-details-modal/student-details-modal.component';
 import { PendingfeesOfAllClassComponent } from './pendingfees-of-all-class/pendingfees-of-all-class.component';
-import { TodayCollectionsComponent } from './today-collections/today-collections.component'
+import { TodayCollectionsComponent } from './today-collections/today-collections.component';
+import { DashboardTabsComponent } from './dashboard-tabs/dashboard-tabs.component'
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { TodayCollectionsComponent } from './today-collections/today-collections
     AdmissionAnalyticsComponent,
     StudentDetailsModalComponent,
     PendingfeesOfAllClassComponent,
-    TodayCollectionsComponent
+    TodayCollectionsComponent,
+    DashboardTabsComponent
   ],
   imports: [
     CommonModule,
