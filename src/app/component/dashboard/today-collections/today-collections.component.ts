@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import { Registration } from 'src/app/model/student/registration.model';
-import { FeesService } from 'src/app/service/fees/fees.service';
 
 @Component({
   selector: 'app-today-collections',
@@ -11,61 +9,66 @@ import { FeesService } from 'src/app/service/fees/fees.service';
 export class TodayCollectionsComponent {
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options;
-  constructor(private feesService: FeesService
-  ){}
+ 
+  dataValue: number[]= [];
+  @Input() cashCollection!: number;
+  @Input() onlineCollection!: number;
+  @Input() chequeCollection!: number;
+  @Input() ssmCollection!: number;
+  
+
+  constructor(){}
 
  ngOnInit(){
-      this.loadData();
+  this.customOnInit();
  }
 
- loadData(){
-  const reg: Registration = new Registration();
-  const month = new Date().getMonth()+1;
-  const year = new Date().getFullYear();
-  if(month>3)
-    reg.academicYearCode = year.toString()+(year+1).toString();  
-  else
-    reg.academicYearCode = (year-1).toString()+year;
+ async customOnInit(){
   
-  reg.temp = month.toString();  
+}
 
-  this.feesService.getTotalPendingFeesClassWise(reg).subscribe(res=>{
-    const dataValue=[];
-    const categories=[];
-   for(let i=0;i<res.data.length;i++){
-      const val = res.data[i].split("#");
-      categories.push(val[0]);
-      dataValue.push(Number(val[1]));
-   }
+ngOnChanges(){
+ this.initialize();
+}
 
-    this.chartOptions = {
-      chart: {
-        width: 290,  // Width of the chart
-        height: 290  // Height of the chart
-      },
-      title: {
-        text: 'Today Fees Collections',
-      },
-      xAxis: {
-        categories: ["Cash","online","Cheque"]
-      },
-      yAxis: {
-        title: {
-          text: 'Fees Collections'
-        }
-      },
-      series: [{
-        type: 'pie',
-        name: 'Pending Fees',
-        data: dataValue,
-      },
-     
+ async initialize(){
+  this.chartOptions={
+    chart: {
+      width: 290,  // Width of the chart
+      height: 290  // Height of the chart
+    },
+    title: {
+      text: 'Today Fees Collections',
+    },
+   plotOptions : {
+      pie: {
+         allowPointSelect: true,
+         cursor: 'pointer',
+   
+         dataLabels: {
+            enabled: false           
+         },
+   
+         showInLegend: true
+      }
+   },
+   series : [{
+      type: 'pie',
+      name: 'Fees Collections',
+      data: [
+         ['Cash',this.cashCollection],
+         ['Online',this.onlineCollection],
+         ['Cheque',this.chequeCollection],
+         ['SSM',this.ssmCollection ]
       ]
-    };
+   }]
+  };
+
+
+  }
+
+
     
-  });
-
- }
-
+ 
  }
 

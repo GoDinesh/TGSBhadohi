@@ -4,8 +4,8 @@ export const appurl={
     //baseurl: 'https://api.tgsbhadohi.com',
 
     //local
-      //baseurl: 'http://localhost:8000',
-      baseurl: 'https://tgsspringboot-production.up.railway.app',
+    baseurl: 'http://localhost:8000',
+    //baseurl: 'https://tgsspringboot-production.up.railway.app',
 
 
     navmenu: '/navmenu',

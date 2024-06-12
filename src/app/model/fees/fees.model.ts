@@ -25,7 +25,8 @@ export class Fees {
   rollnumber: string;
   balanceFees: number;
   balanceBookFees: number;
-  updatedBy: String;
+  updatedBy: string;
+  month: string;
   //    registrationId: string;
 
 
@@ -50,6 +51,7 @@ export class Fees {
 
     this.startDate = "";
     this.endDate = "";
+    this.month = "";
     //  this.registrationId="";
   }
 }

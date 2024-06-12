@@ -30,6 +30,17 @@ export const msgTypes = {
         APPLICATION_JSON: "application/json"
     },
 
+    PAYMENT_METHOD:{
+        CASH : 'CASH',
+        ONLINE: 'ONLINE',
+        CHEQUE: 'CHEQUE'
+    },
+
+    PAYMENT_TYPE:{
+            FEES: 'Fees',
+            SSM_FEES: 'Book Fees'
+    },
+
     STATE: 'state',
 
     TOKEN_EXPIRE_ERROR: 'TokenExpiredError',
@@ -42,7 +53,18 @@ export const msgTypes = {
 
     LUMPSUM: 'Lumpsum',
     INSTALLMENT: 'Installment',
-    TIME_GLOBAL_SCHOOL: 'TIME GLOBAL SCHOOL'
+    TIME_GLOBAL_SCHOOL: 'TIME GLOBAL SCHOOL',
+
+    DASHBOARD_CONTENT:{
+        TOTAL_BOYS_GIRLS_TAB:"Total Boys Girls Tab",
+        TODAY_FEES_COLLECTION_TAB:"Today Fees Collection Tab",
+        AADHAR_NOT_SUBMITTED_TAB:"Aadhar Not Submitted Tab",
+        ADMISSION_STATISTICS_GRAPH:"Admission Statistics Graph",
+        PENDING_FEES_GRAPH:"Pending Fees Graph",
+        TODAY_FEES_COLLECTION_GRAPH:"Today Fees Collection Graph",
+        TODAY_BIRTHDAY:"Today Birthday",
+
+    }
 
 
 

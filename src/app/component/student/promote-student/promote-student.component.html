@@ -178,7 +178,14 @@
 
     <!-- begin::Buttons -->
     <div class="grid-button-inline form-group pt-4">
-      <button class="btn btn-success btn-sm mx-2" [disabled]="!promotedStudentGroup.valid" (click)="promoteStudent()">Promote Student</button>
+      <ng-container *ngIf="!editable;else formValidation">
+        <button class="btn btn-sm btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+            disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+      </ng-container>
+      <ng-template #formValidation>
+        <button class="btn btn-success btn-sm mx-2" [disabled]="!promotedStudentGroup.valid" (click)="promoteStudent()">Promote Student</button>
+      </ng-template>
+      
     </div>
     <!-- end::Buttons -->
   </form>

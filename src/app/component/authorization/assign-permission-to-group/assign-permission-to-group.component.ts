@@ -15,6 +15,7 @@ import { PermissionGroup } from 'src/app/model/authorization/permission-group.mo
 import { AssignPermissionToGroup } from 'src/app/model/authorization/assign-permission-to-group.model';
 import { AssignPermissionToGroupService } from 'src/app/service/authorization/assign-permission-to-group.service';
 import { PermissionGroupService } from 'src/app/service/authorization/permission-group.service';
+import { PermissionService } from 'src/app/service/common/permission.service';
 
 // Define the flat node structure
 interface MenuItemFlatNode {
@@ -41,7 +42,7 @@ export class AssignPermissionToGroupComponent {
   selectedItems: MenuItemFlatNode[] = [];
   assignPermissionToGroup: AssignPermissionToGroup = new AssignPermissionToGroup();
   dummy: INavbarData[] = [];
-  editable: boolean;
+  editableForm: boolean | undefined;
 
   // we can initialize our checkbox selections here
   checkboxSelections: SelectionModel<MenuItemFlatNode> = new SelectionModel<MenuItemFlatNode>(true);
@@ -70,6 +71,8 @@ export class AssignPermissionToGroupComponent {
     private permissionGroupService: PermissionGroupService,
     private assignPermissionToGroupService: AssignPermissionToGroupService,
     private alertService: SweetAlertService,
+    private permissionService: PermissionService,
+    private router: Router,
   ) {
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener),
       // Initialize all 'active' properties to false
@@ -87,6 +90,7 @@ export class AssignPermissionToGroupComponent {
 
   ngOnInit() {
     this.createForm(new AssignPermissionToGroup());
+    this.updateEditable();
     this.treeControl.dataNodes.forEach(node => {
       if (node.active) {
         this.checkboxSelections.select(node);
@@ -396,5 +400,11 @@ export class AssignPermissionToGroupComponent {
     });
   }
 
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editableForm = editable;
+    });
+  }
 
 }

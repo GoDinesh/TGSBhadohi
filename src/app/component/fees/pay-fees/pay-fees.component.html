@@ -264,10 +264,10 @@
                             </div>
                             <div class="container m-0">
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <label class="fw-bold required">Amount</label>
                                         <input type="text" formControlName="amount" class="form-control"
-                                            placeholder="Enter Amount" />
+                                            placeholder="Amount" />
                                         <div class="invalid-feedback">
                                             {{validationMsg.getErrorMessage(feesFormControll.amount,"Amount")}}
                                         </div>
@@ -280,7 +280,7 @@
                                             <!-- <option value="Dress Fees">Dress Fees</option>                                                    -->
                                         </select>
                                         <div class="invalid-feedback">
-                                            {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
+                                            {{validationMsg.getErrorMessage(feesFormControll.paymenttype,"Payment
                                             Type")}}
                                         </div>
                                     </div>
@@ -300,6 +300,25 @@
                                         <div class="invalid-feedback">
                                             {{validationMsg.getErrorMessage(feesFormControll.paymentMode,"Payment
                                             Mode")}}</div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="fw-bold">Month</label>
+                                        <select class="form-select" formControlName="month" class="form-control">
+                                            <option value="">Month</option>
+                                            <option value="Apr">Apr</option>
+                                            <option value="May">May</option>
+                                            <option value="Jun">Jun</option>
+                                            <option value="Jul">Jul</option>
+                                            <option value="Aug">Aug</option>
+                                            <option value="Sep">Sep</option>
+                                            <option value="Oct">Oct</option>
+                                            <option value="Nov">Nov</option>
+                                            <option value="Dec">Dec</option>
+                                            <option value="Jan">Jan</option>
+                                            <option value="Feb">Feb</option>
+                                            <option value="Mar">Mar</option>
+
+                                        </select>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="fw-bold required">Payment Date</label>
@@ -341,13 +360,17 @@
                                     <!-- <button class="btn btn-sm btn-info m-2 d-none" printSectionId="print-section"
                                         [useExistingCss]="true" ngxPrint #printAndSaveButton>Print</button> -->
 
-                                  <div class="d-none"><app-fees-receipt-printout #childComponent  [feesModel]="feesModel" ></app-fees-receipt-printout></div> 
+                                    <div class="d-none"><app-fees-receipt-printout #childComponent
+                                            [feesModel]="feesModel"></app-fees-receipt-printout></div>
 
-                                    <!-- <button class="btn btn-sm btn-warning m-2" 
-                                        [disabled]="!formgroup.valid || discountChanged"
-                                        (click)="printAndSave()">Save & Print</button> -->
-                                    <button class="btn btn-sm btn-success m-2"
-                                        [disabled]="!formgroup.valid || discountChanged" (click)="save()">Save & Print</button>
+                                    <ng-container *ngIf="!editable;else formValidation">
+                                        <button class="btn btn-sm btn-warning disabled m-2"
+                                           ><i class="fa fa-ban text-danger" aria-hidden="true" disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+                                    </ng-container>
+                                    <ng-template #formValidation>
+                                                <button class="btn btn-sm btn-success m-2"
+                                                (click)="save()" [disabled]="!formgroup.valid || discountChanged">Save & Print</button>
+                                    </ng-template>
                                 </div>
                                 <div>
                                     <ng-container *ngIf="discountChanged && formgroup.valid">
@@ -373,7 +396,7 @@
 
 
 <ng-container *ngIf="displayAllReceipt">
-    <div >
+    <div>
         <ng-container *ngIf="feesData.length>0">
             <button (click)="previewReceipt()" [disabled]="previewReceiptFlag" class="btn btn-sm btn-info m-2">Back To
                 Fees Details</button>
@@ -418,12 +441,14 @@
                             <!-- <td class="td-auto">{{data.paymentReceivedBy}}</td> -->
                             <td class="td-auto">{{data.updatedBy}}</td>
                             <td class="td-auto">{{data.amount}}</td>
-                            <td class="td-auto"><button  (click)="printReceipt(i)" class="btn btn-sm btn-warning">Print</button></td>
+                            <td class="td-auto"><button (click)="printReceipt(i)"
+                                    class="btn btn-sm btn-warning">Print</button></td>
                         </tr>
                     </tbody>
                 </table>
                 <!--end::table-->
-                <app-fees-receipt-printout #receiptComponent  [feesModel]="receiptFeesModel" class="d-none" ></app-fees-receipt-printout>
+                <app-fees-receipt-printout #receiptComponent [feesModel]="receiptFeesModel"
+                    class="d-none"></app-fees-receipt-printout>
             </div>
         </ng-container>
         <!--end::second Card body-->

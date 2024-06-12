@@ -11,32 +11,48 @@
         <ul class="sidenav-nav">
             <li class="sidenav-nav-item" *ngFor="let data of navData">
                 <ng-container *ngIf="data.active">
+                
+                    <ng-container *ngIf="data.text=='Dashboard';else formValidation">
+                        <!-- if dashbord then we don't show their children in menu list, it used only for show and hide the dashboard component -->
+                                <a class="sidenav-nav-link" 
+                                (click)="shrinkItem(data)"
+                                [routerLink]="data.routerLink"
+                                routerLinkActive = "active"
+                                [routerLinkActiveOptions]="{exact: true}"
+                            >
+                                <i class="sidenav-link-icon" [class]="data.icon"></i>
+                                <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
+                            </a>
+                      </ng-container>
+                      <ng-template #formValidation>
+                        <a  (click)="handleClick(data)" class="sidenav-nav-link" *ngIf="data.children && data.children.length>0">
+                            <i class="sidenav-link-icon text-center" [class]="data.icon"></i>
+                            <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
+                            <i [ngClass]="!data.expanded? 'fa fa-angle-down': 'fa fa-angle-up'" *ngIf="data.children && collapsed" class="menu-collapse-icon"></i>
+                        </a>
+            
+                        <a class="sidenav-nav-link" 
+                            *ngIf="!data.children || (data.children && data.children.length === 0)"
+                            (click)="shrinkItem(data)"
+                            [routerLink]="data.routerLink"
+                            routerLinkActive = "active"
+                            [routerLinkActiveOptions]="{exact: true}"
+                        >
+                            <i class="sidenav-link-icon" [class]="data.icon"></i>
+                            <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
+                        </a>
+            
+                        <div *ngIf="collapsed && data.children && data.children.length > 0">
+                            <app-sublevel-menu
+                                [data]="data"
+                                [collapsed]="collapsed"
+                                [multiple]="multiple"
+                                [expanded]="data.expanded"
+                            ></app-sublevel-menu>
+                        </div>
+                    </ng-template>
 
-                <a  (click)="handleClick(data)" class="sidenav-nav-link" *ngIf="data.children && data.children.length>0">
-                    <i class="sidenav-link-icon text-center" [class]="data.icon"></i>
-                    <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
-                    <i [ngClass]="!data.expanded? 'fa fa-angle-down': 'fa fa-angle-up'" *ngIf="data.children && collapsed" class="menu-collapse-icon"></i>
-                </a>
-    
-                <a class="sidenav-nav-link" 
-                    *ngIf="!data.children || (data.children && data.children.length === 0)"
-                    (click)="shrinkItem(data)"
-                    [routerLink]="data.routerLink"
-                    routerLinkActive = "active"
-                    [routerLinkActiveOptions]="{exact: true}"
-                >
-                    <i class="sidenav-link-icon" [class]="data.icon"></i>
-                    <span class="sidenav-link-text" *ngIf="collapsed">{{ data.text }}</span>
-                </a>
-    
-                <div *ngIf="collapsed && data.children && data.children.length > 0">
-                    <app-sublevel-menu
-                        [data]="data"
-                        [collapsed]="collapsed"
-                        [multiple]="multiple"
-                        [expanded]="data.expanded"
-                    ></app-sublevel-menu>
-                </div>
+               
             </ng-container>
             </li>
             <div class="sidenav-nav-item px-1">

@@ -26,6 +26,7 @@ import { ToWords } from 'to-words';
 import { Class } from 'src/app/model/master/class.model';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { FeesReceiptPrintoutComponent } from '../../printout/fees-receipt-printout/fees-receipt-printout.component';
+import { PermissionService } from 'src/app/service/common/permission.service';
 
 @Component({
   selector: 'app-pay-fees',
@@ -78,6 +79,8 @@ export class PayFeesComponent {
   receiptnumber: string = '0';
   toWords = new ToWords();
 
+  editable: boolean | undefined;
+
   @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
   @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
   
@@ -94,7 +97,8 @@ export class PayFeesComponent {
     private authService: AuthService,
     private studentFeesStructureService: StudentFeesStructureService,
     public dialog: MatDialog,
-    private bookDressFeesService: BookAndDressFeesService
+    private bookDressFeesService: BookAndDressFeesService,
+    private permissionService: PermissionService,
   ) {
   }
 
@@ -104,7 +108,14 @@ export class PayFeesComponent {
     //fees.paymentDate = new Date();
     this.createFeesForm(fees);
     this.customInit();
+    this.updateEditable();
     this.minDate.setDate(this.minDate.getDate() - 3);
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 
   createFeesForm(fees: Fees) {
@@ -119,7 +130,7 @@ export class PayFeesComponent {
       paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
       remarks: [fees.remarks, [CustomValidation.plainText]],
-
+      month: [fees.month, []],
       studentFeesInstallment: new FormArray([])
     });
   }
@@ -426,7 +437,7 @@ export class PayFeesComponent {
           setTimeout(() => {
               let el: HTMLElement = this.childComponent.childElement.nativeElement;
               el.click();
-          }, 200);
+          }, 1000);
         }
       });
     } catch (error) { }

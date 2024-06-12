@@ -145,6 +145,9 @@ export class FeesCollectionComponent {
     if(res.status === msgTypes.SUCCESS_MESSAGE){
       if(res.data.length>0){
           this.posts = res.data;
+          this.posts.map(data=>{
+            data.paymenttype=='Book Fees'? data.paymenttype='SSM Fees':''
+          })
           res.data.forEach((data:Fees) => {
             this.totalCollection+=data.amount;
           });

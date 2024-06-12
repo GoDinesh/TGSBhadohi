@@ -2,7 +2,6 @@ import { AnimationEvent, transition, style, animation, animate } from '@angular/
 import { Component, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { menuListAdmin } from 'src/app/constants/common/menu-list-admin';
-import { menuListUser } from 'src/app/constants/common/menu-list-user';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { fadeInOut, INavbarData } from 'src/app/model/menu';
 import { AuthService } from 'src/app/service/common/auth.service';

@@ -61,8 +61,15 @@
          <td class="td-large">{{ post.feesType }}</td>
          <td class="td-auto">{{ post.feesTypeDesc }}</td>
          <td class="td-status">
-               <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
-               </mat-slide-toggle>
+          <ng-container *ngIf="!editable;else formValidation">
+            <mat-slide-toggle [checked]="post.active" disabled="true">
+            </mat-slide-toggle>
+          </ng-container>
+          <ng-template #formValidation>
+            <mat-slide-toggle [checked]="post.active"  (change)="slideToggleChange($event, post)">
+            </mat-slide-toggle>
+          </ng-template>
+               
          </td>
          <td class="td-action">  
            <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>

@@ -1,31 +1,56 @@
-  <app-dashboard-tabs></app-dashboard-tabs>
+  <app-dashboard-tabs 
+  [totalStudents]="totalStudents"
+  [totalBoys]="totalBoys"
+  [totalGirls]="totalGirls"
+  [totalAadharSubmitted]="totalAadharSubmitted"
+  [totalAadharNotSubmitted]="totalAadharNotSubmitted"
+  [cashCollection]="cashCollection"
+  [onlineCollection] = "onlineCollection"
+  [chequeCollection]="chequeCollection"
+  [totalBoysGirlsTab]="totalBoysGirlsTab"
+  [todayFeesCollectionTab]="todayFeesCollectionTab"
+  [aadharNotSubmittedTab]="aadharNotSubmittedTab"
+
+  ></app-dashboard-tabs>
   <div class="row p-1">
+    <ng-container *ngIf="admissionsStatisticsGraph">
     <div class="col-md-5 p-1">
-      <!-- <div class="masonry-item"> -->
         <div class="card">
           <app-admission-analytics></app-admission-analytics>
         </div>
-      <!-- </div> -->
     </div>
+  </ng-container>
+
+  <ng-container *ngIf="pendingFeesGrabh">
     <div class="col-md-4 p-1">
-      <!-- <div class="masonry-item"> -->
         <div class="card">
           <app-pendingfees-of-all-class></app-pendingfees-of-all-class>
         </div>
-      <!-- </div> -->
-    </div>
+     </div>
+    </ng-container>
+
+    <ng-container *ngIf="todayFeesCollectionGraph">
+
     <div class="col-md-3 p-1">
       <div class="card">
-       <app-today-collections></app-today-collections>
+       <app-today-collections
+       [cashCollection]="cashCollection"
+       [onlineCollection]="onlineCollection"
+       [chequeCollection]="chequeCollection"
+       [ssmCollection]="ssmCollection"
+       ></app-today-collections>
       </div>
     </div>
+  </ng-container>
   </div>
   <div class="row">
+    <ng-container *ngIf="todayBirthday">
     <div class="col-md-5 p-1">
       <div class="card">
         <app-student-birthday></app-student-birthday>
       </div>
     </div>
+    </ng-container>
 
     <div class="col-md-4 p-1">
       <div>

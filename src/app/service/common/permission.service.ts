@@ -18,18 +18,21 @@ export class PermissionService {
   //   }
   // }
   constructor(private authService: AuthService) {
-    try {
-      const parsedPermissions = JSON.parse(this.authService.getUserPermission());
-      // console.log(parsedPermissions);
-      this.permissions = of(parsedPermissions);  // Convert array to Observable
-    } catch (error) {
-      // console.log(error);
-      this.permissions = of([]);  // Default to an empty array wrapped in an Observable
-    }
+   
   }
 
   //get the current route and use it for managing the editable value
   updateEditableValue(url: string): Observable<boolean | undefined> {
+    try {
+      const parsedPermissions = JSON.parse(this.authService.getUserPermission());
+      // console.log(parsedPermissions);
+      this.permissions = of(parsedPermissions);  // Convert array to Observable
+      
+    } catch (error) {
+      // console.log(error);
+      this.permissions = of([]);  // Default to an empty array wrapped in an Observable
+    }
+    
     const currentRoute = url.substring(1); // Remove the leading '/'
     const cleanedRoute = currentRoute.replace('navmenu/', ''); // Remove 'navmenu/' prefix
     return this.getEditableValue(cleanedRoute);

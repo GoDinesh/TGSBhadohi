@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { PermissionGroup } from 'src/app/model/authorization/permission-group.model';
 import { PermissionGroupService } from 'src/app/service/authorization/permission-group.service';
+import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
 
@@ -23,7 +24,7 @@ export class PermissionGroupComponent {
   dataSource = new MatTableDataSource<PermissionGroup>();
   dtOptions: any = {};
   actionFlag = true;
-  editable: boolean;
+  editable: boolean | undefined;
 
   formGroup = new FormGroup({
     groupid: new FormControl(),
@@ -36,6 +37,7 @@ export class PermissionGroupComponent {
     private permissionGroupService: PermissionGroupService,
     private alertService: SweetAlertService,
     private router: Router,
+    private permissionService: PermissionService,
   ) {
   }
 
@@ -47,6 +49,7 @@ export class PermissionGroupComponent {
 
   async customInit() {
     await this.getTableRecord();
+    this.updateEditable();
   }
 
   createForm(permissionGroupModel: PermissionGroup) {
@@ -125,6 +128,12 @@ export class PermissionGroupComponent {
 
   handleInputChange(formcontrol: FormControl){  
     formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
+  }
+
+  private updateEditable(): void {
+    this.permissionService.updateEditableValue(this.router.url).subscribe((editable) => {
+      this.editable = editable;
+    });
   }
 }
 

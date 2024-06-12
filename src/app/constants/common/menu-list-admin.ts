@@ -1,4 +1,5 @@
 import { INavbarData } from "src/app/model/menu";
+import { msgTypes } from "./msgType";
 
 var masters: string = 'masters';
 var student: string = 'student';
@@ -14,6 +15,50 @@ export const menuListAdmin: INavbarData[]=[
     "icon": "fa fa-dashboard",
     "routerLink": 'dashboard',
     "active": true,
+    "children": [
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.TOTAL_BOYS_GIRLS_TAB,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.TODAY_FEES_COLLECTION_TAB,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.AADHAR_NOT_SUBMITTED_TAB,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.ADMISSION_STATISTICS_GRAPH,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.PENDING_FEES_GRAPH,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.TODAY_FEES_COLLECTION_GRAPH,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
+            "text": msgTypes.DASHBOARD_CONTENT.TODAY_BIRTHDAY,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+    ]
 },
 //authorisation
 {

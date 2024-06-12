@@ -58,14 +58,22 @@
                 <div class="col-md-12">
                     <!-- begin::Buttons -->
                     <div class="grid-button-inline form-group pt-4">
-                        <ng-container *ngIf="actionFlag">
-                            <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable"
-                                (click)="save()">Save</button>
-                        </ng-container>
-                        <ng-container *ngIf="!actionFlag">
-                            <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid || !editable"
-                                (click)="update()">Update</button>
-                        </ng-container>
+                         <ng-container *ngIf="!editable;else formValidation">
+                            <button class="btn btn-sm btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+                                disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+                          </ng-container>
+                          <ng-template #formValidation>
+                            <ng-container *ngIf="actionFlag">
+                                <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+                                    (click)="save()">Save</button>
+                            </ng-container>
+                            <ng-container *ngIf="!actionFlag">
+                                <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+                                    (click)="update()">Update</button>
+                            </ng-container>
+                          </ng-template>
+
+
                         <button class="btn btn-danger btn-sm mx-2" (click)="resetForm()">Reset</button>
                     </div>
                     <!-- end::Buttons -->
@@ -125,8 +133,15 @@
                 <!-- <td class="td-auto">{{ post.boyDressFees}}</td>
          <td class="td-auto">{{ post.girlDressFees}}</td> -->
                 <td class="td-status">
-                    <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
-                    </mat-slide-toggle>
+                    <ng-container *ngIf="!editable;else formValidation">
+                        <mat-slide-toggle [checked]="post.active" disabled="true">
+                        </mat-slide-toggle>
+                      </ng-container>
+                      <ng-template #formValidation>
+                        <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
+                        </mat-slide-toggle>
+                      </ng-template>
+                   
                 </td>
                 <td class="td-action">
                     <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>

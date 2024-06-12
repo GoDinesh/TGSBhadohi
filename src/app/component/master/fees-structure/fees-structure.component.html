@@ -195,7 +195,13 @@
   <div class="container p-3">
     <div class="row">
       <div class="col-sm-4 display-flex">
-        <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>&nbsp;&nbsp;
+        <ng-container *ngIf="!editable;else formValidation">
+          <button class="btn btn-md btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+              disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+        </ng-container>
+        <ng-template #formValidation>
+          <button class="btn btn-sm btn-primary" (click)="addInstallment()">Add Installment</button>&nbsp;&nbsp;
+        </ng-template>
         <!-- <div class="installment-amount-colour">Term Fees ( {{totalInstallmentAmount}} Rs )</div> -->
       </div>
       <div class="col-sm-8">
@@ -376,14 +382,21 @@
 
   <!-- begin::Buttons -->
   <div class="form-group button-align">
-    <ng-container *ngIf="actionFlag">
-      <button class="btn btn-md btn-success mx-3" [disabled]="!formgroup.valid || !editable || !installmentFlag"
-        (click)="save()">Save</button>
-      <!-- <button class="btn btn-sm btn-success mx-3" (click)="save()">Save</button> -->
+    <ng-container *ngIf="!editable;else formValidation">
+      <button class="btn btn-md btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+          disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
     </ng-container>
-    <ng-container *ngIf="!actionFlag">
-      <button class="btn btn-md btn-success mx-3" [disabled]="!installmentFlag" (click)="save()">Update</button>
-    </ng-container>
+    <ng-template #formValidation>
+      <ng-container *ngIf="actionFlag">
+        <button class="btn btn-md btn-success mx-3" [disabled]="!formgroup.valid || !installmentFlag"
+          (click)="save()">Save</button>
+       </ng-container>
+      <ng-container *ngIf="!actionFlag">
+        <button class="btn btn-md btn-success mx-3" [disabled]="!installmentFlag" (click)="save()">Update</button>
+      </ng-container>
+    </ng-template>
+
+   
     <button class="btn btn-md btn-danger" (click)="resetForm()">Reset</button>
   </div>
   <!-- end::Buttons -->
@@ -436,8 +449,15 @@
           <!-- <td>{{ post.annualFeesDate | dateFormatPipe }}</td> -->
           <!-- <td class="td-large">{{ post.remarks }}</td> -->
           <td class="td-status">
-            <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
-            </mat-slide-toggle>
+            <ng-container *ngIf="!editable;else formValidation">
+              <mat-slide-toggle [checked]="post.active" disabled="true">
+              </mat-slide-toggle>
+            </ng-container>
+            <ng-template #formValidation>
+              <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
+              </mat-slide-toggle>
+            </ng-template>
+           
           </td>
           <td class="td-action">
             <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>

@@ -106,7 +106,11 @@
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.paymentMode}}</b></td>
                                         </tr>
-                                    
+                                        <tr *ngIf="feesModel.month.length>0">
+                                            <td class="td-width">Pay For Month</td>
+                                            <td> :&nbsp; </td>
+                                            <td class="dotted"><b>{{feesModel.month}}</b></td>
+                                        </tr>
                                         <tr>
                                             <td class="td-width">Balance Fees </td>
                                             <td> :&nbsp; </td>
@@ -117,6 +121,7 @@
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.balanceBookFees}}/-</b></td>
                                         </tr>
+                                       
                                         <tr *ngIf="feesModel.remarks!=null">
                                             <td class="td-width">Remarks </td>
                                             <td> :&nbsp; </td>
