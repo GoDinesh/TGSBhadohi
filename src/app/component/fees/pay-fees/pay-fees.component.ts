@@ -130,7 +130,7 @@ export class PayFeesComponent {
       paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
       remarks: [fees.remarks, [CustomValidation.plainText]],
-      month: [fees.month, []],
+      //month: [fees.month, []],
       studentFeesInstallment: new FormArray([])
     });
   }

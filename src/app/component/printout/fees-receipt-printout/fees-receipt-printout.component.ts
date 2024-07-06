@@ -15,11 +15,9 @@ export class FeesReceiptPrintoutComponent{
   @ViewChild('printButton') childElement:any;
 
   constructor(){
-    console.log("Fees Model-"+this.feesModel);
   }
 
   ngOnInit(){
-    console.log("Fees Model-"+JSON.stringify(this.feesModel));
   }
  
 }

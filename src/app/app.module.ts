@@ -30,6 +30,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from './core/interceptors/api.interceptor';
 import { LoaderComponent } from './component/shared-component/loader/loader.component';
+import { SendNotificationComponent } from './component/notifications/send-notification/send-notification.component';
 
 
 
@@ -48,6 +49,7 @@ import { LoaderComponent } from './component/shared-component/loader/loader.comp
     UnauthorizedAttemptComponent,
     BreadcrumbComponent,
     StudentCardComponent,
+    SendNotificationComponent,
    
     
     

@@ -66,8 +66,6 @@ export class DisplayContentComponent {
   loadStudentList() {
     this.studentList = this.registrationService.studentList(new Registration())
     this.studentList.subscribe(res=>{
-      console.log(res);
-      
     })
     
     

@@ -18,8 +18,6 @@ export class StudentDetailsModalComponent {
     private router: Router, private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){
-console.log(data);
-
   }
 
   // viewDetails(registration: Registration){

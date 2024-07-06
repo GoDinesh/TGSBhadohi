@@ -5,7 +5,8 @@ var masters: string = 'masters';
 var student: string = 'student';
 var authorization: string = 'auth';
 var fees: string = "fees";
-var reports: string = "reports"
+var reports: string = "reports";
+var notification: string = "notification";
 
 export const menuListAdmin: INavbarData[]=[
 //dashboard
@@ -206,4 +207,12 @@ export const menuListAdmin: INavbarData[]=[
                 },
                 
         ]},
+
+        {
+            "text": "Notification",
+            "icon": "fa fa-commenting-o",
+            "routerLink": notification,
+            "active": true,
+            
+           },
 ]

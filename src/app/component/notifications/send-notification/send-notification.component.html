@@ -1,0 +1,95 @@
+<div class="container mt-2">
+
+    <!-- Filter details -->
+    <form [formGroup]="formgroup">
+        <div class="grid-card-container card-bottom-margin form-bg">
+            <!-- Begin:: Filer  -->
+            <ng-container>
+                <div class="grid-form">
+                    <!-- begin::academic year -->
+                    <div class="form-group">
+                        <label class="form-label required">Academic Year</label>
+                        <mat-select formControlName="academicYearCode" (selectionChange)="academicYearChange()"
+                            class="form-control form-control-sm">
+                            <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+                            <mat-option
+                                *ngFor="let data of academicyearList | filterData: filterAcademicYear.value : 'academicYear'"
+                                [value]="data.academicYearCode">
+                                {{data.academicYear}}
+                            </mat-option>
+                        </mat-select>
+                        <div class="invalid-feedback">
+                            {{validationMsg.getErrorMessage(notificationControll.academicYearCode,"Academic Year")}}
+                        </div>
+                    </div>
+                    <!-- end::academic year -->
+
+                    <!-- begin::Standard -->
+                    <div class="form-group">
+                        <label class="form-label required">Standard</label>
+                        <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
+                        <mat-select class="form-control form-control-sm" (selectionChange)="loadStudentList()"
+                            formControlName="classCode">
+                            <input type="text" class="form-control  form-control-sm" #filterClassName>
+                            <mat-option *ngFor="let data of classList | filterData: filterClassName.value : 'className'"
+                                [value]="data.classCode">
+                                {{data.className}}
+                            </mat-option>
+
+                        </mat-select>
+                        <div class="invalid-feedback">
+                            {{validationMsg.getErrorMessage(notificationControll.classCode,"Standard")}}
+                        </div>
+                    </div>
+                    <!-- end::Standard -->
+
+                    <!-- begin::Student Name -->
+                    <div class="form-group">
+                        <label class="form-label required">Select Student</label>
+                        <mat-select class="form-control form-control-sm" formControlName="registrationNo">
+                            <input type="text" class="form-control  form-control-sm" #filterStudent>
+                            <div *ngIf="studentList | async as postdata ">
+                                <mat-option
+                                    *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
+                                    [value]="data.registrationNo">
+                                    {{data.studentName}}
+                                </mat-option>
+                            </div>
+                        </mat-select>
+                        <div class="invalid-feedback">
+                            {{validationMsg.getErrorMessage(notificationControll.registrationNo,"Student Name")}}</div>
+                    </div>
+                    <!-- end::Student Name -->
+
+                    <!-- begin::Notification Title-->
+                    <div class="form-group">
+                        <label class="form-label required">Notification Title</label>
+                        <input class="form-control form-control-sm"  formControlName="title"
+                            autocomplete="off">
+                        <div class="invalid-feedback">
+                            {{validationMsg.getErrorMessage(notificationControll.title,"Notification Title is required")}}</div>
+                    </div>
+
+                    <!-- begin::Notification Message-->
+                    <div class="form-group">
+                        <label class="form-label required">Notification</label>
+                        <textarea class="form-control form-control-sm" formControlName="message"
+                            autocomplete="off" ></textarea>
+                        <div class="invalid-feedback">
+                            {{validationMsg.getErrorMessage(notificationControll.message,"Notification Description")}}</div>
+                    </div>
+                    <!-- End:: Notification Message -->
+
+                    <!-- begin::Buttons -->
+                    <div class="grid-button form-group pt-4">
+                        <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+                            (click)="sendNotification()">Send Notification</button>
+                        <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
+                    </div>
+                    <!-- end::Buttons -->
+                </div>
+            </ng-container>
+            <!-- End:: Filter -->
+        </div>
+    </form>
+</div>

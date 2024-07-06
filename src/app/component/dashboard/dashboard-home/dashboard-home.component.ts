@@ -82,8 +82,6 @@ export class DashboardHomeComponent {
     //pass for printout as a argument
     this.registrationService.studentList(studentInfo).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        console.log(res.data);
-
         this.studentList = res.data;
         this.studentList.map(data => {
           if (data.isActive == true) {
