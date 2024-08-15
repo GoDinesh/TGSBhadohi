@@ -26,7 +26,7 @@ export class Fees {
   balanceFees: number;
   balanceBookFees: number;
   updatedBy: string;
-  //month: string;
+  month: string;
   //    registrationId: string;
 
 

@@ -73,7 +73,7 @@ export class AadharDetailsComponent {
 
   createStudentForm(registartion: Registration) {
     this.studentgroup = this.formBuilder.group({
-      standard: [registartion.standard,[Validators.required]],
+      standard: [registartion.standard],
       academicYearCode: [registartion.academicYearCode,[Validators.required]],
      });
   }
@@ -124,7 +124,7 @@ export class AadharDetailsComponent {
       if(res.data.length>0){
           this.posts = res.data;
           this.posts= this.posts.filter(data=>{
-            return data.aadhaarNumber===""
+            return (data.aadhaarNumber==="" || data.fatherAadharNo==="" || data.motherAadharNumber==="")
           })
           if(this.posts.length == 0){
             this.sweetAlertService.showAlert(msgTypes.WARNING, msgTypes.NO_RECORD_FOUND, msgTypes.WARNING, msgTypes.OK_KEY);
@@ -139,9 +139,10 @@ export class AadharDetailsComponent {
     const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
     const encryptData = this.authService.getEncryptText(JSON.stringify(stuDetails));
     this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
+      state: {data: JSON.stringify(encryptData)}
+        // queryParams: {
+        //     data: JSON.stringify(encryptData)
+        // }
     });
   }
 

@@ -2,10 +2,11 @@ export const appurl={
     //Prod    
     //baseurl: 'https://13.48.143.218:8080',
     //baseurl: 'https://api.tgsbhadohi.com',
+    //baseurl: 'https://tgsspringboot-production.up.railway.app',
 
     //local
-    //baseurl: 'http://localhost:8000',
-    baseurl: 'https://tgsspringboot-production.up.railway.app',
+    baseurl: 'http://localhost:8000',
+    
 
 
     navmenu: '/navmenu',
@@ -48,11 +49,13 @@ export const appurl={
                 filter_by_receipt:'/filter-by-receipt',
                 pending_fees: '/pending-fees',
                 Pending_fees_class_wise: '/pending-fees-class-wise',
+                today_fees_collection: "/today-fees-collection",
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',
     endpoint_allActiveRecords:'/allActiveRecords',
     endpoint_findbyid: '/findbyid',
     endpoint_filter: '/filter'
+    
     //endpoint_update: '/update',
 }

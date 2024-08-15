@@ -129,9 +129,10 @@ export class DisplayContentComponent {
        const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
        const encryptData = this.authService.getEncryptText(JSON.stringify(student));
        this.router.navigate([url], {
-           queryParams: {
-               data: JSON.stringify(encryptData)
-           }
+        state: {data: JSON.stringify(encryptData)}
+          //  queryParams: {
+          //      data: JSON.stringify(encryptData)
+          //  }
        });
        this.showModal = false;
   }
@@ -141,9 +142,10 @@ export class DisplayContentComponent {
     const url = appurl.navmenu + appurl.menuurl_fees + appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
+        // queryParams: {
+        //     data: JSON.stringify(encryptData)
+        // }
+        state: {data: JSON.stringify(encryptData)}
     });
     this.showModal = false;
 }

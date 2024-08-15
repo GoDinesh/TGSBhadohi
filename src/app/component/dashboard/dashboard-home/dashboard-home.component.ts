@@ -109,7 +109,7 @@ export class DashboardHomeComponent {
     fees.startDate = moment(new Date()).format(msgTypes.YYYY_MM_DD);
     fees.endDate = moment(new Date()).format(msgTypes.YYYY_MM_DD);
 
-    this.feesService.getPaidFeesOfStudent(fees).subscribe(res => {
+    this.feesService.todayFeesCollection(fees).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.feesList = res.data;
         this.feesList.map(data => {

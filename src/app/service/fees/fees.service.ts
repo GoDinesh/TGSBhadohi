@@ -28,6 +28,13 @@ export class FeesService {
     return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
   }
 
+  todayFeesCollection(feesModel: Fees){
+    const url  = this.requestUrl + appurl.today_fees_collection;
+    return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
+  }
+
+  
+
   getMaxReceiptNo(){
     const url  = this.requestUrl + appurl.get_receipt_number;
     return this.httpClient.get<ResponseModel>(url)

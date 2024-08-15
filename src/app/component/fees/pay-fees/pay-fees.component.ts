@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, FormArray } from '@ang
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Fees } from 'src/app/model/fees/fees.model';
 import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.model';
@@ -83,7 +83,8 @@ export class PayFeesComponent {
 
   @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
   @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
-  
+  monthList: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  selectedMonth: string;
 
   constructor(private formBuilder: FormBuilder,
     public validationMsg: ValidationErrorMessageService,
@@ -130,7 +131,7 @@ export class PayFeesComponent {
       paymentDate: [new Date(), [Validators.required]],
       paymentReceivedBy: [fees.paymentReceivedBy, []],
       remarks: [fees.remarks, [CustomValidation.plainText]],
-      //month: [fees.month, []],
+      month: [fees.month, []],
       studentFeesInstallment: new FormArray([])
     });
   }
@@ -142,9 +143,10 @@ export class PayFeesComponent {
   }
 
   async callParam() {
-    this.route.queryParams.subscribe((params) => {
-      if (params.data != undefined) {
-        const txndata = JSON.parse(params.data);
+    this.route.paramMap.subscribe(()=>{
+      const param=window.history.state;
+      if (param.data != undefined) {
+        const txndata = JSON.parse(param.data);
         const decryptedData = this.authService.getDecryptText(txndata);
         const data = JSON.parse(decryptedData);
         this.callBylinkFlag = false;
@@ -155,8 +157,24 @@ export class PayFeesComponent {
         this.feesFormControll.registrationNo.setValue(data.registrationNo);
         this.getFeesDetails();
       }
-
     })
+    
+
+   // this.route.queryParams.subscribe((params) => {
+      // if (data != undefined) {
+      //   const txndata = JSON.parse(data);
+      //   const decryptedData = this.authService.getDecryptText(txndata);
+      //   const data = JSON.parse(decryptedData);
+      //   this.callBylinkFlag = false;
+
+      //   //To open the selected student fees details
+      //   this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
+      //   this.feesFormControll.classCode.setValue(data.standard);
+      //   this.feesFormControll.registrationNo.setValue(data.registrationNo);
+      //   this.getFeesDetails();
+      // }
+
+  //  })
   }
 
   loadClass() {
@@ -370,6 +388,10 @@ export class PayFeesComponent {
   //pay fees
   async payFees() {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
+    
+    const StringArray = this.feesModel.month;
+    this.feesModel.month = StringArray.toString();
+    
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
     const year = this.feesModel.academicYearCode.substring(2, 4) + "-" + this.feesModel.academicYearCode.substring(6, 8);

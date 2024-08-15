@@ -33,6 +33,7 @@ export class PendingFeesComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
+  totalPendingFees: number = 0;
   monthName: string ="";
   monthArray=[
         {key:"Apr", value:"04"},
@@ -143,8 +144,12 @@ export class PendingFeesComponent {
     reg.standard = this.studentFormControll.standard.value;
     reg.temp = this.studentFormControll.temp.value;
     this.posts = [];
+    this.totalPendingFees = 0 ;
     this.feesService.getPendingFees(reg).subscribe(res=>{
       this.posts = res.data 
+      res.data.map((data:Registration)=>{
+        this.totalPendingFees += data.pendingFees
+      })
     })
 
 
@@ -177,9 +182,10 @@ export class PendingFeesComponent {
     const url = appurl.navmenu + appurl.menuurl_fees + appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-      queryParams: {
-        data: JSON.stringify(encryptData)
-      }
+      state: {data: JSON.stringify(encryptData)}
+      // queryParams: {
+      //   data: JSON.stringify(encryptData)
+      // }
     });
   }
 

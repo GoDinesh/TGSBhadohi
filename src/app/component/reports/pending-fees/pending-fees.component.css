@@ -6,3 +6,16 @@
 .dataTables_filter{
     margin-bottom: 20px;
 }
+
+.total-fees{
+    background-color: antiquewhite;
+    font-size: large;
+    font-weight: bold;
+    padding: 10px;
+    text-align: right;
+    right: 0px;
+    width: 30%;
+    margin-right: 0;
+    float: right;
+    
+}

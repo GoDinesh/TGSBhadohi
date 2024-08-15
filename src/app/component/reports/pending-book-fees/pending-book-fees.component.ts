@@ -146,9 +146,10 @@ export class PendingBookFeesComponent {
     const url = appurl.navmenu + appurl.menuurl_fees + appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-      queryParams: {
-        data: JSON.stringify(encryptData)
-      }
+      state: {data: JSON.stringify(encryptData)}
+      // queryParams: {
+      //   data: JSON.stringify(encryptData)
+      // }
     });
   }
 

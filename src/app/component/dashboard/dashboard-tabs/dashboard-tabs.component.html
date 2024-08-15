@@ -17,14 +17,66 @@
     </ng-container>
 
 <ng-container *ngIf="todayFeesCollectionTab">
-    <div class="col-md-3 p-0">
+    <div class="col-md-4 p-0">
         <div class=" card card2 card-height">
             <div class="card-body p-1">
                 <h3 class="card-title bg-white pl-1 m-0"><b>Today Fees Collections</b></h3>
                 <div class="p-2">
-                    <h3 class="p-0 m-0"><b>Cash   - {{cashCollection}} Rs </b></h3>
-                    <h3 class="p-0 m-0"><b>Online - {{onlineCollection}} Rs</b></h3>
-                    <h3 class="p-0 m-0"><b>Cheque - {{chequeCollection}} Rs</b></h3>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table>
+                                    <tr>
+                                        <td><h3 class="p-0 m-0"><b>Cash  </b></h3></td>
+                                        <td><h3 class="p-0 m-0"><b>&nbsp;- &nbsp;{{cashCollection}} &nbsp;Rs  </b></h3></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table>
+                                    <tr>
+                                        <td><h3 class="p-0 m-0"><b>Online  </b></h3></td>
+                                        <td><h3 class="p-0 m-0"><b>&nbsp;- &nbsp;{{onlineCollection}} &nbsp;Rs </b></h3></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table>
+                                    <tr>
+                                        <td><h3 class="p-0 m-0"><b>Cheque </b></h3></td>
+                                        <td><h3 class="p-0 m-0"><b>&nbsp;- &nbsp;{{chequeCollection}} &nbsp;Rs </b></h3></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table>
+                                    <tr>
+                                        <td><h3 class="p-0 m-0"><b>SSM</b></h3></td>
+                                         <td><h3 class="p-0 m-0"><b>&nbsp;- &nbsp;{{ssmCollection}}  &nbsp;Rs</b></h3></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table>
+                                    <tr>
+                                        <td><h3 class="p-0 m-0"><b>Total Collection</b></h3></td>
+                                        <td><h3 class="p-0 m-0"><b>&nbsp; - &nbsp;<font color="red">{{cashCollection+onlineCollection+chequeCollection+ssmCollection}} &nbsp;Rs</font></b></h3></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                    
+                            
+                    
+                    
                 </div>
             </div>
         </div>

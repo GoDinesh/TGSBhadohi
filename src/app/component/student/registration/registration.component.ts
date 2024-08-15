@@ -178,7 +178,9 @@ export class RegistrationComponent {
     //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
       
       
-    this.route.queryParams.subscribe((params) => {
+    //this.route.queryParams.subscribe((params) => {
+      this.route.paramMap.subscribe(()=>{
+        const params=window.history.state;
       let res;
       if(params.data!=undefined){
         const txndata = JSON.parse(params.data);

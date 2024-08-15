@@ -20,7 +20,7 @@ export class AppComponent {
 
 
 
-  title = 'App';
+  title = 'TGS';
   constructor(
     private router: Router,
     private titleService: Title,

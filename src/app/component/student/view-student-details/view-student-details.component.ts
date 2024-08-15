@@ -16,32 +16,46 @@ export class ViewStudentDetailsComponent {
     public activatedRoute: ActivatedRoute,
     private route: ActivatedRoute,
     private authService: AuthService,
-    ) {
+  ) {
   }
 
   ngOnInit() {
     //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-    this.route.queryParams.subscribe((params) => {
-      const txndata = JSON.parse(params.data);
-      const decryptedData = this.authService.getDecryptText(txndata);
-      const res = JSON.parse(decryptedData);
+    this.route.paramMap.subscribe(() => {
+      const param = window.history.state;
+      if (param != undefined) {
+        const txndata = JSON.parse(param.data);
+        const decryptedData = this.authService.getDecryptText(txndata);
+        const res = JSON.parse(decryptedData);
 
-      this.reg = new Registration();
-      if (res.registrationNo.length > 0) {
-        this.reg = res;
+        this.reg = new Registration();
+        if (res.registrationNo.length > 0) {
+          this.reg = res;
+        }
       }
-    });
+    })
+    // this.route.queryParams.subscribe((params) => {
+    //   const txndata = JSON.parse(params.data);
+    //   const decryptedData = this.authService.getDecryptText(txndata);
+    //   const res = JSON.parse(decryptedData);
+
+    //   this.reg = new Registration();
+    //   if (res.registrationNo.length > 0) {
+    //     this.reg = res;
+    //   }
+    // });
   }
 
 
-  editRecord(reg: Registration){
-      const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
-      const encryptData = this.authService.getEncryptText(JSON.stringify(reg));
-      this.router.navigate([url], {
-          queryParams: {
-              data: JSON.stringify(encryptData)
-          }
-      });
+  editRecord(reg: Registration) {
+    const url = appurl.navmenu + appurl.menuurl_student + appurl.student_registration;
+    const encryptData = this.authService.getEncryptText(JSON.stringify(reg));
+    this.router.navigate([url], {
+      state: {data: JSON.stringify(encryptData)}
+      // queryParams: {
+      //   data: JSON.stringify(encryptData)
+      // }
+    });
   }
 
 }

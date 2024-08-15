@@ -21,7 +21,7 @@
 
     <!-- begin::Standard -->
     <div class="form-group">
-      <label class="form-label required">Standard</label>
+      <label class="form-label">Standard</label>
       <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
       <mat-select class="form-control form-control-sm" formControlName="standard" placeholder="Select Standard">
         <input type="text" class="form-control  form-control-sm" #filterClassName>
@@ -64,12 +64,17 @@
         <th>S.No</th>
         <!-- <th>Photo</th> -->
         <th>Student Name</th>
+        <th>Father Name</th>
+        <th>Academic Year</th>
         <th>Registration Number</th>
         <th>Standard</th>
-        <th>Academic Year</th>
-        <th>Father Name</th>
-        <th>Gender</th>
-        <th>DOB</th>
+        
+        
+        <th>Student Aadhar</th>
+        <th>Father Aadhar</th>
+        <th>Mother Aadhar</th>
+        <!-- <th>Gender</th> -->
+        <!-- <th>DOB</th> -->
         <th>Action</th>
       </tr>
     </thead>
@@ -77,12 +82,17 @@
       <tr *ngFor="let post of posts;let i=index">
         <td class="td-sno">{{i+1}}</td>
         <td class="td-large">{{ post.studentName}}</td>
-        <td class="td-large">{{ post.registrationNo }}</td>
-        <td class="td-small">{{ post.standard}}</td>
-        <td class="td-medium">{{ post.academicYearCode}}</td>
         <td class="td-large">{{ post.fatherName}}</td>
-        <td class="td-small">{{ post.gender}}</td>
-        <td class="td-small">{{ post.dateOfBirth | dateFormatPipe}}</td>
+        <td class="td-medium">{{ post.academicYearCode}}</td>
+        <td class="td-large">{{ post.registrationNo }}</td>        
+        <td class="td-small">{{ post.standard}}</td>
+        
+        
+        <td class="td-small" [ngClass]="post.aadhaarNumber.length===0 ? '' : 'available'">{{ post.aadhaarNumber}}</td>
+        <td class="td-small"  [ngClass]="post.fatherAadharNo.length===0 ? '' : 'available'">{{ post.fatherAadharNo}}</td>
+        <td class="td-small"  [ngClass]="post.motherAadharNumber.length===0 ? '' : 'available'">{{ post.motherAadharNumber}}</td>
+        <!-- <td class="td-small">{{ post.gender}}</td> -->
+        <!-- <td class="td-small">{{ post.dateOfBirth | dateFormatPipe}}</td> -->
 
         <td class="td-action">
           <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>

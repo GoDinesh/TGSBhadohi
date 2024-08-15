@@ -14,6 +14,7 @@ export class DashboardTabsComponent {
   @Input() cashCollection: number;
   @Input() onlineCollection: number;
   @Input() chequeCollection: number;
+  @Input() ssmCollection: number;
   @Input() totalBoysGirlsTab: boolean;
   @Input() aadharNotSubmittedTab: boolean;
   @Input() todayFeesCollectionTab: boolean;

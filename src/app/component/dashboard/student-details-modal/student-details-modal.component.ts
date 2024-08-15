@@ -29,9 +29,10 @@ export class StudentDetailsModalComponent {
     const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url], {
-        queryParams: {
-            data: JSON.stringify(encryptData)
-        }
+      state: {data: JSON.stringify(encryptData)}
+        // queryParams: {
+        //     data: JSON.stringify(encryptData)
+        // }
     });
     this.dialogRef.close();
   }
