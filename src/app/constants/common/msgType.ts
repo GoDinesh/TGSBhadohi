@@ -63,6 +63,7 @@ export const msgTypes = {
         PENDING_FEES_GRAPH:"Pending Fees Graph",
         TODAY_FEES_COLLECTION_GRAPH:"Today Fees Collection Graph",
         TODAY_BIRTHDAY:"Today Birthday",
+        BITRH_CERTIFICATE:"Birth Certificate"
 
     }
 

@@ -42,6 +42,12 @@ export const menuListAdmin: INavbarData[]=[
             "active": true,
         },
         {
+            "text": msgTypes.DASHBOARD_CONTENT.BITRH_CERTIFICATE,
+            "icon": "fa fa-user-circle",
+            "routerLink": "dashboard",
+            "active": true,
+        },
+        {
             "text": msgTypes.DASHBOARD_CONTENT.PENDING_FEES_GRAPH,
             "icon": "fa fa-user-circle",
             "routerLink": "dashboard",
@@ -194,9 +200,15 @@ export const menuListAdmin: INavbarData[]=[
                     "active": true,
                 },
                 {
-                    "text": "Aadhar Not Available",
+                    "text": "Aadhar Not Given",
                     "icon": "fa fa-id-card",
                     "routerLink": reports + "/aadhar-details",
+                    "active": true,
+                },
+                {
+                    "text": "Birth Cretificate Not Given",
+                    "icon": "fa fa-certificate",
+                    "routerLink": reports + "/birth-certificate",
                     "active": true,
                 },
                 {

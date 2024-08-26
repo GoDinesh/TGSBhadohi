@@ -94,17 +94,6 @@ export class ClassComponent {
     };
   }
 
-  //To get class list
-  // async getTableRecord() {
-  //   this.posts = this.classService.getAllClass()
-  //   .subscribe(res => {
-  //     if (res.status === msgTypes.SUCCESS_MESSAGE) {
-  //       this.posts = res.data;
-  //       console.log(this.posts)
-  //     }
-  //   });
-  // }
-
   async getTableRecord() {
     this.posts = this.classService.getAllClass().pipe(
       map((res) => {

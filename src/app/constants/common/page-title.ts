@@ -27,6 +27,7 @@ export const pageTitle = {
                 PENDING_SSM_FEES: 'Pending SSM Fees',
                 AADHAR_DETAILS  : 'Aadhar Details Not Available',
                 FEES_COLLECTION : 'Fees Collection',
+                BIRTH_CERTIFICATE: 'Birth Certificate',
         
         NOTIFICATION: 'Notification',
                 SEND_NOTIFICATION : 'Send Notification',

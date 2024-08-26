@@ -7,6 +7,7 @@ import { AadharDetailsComponent } from './aadhar-details/aadhar-details.componen
 import { SharedModule } from 'src/app/shared-module';
 import { FeesCollectionComponent } from './fees-collection/fees-collection.component';
 import { PendingBookFeesComponent } from './pending-book-fees/pending-book-fees.component';
+import { BirthCertificateNotSubmittedComponent } from './birth-certificate-not-submitted/birth-certificate-not-submitted.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { PendingBookFeesComponent } from './pending-book-fees/pending-book-fees.
     PendingFeesComponent,
     AadharDetailsComponent,
     FeesCollectionComponent,
-    PendingBookFeesComponent
+    PendingBookFeesComponent,
+    BirthCertificateNotSubmittedComponent
   ],
   imports: [
     CommonModule,

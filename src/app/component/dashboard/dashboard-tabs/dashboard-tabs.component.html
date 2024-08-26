@@ -97,6 +97,20 @@
     </div>
 </ng-container>
 
+<ng-container *ngIf="birthCertificateTab">
+    <div class="col-md-2 p-0">
+        <div class="card card4 card-height">
+            <div class="card-body p-1">
+                <h3 class="card-title bg-white pl-1 m-0"><b>Birth Certificate</b></h3>
+                <div class="p-2">
+                    <h3 class="p-0 m-0"><b>Submitted - {{birthCertificateSubmitted}}</b></h3>
+                    <h3 class="p-0 m-0"><b>Not Submitted - {{birthCertificateNotSubmitted}}</b></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
 
     <!-- <div class="col-md-3 p-0">
         <div class="card card4 card-height">

@@ -98,7 +98,6 @@ export class ApiInterceptor implements HttpInterceptor {
             // return resp.clone({ body: responseModel });
           }else{
             console.log(resp);
-            
           }
           return resp;
 

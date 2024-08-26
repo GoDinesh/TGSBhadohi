@@ -21,6 +21,7 @@ export class Registration {
         registrationNo  : string;
         enrollmentType  : string; 
         idCardNumber    : string;
+        birthCirtificateSubmitted: string;
 
         fatherName      : string; 
         fatherAadharNo  : string;
@@ -89,6 +90,7 @@ export class Registration {
             this.category        ='';
             this.registrationNo  ='';
             this.idCardNumber    ='';
+            this.birthCirtificateSubmitted = ""
 
             this.fatherName      = ''; 
             this.fatherAadharNo  = '';

@@ -390,7 +390,11 @@ export class PayFeesComponent {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
     
     const StringArray = this.feesModel.month;
-    this.feesModel.month = StringArray.toString();
+    if(StringArray!=null){
+      this.feesModel.month = StringArray.toString();
+    }else{
+      this.feesModel.month = "";
+    }
     
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
@@ -419,7 +423,6 @@ export class PayFeesComponent {
       this.feesModel.balanceBookFees = this.payableBookFees
     }
     this.feesModel.updatedBy = this.authService.getLoginUserName();
-
 
     try {
       this.feesService.insertFees(this.feesModel).subscribe(res => {
@@ -479,6 +482,9 @@ export class PayFeesComponent {
     this.feesFormControll.amount.reset();
     this.feesFormControll.paymentMode.reset();
     this.feesFormControll.remarks.reset();
+    this.feesFormControll.month.reset();
+    this.feesFormControll.paymentReceivedBy.reset();
+    this.feesFormControll.paymenttype.reset();
     this.getFeesDetails();
   }
 

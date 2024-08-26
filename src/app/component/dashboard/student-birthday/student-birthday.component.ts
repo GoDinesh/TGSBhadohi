@@ -52,7 +52,7 @@ export class StudentBirthdayComponent {
     const studentNumber = '+919140744685';
   
     this.smsService.sendSMS(message, studentNumber).subscribe(response => {
-      console.log('SMS sent successfully', response);
+      //Successfull
     }, error => {
       console.error('Error sending SMS', error);
     });

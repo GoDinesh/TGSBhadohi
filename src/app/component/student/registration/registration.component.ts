@@ -77,7 +77,8 @@ export class RegistrationComponent {
     registrationNo: new FormControl(),
     isPromoted: new FormControl(),
     isActive: new FormControl(),
-    idCardNumber: new FormControl()
+    idCardNumber: new FormControl(),
+    birthCirtificateSubmitted: new FormControl()
     
   });
 
@@ -329,7 +330,8 @@ export class RegistrationComponent {
       registrationNo: [stuInfo.registrationNo, [Validators.required]],
       idCardNumber: [stuInfo.idCardNumber],
       isPromoted: [stuInfo.isPromoted],
-      isActive: [stuInfo.isActive]
+      isActive: [stuInfo.isActive],
+      birthCirtificateSubmitted: [stuInfo.birthCirtificateSubmitted]
     });
 
   }

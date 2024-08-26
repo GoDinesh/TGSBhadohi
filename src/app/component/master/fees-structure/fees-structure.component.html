@@ -382,11 +382,11 @@
 
   <!-- begin::Buttons -->
   <div class="form-group button-align">
-    <ng-container *ngIf="!editable;else formValidation">
+    <ng-container *ngIf="!editable;else formValidation1">
       <button class="btn btn-md btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
           disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
     </ng-container>
-    <ng-template #formValidation>
+    <ng-template #formValidation1>
       <ng-container *ngIf="actionFlag">
         <button class="btn btn-md btn-success mx-3" [disabled]="!formgroup.valid || !installmentFlag"
           (click)="save()">Save</button>
@@ -449,11 +449,11 @@
           <!-- <td>{{ post.annualFeesDate | dateFormatPipe }}</td> -->
           <!-- <td class="td-large">{{ post.remarks }}</td> -->
           <td class="td-status">
-            <ng-container *ngIf="!editable;else formValidation">
+            <ng-container *ngIf="!editable;else formValidation2">
               <mat-slide-toggle [checked]="post.active" disabled="true">
               </mat-slide-toggle>
             </ng-container>
-            <ng-template #formValidation>
+            <ng-template #formValidation2>
               <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
               </mat-slide-toggle>
             </ng-template>

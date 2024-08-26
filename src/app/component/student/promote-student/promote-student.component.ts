@@ -262,8 +262,6 @@ export class PromoteStudentComponent {
                 }
               })
             })
-            //send request to promote the student
-            //console.log(this.promotedStudentList);
             this.registrationService.promoteStudent(this.promotedStudentList).subscribe(res => {
               if (res.status === msgTypes.SUCCESS_MESSAGE) {
                 this.registrationService.updateStatusAfterPromote(updateStatus).subscribe(res => {

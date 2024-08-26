@@ -219,6 +219,20 @@
         </div>
         <!-- End:: Date of admission -->
 
+       <!-- begin:: Birth Certificate -->
+       <div class="form-group">
+        <label class="form-label required">Birth Certificate Submitted</label>
+      <mat-select class="custom-select-option form-control form-control-sm" formControlName="birthCirtificateSubmitted"
+        autocomplete="off">
+        <mat-option value="Yes">Yes</mat-option>
+        <mat-option value="No">No</mat-option>
+      </mat-select>
+      <div class="invalid-feedback">
+        {{validationMsg.getErrorMessage(studentFormControll.birthCirtificateSubmitted,"Birth Certificate Submitted")}}
+      </div>
+      </div>
+     <!-- End:: Birth Certificate -->
+
 
 
         <!-- begin::Registration No -->

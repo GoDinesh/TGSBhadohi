@@ -8,6 +8,7 @@ import { ROLE_ADMIN_USER } from 'src/app/constants/common/roles';
 import { AadharDetailsComponent } from './aadhar-details/aadhar-details.component';
 import { FeesCollectionComponent } from './fees-collection/fees-collection.component';
 import { PendingBookFeesComponent } from './pending-book-fees/pending-book-fees.component';
+import { BirthCertificateNotSubmittedComponent } from './birth-certificate-not-submitted/birth-certificate-not-submitted.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,17 @@ const routes: Routes = [
                     role: Object.values(ROLE_ADMIN_USER)
               }
         },
+        {
+            path: 'birth-certificate',
+            component: BirthCertificateNotSubmittedComponent,
+            canActivate: [AuthGuard],
+            data: {
+                  breadcrumb: breadcrumb.BIRTH_CERTIFICATE,
+                  title: pageTitle.BIRTH_CERTIFICATE,
+                  role: Object.values(ROLE_ADMIN_USER)
+            }
+      },
+        
         {
             path: 'fees-collection',
             component: FeesCollectionComponent,

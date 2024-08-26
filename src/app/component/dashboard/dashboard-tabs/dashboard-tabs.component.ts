@@ -18,6 +18,9 @@ export class DashboardTabsComponent {
   @Input() totalBoysGirlsTab: boolean;
   @Input() aadharNotSubmittedTab: boolean;
   @Input() todayFeesCollectionTab: boolean;
+  @Input() birthCertificateTab: boolean;
+  @Input() birthCertificateSubmitted:number;
+  @Input() birthCertificateNotSubmitted: number;
   
 
   ngOnInit(){

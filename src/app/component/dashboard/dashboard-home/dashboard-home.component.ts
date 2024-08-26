@@ -22,6 +22,8 @@ export class DashboardHomeComponent {
   totalGirls: number = 0;
   totalAadharSubmitted: number = 0;
   totalAadharNotSubmitted: number = 0;
+  birthCertificateSubmitted: number = 0;
+  birthCertificateNotSubmitted: number=0;
 
   cashCollection: number = 0;
   onlineCollection: number = 0;
@@ -35,6 +37,7 @@ export class DashboardHomeComponent {
   pendingFeesGrabh: boolean = true;
   todayFeesCollectionGraph: boolean = true;
   todayBirthday: boolean = true;
+  birthCertificateTab: boolean = true;
 
 
 
@@ -70,6 +73,8 @@ export class DashboardHomeComponent {
           this.todayFeesCollectionGraph= data.active;
           }else if(data.text==msgTypes.DASHBOARD_CONTENT.TODAY_BIRTHDAY){
           this.todayBirthday= data.active;
+          }else if(data.text==msgTypes.DASHBOARD_CONTENT.BITRH_CERTIFICATE){
+            this.todayBirthday= data.active;
           }else{}
 
         })
@@ -96,6 +101,13 @@ export class DashboardHomeComponent {
               this.totalAadharNotSubmitted = this.totalAadharNotSubmitted + 1;
             } else {
               this.totalAadharSubmitted = this.totalAadharSubmitted + 1;
+            }
+
+            if(data.birthCirtificateSubmitted ==='Yes'){
+                this.birthCertificateSubmitted += 1;
+               
+            }else{
+              this.birthCertificateNotSubmitted += 1;
             }
           }
         })
