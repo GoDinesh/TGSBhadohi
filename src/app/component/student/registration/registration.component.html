@@ -41,7 +41,7 @@
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.dateOfBirth, "Date Of
             Birth")}}</div>
         </div>
-       
+
         <!-- end:: DOB -->
 
         <!-- begin::academic year -->
@@ -248,8 +248,8 @@
                 <button class="btn btn-sm btn-primary btn-sm form-control form-control-sm" [disabled]="updateButtonFlag"
                 (click)="generateRegistrationNumber()">Generate</button>
               </ng-template>
-              
-              
+
+
             </div>
             <div>
               <input class="form-control form-control-sm registration-no" formControlName="registrationNo"
@@ -282,24 +282,6 @@
         </div>
         <!-- end::Father Name -->
 
-        <!-- begin:: Mother Name -->
-        <div class="form-group">
-          <label class="form-label required">Mother Name</label>
-          <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off" (input)="handleInputChange(parentFormControll.motherName)">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}
-          </div>
-        </div>
-        <!-- end:: Mother Name -->
-
-        <!-- begin::Father Aadhar No -->
-        <div class="form-group">
-          <label class="form-label">Father Aadhar No</label>
-          <input class="form-control form-control-sm" formControlName="fatherAadharNo" autocomplete="off">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherAadharNo,"Father Aadhar
-            No")}}</div>
-        </div>
-        <!-- end::Father Aadhar No -->
-
         <!-- begin::Father Contact No -->
         <div class="form-group">
           <label class="form-label">Father Contact No</label>
@@ -309,39 +291,23 @@
         </div>
         <!-- end::Father Contact No -->
 
-        <!-- begin:: Father Qualification -->
-        <div class="form-group">
-          <label class="form-label"> Father Qualification</label>
-          <input class="form-control form-control-sm" formControlName="fatherQualification" autocomplete="off" (input)="handleInputChange(parentFormControll.fatherQualification)">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherQualification,"Father
-            Qualification")}}</div>
+         <!-- begin::Father Aadhar No -->
+         <div class="form-group">
+          <label class="form-label">Father Aadhar No</label>
+          <input class="form-control form-control-sm" formControlName="fatherAadharNo" maxlength="12" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherAadharNo,"Father Aadhar
+            No")}}</div>
         </div>
-        <!-- end:: Father Qualification -->
+        <!-- end::Father Aadhar No -->
 
-        <!-- begin:: Father Profession -->
-        <div class="form-group">
-          <label class="form-label">Father Profession</label>
-          <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off" (input)="handleInputChange(parentFormControll.fatherProfession)">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherProfession,"Father
-            Profession")}}</div>
-        </div>
-        <!-- end:: Father Profession -->
 
-        <!-- begin::Father Email Id -->
-        <div class="form-group">
-          <label class="form-label">Parents Email</label>
-          <input class="form-control form-control-sm" formControlName="fatherEmailId" autocomplete="off">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Parents Email
-            Id")}}</div>
-        </div>
-        <!-- end::Father Email Id -->
 
-        <!-- begin:: Mother Aadhar Number -->
+        <!-- begin:: Mother Name -->
         <div class="form-group">
-          <label class="form-label">Mother Aadhar Number</label>
-          <input class="form-control form-control-sm" formControlName="motherAadharNumber" autocomplete="off">
-          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherAadharNumber,"Mother
-            Aadhar Number")}}</div>
+          <label class="form-label required">Mother Name</label>
+          <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off" (input)="handleInputChange(parentFormControll.motherName)">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}
+          </div>
         </div>
         <!-- end:: Mother Name -->
 
@@ -354,6 +320,24 @@
         </div>
         <!-- end:: Mother Name -->
 
+         <!-- begin:: Mother Aadhar Number -->
+         <div class="form-group">
+          <label class="form-label">Mother Aadhar Number</label>
+          <input class="form-control form-control-sm" formControlName="motherAadharNumber" maxlength="12" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherAadharNumber,"Mother
+            Aadhar Number")}}</div>
+        </div>
+        <!-- end:: Mother Name -->
+
+
+         <!-- begin:: Father Profession -->
+         <div class="form-group">
+          <label class="form-label">Father Profession</label>
+          <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off" (input)="handleInputChange(parentFormControll.fatherProfession)">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherProfession,"Father
+            Profession")}}</div>
+        </div>
+        <!-- end:: Father Profession -->
 
         <!-- begin:: Mother Profession -->
         <div class="form-group">
@@ -363,6 +347,34 @@
             Profession")}}</div>
         </div>
         <!-- end:: Mother Profession-->
+
+
+        <!-- begin:: Father Qualification -->
+        <div class="form-group">
+          <label class="form-label required">Father Qualification</label>
+          <mat-select class="custom-select-option form-control form-control-sm" formControlName="fatherQualification"
+            autocomplete="off">
+            <mat-option value="" disabled>Select Qualification</mat-option>
+            <mat-option value="S. Secondary">S. Secondary</mat-option>
+            <mat-option value="Graduation">Graduation</mat-option>
+            <mat-option value="PG">PG</mat-option>
+            <mat-option value="PSD">PSD</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherQualification,"Qualification")}}</div>
+        </div>
+        <!-- end:: Father Qualification -->
+
+
+        <!-- begin::Father Email Id -->
+        <div class="form-group">
+          <label class="form-label">Parents Email</label>
+          <input class="form-control form-control-sm" formControlName="fatherEmailId" autocomplete="off">
+          <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherEmailId,"Parents Email
+            Id")}}</div>
+        </div>
+        <!-- end::Father Email Id -->
+
+
 
         <!-- begin:: Guardian Name -->
         <div class="form-group">
@@ -705,7 +717,7 @@
                 <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="updateStudentDetails()">Update</button>
               </ng-container>
             </ng-container>
-           
+
             </div>
         </div>
       </div>

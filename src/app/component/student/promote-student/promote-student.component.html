@@ -102,7 +102,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let post of posts;let i=index" [ngClass]="{'my_class': !post.isTotalFeesPaid }">
+      <tr *ngFor="let post of posts;let i=index" [ngClass]="{'my_class': post.pendingFees>0 }">
         <td class="td-align"><input type="checkbox" class="checkbox-width" value="{{post.registrationNo}}"
             [(ngModel)]="posts[i].isChecked" (change)="selectCheckBox(posts[i],$event)"></td>
         <td class="td-sno">{{i+1}}</td>
@@ -134,7 +134,7 @@
   <div class="pt-2">
     <h2>Select Academic Year and Standard to promote the student !!</h2>
   </div>
-  
+
   <form [formGroup]="promotedStudentGroup" class="grid-form">
   <!-- begin::academic year -->
     <div class="form-group">
@@ -142,13 +142,13 @@
       <mat-select formControlName="promotedAcademicYearCode" class="form-control form-control-sm"
         placeholder="Select Academic Year">
         <!-- <input type="text" class="form-control  form-control-sm" #filterAcademicYear> -->
-        <div *ngIf="promoteAcademicYearList.length>0"> 
+        <div *ngIf="promoteAcademicYearList.length>0">
           <mat-option *ngFor="let data of promoteAcademicYearList"
             [value]="data.academicYearCode">
             {{data.academicYear}}
           </mat-option>
         </div>
-        <!-- <div *ngIf="promoteYear.length==0"> 
+        <!-- <div *ngIf="promoteYear.length==0">
           <mat-option class="no-record" disabled
             value="">
             Academic Year Not available
@@ -185,7 +185,7 @@
       <ng-template #formValidation>
         <button class="btn btn-success btn-sm mx-2" [disabled]="!promotedStudentGroup.valid" (click)="promoteStudent()">Promote Student</button>
       </ng-template>
-      
+
     </div>
     <!-- end::Buttons -->
   </form>

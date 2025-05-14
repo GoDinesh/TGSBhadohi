@@ -47,6 +47,7 @@ export class FeesStructureComponent {
   allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   discountReasonList: Observable<DiscountReason[]> = new Observable();
+  //currentAcademicYear: string = '';
   formgroup: FormGroup;
 
 
@@ -91,7 +92,9 @@ export class FeesStructureComponent {
       // annualFeesDate: [feeStructure.annualFeesDate,[Validators.required]],
       regFeesDiscount: [feeStructure.regFeesDiscount],
       regFeesDiscountReason: [feeStructure.regFeesDiscountReason],
-      installment: new FormArray([])
+      installment: new FormArray([]),
+
+      tableAcademicYearCode: [feeStructure.tableAcademicYearCode, []],
 
 
     })
@@ -113,18 +116,18 @@ export class FeesStructureComponent {
         })
       )
 
-      control.push(
-        new FormGroup({
-          classCode: new FormControl(this.formgroup.controls.classCode.value),
-          academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
-          installmentNumber: new FormControl(control.length + 1),
-          installmentType: new FormControl('Annual Fees'),
-          installmentAmount: new FormControl(),
-          installmentDiscount: new FormControl(),
-          installmentDate: new FormControl(),
-          installmentAmountAfterDiscount: new FormControl(),
-        })
-      )
+      // control.push(
+      //   new FormGroup({
+      //     classCode: new FormControl(this.formgroup.controls.classCode.value),
+      //     academicYearCode: new FormControl(this.formgroup.controls.academicYearCode.value),
+      //     installmentNumber: new FormControl(control.length + 1),
+      //     installmentType: new FormControl('Annual Fees'),
+      //     installmentAmount: new FormControl(),
+      //     installmentDiscount: new FormControl(),
+      //     installmentDate: new FormControl(),
+      //     installmentAmountAfterDiscount: new FormControl(),
+      //   })
+      // )
     } else {
       control.push(
         new FormGroup({
@@ -167,12 +170,19 @@ export class FeesStructureComponent {
   }
 
 
-  customInit() {
+  async customInit() {
     this.loadTable();
-    this.getTableRecord();
     this.loadClass();
     this.loadDiscountReason();
     this.loadAcademicyear();
+    this.getTableRecord();
+  }
+
+  getCurrentAcademicYear(): string {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+
+    return `${currentYear}${nextYear}`;
   }
 
   loadClass() {
@@ -186,6 +196,8 @@ export class FeesStructureComponent {
   loadAcademicyear() {
     this.academicYearList = this.academicYearService.getAllActiveAcademicYear().pipe(
       map((res) => {
+        // this.currentAcademicYear= res.data[res.data.length-1].academicYearCode ;
+        // this.formgroup.controls.tableAcademicYearCode.setValue(this.currentAcademicYear);
         return res.data;
       })
     )
@@ -241,6 +253,10 @@ export class FeesStructureComponent {
 
   getTableRecord() {
     this.posts = this.feesStructureService.getAllFeesStructure();
+   // let feesStructureModel = new FeesStructure();
+   // this.formgroup.controls.tableAcademicYearCode.setValue(this.currentAcademicYear);
+    // feesStructureModel.academicYearCode = this.formgroup.controls.tableAcademicYearCode.value;
+    // this.posts = this.feesStructureService.getByAcademicYear(feesStructureModel);
   }
 
   //change the status

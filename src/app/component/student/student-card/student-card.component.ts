@@ -11,7 +11,7 @@ export class StudentCardComponent {
   @Input() academicYear: string;
 
   constructor(){
-    
+
   }
 
   ngOnChanges(changes: SimpleChanges) {

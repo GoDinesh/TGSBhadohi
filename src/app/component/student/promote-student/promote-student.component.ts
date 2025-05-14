@@ -20,6 +20,8 @@ import { FeesStructure } from 'src/app/model/master/fees-structure.model';
 import { FeesStructureService } from 'src/app/service/masters/fees-structure.service';
 import { BookAndDressFees } from 'src/app/model/master/book-and-dress-fees.model';
 import { BookAndDressFeesService } from 'src/app/service/masters/book-and-dress-fees.service';
+import { StudentFeesStructure } from 'src/app/model/fees/student-fees-structure.model';
+import { StudentFeesInstallment } from 'src/app/model/fees/student-fees-installment.model';
 
 @Component({
   selector: 'app-promote-student',
@@ -180,7 +182,22 @@ export class PromoteStudentComponent {
 
     this.registrationService.studentList(studentInfo).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        this.posts = res.data.filter((data: Registration) => { return data.isActive === true });
+        this.posts = res.data.filter((data: Registration) => { return data.isActive === true })
+        .map((data:Registration)=>{
+          const feesStructure = data.studentFeesStructure.filter((structure:StudentFeesStructure)=>{
+            return data.academicYearCode=== structure.academicYearCode;
+          });
+
+          var additionalDiscount = 0;
+          feesStructure[0]?.studentFeesInstallment.map((installment: StudentFeesInstallment)=>{
+            additionalDiscount += Number(installment.discountAmount);
+          })
+          console.log(additionalDiscount);
+          data.discountAmount = data.discountAmount + additionalDiscount;
+          data.pendingFees = data.totalFees - (data.discountAmount + data.paidFees )
+          return data;
+
+        });
         if (this.posts.length == 0) {
           this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
         }
@@ -256,7 +273,8 @@ export class PromoteStudentComponent {
                     // rollnumber = rollnumber + 1;
                     const increasedRollNumber = this.convertIntoTwoDegit(rollnumber);
                     rollnumber = rollnumber + 1;
-                    x.idCardNumber = "TGS" + promotedAcademicYear.substring(0, 4) + classData[0].className + "/" +increasedRollNumber
+                    x.idCardNumber = "TGS"+ promotedAcademicYear.substring(2,4)+"-"+promotedAcademicYear.substring(6,8)+classData[0].className+"/"+increasedRollNumber
+                    //x.idCardNumber = "TGS" + promotedAcademicYear.substring(0, 4) + classData[0].className + "/" +increasedRollNumber
                     this.promotedStudentList.push(x)
                   }
                 }
@@ -337,7 +355,7 @@ export class PromoteStudentComponent {
             const selectedYear= this.studentgroup.controls.academicYearCode.value;
             this.promoteAcademicYearList=[];
             this.promoteAcademicYearList = this.promoteYear.filter(res=>{
-              return res.academicYearCode.substring(0,4)===selectedYear.substring(4,8); 
+              return res.academicYearCode.substring(0,4)===selectedYear.substring(4,8);
             })
             this.resetForm();
             this.studentFormControll.academicYearCode.setValue(selectedYear);
@@ -349,8 +367,8 @@ loadBookFees() {
   this.bookFees=0;
 
   const bookDressFees: BookAndDressFees = new BookAndDressFees();
-  bookDressFees.academicYearCode = this.studentgroup.controls.academicYearCode.value;
-  bookDressFees.standard = this.studentgroup.controls.standard.value;
+  bookDressFees.academicYearCode = this.promotedStudentFormControll.promotedAcademicYearCode.value;
+  bookDressFees.standard = this.promotedStudentFormControll.promotedStandard.value;
 
   if(bookDressFees.academicYearCode.length>0 && bookDressFees.standard.length>0){
     this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {

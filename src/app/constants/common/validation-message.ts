@@ -63,11 +63,17 @@ export const validationMessage = [
         key: 'confirmedValidator',
         value: 'Password does not match.'
     },
+
+    {
+      key: 'sameAadharValidation',
+      value: 'Father and Mother Aadhar number is same.'
+  },
+
     {
         key:'plainText',
         value: '< > and $ symbol not allowed '
     }
-    
-    
-   
+
+
+
     ];

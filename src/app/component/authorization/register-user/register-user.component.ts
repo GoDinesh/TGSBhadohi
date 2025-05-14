@@ -101,6 +101,7 @@ export class RegisterUserComponent {
   async getTableRecord() {
     this.posts = this.userService.getAllUsers().pipe(
       map((res) => {
+         console.log(res);
         return res.data;
       })
     )
@@ -113,7 +114,7 @@ export class RegisterUserComponent {
       processing: true,
       scrollY: "300px",
       scrollCollapse: true,
-      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"><"clear">',
+      dom: '<"align-table-buttons"Bf>rt<"bottom align-table-buttons"lip><"clear">',
       buttons: [
         'copy', 'csv', 'excel', 'print'
       ]
@@ -165,7 +166,7 @@ export class RegisterUserComponent {
     });
   }
 
-  handleInputChange(formcontrol: FormControl){  
+  handleInputChange(formcontrol: FormControl){
     formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
   }
 

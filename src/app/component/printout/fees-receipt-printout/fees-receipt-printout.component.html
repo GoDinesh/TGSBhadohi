@@ -1,6 +1,6 @@
 <button class="btn btn-sm btn-warning" #printButton printSectionId="print-section" printTitle="Print Receipt"  [useExistingCss]="true" ngxPrint >Print</button>
 
-    <div  id="print-section" class="d-none"> 
+    <div  id="print-section" class="d-none">
         <ng-container *ngIf="feesModel">
         <!-- <ng-container *ngIf="feesDetails | async as value"> -->
             <!-- <div *ngFor="let feesModel of value.data; let i = index" id="student-card-{{i}}">  -->
@@ -13,18 +13,18 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 p-2">
-                        <div class="text-center">                
+                        <div class="text-center">
                             <div><img class="p-1 logo" src="/assets/website/img/print-logo.jpg"  width="200" height="150"></div>
                             <div>Indra Gandhi Marg, Chaksaif, Bhadohi - 221401</div>
                             <div><b>FEES RECEIPT</b></div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                            <ng-container *ngIf="number===0"><h5><u><b><div style="padding-bottom: 10;">STUDENT COPY</div></b></u></h5> </ng-container> 
-                            <ng-container *ngIf="number===1"><h5><u><b><div style="padding-bottom: 10;">SCHOOL COPY</div></b></u></h5> </ng-container> 
+                            <ng-container *ngIf="number===0"><h5><u><b><div style="padding-bottom: 10;">STUDENT COPY</div></b></u></h5> </ng-container>
+                            <ng-container *ngIf="number===1"><h5><u><b><div style="padding-bottom: 10;">SCHOOL COPY</div></b></u></h5> </ng-container>
                     </div>
                     <hr>
                 </div>
@@ -96,11 +96,11 @@
                                             <td class="dotted">
                                                 <b>
                                                 <ng-container *ngIf="feesModel.paymenttype==='Book Fees'">SSM Fees</ng-container>
-                                                <ng-container *ngIf="feesModel.paymenttype==='Fees'">Fees</ng-container>                                                    
+                                                <ng-container *ngIf="feesModel.paymenttype==='Fees'">Fees</ng-container>
                                                 </b>
                                             </td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td class="td-width">Payment Mode</td>
                                             <td> :&nbsp; </td>
@@ -121,7 +121,7 @@
                                             <td> :&nbsp; </td>
                                             <td class="dotted"><b>{{feesModel.balanceBookFees}}/-</b></td>
                                         </tr>
-                                       
+
                                         <tr *ngIf="feesModel.remarks!=null">
                                             <td class="td-width">Remarks </td>
                                             <td> :&nbsp; </td>
@@ -132,8 +132,8 @@
                             </td>
                         </tr>
                     </table>
-                    
-                   
+
+
                 </div>
                 <div class="row mt-4 mb-1 mt-3 pt-3" >
                     <div class="col-md-12 floatright" align="right">
@@ -166,10 +166,9 @@
         </div>
     </ng-container>
         <br>
-        
+
             </ng-container>
             <!-- </div> -->
         <!-- </ng-container> -->
         </ng-container>
     </div>
-    

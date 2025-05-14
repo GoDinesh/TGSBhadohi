@@ -43,7 +43,7 @@ export class RegistrationComponent {
   updateFlag: boolean = false;
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
-  today = new Date(); 
+  today = new Date();
   bookFees: number =0;
   // myFiles:string [] = [];
 
@@ -79,7 +79,7 @@ export class RegistrationComponent {
     isActive: new FormControl(),
     idCardNumber: new FormControl(),
     birthCirtificateSubmitted: new FormControl()
-    
+
   });
 
   parentgroup = new FormGroup({
@@ -177,8 +177,8 @@ export class RegistrationComponent {
     // })
 
     //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-      
-      
+
+
     //this.route.queryParams.subscribe((params) => {
       this.route.paramMap.subscribe(()=>{
         const params=window.history.state;
@@ -244,7 +244,7 @@ export class RegistrationComponent {
   customInit() {
     this.loadClass();
     this.loadAcademicyear();
-    // Listen for changes on the form && Enable the generate button 
+    // Listen for changes on the form && Enable the generate button
     // this.studentgroup.valueChanges.subscribe(() => {
     //   const standardValue = typeof this.studentgroup.controls.standard.value === 'string' ? this.studentgroup.controls.standard.value.trim() : '';
     //   const academicYearCodeValue = typeof this.studentgroup.controls.academicYearCode.value === 'string' ? this.studentgroup.controls.academicYearCode.value.trim() : '';
@@ -333,7 +333,6 @@ export class RegistrationComponent {
       isActive: [stuInfo.isActive],
       birthCirtificateSubmitted: [stuInfo.birthCirtificateSubmitted]
     });
-
   }
 
   createParentForm(parentInfo: Registration | Partial<Registration>) {
@@ -350,7 +349,8 @@ export class RegistrationComponent {
       motherProfession: [parentInfo.motherProfession, [Validators.minLength(1), Validators.maxLength(50), CustomValidation.plainText]],
       guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
 
-    });
+    },
+    { validator: CustomValidation.sameAadharValidation('fatherAadharNo', 'motherAadharNumber') });
   }
 
   createAddressForm(addressInfo: Registration | Partial<Registration>) {
@@ -537,11 +537,11 @@ export class RegistrationComponent {
             this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
           }
         })
-      
+
      }else{
       this.studentFormControll.registrationNo.setValue("");
      }
-      
+
     });
   }
 
@@ -626,7 +626,7 @@ export class RegistrationComponent {
 
     this.reg.bookFees = this.bookFees;
     this.reg.pendingBookFees =  this.bookFees;
-    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD); 
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
     this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD);
 
     const formData = new FormData();
@@ -660,23 +660,24 @@ export class RegistrationComponent {
       this.reg = { ...this.reg, ...this.addressgroup.value };
       this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
       this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
-  
-      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);  
+
+      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
       this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD)  ;
-  
+
       // const formData = new FormData();
       // if (this.documents && this.documents.length > 0) {
       //   for (let i = 0; i <= this.documents.length - 1; i++) {
       //     formData.append("documentUpload[]", <File>this.documents[i]);
       //   }
       // }
-  
+
       // if (this.selectedPhoto) {
       //   formData.append("profileImage", <File>this.selectedPhoto);
       // }
-  
+
       // formData.append("requestData", JSON.stringify(this.reg))
-  
+  console.log(this.reg);
+
       this.registrationService.updateStudentdetails(this.reg).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE) {
           this.resetForm();
@@ -701,7 +702,7 @@ export class RegistrationComponent {
     const standard = this.studentgroup.controls.standard.value;
     const enrollmentType = this.studentgroup.controls.enrollmentType.value;
 
-    if ((standard != '' && standard != null && standard != undefined) 
+    if ((standard != '' && standard != null && standard != undefined)
       && (academicYearCode != '' && academicYearCode != null && academicYearCode != undefined)
       && (enrollmentType != '' && enrollmentType != null && enrollmentType != undefined)
     ) {
@@ -725,7 +726,7 @@ export class RegistrationComponent {
   }
 
 
-  handleInputChange(formcontrol: FormControl){  
+  handleInputChange(formcontrol: FormControl){
     formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
   }
 

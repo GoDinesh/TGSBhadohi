@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class CustomValidation {
 
     constructor() { }
-  
+
     static alphabets(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
             const regex = /^[a-zA-Z ]*$/ ;
@@ -21,7 +21,7 @@ export class CustomValidation {
     static alphabetsWithSpace(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
             const regex = /^[a-zA-Z]+(\s[a-zA-Z]+)*$/;
-            
+
             if (fc.value==='' || regex.test(fc.value)) {
                 return (null);
             } else {
@@ -120,11 +120,11 @@ export class CustomValidation {
     //         else {
     //             return (null);
     //         }
-          
+
     //     } else {
     //         return ({ minLength: true });
     //     }
-    
+
     // }
 
     static emailId(fc: FormControl) {
@@ -136,18 +136,18 @@ export class CustomValidation {
             else {
                 return ({emailId: true});
             }
-          
+
         } else {
             return ({emailId: true});
         }
-    
+
     }
 
     //Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:
     static password(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
           const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      
+
           if (fc.value === '' || regex.test(fc.value)) {
             return null;
           } else {
@@ -172,6 +172,23 @@ export class CustomValidation {
           }
         };
       }
+
+      static sameAadharValidation(fatherAadhar: string, motherAadhar: string) {
+        return (formGroup: FormGroup) => {
+          const control = formGroup.controls[fatherAadhar];
+          const matchingControl = formGroup.controls[motherAadhar];
+        //   if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+        //     return;
+        //   }
+          if (control.value === matchingControl.value) {
+            matchingControl.setErrors({ sameAadharValidation: true });
+          } else {
+            matchingControl.setErrors(null);
+          }
+        };
+      }
+
+
 
     static aadhaarValidation(fc: FormControl) {
         if (fc.value != undefined || fc.value != '') {
@@ -211,11 +228,10 @@ export class CustomValidation {
             return ({ amountValidation: true });
         }
     }
-    
 
-      
-    
 
-  
+
+
+
+
   }
-  

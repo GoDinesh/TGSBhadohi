@@ -150,12 +150,10 @@ export class StudentListComponent {
     //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
     const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
-    this.router.navigate([url], {
-      state: {data: JSON.stringify(encryptData)}
-        // queryParams: {
-        //     data: JSON.stringify(encryptData)
-        // }
-    });
+    this.router.navigate([url,JSON.stringify(encryptData)] );
+    // this.router.navigate([url], {
+    //   state: {data: JSON.stringify(encryptData)}
+    // });
   }
 
   setVlaueToUpdate(stuDetails: Registration) {
@@ -174,12 +172,10 @@ export class StudentListComponent {
   payFees(registration: Registration) {
     const url = appurl.navmenu + appurl.menuurl_fees+ appurl.pay_fees;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
-    this.router.navigate([url], {
-      state: {data: JSON.stringify(encryptData)}
-        // queryParams: {
-        //     data: JSON.stringify(encryptData)
-        // }
-    });
+    // this.router.navigate([url], {
+    //   state: {data: JSON.stringify(encryptData)}
+    // });
+    this.router.navigate([url,JSON.stringify(encryptData)] );
 }
 
 

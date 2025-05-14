@@ -1,12 +1,10 @@
 export const appurl={
-    //Prod    
-    //baseurl: 'https://13.48.143.218:8080',
-    //baseurl: 'https://api.tgsbhadohi.com',
-    //baseurl: 'https://tgsspringboot-production.up.railway.app',
+    //Prod
+    baseurl: 'https://api.tgsbhadohi.com',
 
     //local
-    baseurl: 'http://localhost:8000',
-    
+    //baseurl: 'http://localhost:8080',
+
 
 
     navmenu: '/navmenu',
@@ -25,7 +23,7 @@ export const appurl={
                 master_discountreason: '/discountreason',
                 master_feeStructure: '/fees-structure',
                 master_bookAndDressFees: '/book-dress-fees',
-        
+
         menuurl_student: '/student',
                 student_registration: '/registration',
                 student_details: '/view-details',
@@ -55,7 +53,11 @@ export const appurl={
     endpoint_findall:'/findall',
     endpoint_allActiveRecords:'/allActiveRecords',
     endpoint_findbyid: '/findbyid',
-    endpoint_filter: '/filter'
-    
+    endpoint_filter: '/filter',
+
+
+
+    endpoint_findByAcademicYearCode: '/findbyacademicyearcode',
+
     //endpoint_update: '/update',
 }

@@ -26,8 +26,9 @@ export class FeesStructure {
     // installmentDate1: string;
     // installmentAmount1: number;
     installment: Installment[];
+    tableAcademicYearCode: string;
 
-    
+
     constructor(){
     this.feeStructureId = '',
     this.classCode = '';
@@ -51,6 +52,8 @@ export class FeesStructure {
     this.regFeesDiscountReason='';
 
     this.installment=[];
+
+    this.tableAcademicYearCode = '';
 
     }
 }

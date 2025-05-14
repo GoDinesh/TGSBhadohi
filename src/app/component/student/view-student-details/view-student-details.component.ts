@@ -20,30 +20,36 @@ export class ViewStudentDetailsComponent {
   }
 
   ngOnInit() {
-    //this.activatedRoute.paramMap.pipe(map(() => window.history.state)).subscribe(res => {
-    this.route.paramMap.subscribe(() => {
-      const param = window.history.state;
-      if (param != undefined) {
-        const txndata = JSON.parse(param.data);
-        const decryptedData = this.authService.getDecryptText(txndata);
-        const res = JSON.parse(decryptedData);
+    
+    // this.route.paramMap.subscribe(() => {
+    //   const param = window.history.state;
+    //   if (param != undefined) {
+    //     const txndata = JSON.parse(param.data);
+    //     const decryptedData = this.authService.getDecryptText(txndata);
+    //     const res = JSON.parse(decryptedData);
 
-        this.reg = new Registration();
-        if (res.registrationNo.length > 0) {
-          this.reg = res;
-        }
-      }
-    })
-    // this.route.queryParams.subscribe((params) => {
-    //   const txndata = JSON.parse(params.data);
-    //   const decryptedData = this.authService.getDecryptText(txndata);
-    //   const res = JSON.parse(decryptedData);
-
-    //   this.reg = new Registration();
-    //   if (res.registrationNo.length > 0) {
-    //     this.reg = res;
+    //     this.reg = new Registration();
+    //     if (res.registrationNo.length > 0) {
+    //       this.reg = res;
+    //     }
     //   }
-    // });
+    // })
+
+    this.route.params.subscribe(
+      params => {
+         let id = params['id'];
+         if (id != undefined) {
+          const txndata = JSON.parse(id);
+              const decryptedData = this.authService.getDecryptText(txndata);
+              const res = JSON.parse(decryptedData);
+      
+              this.reg = new Registration();
+              if (res.registrationNo.length > 0) {
+                this.reg = res;
+              }
+         }
+         
+      })   
   }
 
 

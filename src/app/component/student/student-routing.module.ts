@@ -34,7 +34,7 @@ const routes: Routes = [
               }
         },
         {
-            path: 'view-details',
+            path: 'view-details/:id',
             component: ViewStudentDetailsComponent,
             canActivate: [AuthGuard],
             data: {

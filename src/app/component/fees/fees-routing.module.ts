@@ -19,6 +19,16 @@ const routes: Routes = [
                       title: pageTitle.PAY_FEES,
                       role: Object.values(ROLE_ADMIN)
                 }
+      },
+      {
+        path: 'pay-fees/:id',
+        component: PayFeesComponent,
+        canActivate: [AuthGuard],
+                data: {
+                      breadcrumb: breadcrumb.PAY_FEES,
+                      title: pageTitle.PAY_FEES,
+                      role: Object.values(ROLE_ADMIN)
+                }
       }
     ]
   }

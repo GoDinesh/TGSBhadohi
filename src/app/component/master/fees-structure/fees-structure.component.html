@@ -129,7 +129,7 @@
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.netAmountAfterDiscount,"")}}</div>
         </div>
       </div>
-      
+
       <div class="col-sm-4">
       </div>
 
@@ -262,11 +262,12 @@
             <div class="col-sm-3">
               <!-- begin::1 Installment Type-->
               <div>
-                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType" 
+                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType"
                   autocomplete="off">
                   <!-- <mat-option value="" disabled>Select Installment</mat-option> -->
                   <mat-option value="Registration Fees">Registration Fees</mat-option>
                   <mat-option value="Annual Fees">Annual Fees</mat-option>
+                  <mat-option value="Development">Development</mat-option>
                   <mat-option value="Installment">Installment</mat-option>
                 </mat-select>
                 <!-- <div class="invalid-feedback">
@@ -366,7 +367,7 @@
         </div>
       </ng-container>
     </ng-container>
-    
+
   </ng-container>
 
 <!-- <div style="display: inline;"> -->
@@ -396,7 +397,7 @@
       </ng-container>
     </ng-template>
 
-   
+
     <button class="btn btn-md btn-danger" (click)="resetForm()">Reset</button>
   </div>
   <!-- end::Buttons -->
@@ -404,8 +405,27 @@
 </form>
 
 <!--begin::second Card body-->
+
 <ng-container *ngIf="posts | async as postData ">
   <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="postData.data ">
+    <!-- begin::Academic Year -->
+ <div class="form-group w-50">
+  <label class="form-label required">Academic Year</label>
+  <mat-select class="form-control form-control-sm myPanelClass"  formControlName="tableAcademicYearCode"
+    (selectionChange)="getTableRecord()" disableOptionCentering placeholder="Select Academic Year">
+    <input type="text" class="form-control  form-control-sm" #tableFilterAcademicYear>
+    <div *ngIf="academicYearList | async as postdata ">
+      <mat-option *ngFor="let data of postdata | filterData: tableFilterAcademicYear.value : 'academicYear'"
+        [value]="data.academicYearCode">
+        {{data.academicYear}}
+      </mat-option>
+    </div>
+  </mat-select>
+  <div class="invalid-feedback">
+    {{validationMsg.getErrorMessage(formControll.tableAcademicYearCode,"Academic Year")}}
+  </div>
+</div>
+<!-- end::Academic Year -->
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
       <thead>
@@ -457,7 +477,7 @@
               <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
               </mat-slide-toggle>
             </ng-template>
-           
+
           </td>
           <td class="td-action">
             <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>

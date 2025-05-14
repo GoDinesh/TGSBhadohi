@@ -83,7 +83,7 @@ export class PayFeesComponent {
 
   @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
   @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
-  monthList: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  monthList: string[] = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar'];
   selectedMonth: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -143,22 +143,41 @@ export class PayFeesComponent {
   }
 
   async callParam() {
-    this.route.paramMap.subscribe(()=>{
-      const param=window.history.state;
-      if (param.data != undefined) {
-        const txndata = JSON.parse(param.data);
-        const decryptedData = this.authService.getDecryptText(txndata);
-        const data = JSON.parse(decryptedData);
-        this.callBylinkFlag = false;
+    // this.route.paramMap.subscribe(()=>{
+    //   const param=window.history.state;
+    //   if (param.data != undefined) {
+    //     const txndata = JSON.parse(param.data);
+    //     const decryptedData = this.authService.getDecryptText(txndata);
+    //     const data = JSON.parse(decryptedData);
+    //     this.callBylinkFlag = false;
 
-        //To open the selected student fees details
-        this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
-        this.feesFormControll.classCode.setValue(data.standard);
-        this.feesFormControll.registrationNo.setValue(data.registrationNo);
-        this.getFeesDetails();
+    //     //To open the selected student fees details
+    //     this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
+    //     this.feesFormControll.classCode.setValue(data.standard);
+    //     this.feesFormControll.registrationNo.setValue(data.registrationNo);
+    //     this.getFeesDetails();
+    //   }
+    // })
+
+    this.route.params.subscribe(
+      params => {
+         let id = params['id'];
+         if (id != undefined) {
+              const txndata = JSON.parse(id);
+              const decryptedData = this.authService.getDecryptText(txndata);
+              const data = JSON.parse(decryptedData);
+              this.callBylinkFlag = false;
+
+              //To open the selected student fees details
+              this.feesFormControll.academicYearCode.setValue(data.academicYearCode);
+              this.feesFormControll.classCode.setValue(data.standard);
+              this.feesFormControll.registrationNo.setValue(data.registrationNo);
+              this.getFeesDetails();
+            }
+
       }
-    })
-    
+   );
+
 
    // this.route.queryParams.subscribe((params) => {
       // if (data != undefined) {
@@ -299,7 +318,7 @@ export class PayFeesComponent {
         const payable = (installment[i].installmentAmountAfterDiscount - installment[i].discountAmount) - installmentPaidAmount;
         this.totalNetPayable = this.totalNetPayable + payable;
 
-        //first and second installment is preserved for registration and annual 
+        //first and second installment is preserved for registration and annual
         //hence term fees calculate from third installment
         if (i <= 1) {
           this.annualAndRegistrationFee += installment[i].installmentAmount;
@@ -378,7 +397,7 @@ export class PayFeesComponent {
     //   }
 
     //   if(dressfees>=(Number(this.dressFeesPaid) + Number(this.feesFormControll.amount.value))){
-    //       this.payFees();       
+    //       this.payFees();
     //   }else{
     //     this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Dress Fees", msgTypes.ERROR, msgTypes.OK_KEY);
     //   }
@@ -388,14 +407,14 @@ export class PayFeesComponent {
   //pay fees
   async payFees() {
     this.feesModel = { ...this.feesModel, ...this.formgroup.value }
-    
+
     const StringArray = this.feesModel.month;
     if(StringArray!=null){
       this.feesModel.month = StringArray.toString();
     }else{
       this.feesModel.month = "";
     }
-    
+
     this.feesModel.paymentDate = moment(this.feesModel.paymentDate).format(msgTypes.YYYY_MM_DD);
     this.feesModel.studentName = this.studentDetails.studentName;
     const year = this.feesModel.academicYearCode.substring(2, 4) + "-" + this.feesModel.academicYearCode.substring(6, 8);
@@ -473,9 +492,9 @@ export class PayFeesComponent {
     this.receiptFeesModel.paymentDate = moment(this.receiptFeesModel.paymentDate).format(msgTypes.DD_MM_YYYY);
     setTimeout(() => {
       let el: HTMLElement = this.receiptComponent.childElement.nativeElement;
-      el.click();  
+      el.click();
     }, 200);
-    
+
   }
 
   clearPaymentDetails() {
@@ -529,7 +548,7 @@ export class PayFeesComponent {
   }
 
   async updateFeeStructureDiscount() {
-    // discount on registration fees 
+    // discount on registration fees
     // this.studentFeeStructure.regFeesDiscount = this.feesFormControll.regFeesDiscount.value;
     // this.studentFeeStructure.regFeesDiscountReason = this.feesFormControll.regFeesDiscountReason.value;
 
