@@ -1,6 +1,6 @@
 <div class="grid-card-container card-bottom-margin form-bg">
     <form [formGroup]="studentgroup" class="grid-form">
- 
+
           <!-- begin::academic year -->
           <div class="form-group">
             <label class="form-label">Academic Year</label>
@@ -60,6 +60,21 @@
             </div>
             <!-- end:: Student Name -->
 
+
+            <!-- begin:: Enrollment type -->
+         <div class="form-group">
+           <label class="form-label required">Enrollment Type</label>
+         <mat-select class="custom-select-option form-control form-control-sm"  formControlName="enrollmentType"
+           autocomplete="off">
+           <mat-option value="New Student">New Student</mat-option>
+           <mat-option value="Old Student">Old Student</mat-option>
+         </mat-select>
+         <div class="invalid-feedback">
+           {{validationMsg.getErrorMessage(studentFormControll.enrollmentType,"Enrollment Type")}}
+         </div>
+         </div>
+        <!-- End:: Enrollment type -->
+
              <!-- begin::Buttons -->
              <div class="grid-button-inline form-group pt-4">
                 <!-- <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()" [disabled]="!studentgroup.valid || !editable">Search</button> -->
@@ -70,7 +85,7 @@
                 <ng-template #formValidation>
                   <button class="btn btn-success btn-sm mx-2" (click)="getTableRecord()">Search</button>
                 </ng-template>
-                
+
                 <ng-container *ngIf="posts.length>0">
                   <app-student-card [studentData]="posts" [academicYear]="academicYear"></app-student-card>
                 </ng-container>
@@ -84,10 +99,10 @@
 <!--begin::second Card body-->
 <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="posts.length>0">
   <!-- <app-student-id-card></app-student-id-card> -->
-    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
      <thead>
        <tr>
-         <th>S.No</th> 
+         <th>S.No</th>
          <th>Photo</th>
          <th>Old/New</th>
          <th>Registration Number</th>
@@ -171,7 +186,7 @@
          <td class="td-large">{{post.passedClassMarks}}</td>
          <td class="td-large">{{post.schoolAddress}}</td>
 
-         <td class="td-action">  
+         <td class="td-action">
            <a (click)="viewDetails(post)"><i class="fa fa-eye fa-lg"></i></a>
            &nbsp;&nbsp;
            <a (click)="setVlaueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
@@ -182,6 +197,6 @@
      </tbody>
    </table>
    <!--end::table-->
-      
+
    </div>
    <!--end::second Card body-->

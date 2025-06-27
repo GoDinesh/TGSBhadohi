@@ -180,11 +180,15 @@ export class CustomValidation {
         //   if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
         //     return;
         //   }
-          if (control.value === matchingControl.value) {
+        if(control.value!=='' && matchingControl.value!==''){
+          if (control.value === matchingControl.value ) {
             matchingControl.setErrors({ sameAadharValidation: true });
           } else {
             matchingControl.setErrors(null);
           }
+        }else {
+            matchingControl.setErrors(null);
+        }
         };
       }
 

@@ -12,7 +12,7 @@ export class RegistrationService {
 
   requestUrl = appurl.menuurl_student ;
   constructor(private httpClient: HttpClient) { }
- 
+
   studentRegistration(registrationModel: Partial<Registration>){
      const url = this.requestUrl + appurl.student_registration ;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(registrationModel))
@@ -70,6 +70,16 @@ export class RegistrationService {
 
   updateStudentdetails(registration: Registration){
     const url = this.requestUrl + appurl.update_student_details;
+    return this.httpClient.post<ResponseModel>(url, registration)
+  }
+
+  dropoutStudent(registration: Registration){
+    const url = this.requestUrl + appurl.dropout_the_student;
+    return this.httpClient.post<ResponseModel>(url, registration)
+  }
+
+  dropoutStudentList(registration: Registration){
+    const url = this.requestUrl + appurl.dropout_list;
     return this.httpClient.post<ResponseModel>(url, registration)
   }
 }

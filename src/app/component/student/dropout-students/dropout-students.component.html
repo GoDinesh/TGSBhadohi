@@ -1,0 +1,164 @@
+<div class="grid-card-container card-bottom-margin form-bg">
+  <form [formGroup]="studentgroup" class="grid-form">
+
+    <!-- begin::academic year -->
+    <div class="form-group">
+      <label class="form-label">Academic Year</label>
+      <mat-select formControlName="academicYearCode" class="form-control form-control-sm"
+        placeholder="Select Academic Year">
+        <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+         <mat-option value="" >None</mat-option>
+        <div *ngIf="academicYearList | async as postdata ">
+          <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+            [value]="data.academicYearCode">
+            {{data.academicYear}}
+          </mat-option>
+        </div>
+      </mat-select>
+      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.academicYearCode,"Academic
+        Year")}} </div>
+    </div>
+    <!-- end::academic year -->
+
+    <!-- begin::Standard -->
+    <div class="form-group">
+      <label class="form-label">Standard</label>
+      <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
+      <mat-select class="form-control form-control-sm" formControlName="standard" (selectionChange)="loadStudentList()" placeholder="Select Standard">
+        <input type="text" class="form-control  form-control-sm" #filterClassName>
+         <mat-option value="" >None</mat-option>
+        <div *ngIf="allClassList | async as postdata ">
+          <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
+            [value]="data.classCode">
+            {{data.className}}
+          </mat-option>
+        </div>
+      </mat-select>
+      <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.standard,"Standard")}}</div>
+    </div>
+    <!-- end::Standard -->
+
+     <!-- begin::Student Name -->
+                        <div class="form-group">
+                            <label class="form-label">Select Student</label>
+                            <mat-select class="form-control form-control-sm" formControlName="registrationNo"
+                            (selectionChange)="studentSelected()" >
+                                <input type="text" class="form-control  form-control-sm" #filterStudent>
+                                 <mat-option value="" >None</mat-option>
+                                <div *ngIf="studentList | async as postdata ">
+                                    <mat-option
+                                        *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
+                                        [value]="data.registrationNo">
+                                        {{data.studentName}}
+                                    </mat-option>
+                                </div>
+                            </mat-select>
+                            <div class="invalid-feedback">
+                                {{validationMsg.getErrorMessage(studentFormControll.registrationNo,"Student Name")}}</div>
+                        </div>
+                        <!-- end::Student Name -->
+<div></div>
+            <div></div>
+    <!-- begin::Buttons -->
+    <div class="grid-button-inline form-group pt-4">
+      <ng-container *ngIf="!editable;else formValidation">
+        <button class="btn btn-sm btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+            disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+      </ng-container>
+      <ng-template #formValidation>
+        <button class="btn btn-success btn-sm mx-2" (click)="dropoutStudentDetailsList()"
+        [disabled]="(studentFormControll.registrationNo.value==='' || studentFormControll.academicYearCode.value==='' || studentFormControll.standard.value==='')">Drop Student</button>
+        <button class="btn btn-success btn-sm mx-2" (click)="getStudentDetails()"
+        >Search Drop Student List</button>
+      </ng-template>
+
+
+      <!--<button class="btn btn-danger btn-sm mx-2" (click)="resetForm()">Reset</button>-->
+    </div>
+    <!-- end::Buttons -->
+  </form>
+</div>
+<!-- end:: first div -->
+
+<!--Begin:: Drop student details -->
+  <ng-container *ngIf="status===1">
+      <table [cellPadding]="5">
+        <tr>
+          <td>Registration Number</td>
+          <td><b>:{{dropoutStudentDetails.registrationNo}}</b></td>
+        </tr>
+        <tr>
+          <td>Student Name</td>
+          <td><b>:{{dropoutStudentDetails.studentName}}</b></td>
+        </tr>
+        <tr>
+          <td>Class</td>
+          <td><b>:{{dropoutStudentDetails.standard}}</b></td>
+        </tr>
+        <tr>
+          <td>Father Name</td>
+          <td><b>:{{dropoutStudentDetails.fatherName}}</b></td>
+        </tr>
+        <tr>
+          <td>Mother Name</td>
+          <td><b>:{{dropoutStudentDetails.motherName}}</b></td>
+        </tr>
+        <tr>
+          <td>Dropout Student</td>
+          <td [ngClass]="dropoutStudentDetails.dropout ? 'dropout':'notdropout'"><b>:{{dropoutStudentDetails.dropout ? 'Already Dropout':'Not Dropout'}}</b></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button class="btn btn-success btn-sm mx-2" [disabled]="dropoutStudentDetails.dropout" (click)="dropoutTheStudent()"
+              >Dropout The Student</button>
+          </td>
+        </tr>
+      </table>
+  </ng-container>
+<!-- End:: Drop student details -->
+
+<!--begin::second Card body-->
+<ng-container *ngIf="status===2">
+  <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="posts.length>0">
+  <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <!-- <th>Photo</th> -->
+        <th>Student Name</th>
+        <th>Father Name</th>
+        <th>Academic Year</th>
+        <th>Registration Number</th>
+        <th>Standard</th>
+
+
+        <th>Dropout Date</th>
+
+        <!-- <th>Gender</th> -->
+        <!-- <th>DOB</th> -->
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let post of posts;let i=index">
+        <td class="td-sno">{{i+1}}</td>
+        <td class="td-large">{{ post.studentName}}</td>
+        <td class="td-large">{{ post.fatherName}}</td>
+        <td class="td-large">{{ post.academicYearCode}}</td>
+        <td class="td-large">{{ post.registrationNo }}</td>
+        <td class="td-small">{{ post.standard}}</td>
+        <td class="td-large">{{ post.dropoutDate}}</td>
+
+
+        <!-- <td class="td-small">{{ post.gender}}</td> -->
+        <!-- <td class="td-small">{{ post.dateOfBirth | dateFormatPipe}}</td> -->
+
+        </tr>
+    </tbody>
+  </table>
+  <!--end::table-->
+
+</div>
+</ng-container>
+
+<!--end::second Card body-->

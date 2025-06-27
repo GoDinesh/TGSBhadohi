@@ -9,49 +9,49 @@ export class Registration {
         rollNumber: number;
         studentName     : string;
         gender          : string;
-        dateOfBirth     : string; 
+        dateOfBirth     : string;
         dateOfAdmission : string;
-        standard        : string; 
-        section         : string; 
-        academicYearCode: string; 
-        aadhaarNumber   : string; 
-        religion        : string; 
+        standard        : string;
+        section         : string;
+        academicYearCode: string;
+        aadhaarNumber   : string;
+        religion        : string;
         bloodGroup      : string;
         category        : string;
         registrationNo  : string;
-        enrollmentType  : string; 
+        enrollmentType  : string;
         idCardNumber    : string;
         birthCirtificateSubmitted: string;
 
-        fatherName      : string; 
+        fatherName      : string;
         fatherAadharNo  : string;
-        fatherContactNo : string 
-        fatherQualification : string; 
-        fatherProfession    : string; 
-        fatherEmailId       : string; 
-        motherName          : string; 
-        motherAadharNumber  : string; 
+        fatherContactNo : string
+        fatherQualification : string;
+        fatherProfession    : string;
+        fatherEmailId       : string;
+        motherName          : string;
+        motherAadharNumber  : string;
         motherContactNumber : string;
         motherProfession    : string;
         guardianName        : string;
 
-        country           : string; 
-        state             : string; 
-        city              : string; 
-        pincode           : string; 
-        area              : string; 
+        country           : string;
+        state             : string;
+        city              : string;
+        pincode           : string;
+        area              : string;
 
-        emergencyContactPerson  : string; 
-        emergencyNumber       : string; 
+        emergencyContactPerson  : string;
+        emergencyNumber       : string;
 
         profileImage: { id: number, fileName: string, link: string };
         documents: { id: number, fileName: string, link: string }[];
 
 
-        schoolName            : string; 
-        tcNumber              : string;   
-        passedClass           : string; 
-        passedClassMarks      : string; 
+        schoolName            : string;
+        tcNumber              : string;
+        passedClass           : string;
+        passedClassMarks      : string;
         schoolAddress         : string;
 
         studentFeesStructure: StudentFeesStructure[]= []
@@ -72,51 +72,53 @@ export class Registration {
         isTotalBookFeesPaid: boolean;
 
         fees: Fees[]=[]
-        
+        dropout: boolean;
+        dropoutDate: Date;
+
 
         constructor(){
             this.registrationId = '';
             this.rollNumber= 0;
             this.studentName     ='';
             this.gender          ='';
-            this.dateOfBirth     =''; 
+            this.dateOfBirth     ='';
             this.dateOfAdmission = '';
-            this.standard        =''; 
-            this.section         =''; 
-            this.academicYearCode=''; 
-            this.aadhaarNumber   =''; 
-            this.religion        =''; 
+            this.standard        ='';
+            this.section         ='';
+            this.academicYearCode='';
+            this.aadhaarNumber   ='';
+            this.religion        ='';
             this.bloodGroup      ='';
             this.category        ='';
             this.registrationNo  ='';
             this.idCardNumber    ='';
             this.birthCirtificateSubmitted = ""
 
-            this.fatherName      = ''; 
+            this.fatherName      = '';
             this.fatherAadharNo  = '';
             this.fatherContactNo = '';
-            this.fatherQualification = ''; 
-            this.fatherProfession    = ''; 
-            this.fatherEmailId       = ''; 
-            this.motherName          = ''; 
-            this.motherAadharNumber  = ''; 
+            this.fatherQualification = '';
+            this.fatherProfession    = '';
+            this.fatherEmailId       = '';
+            this.motherName          = '';
+            this.motherAadharNumber  = '';
             this.motherContactNumber = '';
             this.motherProfession    = '';
             this.guardianName        = '';
 
-            this.country           = ''; 
-            this.state             = ''; 
-            this.city              = ''; 
-            this.pincode           = ''; 
-            this.area              = ''; 
+            this.country           = '';
+            this.state             = '';
+            this.city              = '';
+            this.pincode           = '';
+            this.area              = '';
 
-            this.emergencyContactPerson  = ''; 
-            this.emergencyNumber       = ''; 
+            this.emergencyContactPerson  = '';
+            this.emergencyNumber       = '';
 
-            this.schoolName            = ''; 
-            this.tcNumber              = '';   
-            this.passedClass           = ''; 
-            this.passedClassMarks      = ''; 
+            this.schoolName            = '';
+            this.tcNumber              = '';
+            this.passedClass           = '';
+            this.passedClassMarks      = '';
             this.schoolAddress         = '';
             // this.profileImage          = new UploadedProfileImage();
 
@@ -135,6 +137,8 @@ export class Registration {
             this.pendingBookFees = 0;
             this.paidBookFees = 0;
             this.isTotalBookFeesPaid = false;
+            this.dropout = false;
+            this.dropoutDate = new Date();
         }
-     
+
 }

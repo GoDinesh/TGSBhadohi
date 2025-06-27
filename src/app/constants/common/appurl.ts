@@ -1,9 +1,9 @@
 export const appurl={
     //Prod
-    baseurl: 'https://api.tgsbhadohi.com',
+   // baseurl: 'https://api.tgsbhadohi.com',
 
     //local
-    //baseurl: 'http://localhost:8080',
+    baseurl: 'http://localhost:8080',
 
 
 
@@ -39,6 +39,8 @@ export const appurl={
                 update_fees_details: '/update-fees-details',
                 update_book_fees_details: '/update-book-fees-details',
                 update_student_details:'/update-student-details',
+                dropout_the_student: '/dropout_the_student',
+                dropout_list: '/dropout-list',
 
         menuurl_fees: '/fees',
                 pay_fees: '/pay-fees',
@@ -48,6 +50,11 @@ export const appurl={
                 pending_fees: '/pending-fees',
                 Pending_fees_class_wise: '/pending-fees-class-wise',
                 today_fees_collection: "/today-fees-collection",
+
+        waap: '/waap',
+                waappathway: '/waappathway',
+
+
 
     endpoint_insert: '/insert',
     endpoint_findall:'/findall',

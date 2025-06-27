@@ -38,6 +38,16 @@ export class ApiInterceptor implements HttpInterceptor {
     const token = localStorage.getItem('access_token')
     if (!(request.body instanceof FormData)) {
      // if (token) {
+
+     //to send waap api url without adding extra details in request body
+     if(request.url.startsWith('waap##')){
+          let splitUrl = request.url.split('##');
+          const url =splitUrl[1];
+          request = request.clone({
+          url: `${url}`,
+          });
+     }
+     else{
         request = request.clone({
           url: `${this.baseUrl + request.url}`,
           setHeaders: {
@@ -45,6 +55,7 @@ export class ApiInterceptor implements HttpInterceptor {
             "Content-type" : msgTypes.CONTENT_TYPE.APPLICATION_JSON+"; charset=utf-8"
           },
         });
+      }
       //}
       //return next.handle(request)
     }
@@ -59,7 +70,7 @@ export class ApiInterceptor implements HttpInterceptor {
     }
 
     // else{
-    //             request = request.clone({ 
+    //             request = request.clone({
     //                   url: `${this.baseUrl + request.url}` ,
     //                   setHeaders: {
     //                     Authorization: "Bearer " + localStorage.getItem('access_token'),

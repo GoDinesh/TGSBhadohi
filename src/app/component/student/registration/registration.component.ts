@@ -350,7 +350,9 @@ export class RegistrationComponent {
       guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
 
     },
-    { validator: CustomValidation.sameAadharValidation('fatherAadharNo', 'motherAadharNumber') });
+    {
+      validator: CustomValidation.sameAadharValidation('fatherAadharNo', 'motherAadharNumber') }
+    );
   }
 
   createAddressForm(addressInfo: Registration | Partial<Registration>) {

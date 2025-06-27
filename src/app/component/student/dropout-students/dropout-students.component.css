@@ -1,0 +1,13 @@
+
+.dropout{
+background-color: red;
+color: white;
+font-weight: bold;
+}
+
+.notdropout{
+background-color: rgb(9, 240, 71);
+color: white;
+font-weight: bold;
+
+}

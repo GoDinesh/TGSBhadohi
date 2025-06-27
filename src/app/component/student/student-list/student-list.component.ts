@@ -38,7 +38,8 @@ export class StudentListComponent {
     academicYearCode: new FormControl(),
     registrationNo: new FormControl(),
     fatherContactNo: new FormControl(),
-    studentName: new FormControl()
+    studentName: new FormControl(),
+    enrollmentType: new FormControl()
   });
 
   constructor(
@@ -85,7 +86,8 @@ export class StudentListComponent {
       standard: [registartion.standard],
       academicYearCode: [registartion.academicYearCode],
       fatherContactNo: [registartion.fatherContactNo, [CustomValidation.numeric]],
-      studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]]
+      studentName: [registartion.studentName, [CustomValidation.alphanumaricSpace]],
+      enrollmentType: [registartion.enrollmentType]
     });
   }
 
@@ -132,6 +134,7 @@ export class StudentListComponent {
     studentInfo.registrationNo = this.studentFormControll.registrationNo.value;
     studentInfo.fatherContactNo = this.studentFormControll.fatherContactNo.value;
     studentInfo.studentName = this.studentFormControll.studentName.value;
+    studentInfo.enrollmentType = this.studentFormControll.enrollmentType.value;
 
     //pass for printout as a argument
     this.academicYear = studentInfo.academicYearCode.substring(0,4)+"-"+studentInfo.academicYearCode.substring(4,8);
@@ -147,7 +150,7 @@ export class StudentListComponent {
   }
 
   viewDetails(registration: Registration){
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });
     const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url,JSON.stringify(encryptData)] );

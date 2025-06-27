@@ -27,6 +27,7 @@ import { Class } from 'src/app/model/master/class.model';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { FeesReceiptPrintoutComponent } from '../../printout/fees-receipt-printout/fees-receipt-printout.component';
 import { PermissionService } from 'src/app/service/common/permission.service';
+import { WaapService } from 'src/app/service/waap/waap.service';
 
 @Component({
   selector: 'app-pay-fees',
@@ -100,6 +101,7 @@ export class PayFeesComponent {
     public dialog: MatDialog,
     private bookDressFeesService: BookAndDressFeesService,
     private permissionService: PermissionService,
+    private waapService: WaapService
   ) {
   }
 
@@ -458,6 +460,16 @@ export class PayFeesComponent {
                 this.registrationService.updateFeesDetails(this.studentDetails).subscribe(res => {
                   if (res.status === msgTypes.SUCCESS_MESSAGE) {
                     this.clearPaymentDetails();
+                    //send waap msg
+                    // this.waapService.getAllWaappathway().subscribe(pathway=>{
+                    //    if (pathway.status === msgTypes.SUCCESS_MESSAGE) {
+                    //     if(pathway.data.length>0){
+                    //       this.waapService.sentFeesReceiptMessage(this.feesModel, pathway.data[0], this.studentDetails ).subscribe(response=>{
+                    //         console.log(response);
+                    //       });
+                    //     }
+                    //     }
+                    // })
                   }
                 });
           } else if (this.feesModel.paymenttype === "Book Fees") {

@@ -9,6 +9,7 @@ import { ViewStudentDetailsComponent } from './view-student-details/view-student
 import { StudentCardComponent } from './student-card/student-card.component';
 import { StudentIdCardComponent } from './student-id-card/student-id-card.component';
 import { PromoteStudentComponent } from './promote-student/promote-student.component';
+import { DropoutStudentsComponent } from './dropout-students/dropout-students.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PromoteStudentComponent } from './promote-student/promote-student.compo
     ViewStudentDetailsComponent,
     StudentCardComponent,
     StudentIdCardComponent,
-    PromoteStudentComponent
+    PromoteStudentComponent,
+    DropoutStudentsComponent
   ],
   imports: [
     CommonModule,

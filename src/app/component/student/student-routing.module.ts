@@ -8,6 +8,7 @@ import { ROLE_ADMIN } from 'src/app/constants/common/roles';
 import { StudentListComponent } from './student-list/student-list.component';
 import { ViewStudentDetailsComponent } from './view-student-details/view-student-details.component';
 import { PromoteStudentComponent } from './promote-student/promote-student.component';
+import { DropoutStudentsComponent } from './dropout-students/dropout-students.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,16 @@ const routes: Routes = [
               data: {
                     breadcrumb: breadcrumb.STUDENT_LIST,
                     title: pageTitle.STUDENT_LIST,
+                    role: Object.values(ROLE_ADMIN)
+              }
+        },
+        {
+              path: 'dropout',
+              component: DropoutStudentsComponent,
+              canActivate: [AuthGuard],
+              data: {
+                    breadcrumb: breadcrumb.DROPOUT_STUDENT,
+                    title: pageTitle.DROPOUT_STUDENT,
                     role: Object.values(ROLE_ADMIN)
               }
         },

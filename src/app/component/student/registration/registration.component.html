@@ -8,7 +8,7 @@
         <!-- begin::Student Name -->
         <div class="form-group">
           <label class="form-label required">Student Name</label>
-          <input class="form-control form-control-sm" formControlName="studentName" autocomplete="off" (input)="handleInputChange(studentFormControll.studentName)">
+          <input class="form-control form-control-sm" formControlName="studentName" autocomplete="off" (blur)="handleInputChange(studentFormControll.studentName)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(studentFormControll.studentName,"Student
             Name")}}</div>
         </div>
@@ -159,6 +159,7 @@
           <mat-select class="custom-select-option form-control form-control-sm" formControlName="bloodGroup"
             autocomplete="off">
             <mat-option value="" disabled>Select one</mat-option>
+            <mat-option value="" >None</mat-option>
             <mat-option value="A+">A+</mat-option>
             <mat-option value="A-">A-</mat-option>
             <mat-option value="B+">B+</mat-option>
@@ -276,7 +277,7 @@
         <!-- begin::Father Name -->
         <div class="form-group">
           <label class="form-label required">Father Name</label>
-          <input class="form-control form-control-sm" formControlName="fatherName" autocomplete="off" (input)="handleInputChange(parentFormControll.fatherName)">
+          <input class="form-control form-control-sm" formControlName="fatherName" autocomplete="off" (blur)="handleInputChange(parentFormControll.fatherName)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherName,"Father Name")}}
           </div>
         </div>
@@ -305,7 +306,7 @@
         <!-- begin:: Mother Name -->
         <div class="form-group">
           <label class="form-label required">Mother Name</label>
-          <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off" (input)="handleInputChange(parentFormControll.motherName)">
+          <input class="form-control form-control-sm" formControlName="motherName" autocomplete="off" (blur)="handleInputChange(parentFormControll.motherName)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherName,"Mother Name")}}
           </div>
         </div>
@@ -333,7 +334,7 @@
          <!-- begin:: Father Profession -->
          <div class="form-group">
           <label class="form-label">Father Profession</label>
-          <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off" (input)="handleInputChange(parentFormControll.fatherProfession)">
+          <input class="form-control form-control-sm" formControlName="fatherProfession" autocomplete="off" (blur)="handleInputChange(parentFormControll.fatherProfession)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.fatherProfession,"Father
             Profession")}}</div>
         </div>
@@ -342,7 +343,7 @@
         <!-- begin:: Mother Profession -->
         <div class="form-group">
           <label class="form-label">Mother Profession</label>
-          <input class="form-control form-control-sm" formControlName="motherProfession" autocomplete="off" (input)="handleInputChange(parentFormControll.motherProfession)">
+          <input class="form-control form-control-sm" formControlName="motherProfession" autocomplete="off" (blur)="handleInputChange(parentFormControll.motherProfession)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.motherProfession,"Mother
             Profession")}}</div>
         </div>
@@ -351,10 +352,11 @@
 
         <!-- begin:: Father Qualification -->
         <div class="form-group">
-          <label class="form-label required">Father Qualification</label>
+          <label class="form-label">Father Qualification</label>
           <mat-select class="custom-select-option form-control form-control-sm" formControlName="fatherQualification"
             autocomplete="off">
             <mat-option value="" disabled>Select Qualification</mat-option>
+            <mat-option value="" >None</mat-option>
             <mat-option value="S. Secondary">S. Secondary</mat-option>
             <mat-option value="Graduation">Graduation</mat-option>
             <mat-option value="PG">PG</mat-option>
@@ -379,7 +381,7 @@
         <!-- begin:: Guardian Name -->
         <div class="form-group">
           <label class="form-label">Guardian Name</label>
-          <input class="form-control form-control-sm " formControlName="guardianName" autocomplete="off" (input)="handleInputChange(parentFormControll.guardianName)">
+          <input class="form-control form-control-sm " formControlName="guardianName" autocomplete="off" (blur)="handleInputChange(parentFormControll.guardianName)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(parentFormControll.guardianName,"Guardian
             Name")}}</div>
         </div>
@@ -400,7 +402,7 @@
         <!-- begin:: Country -->
         <div class="form-group">
           <label class="form-label">Country</label>
-          <input class="form-control form-control-sm" formControlName="country" autocomplete="off" (input)="handleInputChange(addressFormControll.country)" >
+          <input class="form-control form-control-sm" formControlName="country" autocomplete="off" (blur)="handleInputChange(addressFormControll.country)" >
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.country,"Country")}}</div>
         </div>
         <!-- end:: Country-->
@@ -408,7 +410,7 @@
         <!-- begin:: State -->
         <div class="form-group">
           <label class="form-label">State</label>
-          <input class="form-control form-control-sm" formControlName="state" autocomplete="off" (input)="handleInputChange(addressFormControll.state)">
+          <input class="form-control form-control-sm" formControlName="state" autocomplete="off" (blur)="handleInputChange(addressFormControll.state)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.state,"State")}}</div>
         </div>
         <!-- end:: Country-->
@@ -416,7 +418,7 @@
         <!-- begin:: City -->
         <div class="form-group">
           <label class="form-label">City</label>
-          <input class="form-control form-control-sm" formControlName="city" autocomplete="off" (input)="handleInputChange(addressFormControll.city)">
+          <input class="form-control form-control-sm" formControlName="city" autocomplete="off" (blur)="handleInputChange(addressFormControll.city)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.city,"City")}}</div>
         </div>
         <!-- end:: Country-->
@@ -434,7 +436,7 @@
         <!-- begin:: Area -->
         <div class="form-group">
           <label class="form-label">Area</label>
-          <input class="form-control form-control-sm" formControlName="area" autocomplete="off" (input)="handleInputChange(addressFormControll.area)">
+          <input class="form-control form-control-sm" formControlName="area" autocomplete="off" (blur)="handleInputChange(addressFormControll.area)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(addressFormControll.area,"Area")}}</div>
         </div>
         <!-- end:: Area-->
@@ -453,7 +455,7 @@
         <!-- begin:: Emergency Contact Person -->
         <div class="form-group">
           <label class="form-label">Emergency Contact Person</label>
-          <input class="form-control form-control-sm" formControlName="emergencyContactPerson" autocomplete="off" (input)="handleInputChange(emergencyContactFormControll.emergencyContactPerson)">
+          <input class="form-control form-control-sm" formControlName="emergencyContactPerson" autocomplete="off" (blur)="handleInputChange(emergencyContactFormControll.emergencyContactPerson)">
           <div class="invalid-feedback">
             {{validationMsg.getErrorMessage(emergencyContactFormControll.emergencyContactPerson,"Emergency Contact
             Person")}}</div>
@@ -487,7 +489,7 @@
         <!-- begin:: School Name -->
         <div class="form-group">
           <label class="form-label">School Name</label>
-          <input class="form-control form-control-sm " formControlName="schoolName" autocomplete="off" (input)="handleInputChange(lastSchoolFormControll.schoolName)">
+          <input class="form-control form-control-sm " formControlName="schoolName" autocomplete="off" (blur)="handleInputChange(lastSchoolFormControll.schoolName)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolName,"School
             Name")}}</div>
         </div>
@@ -505,7 +507,7 @@
         <!-- begin:: last Class Pass -->
         <div class="form-group">
           <label class="form-label">Passed Class </label>
-          <input class="form-control form-control-sm" formControlName="passedClass" autocomplete="off" (input)="handleInputChange(lastSchoolFormControll.passedClass)">
+          <input class="form-control form-control-sm" formControlName="passedClass" autocomplete="off" (blur)="handleInputChange(lastSchoolFormControll.passedClass)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.passedClass,"last Class
             Pass")}}</div>
         </div>
@@ -523,7 +525,7 @@
         <!-- begin:: School Address -->
         <div class="form-group">
           <label class="form-label">School Address</label>
-          <input class="form-control form-control-sm" formControlName="schoolAddress" autocomplete="off" (input)="handleInputChange(lastSchoolFormControll.schoolAddress)">
+          <input class="form-control form-control-sm" formControlName="schoolAddress" autocomplete="off" (blur)="handleInputChange(lastSchoolFormControll.schoolAddress)">
           <div class="invalid-feedback">{{validationMsg.getErrorMessage(lastSchoolFormControll.schoolAddress,"School
             Address")}}</div>
         </div>

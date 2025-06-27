@@ -64,9 +64,31 @@ async updateAlert(): Promise<boolean>{
         flag = false;
       }
     })
-   
+
     return flag;
-   
+
+  }
+
+
+  async dropoutStudentAlert(): Promise<boolean>{
+    let flag = false;
+    await Swal.fire({
+      title: 'Are you sure want to dropout the student ?',
+      text: 'Please Confirm',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Dropout!',
+      cancelButtonText: 'No, keep it'
+    }).then((result) => {
+      if (result.value) {
+        flag = true;
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        flag = false;
+      }
+    })
+
+    return flag;
+
   }
 
 }

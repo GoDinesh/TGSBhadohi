@@ -11,7 +11,7 @@ var notification: string = "notification";
 export const menuListAdmin: INavbarData[]=[
 //dashboard
 {
-    
+
     "text": "Dashboard",
     "icon": "fa fa-dashboard",
     "routerLink": 'dashboard',
@@ -132,7 +132,7 @@ export const menuListAdmin: INavbarData[]=[
         "routerLink": masters + "/book-dress-fees",
         "active": true,
     },
-    
+
     {
         "text": "Fees Structure",
         "icon": "fa fa-reddit-alien",
@@ -154,6 +154,12 @@ export const menuListAdmin: INavbarData[]=[
             "active": true,
         },
         {
+            "text": "Dropout",
+            "icon": "fa fa-user-times",
+            "routerLink": student + "/dropout",
+            "active": true,
+        },
+        {
             "text": "Student List",
             "icon": "fa fa-list",
             "routerLink": student + "/studentList",
@@ -165,7 +171,7 @@ export const menuListAdmin: INavbarData[]=[
             "routerLink": student + "/promote-student",
             "active": true,
         },
-        
+
     ]},
 
     {
@@ -217,7 +223,7 @@ export const menuListAdmin: INavbarData[]=[
                     "routerLink": reports + "/fees-collection",
                     "active": true,
                 },
-                
+
         ]},
 
         {
@@ -225,6 +231,6 @@ export const menuListAdmin: INavbarData[]=[
             "icon": "fa fa-commenting-o",
             "routerLink": notification,
             "active": true,
-            
+
            },
 ]
