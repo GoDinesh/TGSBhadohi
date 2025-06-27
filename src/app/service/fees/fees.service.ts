@@ -12,12 +12,12 @@ import { Registration } from 'src/app/model/student/registration.model';
 export class FeesService {
   requestUrl = appurl.menuurl_fees;
   constructor(private httpClient: HttpClient) { }
- 
+
   insertFees(feesModel: Fees){
      const url = this.requestUrl + appurl.endpoint_insert;
      return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
   }
-  
+
   getAllFees(){
     const url = this.requestUrl + appurl.endpoint_findall;
     return this.httpClient.get<ResponseModel>(url)
@@ -33,11 +33,16 @@ export class FeesService {
     return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
   }
 
-  
 
-  getMaxReceiptNo(){
+
+  getMaxReceiptNo(feesModel: Fees){
     const url  = this.requestUrl + appurl.get_receipt_number;
     return this.httpClient.get<ResponseModel>(url)
+  }
+
+  getMaxReceiptNoAcademicYearWise(feesModel: Fees){
+    const url  = this.requestUrl + appurl.get_receipt_number_academicyear_wise;
+    return this.httpClient.post<ResponseModel>(url, JSON.stringify(feesModel))
   }
 
   getPendingFees(reg: Registration){
@@ -52,7 +57,7 @@ export class FeesService {
 
   // getFeesDetailsByReceiptNo(fees: Fees){
   //   console.log(JSON.stringify(fees));
-    
+
   //   const url  = this.requestUrl + appurl.get_receipt_number;
   //   return this.httpClient.post<ResponseModel>(url, fees)
   // }

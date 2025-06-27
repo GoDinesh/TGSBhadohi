@@ -78,6 +78,7 @@ export class PayFeesComponent {
   regPendingFees: number = 0;
 
   receiptnumber: string = '0';
+  receiptnumberAcademicYearWise: string = '0';
   toWords = new ToWords();
 
   editable: boolean | undefined;
@@ -210,11 +211,19 @@ export class PayFeesComponent {
     });
   };
 
-  getFeesReceiptNumber() {
-    this.feesService.getMaxReceiptNo().subscribe((res) => {
+  getFeesReceiptNumber(fees: Fees) {
+    this.feesService.getMaxReceiptNo(fees).subscribe((res) => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.receiptnumber = res.data;
-        this.payFees();
+        this.feesService.getMaxReceiptNoAcademicYearWise(fees).subscribe((res1)=>{
+          if (res1.status === msgTypes.SUCCESS_MESSAGE) {
+                this.receiptnumberAcademicYearWise = res1.data;
+                this.payFees();
+          }else {
+              this.sweetAlertService.showAlert("Receipt Number", "Receipt Number not Generated", msgTypes.ERROR, msgTypes.OK_KEY);
+          }
+        })
+
       } else {
         this.sweetAlertService.showAlert("Receipt Number", "Receipt Number not Generated", msgTypes.ERROR, msgTypes.OK_KEY);
       }
@@ -377,15 +386,18 @@ export class PayFeesComponent {
   }
 
   async save() {
+    const fees = new Fees()
+    fees.academicYearCode = this.feesFormControll.academicYearCode.value;
+
     if (this.feesFormControll.paymenttype.value === 'Fees') {
       if (this.totalAmountAfterDiscount >= (Number(this.amountPaidTillDate) + Number(this.feesFormControll.amount.value))) {
-        this.getFeesReceiptNumber();
+        this.getFeesReceiptNumber(fees);
       } else {
         this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than Total Fees", msgTypes.ERROR, msgTypes.OK_KEY);
       }
     } else if (this.feesFormControll.paymenttype.value === 'Book Fees') {
       if (Number(this.bookAndDressFeesModel.bookFees) >= (Number(this.bookFeesPaid) + Number(this.feesFormControll.amount.value))) {
-        this.getFeesReceiptNumber();
+        this.getFeesReceiptNumber(fees);
       } else {
         this.sweetAlertService.showAlert("Amount Exceed", "Paid Amount is more than SSM Fees", msgTypes.ERROR, msgTypes.OK_KEY);
       }
@@ -421,7 +433,9 @@ export class PayFeesComponent {
     this.feesModel.studentName = this.studentDetails.studentName;
     const year = this.feesModel.academicYearCode.substring(2, 4) + "-" + this.feesModel.academicYearCode.substring(6, 8);
 
-    this.feesModel.receiptNo = ("TGS" + year + "/" + this.receiptnumber);
+    this.feesModel.id = this.receiptnumber;
+    this.feesModel.receiptNo = ("TGS" + year + "/" + this.receiptnumberAcademicYearWise);
+    this.feesModel.receiptIdAcademicYearWise = this.receiptnumberAcademicYearWise;
     this.feesModel.idCardNumber = this.studentDetails.idCardNumber;
     this.feesModel.amountInWords = this.toWords.convert(Number(this.feesModel.amount)) + " Only";
     const classData = this.classList.filter(data => {

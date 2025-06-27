@@ -46,6 +46,7 @@ export const appurl={
                 pay_fees: '/pay-fees',
                 get_fees_by_date_class: '/get-fees-by-date-class',
                 get_receipt_number: '/get-receipt-number',
+                get_receipt_number_academicyear_wise: '/get-receipt-number-academicyear-wise',
                 filter_by_receipt:'/filter-by-receipt',
                 pending_fees: '/pending-fees',
                 Pending_fees_class_wise: '/pending-fees-class-wise',

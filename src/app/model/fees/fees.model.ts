@@ -27,6 +27,7 @@ export class Fees {
   balanceBookFees: number;
   updatedBy: string;
   month: string;
+  receiptIdAcademicYearWise: string;
   //    registrationId: string;
 
 
@@ -43,7 +44,7 @@ export class Fees {
     this.paymentReceivedBy = "";
     this.remarks = "";
     this.studentName = "";
-    
+
     this.receiptNo="";
     this.idCardNumber="";
     this.amountInWords="";
@@ -53,5 +54,7 @@ export class Fees {
     this.endDate = "";
     //this.month = "";
     //  this.registrationId="";
+    this.receiptIdAcademicYearWise = "";
+
   }
 }
