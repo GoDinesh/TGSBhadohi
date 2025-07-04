@@ -82,21 +82,21 @@ export class AdmissionAnalyticsComponent {
       const classCode = classes.map((c: { classCode: string; }) => c.classCode);
 
       // Count the number of total students
-      this.totalStudents = this.posts.filter(post => post.isActive === true).length;
-      
+      this.totalStudents = this.posts.filter(post => (post.isActive === true && post.academicYearCode === academicYear && post.enrollmentType==='New Student')).length;
+
 
 
       // Count the number of students for each class
       const studentCounts = classCode.map((standard: string) => {
-        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear).length;
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.enrollmentType==='New Student').length;
       });
 
       const boysCounts = classCode.map((standard: string) => {
-        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'M').length;
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'M' && post.enrollmentType==='New Student').length;
       });
 
       const girlsCounts = classCode.map((standard: string) => {
-        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'F').length;
+        return this.posts.filter(post => post.standard === standard && post.academicYearCode === academicYear && post.gender === 'F' && post.enrollmentType==='New Student').length;
       });
 
       this.chartOptions = {

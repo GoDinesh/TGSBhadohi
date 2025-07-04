@@ -1,6 +1,6 @@
 .show-previous-amount-table > thead > tr > th{
     padding: 5px;
-    text-align: left; 
+    text-align: left;
 }
 
 .total > td{
@@ -52,7 +52,7 @@ border-style: dashed;
 
 .bold-label{
     padding: 5px;
-    text-align: left; 
+    text-align: left;
     font-size: 14;
     font-weight: 400;
 }
@@ -84,3 +84,5 @@ font-weight: 400;
 .overflow{
 overflow:auto;
 }
+
+

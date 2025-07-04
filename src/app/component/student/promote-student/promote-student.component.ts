@@ -192,11 +192,10 @@ export class PromoteStudentComponent {
           feesStructure[0]?.studentFeesInstallment.map((installment: StudentFeesInstallment)=>{
             additionalDiscount += Number(installment.discountAmount);
           })
-          console.log(additionalDiscount);
+          //console.log(additionalDiscount);
           data.discountAmount = data.discountAmount + additionalDiscount;
           data.pendingFees = data.totalFees - (data.discountAmount + data.paidFees )
           return data;
-
         });
         if (this.posts.length == 0) {
           this.sweetAlertService.showAlert(msgTypes.SUCCESS, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);

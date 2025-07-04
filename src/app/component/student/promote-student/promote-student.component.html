@@ -103,7 +103,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let post of posts;let i=index" [ngClass]="{'my_class': post.pendingFees>0 }">
-        <td class="td-align"><input type="checkbox" class="checkbox-width" value="{{post.registrationNo}}"
+        <td class="td-align"><input type="checkbox" [disabled]="post.dropout" class="checkbox-width" value="{{post.registrationNo}}"
             [(ngModel)]="posts[i].isChecked" (change)="selectCheckBox(posts[i],$event)"></td>
         <td class="td-sno">{{i+1}}</td>
         <td class="td-sno" *ngIf="post.profileImage == null"></td>

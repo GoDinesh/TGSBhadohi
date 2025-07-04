@@ -169,7 +169,7 @@ export class DropoutStudentsComponent {
       if(res.status === msgTypes.SUCCESS_MESSAGE){
        if(res.data.length>0){
         this.dropoutStudentDetails = res.data[0];
-        console.log(this.dropoutStudentDetails);
+        // console.log(this.dropoutStudentDetails);
 
           //  this.posts = res.data;
           //  this.posts= this.posts.filter(data=>{
@@ -192,7 +192,8 @@ export class DropoutStudentsComponent {
      if (flag) {
        this.registrationService.dropoutStudent(studentInfo).subscribe(res=>{
        if(res.status === msgTypes.SUCCESS_MESSAGE){
-       this.alertService.showAlert("Dropout", "Student Successfully Dropout.", msgTypes.SUCCESS, msgTypes.OK_KEY);
+          this.alertService.showAlert("Dropout", "Student Successfully Dropout.", msgTypes.SUCCESS, msgTypes.OK_KEY);
+          this.dropoutStudentDetailsList();
        }
        })
       }

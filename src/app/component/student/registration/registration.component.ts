@@ -678,7 +678,7 @@ export class RegistrationComponent {
       // }
 
       // formData.append("requestData", JSON.stringify(this.reg))
-  console.log(this.reg);
+  // console.log(this.reg);
 
       this.registrationService.updateStudentdetails(this.reg).subscribe(res => {
         if (res.status === msgTypes.SUCCESS_MESSAGE) {

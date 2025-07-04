@@ -88,7 +88,8 @@ export class DashboardHomeComponent {
     this.registrationService.studentList(studentInfo).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
         this.studentList = res.data;
-        this.studentList.map(data => {
+        this.studentList.
+        map(data => {
           if (data.isActive == true) {
             this.totalStudents = this.totalStudents + 1;
             if (data.gender == 'M') {
@@ -105,7 +106,7 @@ export class DashboardHomeComponent {
 
             if(data.birthCirtificateSubmitted ==='Yes'){
                 this.birthCertificateSubmitted += 1;
-               
+
             }else{
               this.birthCertificateNotSubmitted += 1;
             }

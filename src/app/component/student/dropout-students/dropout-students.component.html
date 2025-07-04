@@ -46,10 +46,18 @@
                                 <input type="text" class="form-control  form-control-sm" #filterStudent>
                                  <mat-option value="" >None</mat-option>
                                 <div *ngIf="studentList | async as postdata ">
-                                    <mat-option
+                                        <mat-option
                                         *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
                                         [value]="data.registrationNo">
-                                        {{data.studentName}}
+                                        <p [ngClass]="{'dropout-text': data.dropout}">
+                                          <ng-container *ngIf="data.dropout">
+                                              {{data.studentName}} (Dropout)
+                                          </ng-container>
+                                          <ng-container *ngIf="!data.dropout">
+                                              {{data.studentName}}
+                                          </ng-container>
+
+                                        </p>
                                     </mat-option>
                                 </div>
                             </mat-select>
@@ -85,27 +93,27 @@
       <table [cellPadding]="5">
         <tr>
           <td>Registration Number</td>
-          <td><b>:{{dropoutStudentDetails.registrationNo}}</b></td>
+          <td><b>:&nbsp;&nbsp;{{dropoutStudentDetails.registrationNo}}</b></td>
         </tr>
         <tr>
           <td>Student Name</td>
-          <td><b>:{{dropoutStudentDetails.studentName}}</b></td>
+          <td><b>:&nbsp;&nbsp;{{dropoutStudentDetails.studentName}}</b></td>
         </tr>
         <tr>
           <td>Class</td>
-          <td><b>:{{dropoutStudentDetails.standard}}</b></td>
+          <td><b>:&nbsp;&nbsp;{{dropoutStudentDetails.standard}}</b></td>
         </tr>
         <tr>
           <td>Father Name</td>
-          <td><b>:{{dropoutStudentDetails.fatherName}}</b></td>
+          <td><b>:&nbsp;&nbsp;{{dropoutStudentDetails.fatherName}}</b></td>
         </tr>
         <tr>
           <td>Mother Name</td>
-          <td><b>:{{dropoutStudentDetails.motherName}}</b></td>
+          <td><b>:&nbsp;&nbsp;{{dropoutStudentDetails.motherName}}</b></td>
         </tr>
         <tr>
           <td>Dropout Student</td>
-          <td [ngClass]="dropoutStudentDetails.dropout ? 'dropout':'notdropout'"><b>:{{dropoutStudentDetails.dropout ? 'Already Dropout':'Not Dropout'}}</b></td>
+          <td><b><p [ngClass]="dropoutStudentDetails.dropout ? 'dropout':'notdropout'">:&nbsp;&nbsp;{{dropoutStudentDetails.dropout ? 'Dropout':'Not Dropout'}}</p></b></td>
         </tr>
         <tr>
           <td colspan="2">

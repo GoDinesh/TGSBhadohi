@@ -716,11 +716,16 @@
                 <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="finalSubmit()">Final Submit</button>
               </ng-container>
               <ng-container *ngIf="updateFlag">
-                <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="updateStudentDetails()">Update</button>
+                <ng-container *ngIf="!reg.dropout">
+                      <button class="btn btn-sm btn-primary" [disabled]="!confirmDetails" (click)="updateStudentDetails()">Update</button>
+                </ng-container >
               </ng-container>
             </ng-container>
 
             </div>
+            <ng-container *ngIf="reg.dropout">
+                      <div class="droput-bgcolour p-2 m-2">Student is Dropout</div>
+            </ng-container>
         </div>
       </div>
     </form>

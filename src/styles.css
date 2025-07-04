@@ -125,12 +125,12 @@ mat-stepper {
 
 /* Styles for tablets and smaller screens */
 /* @media (max-width: 768px) {
-    
+
   } */
 
 /* Styles for mobile devices in portrait orientation */
 /* @media (max-width: 480px) and (orientation: portrait) {
-    
+
   } */
 
 /* design the mat-step button at bottom on every page */
@@ -1182,7 +1182,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 
 /* reduce height of mat-chip */
-/* .mat-standard-chip {    
+/* .mat-standard-chip {
     height: auto !important;
   } */
 
@@ -1204,7 +1204,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 .datepicker-container {
     position: relative;
   }
-  
+
   .toggle-datepicker-icon-position {
     position: absolute;
     right: 2px; /* Adjust as needed */
@@ -1310,4 +1310,14 @@ input::-webkit-inner-spin-button {
 
 .d-none {
     display: none!important
+}
+
+.dropout-text{
+  color: red;
+}
+
+.droput-bgcolour{
+  background-color: red;
+  color: white;
+  font-weight: bold;
 }
