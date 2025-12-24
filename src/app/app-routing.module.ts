@@ -8,7 +8,7 @@ import { DisplayContentComponent } from './component/shared-component/display-co
 import { AuthGuard } from './core/guards/auth.guard';
 import { ROLE_ADMIN, ROLE_ADMIN_USER } from './constants/common/roles';
 import { UnauthorizedAttemptComponent } from './component/shared-component/unauthorized-attempt/unauthorized-attempt.component';
-import { MainPageComponent } from './component/landing-page/main-page/main-page.component';
+//import { MainPageComponent } from './component/landing-page/main-page/main-page.component';
 import { SendNotificationComponent } from './component/notifications/send-notification/send-notification.component';
 
 const routes: Routes = [

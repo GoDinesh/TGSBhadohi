@@ -49,7 +49,7 @@ export class PendingFeesComponent {
         {key:"Feb", value:"02"},
         {key:"Mar", value:"03"},
       ];
- 
+
     studentgroup = new FormGroup({
     standard: new FormControl(),
     academicYearCode: new FormControl(),
@@ -138,7 +138,7 @@ export class PendingFeesComponent {
 
   //To get Student List
   async getTableRecord() {
-    
+
     const reg: Registration = new Registration();
     reg.academicYearCode = this.studentFormControll.academicYearCode.value;
     reg.standard = this.studentFormControll.standard.value;
@@ -146,9 +146,13 @@ export class PendingFeesComponent {
     this.posts = [];
     this.totalPendingFees = 0 ;
     this.feesService.getPendingFees(reg).subscribe(res=>{
-      this.posts = res.data 
+      this.posts = res.data
       res.data.map((data:Registration)=>{
-        this.totalPendingFees += data.pendingFees
+        if(data.dropout===true){
+          data.pendingFees=0;
+        }
+        this.totalPendingFees += data.pendingFees;
+
       })
     })
 
@@ -156,7 +160,7 @@ export class PendingFeesComponent {
     // const studentInfo: Registration = new Registration();
     // studentInfo.academicYearCode = this.studentFormControll.academicYearCode.value;
     // studentInfo.standard = this.studentFormControll.standard.value;
-   
+
     // this.registrationService.studentList(studentInfo).subscribe(res => {
     //   this.posts = [];
     //   if (res.status === msgTypes.SUCCESS_MESSAGE) {

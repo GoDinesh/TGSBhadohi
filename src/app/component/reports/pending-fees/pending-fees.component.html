@@ -1,6 +1,6 @@
 <div class="grid-card-container card-bottom-margin form-bg">
     <form [formGroup]="studentgroup" class="grid-form">
- 
+
           <!-- begin::academic year -->
           <div class="form-group">
             <label class="form-label required">Academic Year</label>
@@ -20,7 +20,7 @@
 
             <!-- begin::Standard -->
             <div class="form-group">
-                <label class="form-label">Standard</label>
+                <label class="form-label required">Standard</label>
                 <!-- <input class="form-control form-control-sm" formControlName="standard" autocomplete="off"> -->
                 <mat-select class="form-control form-control-sm" formControlName="standard" placeholder="Select Standard">
                 <input type="text"
@@ -73,10 +73,10 @@
 
 <!--begin::second Card body-->
 <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="posts.length>0">
-    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">    
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
      <thead>
        <tr>
-         <th>S.No</th> 
+         <th>S.No</th>
          <!-- <th>Photo</th> -->
          <th>Student Name</th>
          <th>Standard</th>
@@ -93,7 +93,7 @@
        </tr>
      </thead>
      <tbody>
-       <tr *ngFor="let post of posts;let i=index">
+       <tr *ngFor="let post of posts;let i=index" [ngClass]="{'my_class': post.dropout===true }">
          <td class="td-sno">{{i+1}}</td>
          <td class="td-large">{{ post.studentName}}</td>
          <td class="td-small">{{ post.standard}}</td>
@@ -106,8 +106,8 @@
          <td class="td-medium">{{post.discountAmount}}</td>
          <td class="td-medium">{{post.paidFees}}</td>
          <td class="td-medium font-colour">{{post.pendingFees}}</td>
-       
-         <td class="td-action">  
+
+         <td class="td-action">
            <a (click)="payFees(post)"><i class="fa fa-money fa-lg"></i></a>
          </td>
        </tr>
@@ -121,7 +121,7 @@
       </div>
   </div>
 
-   
-      
+
+
    </div>
    <!--end::second Card body-->

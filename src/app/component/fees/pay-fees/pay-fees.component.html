@@ -67,10 +67,18 @@
                             <mat-select class="form-control form-control-sm" formControlName="registrationNo">
                                 <input type="text" class="form-control  form-control-sm" #filterStudent>
                                 <div *ngIf="studentList | async as postdata ">
-                                    <mat-option
+                                      <mat-option
                                         *ngFor="let data of postdata.data | filterData: filterStudent.value : 'studentName'"
                                         [value]="data.registrationNo">
-                                        <p [ngClass]="{'dropout-text': data.dropout}"> {{data.studentName}} (Dropout)</p>
+                                        <p [ngClass]="{'dropout-text': data.dropout}">
+                                          <ng-container *ngIf="data.dropout">
+                                              {{data.studentName}} (Dropout)
+                                          </ng-container>
+                                          <ng-container *ngIf="!data.dropout">
+                                              {{data.studentName}}
+                                          </ng-container>
+
+                                        </p>
                                     </mat-option>
                                 </div>
                             </mat-select>
