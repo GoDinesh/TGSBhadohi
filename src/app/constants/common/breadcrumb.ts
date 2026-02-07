@@ -13,6 +13,7 @@ export const breadcrumb = {
         DISCOUNT_REASON : 'Discount Reason',
         FEES_STRUCTURE  : 'Fees Structure',
         BOOK_DRESS_FEES : 'SSM Fees',
+        HOLIDAY         : 'Holiday',
 
     STUDENT: 'Student',
         REGISTRATION    : 'Registration',

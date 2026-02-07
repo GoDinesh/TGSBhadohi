@@ -10,6 +10,7 @@ import { FeesTypeComponent } from './fees-type/fees-type.component';
 import { DiscountReasonComponent } from './discount-reason/discount-reason.component';
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
+import { HolidayComponent } from './holiday/holiday.component';
 
 const routes: Routes = [
     {
@@ -72,6 +73,16 @@ const routes: Routes = [
                 data: {
                       breadcrumb: breadcrumb.FEES_STRUCTURE,
                       title: pageTitle.FEES_STRUCTURE,
+                      role: Object.values(ROLE_ADMIN)
+                }
+          },
+          {
+                path: 'holiday',
+                component: HolidayComponent,
+                canActivate: [AuthGuard],
+                data: {
+                      breadcrumb: breadcrumb.HOLIDAY,
+                      title: pageTitle.HOLIDAY,
                       role: Object.values(ROLE_ADMIN)
                 }
           },

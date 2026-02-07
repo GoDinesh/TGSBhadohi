@@ -1,6 +1,6 @@
 export const appurl={
     //Prod
-   // baseurl: 'https://api.tgsbhadohi.com',
+    //baseurl: 'https://api.tgsbhadohi.com',
 
     //local
     baseurl: 'http://localhost:8080',
@@ -23,6 +23,7 @@ export const appurl={
                 master_discountreason: '/discountreason',
                 master_feeStructure: '/fees-structure',
                 master_bookAndDressFees: '/book-dress-fees',
+                master_holiday: '/holiday',
 
         menuurl_student: '/student',
                 student_registration: '/registration',

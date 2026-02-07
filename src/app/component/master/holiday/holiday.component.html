@@ -1,0 +1,152 @@
+<!-- begin:: first card -->
+<div class="grid-card-container card-bottom-margin">
+  <form [formGroup]="formgroup" class="grid-form">
+    <div class="container">
+      <div class="row w-100">
+        <!-- begin::academic year -->
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label required">Academic Year</label>
+            <mat-select formControlName="academicYearCode" class="form-control form-control-sm"
+              placeholder="Select Academic Year">
+              <input type="text" class="form-control  form-control-sm" #filterAcademicYear>
+              <div *ngIf="academicYearList | async as postdata ">
+                <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                  [value]="data.academicYearCode">
+                  {{data.academicYear}}
+                </mat-option>
+              </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.academicYearCode,"Academic
+              Year")}} </div>
+          </div>
+        </div>
+        <!-- end::academic year -->
+
+        <!-- begin::Holiday Name-->
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label required">Holiday Name</label>
+            <input class="form-control form-control-sm" formControlName="name" autocomplete="off">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.name,"Holiday Name")}}</div>
+          </div>
+        </div>
+        <!-- end::Holiday Name-->
+
+        <!--begin::Date Range-->
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label">Date Range</label>
+            <div class="input-group">
+              <mat-date-range-input [rangePicker]="picker" class="form-control form-control-sm range-color">
+                <input matStartDate placeholder="Date-range" formControlName="startDate">
+                <input matEndDate formControlName="endDate">
+              </mat-date-range-input>
+              <div class="input-group-text form-padding-date-range rounded-0 p-0">
+                <mat-icon matDatepickerToggleIcon [clearFields]="[formControll.startDate, formControll.endDate]"
+                  class="date-clear-button">clear</mat-icon>
+                <mat-datepicker-toggle [for]="picker" class="mat-icon-account"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </div>
+            </div>
+            <div id="dateError" class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.startDate,"Date
+              Range") || validationMsg.getErrorMessage(formControll.endDate,"To date")}}</div>
+          </div>
+        </div>
+        <!--end::Date Range-->
+
+        <!-- begin::Holiday Type-->
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="form-label required">Holiday Type</label>
+            <mat-select formControlName="type" class="form-control form-control-sm"
+              placeholder="Select Holiday Type">
+              <input type="text" class="form-control  form-control-sm">
+              <div *ngIf="holidayType">
+                <mat-option *ngFor="let data of holidayType"
+                  [value]="data.type">
+                  {{data.type}}
+                </mat-option>
+              </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.type,"Holiday Type")}} </div>
+          </div>
+        </div>
+        <!-- end::Holiday Type-->
+
+      </div>
+      <div class="row float-right">
+        <div class="col-md-12">
+          <!-- begin::Buttons -->
+          <div class="grid-button-inline form-group pt-4">
+            <ng-container *ngIf="!editable;else formValidation">
+              <button class="btn btn-sm btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+                  disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+            </ng-container>
+            <ng-template #formValidation>
+              <ng-container *ngIf="actionFlag">
+                <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid" (click)="save()">Save</button>
+              </ng-container>
+              <ng-container *ngIf="!actionFlag">
+                <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+                  (click)="update()">Update</button>
+              </ng-container>
+            </ng-template>
+            <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
+          </div>
+          <!-- end::Buttons -->
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</div>
+<!-- end:: first card -->
+
+<!--begin::second Card body-->
+<ng-container *ngIf="posts | async as holidayData ">
+  <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="holidayData">
+    <!--end::table-->
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Academic Year Code</th>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of holidayData;let i=index">
+          <td class="td-sno">{{i+1}}</td>
+          <td class="td-large">{{ post.academicYearCode }}</td>
+          <td class="td-auto">{{ post.name }}</td>
+          <td class="td-auto">{{ post.startDate | dateFormatPipe}}</td>
+          <td class="td-auto">{{ post.endDate | dateFormatPipe}}</td>
+          <td class="td-auto">{{ post.type }}</td>
+          <td class="td-status">
+            <ng-container *ngIf="!editable;else formValidation">
+              <mat-slide-toggle [checked]="post.active" disabled="true">
+              </mat-slide-toggle>
+            </ng-container>
+            <ng-template #formValidation>
+              <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
+              </mat-slide-toggle>
+            </ng-template>
+
+          </td>
+          <td class="td-action">
+            <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--end::table-->
+  </div>
+</ng-container>
+<!--end::second Card body-->

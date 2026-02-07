@@ -139,6 +139,12 @@ export const menuListAdmin: INavbarData[]=[
         "routerLink": masters + "/fees-structure",
         "active": true,
     },
+    {
+        "text": "Holiday",
+        "icon": "fa fa-reddit-alien",
+        "routerLink": masters + "/holiday",
+        "active": true,
+    },
 ]},
 //student
 {

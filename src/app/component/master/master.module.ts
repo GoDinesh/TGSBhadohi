@@ -9,6 +9,7 @@ import { DiscountReasonComponent } from './discount-reason/discount-reason.compo
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { SharedModule } from 'src/app/shared-module';
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
+import { HolidayComponent } from './holiday/holiday.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.compon
     DiscountReasonComponent,
     FeesStructureComponent,
     BookDressFeesComponent,
+    HolidayComponent,
   ],
   imports: [
     CommonModule,
