@@ -8,6 +8,7 @@ export class Installment {
     installmentDiscount: string;
     installmentAmount: number;
     installmentAmountAfterDiscount: number;
+    installmentMonth: string;
 
     constructor(){
         this.id = '',
@@ -19,5 +20,6 @@ export class Installment {
         this.installmentDiscount = '';
         this.installmentAmount = 0;
         this.installmentAmountAfterDiscount = 0;
+        this.installmentMonth="";
     }
 }

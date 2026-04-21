@@ -44,6 +44,7 @@ export class PromoteStudentComponent {
   editable: boolean | undefined;
   checkedFlag: boolean = false;
   bookFees: number = 0;
+  baseurl = appurl.baseurl;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),

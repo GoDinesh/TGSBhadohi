@@ -107,7 +107,7 @@
             [(ngModel)]="posts[i].isChecked" (change)="selectCheckBox(posts[i],$event)"></td>
         <td class="td-sno">{{i+1}}</td>
         <td class="td-sno" *ngIf="post.profileImage == null"></td>
-        <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{post.profileImage.link}}"
+        <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{baseurl}}{{post.profileImage.link}}"
             width="50" height="50" /></td>
         <td class="td-large">{{ post.registrationNo }}</td>
         <td class="td-medium">{{ post.academicYearCode}}</td>

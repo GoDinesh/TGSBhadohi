@@ -45,17 +45,17 @@
       </div>
 
       <div class="col-sm-4">
-         <!-- begin:: Enrollment type -->
+        <!-- begin:: Enrollment type -->
         <div class="form-group">
           <label class="form-label required">Enrollment Type</label>
-        <mat-select class="custom-select-option form-control form-control-sm" formControlName="enrollmentType"
-          autocomplete="off">
-          <mat-option value="New Student">New Student</mat-option>
-          <mat-option value="Old Student">Old Student</mat-option>
-        </mat-select>
-        <div class="invalid-feedback">
-          {{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}
-        </div>
+          <mat-select class="custom-select-option form-control form-control-sm" formControlName="enrollmentType"
+            autocomplete="off">
+            <mat-option value="New Student">New Student</mat-option>
+            <mat-option value="Old Student">Old Student</mat-option>
+          </mat-select>
+          <div class="invalid-feedback">
+            {{validationMsg.getErrorMessage(formControll.enrollmentType,"Enrollment Type")}}
+          </div>
         </div>
         <!-- End:: Enrollment type -->
       </div>
@@ -149,7 +149,7 @@
         </div>
     </div> -->
 
-      <!-- <div class="col-sm-4">
+    <!-- <div class="col-sm-4">
         <div class="form-group">
           <label class="form-label required">Annual Fees</label>
           <input class="form-control form-control-sm" formControlName="annualFees" (input)="totalFeesChange()"
@@ -158,7 +158,7 @@
         </div>
       </div> -->
 
-      <!-- <div class="col-sm-4">
+    <!-- <div class="col-sm-4">
         <div class="form-group">
           <div class="datepicker-container">
             <label class="form-label required">Annual Fees Date</label>
@@ -223,9 +223,14 @@
                   <p>S.No</p>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <div>
                   <p>Installment Type</p>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div>
+                  <p> Month/Descriptions</p>
                 </div>
               </div>
               <div class="col-sm-1">
@@ -238,9 +243,9 @@
                   <p>Discount</p>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
                 <div>
-                  <p>Installment Date</p>
+                  <p>Due Date</p>
                 </div>
               </div>
               <div class="col-sm-2">
@@ -259,7 +264,7 @@
                 <input type="text" readonly formControlName="installmentNumber" class="form-control form-control-sm">
               </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <!-- begin::1 Installment Type-->
               <div>
                 <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentType"
@@ -276,13 +281,37 @@
               </div>
               <!-- end::Annual Installment Type-->
             </div>
+
+            <div class="col-sm-2">
+              <!-- begin::1 Installment Month-->
+              <div>
+                <mat-select class="custom-select-option form-control form-control-sm" formControlName="installmentMonth"
+                  autocomplete="off">
+                  <mat-option value="April">April</mat-option>
+                  <mat-option value="May">May</mat-option>
+                  <mat-option value="June">June</mat-option>
+                  <mat-option value="July">July</mat-option>
+                  <mat-option value="August">August</mat-option>
+                  <mat-option value="September">September</mat-option>
+                  <mat-option value="October">October</mat-option>
+                  <mat-option value="November">November</mat-option>
+                  <mat-option value="December">December</mat-option>
+                  <mat-option value="January">January</mat-option>
+                  <mat-option value="February">February</mat-option>
+                  <mat-option value="March">March</mat-option>
+                  <mat-option value="Exam Fees">Exam Fees</mat-option>
+                  <mat-option value="On Admission">On Admission</mat-option>
+                </mat-select>
+              </div>
+              <!-- end::Annual Installment Month-->
+            </div>
             <div class="col-sm-1">
               <!-- begin::1 Installment Amount-->
               <div>
                 <input type="text" formControlName="installmentAmount" (input)="installmentAmountChange()"
                   class="form-control form-control-sm">
               </div>
-               <!-- <div class="invalid-feedback">
+              <!-- <div class="invalid-feedback">
                       {{validationMsg.getErrorMessage(formControll.installmentAmount,"Religion")}}
                     </div> -->
               <!-- end::Annual Installment Amount-->
@@ -297,12 +326,13 @@
               <!-- end::Annual Installment Discount-->
 
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <!-- begin installment Date -->
               <div>
                 <div class="datepicker-container">
                   <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
-                    formControlName="installmentDate" class="form-control form-control-sm" (dateChange)="installmentDateChange(i)" readonly>
+                    formControlName="installmentDate" class="form-control form-control-sm"
+                    (dateChange)="installmentDateChange(i)" readonly>
                   <mat-datepicker-toggle matSuffix [for]="picker" class="toggle-datepicker-icon-position"
                     [disabled]="false"></mat-datepicker-toggle>
                   <mat-datepicker #picker [disabled]="false"></mat-datepicker>
@@ -314,15 +344,16 @@
             <div class="col-sm-2">
               <!-- begin:: 1 Installment Amount After Discount-->
               <div>
-                <input type="number" formControlName="installmentAmountAfterDiscount"
-                  readonly class="form-control form-control-sm">
+                <input type="number" formControlName="installmentAmountAfterDiscount" readonly
+                  class="form-control form-control-sm">
               </div>
               <!-- end::Annual Installment Amount after Discount-->
             </div>
 
             <div class="col-sm-1">
               <ng-container *ngIf="i==0 || i==1">
-                <button class="btn btn-sm btn-danger ml-3 sm btn-height" disabled (click)="removeInstallment(i)">Remove</button>
+                <button class="btn btn-sm btn-danger ml-3 sm btn-height" disabled
+                  (click)="removeInstallment(i)">Remove</button>
               </ng-container>
               <ng-container *ngIf="i>1">
                 <button class="btn btn-sm btn-danger ml-3 sm btn-height" (click)="removeInstallment(i)">Remove</button>
@@ -333,15 +364,19 @@
           </div>
           <!-- End:: Form controll ofInstallment -->
 
-           <!-- Begin:: total of installment -->
+          <!-- Begin:: total of installment -->
           <ng-container *ngIf="last">
             <div class="row" [ngClass]="installmentFlag ? 'my_class1' : 'total-heading'">
               <div class="col-sm-1">
               </div>
-              <div class="col-sm-3 cell-padding">
+              <div class="col-sm-2 cell-padding">
                 <ng-container *ngIf="installmentFlag">
                   Installment Matched with total
                 </ng-container>
+              </div>
+              <div class="col-sm-2 cell-padding">
+                <div>
+                </div>
               </div>
               <div class="col-sm-1 cell-padding">
                 <div>
@@ -353,7 +388,7 @@
                   <p>{{installmentDiscount}}</p>
                 </div>
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-2">
               </div>
               <div class="col-sm-2 cell-padding">
                 <div>
@@ -370,7 +405,7 @@
 
   </ng-container>
 
-<!-- <div style="display: inline;"> -->
+  <!-- <div style="display: inline;"> -->
   <!--Begin:: Sum of installment -->
   <!-- <ng-container *ngIf="installmentFlag">
     <div class="grid-button installment-matched">
@@ -391,7 +426,7 @@
       <ng-container *ngIf="actionFlag">
         <button class="btn btn-md btn-success mx-3" [disabled]="!formgroup.valid || !installmentFlag"
           (click)="save()">Save</button>
-       </ng-container>
+      </ng-container>
       <ng-container *ngIf="!actionFlag">
         <button class="btn btn-md btn-success mx-3" [disabled]="!installmentFlag" (click)="save()">Update</button>
       </ng-container>
@@ -401,7 +436,7 @@
     <button class="btn btn-md btn-danger" (click)="resetForm()">Reset</button>
   </div>
   <!-- end::Buttons -->
-<!-- </div> -->
+  <!-- </div> -->
 </form>
 
 <!--begin::second Card body-->
@@ -409,23 +444,23 @@
 <ng-container *ngIf="posts | async as postData ">
   <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="postData.data ">
     <!-- begin::Academic Year -->
- <div class="form-group w-50">
-  <label class="form-label required">Academic Year</label>
-  <mat-select class="form-control form-control-sm myPanelClass"  formControlName="tableAcademicYearCode"
-    (selectionChange)="getTableRecord()" disableOptionCentering placeholder="Select Academic Year">
-    <input type="text" class="form-control  form-control-sm" #tableFilterAcademicYear>
-    <div *ngIf="academicYearList | async as postdata ">
-      <mat-option *ngFor="let data of postdata | filterData: tableFilterAcademicYear.value : 'academicYear'"
-        [value]="data.academicYearCode">
-        {{data.academicYear}}
-      </mat-option>
+    <div class="form-group w-50">
+      <label class="form-label required">Academic Year</label>
+      <mat-select class="form-control form-control-sm myPanelClass" formControlName="tableAcademicYearCode"
+        (selectionChange)="getTableRecord()" disableOptionCentering placeholder="Select Academic Year">
+        <input type="text" class="form-control  form-control-sm" #tableFilterAcademicYear>
+        <div *ngIf="academicYearList | async as postdata ">
+          <mat-option *ngFor="let data of postdata | filterData: tableFilterAcademicYear.value : 'academicYear'"
+            [value]="data.academicYearCode">
+            {{data.academicYear}}
+          </mat-option>
+        </div>
+      </mat-select>
+      <div class="invalid-feedback">
+        {{validationMsg.getErrorMessage(formControll.tableAcademicYearCode,"Academic Year")}}
+      </div>
     </div>
-  </mat-select>
-  <div class="invalid-feedback">
-    {{validationMsg.getErrorMessage(formControll.tableAcademicYearCode,"Academic Year")}}
-  </div>
-</div>
-<!-- end::Academic Year -->
+    <!-- end::Academic Year -->
     <!--end::table-->
     <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
       <thead>

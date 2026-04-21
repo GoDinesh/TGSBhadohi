@@ -32,6 +32,7 @@ export class StudentListComponent {
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
   academicYear: string;
+  baseurl = appurl.baseurl;
 
   studentgroup = new FormGroup({
     standard: new FormControl(),

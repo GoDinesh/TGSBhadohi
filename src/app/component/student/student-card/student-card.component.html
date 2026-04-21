@@ -8,7 +8,7 @@
             <div class="position-relative w-100 text-center school-details">
                 <div class="text-left w-30 position-absolute">
                     <ng-container *ngIf="student.profileImage!=null">
-                        <img [src]="student.profileImage.link" alt="Student's avatar" class="border" width="100" height="80">
+                        <img src="{{baseurl}}{{student.profileImage.link}}" alt="Student's avatar" class="border" width="100" height="80">
                       </ng-container>
                       <ng-container *ngIf="student.profileImage==null">
                         <img src="/assets/images/no_image.png" alt="Student's avatar" class="border" width="100" height="80">

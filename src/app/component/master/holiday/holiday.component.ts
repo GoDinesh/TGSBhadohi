@@ -21,7 +21,7 @@ import { CustomValidation } from 'src/app/validators/customValidation';
   styleUrls: ['./holiday.component.css']
 })
 export class HolidayComponent {
-  holidayType=[{type:"Festival Holiday"},{type:"National Holiday"},{type:"Others"}]
+  holidayType=[{type:"Festival Holiday"},{type:"National Holiday"},{type:"School Holiday"},{type:"Others"}]
   holidaymodel: Holiday = new Holiday();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   dataSource = new MatTableDataSource<Holiday>();

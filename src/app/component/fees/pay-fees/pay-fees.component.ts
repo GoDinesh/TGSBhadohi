@@ -28,6 +28,7 @@ import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { FeesReceiptPrintoutComponent } from '../../printout/fees-receipt-printout/fees-receipt-printout.component';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { WaapService } from 'src/app/service/waap/waap.service';
+import { appurl } from 'src/app/constants/common/appurl';
 
 @Component({
   selector: 'app-pay-fees',
@@ -80,12 +81,13 @@ export class PayFeesComponent {
   receiptnumber: string = '0';
   receiptnumberAcademicYearWise: string = '0';
   toWords = new ToWords();
+  baseurl = appurl.baseurl;
 
   editable: boolean | undefined;
 
   @ViewChild('childComponent') childComponent: FeesReceiptPrintoutComponent;
   @ViewChild('receiptComponent') receiptComponent: FeesReceiptPrintoutComponent;
-  monthList: string[] = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar'];
+  monthList: string[] = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar','Exam-Fees'];
   selectedMonth: string;
 
   constructor(private formBuilder: FormBuilder,
@@ -345,6 +347,7 @@ export class PayFeesComponent {
             academicYearCode: new FormControl(installment[i].academicYearCode),
             installmentNumber: new FormControl((Number(installment[i].installmentNumber))),
             installmentType: new FormControl(installment[i].installmentType),
+            installmentMonth: new FormControl(installment[i].installmentMonth),
             installmentDate: new FormControl(moment(installment[i].installmentDate).format(msgTypes.DD_MM_YYYY)),
             installmentAmount: new FormControl(installment[i].installmentAmount),
             installmentDiscount: new FormControl(installment[i].installmentDiscount),

@@ -8,8 +8,8 @@
       <mat-icon *ngIf="sidenav.opened">
         close
       </mat-icon>
-    </button> 
-    <img class="p-1 logo" src="/assets/website/img/logo.png"  alt=""> 
+    </button>
+    <img class="p-1 logo" src="/assets/website/img/logo.png"  alt="">
     <span>{{schoolName}}</span>
   </div>
 
@@ -47,7 +47,7 @@
                 <div class="message">
                 <div class="message-avatar">
                   <ng-container *ngIf="student.profileImage!=null">
-                      <img src={{student.profileImage.link}} alt="">
+                      <img src="{{baseurl}}{{student.profileImage.link}}" alt="">
                   </ng-container>
                   <ng-container *ngIf="student.profileImage==null">
                     <img src="/assets/images/no_image.png" alt="">
@@ -75,7 +75,7 @@
     <!-- </div> -->
     </span>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    
+
     <div>
         <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
           <mat-icon>facebook</mat-icon>
@@ -95,14 +95,14 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav">
     <div>
-      <app-sidenav ></app-sidenav>      
-    </div>    
+      <app-sidenav ></app-sidenav>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <!-- <app-nav-menu [collapsed]="isSideNavCollapsed" [screenWidth]=800></app-nav-menu> -->
     <div >
-      <app-nav-menu></app-nav-menu> 
+      <app-nav-menu></app-nav-menu>
     </div>
-    
+
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/service/common/auth.service';
 
 export class StudentDetailsModalComponent {
   @Input() selectedYear: string;
+  baseurl = appurl.baseurl;
 
   constructor(private dialogRef: MatDialogRef<StudentDetailsModalComponent>,
     private router: Router, private authService: AuthService,
@@ -22,10 +23,10 @@ export class StudentDetailsModalComponent {
 
   // viewDetails(registration: Registration){
   //   this.dialogRef.close();
-  //   this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+  //   this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });
   // }
   viewDetails(registration: Registration){
-    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });  
+    //this.router.navigateByUrl(appurl.navmenu + appurl.menuurl_student + appurl.student_details, { state: { studetails: registration } });
     const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
     const encryptData = this.authService.getEncryptText(JSON.stringify(registration));
     this.router.navigate([url,JSON.stringify(encryptData)] );
@@ -34,7 +35,7 @@ export class StudentDetailsModalComponent {
     // });
     this.dialogRef.close();
   }
-  
+
   closeDialog(): void {
     this.dialogRef.close();
   }

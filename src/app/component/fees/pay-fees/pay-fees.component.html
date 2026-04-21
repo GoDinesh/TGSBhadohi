@@ -1,5 +1,5 @@
 <ng-container *ngIf="!displayAllReceipt">
-    <div class="container mt-2">
+    <div class="mt-2">
 
         <!-- Filter details -->
         <form [formGroup]="formgroup">
@@ -106,7 +106,14 @@
                         <!--Begin:: Student details and lumpsum button -->
                         <div class="card mb-4">
                             <div class="card-header d-flex align-items-center justify-content-between fw-bold fs-6">
-                                <span>Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
+                                <span>
+                                  <span  class="p-2" *ngIf="registartion.data[0].profileImage">
+                                   <img class="avatar" src="{{baseurl}}{{registartion.data[0].profileImage.link}}" width="100" height="100"/>
+                                  </span>
+                                  <span  class="p-2" *ngIf="!registartion.data[0].profileImage">
+                                   <img class="avatar" src="assets/images/no_image.png" width="100" height="100"/>
+                                  </span>
+                                    Fee Structure of -&nbsp;&nbsp;&nbsp; Student Name:
                                     <strong>{{registartion.data[0].studentName}}</strong>&nbsp;&nbsp;&nbsp;
                                     Academic Year:&nbsp;<strong>{{registartion.data[0].academicYearCode}}</strong>
                                     &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; Class:
@@ -131,14 +138,14 @@
                             <table class="table show-previous-amount-table">
                                 <thead>
                                     <tr style="background-color: rgb(217, 241, 233);">
-                                        <th scope="col">S.No</th>
                                         <th scope="col">Installment Type</th>
+                                        <th scope="col">Month</th>
                                         <th scope="col">Due Date</th>
                                         <th scope="col">Total Amount</th>
                                         <th scope="col">Previous Discount</th>
                                         <th scope="col">Enter Discount</th>
-                                        <th scope="col">Reason for Discount</th>
-                                        <th scope="col">Amount After Discount</th>
+                                        <th scope="col">Discount Reason</th>
+                                        <th scope="col">Amt After Discount</th>
                                         <th scope="col">Amount Paid</th>
                                         <th scope="col">Net Payable</th>
                                     </tr>
@@ -159,9 +166,9 @@
                                                 </ng-container>
 
                                                 <tr>
-                                                    <td><input type="text" readonly formControlName="installmentNumber"
-                                                            class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly formControlName="installmentType"
+                                                            class="form-control form-control-sm"></td>
+                                                    <td><input type="text" readonly formControlName="installmentMonth"
                                                             class="form-control form-control-sm"></td>
                                                     <td><input type="text" readonly formControlName="installmentDate"
                                                             class="form-control form-control-sm"></td>
@@ -192,9 +199,9 @@
                                     </ng-container>
 
                                     <tr class="total">
-                                        <td></td>
-                                        <td></td>
                                         <td>Total</td>
+                                        <td></td>
+                                        <td></td>
                                         <td>{{totalAmount}}</td>
                                         <td>{{installmentDiscount}}</td>
                                         <td>{{totalIndividualDiscount}}</td>
@@ -222,6 +229,7 @@
 
                         <!-- Begin:: Book Dress Fees Begin -->
                         <ng-container *ngIf="bookAndDressFeesModel">
+                          <ng-container *ngIf="bookAndDressFeesModel.bookFees!=='0'">
                             <div class="mb-4">
                                 <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees + (studentDetails.gender==='M' ? bookAndDressFeesModel.boyDressFees : bookAndDressFeesModel.girlDressFees) }}, Pending Fee: {{payableDressFees+payableBookFees}}</h2> -->
                                 <!-- <h2>Book + Dress Fees: {{bookAndDressFeesModel.bookFees}}, Pending Fee: {{payableBookFees}}</h2>  -->
@@ -259,6 +267,7 @@
                                 </div>
                                 <hr>
                             </div>
+                            </ng-container>
                         </ng-container>
                         <!-- End:: Installment Details -->
                         <!-- End:: Book Dress Fees Begin -->

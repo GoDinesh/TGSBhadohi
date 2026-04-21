@@ -1,4 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { Registration } from 'src/app/model/student/registration.model';
 import { SmsService } from 'src/app/service/common/sms.service';
@@ -12,6 +13,7 @@ import { RegistrationService } from 'src/app/service/student/registration.servic
 export class StudentBirthdayComponent {
 
   posts: Registration[] = [];
+  baseurl = appurl.baseurl;
   todayBirthdayStudents: Registration[] = [];
   constructor(private registrationService: RegistrationService,
     private smsService: SmsService){
@@ -50,7 +52,7 @@ export class StudentBirthdayComponent {
   sendMessage() {
     const message = 'Happy Birthday Gurruu!';
     const studentNumber = '+919140744685';
-  
+
     this.smsService.sendSMS(message, studentNumber).subscribe(response => {
       //Successfull
     }, error => {
@@ -58,7 +60,7 @@ export class StudentBirthdayComponent {
     });
 
   }
-  
+
   async getStudentRecord() {
     this.registrationService.studentList(new Registration()).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {

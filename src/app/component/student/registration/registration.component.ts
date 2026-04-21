@@ -44,7 +44,7 @@ export class RegistrationComponent {
   updateButtonFlag: boolean = true;
   editable: boolean | undefined;
   today = new Date();
-  bookFees: number =0;
+  bookFees: number = 0;
   // myFiles:string [] = [];
 
   //Upload Student Photo
@@ -180,21 +180,21 @@ export class RegistrationComponent {
 
 
     //this.route.queryParams.subscribe((params) => {
-      this.route.paramMap.subscribe(()=>{
-        const params=window.history.state;
+    this.route.paramMap.subscribe(() => {
+      const params = window.history.state;
       let res;
-      if(params.data!=undefined){
+      if (params.data != undefined) {
         const txndata = JSON.parse(params.data);
         const decryptedData = this.authService.getDecryptText(txndata);
-         res = JSON.parse(decryptedData);
+        res = JSON.parse(decryptedData);
       }
 
-      if (res  && res.registrationNo && res.registrationNo.length > 0) {
+      if (res && res.registrationNo && res.registrationNo.length > 0) {
         this.reg = res;
         this.updateFlag = true;
 
         if (this.reg.profileImage) {
-          this.selectedStudentPhoto = this.reg.profileImage.link;
+          this.selectedStudentPhoto = appurl.baseurl + this.reg.profileImage.link;
           this.fetchFile(this.reg.profileImage.link, this.reg.profileImage.fileName).subscribe((file: File) => {
             this.selectedPhoto = file;
           });
@@ -350,8 +350,9 @@ export class RegistrationComponent {
       guardianName: [parentInfo.guardianName, [Validators.minLength(3), Validators.maxLength(50), CustomValidation.plainText]],
 
     },
-    {
-      validator: CustomValidation.sameAadharValidation('fatherAadharNo', 'motherAadharNumber') }
+      {
+        validator: CustomValidation.sameAadharValidation('fatherAadharNo', 'motherAadharNumber')
+      }
     );
   }
 
@@ -489,7 +490,7 @@ export class RegistrationComponent {
     })
   }
 
-  convertIntoTwoDegit(n:string) {
+  convertIntoTwoDegit(n: string) {
     n = String(n)
     if (n.length == 1)
       n = '0' + n
@@ -497,22 +498,22 @@ export class RegistrationComponent {
   }
 
   //generate id card Number
-  async generateIdCardNumber(){
-    const academicyear = ""+this.studentFormControll.academicYearCode.value;
-    const standardCode = ""+this.studentFormControll.standard.value;
-    const className = this.standard.filter(data=>{
-      return data.classCode===standardCode;
+  async generateIdCardNumber() {
+    const academicyear = "" + this.studentFormControll.academicYearCode.value;
+    const standardCode = "" + this.studentFormControll.standard.value;
+    const className = this.standard.filter(data => {
+      return data.classCode === standardCode;
     })
     const rollNumber = this.convertIntoTwoDegit(this.studentFormControll.rollNumber.value);
-    this.studentFormControll.idCardNumber.setValue("TGS"+academicyear.substring(2,4)+"-"+academicyear.substring(6,8)+className[0].className+"/"+rollNumber);
+    this.studentFormControll.idCardNumber.setValue("TGS" + academicyear.substring(2, 4) + "-" + academicyear.substring(6, 8) + className[0].className + "/" + rollNumber);
   }
 
 
-  convertIntoThreeDegit(n:string) {
+  convertIntoThreeDegit(n: string) {
     n = String(n)
-    if (n.length == 1){
+    if (n.length == 1) {
       n = '00' + n
-    }else if (n.length == 2)
+    } else if (n.length == 2)
       n = '0' + n
     return n
   }
@@ -528,21 +529,21 @@ export class RegistrationComponent {
     reg.standard = standard;
 
     this.registrationService.getMaxRegistrationNumber().subscribe(res => {
-      if(res.status === msgTypes.SUCCESS_MESSAGE){
-        let academic = academicYear.substring(2,4)
-        academic += academicYear.substring(6,8)
-        this.registrationNumber = "TGS"+academic+standard+"/"+ this.convertIntoThreeDegit(res.data[0].rollNumber);
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        let academic = academicYear.substring(2, 4)
+        academic += academicYear.substring(6, 8)
+        this.registrationNumber = "TGS" + academic + standard + "/" + this.convertIntoThreeDegit(res.data[0].rollNumber);
         this.studentFormControll.registrationNo.setValue(this.registrationNumber);
 
-        this.registrationService.getRollNumber(reg).subscribe(res=>{
-          if(res.status === msgTypes.SUCCESS_MESSAGE){
+        this.registrationService.getRollNumber(reg).subscribe(res => {
+          if (res.status === msgTypes.SUCCESS_MESSAGE) {
             this.studentFormControll.rollNumber.setValue(res.data[0].rollNumber);
           }
         })
 
-     }else{
-      this.studentFormControll.registrationNo.setValue("");
-     }
+      } else {
+        this.studentFormControll.registrationNo.setValue("");
+      }
 
     });
   }
@@ -553,18 +554,136 @@ export class RegistrationComponent {
     this.confirmDetails = event.checked;
   }
 
+  // onStudentPhotoFileChange(event: any) {
+
+  //   const file: File = event.target.files[0];
+
+  //   if (!file) return;
+
+  //   const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+  //   if (!validTypes.includes(file.type)) {
+  //     alert('Invalid file type. Only PNG, JPG, JPEG allowed.');
+  //     event.target.value = '';
+  //     return;
+  //   }
+
+  //   const size = file.size;
+
+  //   if (size < 5 * 1024) {
+  //     alert('Image size too small. Minimum 5KB required.');
+  //     event.target.value = '';
+  //     return;
+  //   }
+
+  //   if (size > 25 * 1024) {
+  //     alert('Image too large. Maximum 25KB allowed.');
+  //     event.target.value = '';
+  //     return;
+  //   }
+
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     this.selectedPhoto = input.files[0];
+  //     this.selectedStudentPhotoName = input.files[0].name;
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       this.selectedStudentPhoto = reader.result;
+  //     };
+  //     reader.readAsDataURL(input.files[0]);
+  //   }
+  // }
+
   onStudentPhotoFileChange(event: any) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedPhoto = input.files[0];
-      this.selectedStudentPhotoName = input.files[0].name;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.selectedStudentPhoto = reader.result;
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
+  const file: File = event.target.files[0];
+  if (!file) return;
+
+  // 🔹 Type validation
+  const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+  if (!validTypes.includes(file.type)) {
+    alert('Invalid file type. Only PNG, JPG, JPEG allowed.');
+    event.target.value = '';
+    return;
   }
+
+  // 🔥 Resize & compress image
+  this.resizeImage(file, 300, 300, 0.7).then((resizedFile: File) => {
+
+    // 🔹 Size validation AFTER resize
+    const size = resizedFile.size;
+
+    if (size < 5 * 1024) {
+      alert('Image size too small after processing.');
+      event.target.value = '';
+      return;
+    }
+
+    if (size > 25 * 1024) {
+      alert('Image still too large. Try another image.');
+      event.target.value = '';
+      return;
+    }
+
+    // ✅ Set values (same as your existing logic)
+    this.selectedPhoto = resizedFile;
+    this.selectedStudentPhotoName = resizedFile.name;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.selectedStudentPhoto = reader.result;
+    };
+    reader.readAsDataURL(resizedFile);
+  });
+}
+
+resizeImage(file: File, maxWidth: number, maxHeight: number, quality: number): Promise<File> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = (event: any) => {
+      const img = new Image();
+      img.src = event.target.result;
+
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        // Maintain aspect ratio
+        if (width > height) {
+          if (width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = (width * maxHeight) / height;
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            const newFile = new File([blob!], file.name, {
+              type: 'image/jpeg',
+            });
+            resolve(newFile);
+          },
+          'image/jpeg',
+          quality // 🔥 compression (0.5–0.8 best)
+        );
+      };
+    };
+  });
+}
+
 
   removeSelectedPhoto() {
     this.selectedPhoto = null;
@@ -627,7 +746,7 @@ export class RegistrationComponent {
     this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
     this.reg.bookFees = this.bookFees;
-    this.reg.pendingBookFees =  this.bookFees;
+    this.reg.pendingBookFees = this.bookFees;
     this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
     this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD);
 
@@ -653,40 +772,38 @@ export class RegistrationComponent {
   }
 
 
-    //  update student details
-    async updateStudentDetails() {
+  //  update student details
+  async updateStudentDetails() {
 
-      this.reg = new Registration();
-      this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
-      this.reg = { ...this.reg, ...this.parentgroup.value };
-      this.reg = { ...this.reg, ...this.addressgroup.value };
-      this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
-      this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
+    this.reg = new Registration();
+    this.reg = { ...this.reg, ...this.studentgroup.getRawValue() };
+    this.reg = { ...this.reg, ...this.parentgroup.value };
+    this.reg = { ...this.reg, ...this.addressgroup.value };
+    this.reg = { ...this.reg, ...this.emergencyContactFormGroup.value };
+    this.reg = { ...this.reg, ...this.lastSchoolFormGroup.value };
 
-      this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
-      this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD)  ;
+    this.reg.dateOfBirth = moment(this.reg.dateOfBirth).format(msgTypes.YYYY_MM_DD);
+    this.reg.dateOfAdmission = moment(this.reg.dateOfAdmission).format(msgTypes.YYYY_MM_DD);
 
-      // const formData = new FormData();
-      // if (this.documents && this.documents.length > 0) {
-      //   for (let i = 0; i <= this.documents.length - 1; i++) {
-      //     formData.append("documentUpload[]", <File>this.documents[i]);
-      //   }
-      // }
-
-      // if (this.selectedPhoto) {
-      //   formData.append("profileImage", <File>this.selectedPhoto);
-      // }
-
-      // formData.append("requestData", JSON.stringify(this.reg))
-  // console.log(this.reg);
-
-      this.registrationService.updateStudentdetails(this.reg).subscribe(res => {
-        if (res.status === msgTypes.SUCCESS_MESSAGE) {
-          this.resetForm();
-          this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
+    this.registrationService.updateStudentdetails(this.reg).subscribe(res => {
+      if (res.status === msgTypes.SUCCESS_MESSAGE) {
+        if (this.selectedPhoto != null) {
+          const formData = new FormData();
+          if (this.selectedPhoto) {
+            formData.append("profileImage", <File>this.selectedPhoto);
+          }
+          formData.append("requestData", JSON.stringify(this.reg));
+          this.registrationService.updateStudentProfileImage(formData).subscribe(res1 => {
+            if (res1.status === msgTypes.SUCCESS_MESSAGE) {
+            }
+          })
         }
-      });
-    }
+        this.resetForm();
+        this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_list);
+      }
+
+    });
+  }
 
   resetForm() {
     this.studentgroup.reset();
@@ -728,34 +845,34 @@ export class RegistrationComponent {
   }
 
 
-  handleInputChange(formcontrol: FormControl){
-    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first:string) => first.toLocaleUpperCase()) );
+  handleInputChange(formcontrol: FormControl) {
+    formcontrol.setValue(formcontrol.value.replace(/\b\w/g, (first: string) => first.toLocaleUpperCase()));
   }
 
 
-//Book Fees related functions
-loadBookFees() {
-  this.bookFees=0;
+  //Book Fees related functions
+  loadBookFees() {
+    this.bookFees = 0;
 
-  const bookDressFees: BookAndDressFees = new BookAndDressFees();
-  bookDressFees.academicYearCode = this.studentgroup.controls.academicYearCode.value;
-  bookDressFees.standard = this.studentgroup.controls.standard.value;
+    const bookDressFees: BookAndDressFees = new BookAndDressFees();
+    bookDressFees.academicYearCode = this.studentgroup.controls.academicYearCode.value;
+    bookDressFees.standard = this.studentgroup.controls.standard.value;
 
-  if(bookDressFees.academicYearCode.length>0 && bookDressFees.standard.length>0){
-    this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {
-      if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        if(res.data.length>0){
-          this.bookFees=res.data[0].bookFees;
-        }else{
-          this.studentgroup.controls.standard.reset();
-          this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+    if (bookDressFees.academicYearCode.length > 0 && bookDressFees.standard.length > 0) {
+      this.bookDressFeesService.getByAcademicAndClass(bookDressFees).subscribe(res => {
+        if (res.status === msgTypes.SUCCESS_MESSAGE) {
+          if (res.data.length > 0) {
+            this.bookFees = res.data[0].bookFees;
+          } else {
+            this.studentgroup.controls.standard.reset();
+            this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+          }
         }
-      }
-    });
-  }else{
-    this.studentgroup.controls.standard.reset();
-    this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+      });
+    } else {
+      this.studentgroup.controls.standard.reset();
+      this.alertService.showAlert(msgTypes.ERROR_MESSAGE, "Please enter SSM Fees for selected Academic Year and class.", msgTypes.ERROR, msgTypes.OK_KEY)
+    }
   }
-}
 
 }

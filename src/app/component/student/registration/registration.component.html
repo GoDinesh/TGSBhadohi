@@ -552,8 +552,8 @@
             <label class="mb-2" for="studentPhoto">Upload Student Photo :</label>
             <!--If Image is not selected-->
             <div class="custom-file" *ngIf="!selectedPhoto">
-              <input id="file" type="file" multiple formControlName="studentPhoto" class="custom-file-input"
-                accept="image/*" (change)="onStudentPhotoFileChange($event)">
+              <input id="file" type="file" formControlName="studentPhoto" class="custom-file-input"
+                accept="image/png, image/jpeg" (change)="onStudentPhotoFileChange($event)">
               <label class="custom-file-label" for="studentPhoto">{{selectedStudentPhotoName}}</label>
             </div>
 
@@ -573,9 +573,8 @@
         </div>
 
         <!-- Upload Documents Column -->
-        <div class="col-md-6 shadow-sm">
+       <!-- <div class="col-md-6 shadow-sm">
           <div class="form-group m-2">
-            <!-- begin::upload documents -->
             <label class="mb-2" for="file">Upload Documents :</label>
             <div class="d-flex">
               <div class="custom-file">
@@ -587,11 +586,9 @@
                 <button class="btn btn-sm btn-success custom-add-btn" type="button" (click)="addDocument()">Add</button>
               </div>
             </div>
-            <!-- end::upload documents -->
             <div class="invalid-feedback">{{validationMsg.getErrorMessage(uploadDocumentFormControll.file,"File Name")}}
             </div>
           </div>
-          <!-- begin::documents table -->
           <div *ngIf="documents.length > 0" class="table-container mt-4 mb-3">
             <table class="table table-striped custom-table">
               <thead class="custom-header">
@@ -611,8 +608,7 @@
               </tbody>
             </table>
           </div>
-          <!-- end::documents table -->
-        </div>
+          </div>-->
       </div>
 
     </form>

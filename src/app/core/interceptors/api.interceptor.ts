@@ -11,9 +11,7 @@ import { msgTypes } from 'src/app/constants/common/msgType';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { Router } from '@angular/router';
-import { routeType } from 'src/app/constants/common/routeType';
 import { appurl } from 'src/app/constants/common/appurl';
-import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
 
 @Injectable()

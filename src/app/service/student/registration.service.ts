@@ -73,6 +73,12 @@ export class RegistrationService {
     return this.httpClient.post<ResponseModel>(url, registration)
   }
 
+  updateStudentProfileImage(formData:FormData){
+    const url = this.requestUrl + appurl.update_student_profile_imge;
+    return this.httpClient.post<ResponseModel>(url, formData)
+
+}
+
   dropoutStudent(registration: Registration){
     const url = this.requestUrl + appurl.dropout_the_student;
     return this.httpClient.post<ResponseModel>(url, registration)

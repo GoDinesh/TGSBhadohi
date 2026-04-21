@@ -1,4 +1,5 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
+import { appurl } from 'src/app/constants/common/appurl';
 import { Registration } from 'src/app/model/student/registration.model';
 
 @Component({
@@ -9,6 +10,7 @@ import { Registration } from 'src/app/model/student/registration.model';
 export class StudentCardComponent {
   @Input() studentData: Registration[] = [];
   @Input() academicYear: string;
+  baseurl = appurl.baseurl;
 
   constructor(){
 

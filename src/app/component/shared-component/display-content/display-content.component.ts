@@ -37,6 +37,7 @@ export class DisplayContentComponent {
   @ViewChild(MatSidenav)
   sidenav!:MatSidenav;
   schoolName = msgTypes.TIME_GLOBAL_SCHOOL;
+  baseurl = appurl.baseurl;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -67,8 +68,8 @@ export class DisplayContentComponent {
     this.studentList = this.registrationService.studentList(new Registration())
     this.studentList.subscribe(res=>{
     })
-    
-    
+
+
   }
 
   onToggleSideNav(data: SideNavToggle) {
@@ -125,7 +126,7 @@ export class DisplayContentComponent {
 
 
   viewStudentDetails(student: Registration){
-       // this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: student } });  
+       // this.router.navigateByUrl('/navmenu' + appurl.menuurl_student + appurl.student_details, { state: { studetails: student } });
        const url = appurl.navmenu + appurl.menuurl_student + appurl.student_details;
        const encryptData = this.authService.getEncryptText(JSON.stringify(student));
       //  this.router.navigate([url], {

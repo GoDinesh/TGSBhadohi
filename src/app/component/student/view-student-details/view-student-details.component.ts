@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { Registration } from 'src/app/model/student/registration.model';
 import { AuthService } from 'src/app/service/common/auth.service';
@@ -12,6 +11,7 @@ import { AuthService } from 'src/app/service/common/auth.service';
 })
 export class ViewStudentDetailsComponent {
   reg: Registration = new Registration();
+  baseurl = appurl.baseurl;
   constructor(private router: Router,
     public activatedRoute: ActivatedRoute,
     private route: ActivatedRoute,
@@ -20,7 +20,7 @@ export class ViewStudentDetailsComponent {
   }
 
   ngOnInit() {
-    
+
     // this.route.paramMap.subscribe(() => {
     //   const param = window.history.state;
     //   if (param != undefined) {
@@ -42,14 +42,14 @@ export class ViewStudentDetailsComponent {
           const txndata = JSON.parse(id);
               const decryptedData = this.authService.getDecryptText(txndata);
               const res = JSON.parse(decryptedData);
-      
+
               this.reg = new Registration();
               if (res.registrationNo.length > 0) {
                 this.reg = res;
               }
          }
-         
-      })   
+
+      })
   }
 
 

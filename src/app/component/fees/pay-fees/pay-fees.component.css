@@ -85,4 +85,8 @@ font-weight: 400;
 overflow:auto;
 }
 
+.card-header{
+    margin: 5px;
+    padding: 0;
+}
 

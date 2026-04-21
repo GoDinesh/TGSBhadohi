@@ -12,7 +12,7 @@
             <div class="col-md-3">
               <ng-container *ngIf="reg.profileImage!=null">
                 <div class="image-container">
-                  <img src={{reg.profileImage.link}} alt="Student Photo" class="img-thumbnail mb-2">
+                  <img src={{baseurl}}{{reg.profileImage.link}} alt="Student Photo" class="img-thumbnail mb-2">
                 </div>
               </ng-container>
               <ng-container *ngIf="reg.profileImage==null">
@@ -20,7 +20,7 @@
                   <img src="/assets/images/no_image.png" alt="Student Photo" class="img-thumbnail mb-2">
                 </div>
               </ng-container>
-              
+
             </div>
             <!-- end::student photo preview -->
             <div class="col-md-9">
@@ -35,7 +35,7 @@
                   <strong>Standard : </strong> {{reg.standard}} ( {{reg.enrollmentType}}  )
                 </div>
                 <div>
-                  <strong>Roll Number : </strong> {{reg.rollNumber}} 
+                  <strong>Roll Number : </strong> {{reg.rollNumber}}
                 </div>
                 <div>
                   <strong>Date Of Birth : </strong> {{reg.dateOfBirth | dateFormatPipe}}
@@ -46,7 +46,7 @@
                 <div>
                   <strong>Date Of Admission : </strong> {{reg.dateOfAdmission | dateFormatPipe}}
                 </div>
-               
+
               </div>
             </div>
           </div>

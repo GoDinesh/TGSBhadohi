@@ -40,6 +40,7 @@ export const appurl={
                 update_fees_details: '/update-fees-details',
                 update_book_fees_details: '/update-book-fees-details',
                 update_student_details:'/update-student-details',
+                update_student_profile_imge: '/update-profile-image',
                 dropout_the_student: '/dropout_the_student',
                 dropout_list: '/dropout-list',
 

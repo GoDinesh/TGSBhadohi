@@ -10,7 +10,7 @@
       <div class="row custom-row" *ngFor="let student of data.students">
         <div class="col-md-2 avatar-cell">
           <ng-container *ngIf="student.profileImage!=null">
-            <img src={{student.profileImage.link}} alt="Student's avatar" class="avatar">
+            <img src="{{baseurl}}{{student.profileImage.link}}" alt="Student's avatar" class="avatar">
           </ng-container>
           <ng-container *ngIf="student.profileImage==null">
             <img src="/assets/images/no_image.png" alt="Student's avatar" class="avatar">
