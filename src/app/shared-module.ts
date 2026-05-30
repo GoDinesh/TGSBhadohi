@@ -86,10 +86,11 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
    //IvyCarouselModule
    CarouselModule,
    FeesReceiptPrintoutComponent,
-   LoaderComponent
+   LoaderComponent,
 
-   
-   
+
+
+
   ],
   exports: [
     ReactiveFormsModule,
@@ -128,14 +129,14 @@ FusionChartsModule.fcRoot(FusionCharts, Charts);
     FilterStudentListPipe,
     DateFormatPipePipe,
     //CarouselModule
-    
+
     //IvyCarouselModule
     CarouselModule,
 
     ClearFieldsDirective,
     FeesReceiptPrintoutComponent,
     LoaderComponent
-    
+
   ],
   providers: [
   ],

@@ -1,7 +1,7 @@
 export const msgTypes = {
 
     APP_SECRET_KEY: "bXVzdGJlMTZieXRlc2tleQ==",
-    
+
     SUCCESS: "success",
     ERROR : "error",
     WARNING: "warning",
@@ -14,7 +14,7 @@ export const msgTypes = {
     //Status Update
     STATUS_UPDATE: "Status Updated",
     UPDATE_MESSAGE: "Data Updated Successfully",
-    
+
     LOGIN_MESSAGE : "Login Successfully",
     INVALID_CREDENTIALS: "Invalid Credentials",
     STUDENT_FEES_STRUCTURE_UPDATED:"Student Fees structure updated successfully",
@@ -65,10 +65,17 @@ export const msgTypes = {
         TODAY_BIRTHDAY:"Today Birthday",
         BITRH_CERTIFICATE:"Birth Certificate"
 
+    },
+
+    NOTIFICATION_TYPE: {
+      FEES: "Fees",
+      HOLIDAY: "Holiday",
+      EXAMINATION: "Examination",
+      EVENT: "Event",
+      GENERAL: "General"
     }
 
 
 
 
-   
 }
