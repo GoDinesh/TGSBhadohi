@@ -14,6 +14,7 @@ export const pageTitle = {
                 FEES_STRUCTURE  : 'Fees Structure',
                 BOOK_DRESS_FEES : 'SSM Fees',
                 HOLIDAY         : 'Holiday',
+                SUBJECT         : 'Subject',
 
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',

@@ -50,12 +50,6 @@ import { SendNotificationComponent } from './component/notifications/send-notifi
     BreadcrumbComponent,
     StudentCardComponent,
     SendNotificationComponent,
-   
-    
-    
-
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -74,14 +68,9 @@ import { SendNotificationComponent } from './component/notifications/send-notifi
     SharedModule,
     CoreModule,
     LoaderComponent,
-    
-    
   ],
   exports:[
       SharedModule,
-      
-      
-     
   ],
   providers: [
     {

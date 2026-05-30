@@ -10,6 +10,7 @@ import { FeesStructureComponent } from './fees-structure/fees-structure.componen
 import { SharedModule } from 'src/app/shared-module';
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
 import { HolidayComponent } from './holiday/holiday.component';
+import { SubjectComponent } from './subject/subject.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HolidayComponent } from './holiday/holiday.component';
     FeesStructureComponent,
     BookDressFeesComponent,
     HolidayComponent,
+    SubjectComponent
   ],
   imports: [
     CommonModule,

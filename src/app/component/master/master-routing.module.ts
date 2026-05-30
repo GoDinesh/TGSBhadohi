@@ -11,6 +11,7 @@ import { DiscountReasonComponent } from './discount-reason/discount-reason.compo
 import { FeesStructureComponent } from './fees-structure/fees-structure.component';
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
 import { HolidayComponent } from './holiday/holiday.component';
+import { SubjectComponent } from './subject/subject.component';
 
 const routes: Routes = [
     {
@@ -33,6 +34,16 @@ const routes: Routes = [
                 data: {
                       breadcrumb: breadcrumb.ACADEMIC_YEAR,
                       title: pageTitle.ACADEMIC_YEAR,
+                      role: Object.values(ROLE_ADMIN)
+                }
+          },
+          {
+                path: 'subject',
+                component: SubjectComponent,
+                canActivate: [AuthGuard],
+                data: {
+                      breadcrumb: breadcrumb.SUBJECT,
+                      title: pageTitle.SUBJECT,
                       role: Object.values(ROLE_ADMIN)
                 }
           },

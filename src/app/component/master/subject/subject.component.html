@@ -1,0 +1,75 @@
+<!-- begin:: first card -->
+<div class="grid-card-container card-bottom-margin">
+  <form [formGroup]="formgroup" class="grid-form">
+    <!-- begin::Subject -->
+    <div class="form-group">
+      <label class="form-label required">Subject Name</label>
+      <input class="form-control form-control-sm uppercase" formControlName="subject" (input)="changeInCapital()"
+        placeholder="Enter Subject Name" autocomplete="off" >
+      <div class="invalid-feedback">{{validationMsg.getErrorMessage(formControll.subject,"Subject Name")}}</div>
+    </div>
+
+    <!-- begin::Buttons -->
+    <div class="grid-button-inline form-group pt-4">
+      <ng-container *ngIf="!editable;else formValidation">
+        <button class="btn btn-sm btn-warning disabled m-2"><i class="fa fa-ban text-danger" aria-hidden="true"
+            disabled="true">&nbsp;&nbsp;</i>Blocked By Admin</button>
+      </ng-container>
+      <ng-template #formValidation>
+        <ng-container *ngIf="actionFlag">
+          <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+            (click)="save()">Save</button>
+        </ng-container>
+        <ng-container *ngIf="!actionFlag">
+          <button class="btn btn-sm btn-success mx-3" [disabled]="!formgroup.valid"
+            (click)="update()">Update</button>
+        </ng-container>
+      </ng-template>
+
+
+
+      <button class="btn btn-sm btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+    <!-- end::Buttons -->
+  </form>
+</div>
+<!-- end:: first card -->
+
+<!--begin::second Card body-->
+<ng-container *ngIf="posts | async as subjectData ">
+  <div class="grid-card-container card-bottom-padding pt-2 table-responsive" *ngIf="subjectData">
+    <!--end::table-->
+    <table id='table' datatable [dtOptions]="dtOptions" class="custom-data-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Subject</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of subjectData;let i=index">
+          <td class="td-sno">{{i+1}}</td>
+          <td class="td-auto">{{ post.subject }}</td>
+          <td class="td-status">
+            <ng-container *ngIf="!editable;else formValidation">
+              <mat-slide-toggle [checked]="post.active" disabled="true">
+              </mat-slide-toggle>
+            </ng-container>
+            <ng-template #formValidation>
+              <mat-slide-toggle [checked]="post.active" (change)="slideToggleChange($event, post)">
+              </mat-slide-toggle>
+            </ng-template>
+
+          </td>
+          <td class="td-action">
+            <a (click)="setValueToUpdate(post)"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--end::table-->
+  </div>
+</ng-container>
+<!--end::second Card body-->

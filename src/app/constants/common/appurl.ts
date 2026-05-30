@@ -18,6 +18,7 @@ export const appurl={
 
         menuurl_master: '/master',
                 master_class: '/standard',
+                master_subject: '/subject',
                 master_academicyear: '/academicyear',
                 master_feestype: '/feestype',
                 master_discountreason: '/discountreason',
