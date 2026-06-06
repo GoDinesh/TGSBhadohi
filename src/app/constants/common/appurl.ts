@@ -25,6 +25,7 @@ export const appurl={
                 master_feeStructure: '/fees-structure',
                 master_bookAndDressFees: '/book-dress-fees',
                 master_holiday: '/holiday',
+                master_syllabus: '/syllabus',
 
         menuurl_student: '/student',
                 student_registration: '/registration',

@@ -1,0 +1,189 @@
+<div class="grid-card-container form-bg">
+
+  <form [formGroup]="formGroup">
+
+    <!-- ================= FILTERS ================= -->
+
+    <div class="shadow-sm mb-2">
+
+      <div class="p-2">
+
+        <div class="row g-2 pb-2">
+
+          <!-- Academic Year -->
+          <div class="col-md-4">
+
+            <label class="form-label required">
+              Academic Year
+            </label>
+
+            <mat-select formControlName="academicYearCode" class="form-control form-control-sm"
+              placeholder="Select Academic Year">
+              <input type="text" class="form-control form-control-sm" #filterAcademicYear>
+              <div *ngIf="academicYearList | async as postdata">
+                <mat-option *ngFor="let data of postdata | filterData: filterAcademicYear.value : 'academicYear'"
+                  [value]="data.academicYearCode">
+                  {{data.academicYear}}
+                </mat-option>
+              </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusFormControll.academicYearCode,"Academic Year")}}</div>
+          </div>
+
+          <!-- Standard -->
+          <div class="col-md-4">
+           <label class="form-label required"> Standard </label>
+            <mat-select formControlName="standard" class="form-control form-control-sm" placeholder="Select Standard">
+              <input type="text" class="form-control form-control-sm" #filterClassName>
+              <div *ngIf="allClassList | async as postdata">
+                <mat-option *ngFor="let data of postdata | filterData: filterClassName.value : 'className'"
+                  [value]="data.classCode">
+                  {{data.className}}
+                </mat-option>
+              </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusFormControll.standard,"Standard")}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= SYLLABUS DETAILS ================= -->
+ <form [formGroup]="syllabusSubjectFormGroup">
+    <div class="card shadow-sm mb-2">
+
+      <div class="card-header bg-success text-white py-1"><strong>Syllabus Details</strong></div>
+      <div class="card-body p-2">
+        <div class="row mb-4">
+          <div class="col-md-4">
+            <label class="form-label required">Subject</label>
+             <mat-select class="form-control form-control-sm" formControlName="subject" placeholder="Select Subject">
+              <input type="text" class="form-control form-control-sm" #filterSubject>
+              <div *ngIf="subjectList | async as subjectdata">
+                <mat-option *ngFor="let data of subjectdata | filterData: filterSubject.value : 'subject'"
+                  [value]="data.subject">
+                  {{data.subject}}
+                </mat-option>
+              </div>
+            </mat-select>
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.subject,"Subject")}}</div>
+          </div>
+        </div>
+
+        <!-- FA / SA Row -->
+
+        <div class="row g-1 align-items-end mb-3">
+
+          <div class="col pr-0">
+            <label class="form-label required">FA-1</label>
+            <input class="form-control form-control-sm" formControlName="fa1">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.fa1,"FA-1")}}</div>
+          </div>
+
+          <div class="col pr-0">
+            <label class="form-label required">FA-2</label>
+            <input class="form-control form-control-sm" formControlName="fa2">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.fa2,"FA-2")}}</div>
+          </div>
+
+          <div class="col pr-0">
+            <label class="form-label required">SA-1</label>
+            <input class="form-control form-control-sm" formControlName="sa1">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.sa1,"SA-1")}}</div>
+          </div>
+
+          <div class="col pr-0">
+            <label class="form-label required">FA-3</label>
+            <input class="form-control form-control-sm" formControlName="fa3">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.fa3,"FA-3")}}</div>
+          </div>
+
+          <div class="col pr-0">
+            <label class="form-label required">FA-4</label>
+            <input class="form-control form-control-sm" formControlName="fa4">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.fa4,"FA-4")}}</div>
+          </div>
+
+          <div class="col pr-0">
+            <label class="form-label required">SA-2</label>
+            <input class="form-control form-control-sm" formControlName="sa2">
+            <div class="invalid-feedback">{{validationMsg.getErrorMessage(syllabusSubjectFormGroup.controls.sa2,"SA-2")}}</div>
+          </div>
+
+          <div class="col-md-1 d-grid">
+            <button type="button" class="btn btn-success btn-sm w-100" (click)="addSyllabus()" [disabled]="!syllabusSubjectFormGroup.valid">
+              <i class="fa fa-plus-circle me-1"></i>
+              {{ editIndex > -1 ? 'Update' : 'Add' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <!-- ================= TABLE ================= -->
+
+    <div class="card shadow-sm">
+      <div class="card-header bg-dark text-white py-1">
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>Added Syllabus Records</strong>
+          <span class="badge bg-warning text-dark">
+            {{ List.length }} Records
+          </span>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-sm mb-0">
+            <thead class="table-light">
+              <tr>
+                <th width="50">#</th>
+                <th>Subject</th>
+                <th>FA1</th>
+                <th>FA2</th>
+                <th>SA1</th>
+                <th>FA3</th>
+                <th>FA4</th>
+                <th>SA2</th>
+                <th width="80">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of List; let i=index">
+                <td>{{ i + 1 }}</td>
+                <td class="fw-bold text-primary">
+                  {{ item.subject }}
+                </td>
+                <td>{{ item.fa1 }}</td>
+                <td>{{ item.fa2 }}</td>
+                <td>{{ item.sa1 }}</td>
+                <td>{{ item.fa3 }}</td>
+                <td>{{ item.fa4 }}</td>
+                <td>{{ item.sa2 }}</td>
+
+                <td class="text-center">
+                  <button type="button" class="btn btn-warning btn-sm me-1" (click)="editSyllabus(i)">
+                    <i class="fa fa-pencil"></i>
+                  </button>&nbsp;
+                  <button type="button" class="btn btn-danger btn-sm" (click)="removeSyllabus(i)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="List.length === 0">
+                <td colspan="9" class="text-center text-muted py-3">
+                  No syllabus added yet
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TABLE END ================= -->
+    <button class="btn btn-sm btn-primary mt-3" [disabled]="List.length === 0" (click)="finalSubmit()">Final Submit</button>
+
+
+  </form>
+</div>

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
-import { Subject } from 'src/app/model/master/subject.model';
+import { Subjects } from 'src/app/model/master/subjects.model';
 import { PermissionService } from 'src/app/service/common/permission.service';
 import { SweetAlertService } from 'src/app/service/common/sweet-alert.service';
 import { ValidationErrorMessageService } from 'src/app/service/common/validation-error-message.service';
@@ -24,10 +24,10 @@ import { CustomValidation } from 'src/app/validators/customValidation';
 export class SubjectComponent {
 
   displayedColumns = ["sNo", "subjectCode", "subject", "active"];
-  subjectmodel: Subject = new Subject();
-  dataSource = new MatTableDataSource<Subject>();
+  subjectmodel: Subjects = new Subjects();
+  dataSource = new MatTableDataSource<Subjects>();
   dtOptions: any = {};
-  posts: Observable<Subject[]> = new Observable();
+  posts: Observable<Subjects[]> = new Observable();
   actionFlag = true;
   editable: boolean | undefined;
 
@@ -48,7 +48,7 @@ export class SubjectComponent {
 
   //load ngOnInit
   ngOnInit() {
-    this.createForm(new Subject());
+    this.createForm(new Subjects());
     this.updateEditable();
     this.customInit();
     this.loadTable();
@@ -56,7 +56,6 @@ export class SubjectComponent {
 
   async customInit() {
     await this.getTableRecord();
-
   }
 
   changeInCapital(){
@@ -76,7 +75,7 @@ export class SubjectComponent {
     });
   }
 
-  createForm(subject: Subject) {
+  createForm(subject: Subjects) {
     this.formgroup = this.formBuilder.group({
       id: [subject.id],
       subject: [subject.subject, [Validators.required, CustomValidation.plainText]],
@@ -123,12 +122,12 @@ export class SubjectComponent {
   }
 
   resetForm() {
-    this.createForm(new Subject())
+    this.createForm(new Subjects())
     this.actionFlag = true;
   }
 
   //change the status
-  async slideToggleChange(element: MatSlideToggleChange, data: Subject) {
+  async slideToggleChange(element: MatSlideToggleChange, data: Subjects) {
     const flag = await this.alertService.updateAlert()
     if (flag) {
       data.active = !data.active;
@@ -139,7 +138,7 @@ export class SubjectComponent {
   }
 
   //set value in formfield to update
-  setValueToUpdate(data: Subject) {
+  setValueToUpdate(data: Subjects) {
     this.createForm(data);
     this.actionFlag = false;
   }

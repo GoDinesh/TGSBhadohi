@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared-module';
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { SubjectComponent } from './subject/subject.component';
+import { SyllabusComponent } from './syllabus/syllabus.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SubjectComponent } from './subject/subject.component';
     FeesStructureComponent,
     BookDressFeesComponent,
     HolidayComponent,
-    SubjectComponent
+    SubjectComponent,
+    SyllabusComponent,
   ],
   imports: [
     CommonModule,

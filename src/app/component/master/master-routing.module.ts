@@ -12,6 +12,7 @@ import { FeesStructureComponent } from './fees-structure/fees-structure.componen
 import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.component';
 import { HolidayComponent } from './holiday/holiday.component';
 import { SubjectComponent } from './subject/subject.component';
+import { SyllabusComponent } from './syllabus/syllabus.component';
 
 const routes: Routes = [
     {
@@ -44,6 +45,16 @@ const routes: Routes = [
                 data: {
                       breadcrumb: breadcrumb.SUBJECT,
                       title: pageTitle.SUBJECT,
+                      role: Object.values(ROLE_ADMIN)
+                }
+          },
+          {
+                path: 'syllabus',
+                component: SyllabusComponent,
+                canActivate: [AuthGuard],
+                data: {
+                      breadcrumb: breadcrumb.SYLLABUS,
+                      title: pageTitle.SYLLABUS,
                       role: Object.values(ROLE_ADMIN)
                 }
           },

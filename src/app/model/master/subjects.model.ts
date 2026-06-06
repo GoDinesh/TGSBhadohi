@@ -1,4 +1,4 @@
-export class Subject {
+export class Subjects {
   id: number;
   subject: string;
   active: boolean;

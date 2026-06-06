@@ -120,6 +120,12 @@ export const menuListAdmin: INavbarData[]=[
         "routerLink": masters + "/subject",
         "active": true,
     },
+    {
+        "text": "Syllabus",
+        "icon": "fa fa-book-open",
+        "routerLink": masters + "/syllabus",
+        "active": true,
+    },
     // {
     //     "text": "Fees Type",
     //     "icon": "fa fa-money",

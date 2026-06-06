@@ -15,7 +15,7 @@ export const pageTitle = {
                 BOOK_DRESS_FEES : 'SSM Fees',
                 HOLIDAY         : 'Holiday',
                 SUBJECT         : 'Subject',
-
+                SYLLABUS        : 'Syllabus',
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',
                 STUDENT_LIST    : 'Student List',

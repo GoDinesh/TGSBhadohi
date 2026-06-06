@@ -1,27 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
-import { AcademicYear } from 'src/app/model/master/academic-year.model';
+import { Syllabus } from 'src/app/model/master/syllabus.model';
 import { ResponseModel } from 'src/app/model/shared/response-model.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AcademicYearService {
-  requestUrl = appurl.menuurl_master + appurl.master_academicyear;
+export class SyllabusService {
+  requestUrl = appurl.menuurl_master + appurl.master_syllabus;
   constructor(private httpClient: HttpClient) { }
 
-  insertAcademicYear(academicYearModel: AcademicYear){
+  insertSyllabus(syllabusModel: Syllabus) {
      const url = this.requestUrl + appurl.endpoint_insert;
-     return this.httpClient.post<ResponseModel>(url, JSON.stringify(academicYearModel))
+     return this.httpClient.post<ResponseModel>(url, JSON.stringify(syllabusModel))
   }
 
-  getAllAcademicYear(){
+  getAllSyllabus(){
     const url = this.requestUrl + appurl.endpoint_findall;
     return this.httpClient.get<ResponseModel>(url)
   }
 
-  getAllActiveAcademicYear(){
+  getAllActiveSyllabus(){
     const url = this.requestUrl + appurl.endpoint_allActiveRecords;
     return this.httpClient.get<ResponseModel>(url)
   }

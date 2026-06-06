@@ -1,0 +1,43 @@
+.grid-card-container {
+  padding: 8px;
+}
+
+.card {
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.card-header {
+  padding: 6px 12px !important;
+}
+
+.card-body {
+  padding: 8px !important;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.form-control-sm {
+  height: 32px;
+  font-size: 12px;
+}
+
+.table th,
+.table td {
+  font-size: 12px;
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.btn-sm {
+  height: 32px;
+}
+
+.row.g-1 {
+  --bs-gutter-x: 4px;
+  --bs-gutter-y: 4px;
+}
