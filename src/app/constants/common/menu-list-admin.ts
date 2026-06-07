@@ -122,8 +122,14 @@ export const menuListAdmin: INavbarData[]=[
     },
     {
         "text": "Syllabus",
-        "icon": "fa fa-book-open",
+        "icon": "fa fa-reddit-alien",
         "routerLink": masters + "/syllabus",
+        "active": true,
+    },
+    {
+        "text": "Time Table",
+        "icon": "fa fa-reddit-alien",
+        "routerLink": masters + "/time-table",
         "active": true,
     },
     // {

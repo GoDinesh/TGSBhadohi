@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-
-import { map, Observable, Subject } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { appurl } from 'src/app/constants/common/appurl';
 import { msgTypes } from 'src/app/constants/common/msgType';
 import { AcademicYear } from 'src/app/model/master/academic-year.model';
 import { Class } from 'src/app/model/master/class.model';
 import { Subjects } from 'src/app/model/master/subjects.model';
-import { SyllabusSubjectDetails } from 'src/app/model/master/syllabus-subject-details.model';
-import { Syllabus } from 'src/app/model/master/syllabus.model';
+import { TimeTableDetails } from 'src/app/model/master/time-table-details.model';
+import { TimeTable } from 'src/app/model/master/time-table.model';
 import { Registration } from 'src/app/model/student/registration.model';
 import { AuthService } from 'src/app/service/common/auth.service';
 import { PermissionService } from 'src/app/service/common/permission.service';
@@ -20,42 +19,46 @@ import { ValidationErrorMessageService } from 'src/app/service/common/validation
 import { AcademicYearService } from 'src/app/service/masters/academic-year.service';
 import { ClassService } from 'src/app/service/masters/class.service';
 import { SubjectService } from 'src/app/service/masters/subject.service';
-import { SyllabusService } from 'src/app/service/masters/syllabus.service';
+import { TimeTableService } from 'src/app/service/masters/time-table.service';
 import { RegistrationService } from 'src/app/service/student/registration.service';
 
 @Component({
-  selector: 'app-syllabus',
-  templateUrl: './syllabus.component.html',
-  styleUrls: ['./syllabus.component.css']
+  selector: 'app-time-table',
+  templateUrl: './time-table.component.html',
+  styleUrls: ['./time-table.component.css']
 })
-export class SyllabusComponent {
+export class TimeTableComponent {
+  weekDayList: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   studentInfo: Registration = new Registration();
   dataSource = new MatTableDataSource<Registration>();
   dtOptions: any = {};
-  posts: Observable<Syllabus[]> = new Observable();
-    allClassList: Observable<Class[]> = new Observable();
+  posts: Observable<TimeTable[]> = new Observable();
+  allClassList: Observable<Class[]> = new Observable();
   academicYearList: Observable<AcademicYear[]> = new Observable();
   editable: boolean | undefined;
   subjectList: Observable<Subjects[]> = new Observable();
-  List: SyllabusSubjectDetails[] = [];
+  List: TimeTableDetails[] = [];
   editIndex: number = -1;
-  actionFlag:boolean = true;
+  timeTablemodel: TimeTable = new TimeTable();
+  actionFlag = true;
 
   formGroup = new FormGroup({
-      syllabusId: new FormControl(),
+    timeTableId: new FormControl(),
     standard: new FormControl(),
     academicYearCode: new FormControl(),
-    syllabusDetails: new FormControl()
+    timeTableDetails: new FormControl()
   });
 
-  syllabusSubjectFormGroup = new FormGroup({
-    subject: new FormControl(),
-    fa1: new FormControl(),
-    fa2: new FormControl(),
-    sa1: new FormControl(),
-    fa3: new FormControl(),
-    fa4: new FormControl(),
-    sa2: new FormControl()
+  timetableDetailsFormGroup = new FormGroup({
+    day: new FormControl(),
+    subject1: new FormControl(),
+    subject2: new FormControl(),
+    subject3: new FormControl(),
+    subject4: new FormControl(),
+    subject5: new FormControl(),
+    subject6: new FormControl(),
+    subject7: new FormControl(),
+    subject8: new FormControl()
   });
 
   constructor(
@@ -69,18 +72,17 @@ export class SyllabusComponent {
     private router: Router,
     private authService:AuthService,
     private subjectService: SubjectService,
-    private syllabusService: SyllabusService,
+    private timeTableService: TimeTableService,
     private alertService: SweetAlertService
-  ) {
+    ) {
   }
 
-  //get student formcontroll
-  get syllabusFormControll() {
+  get timeTableFormControll() {
     return this.formGroup.controls;
   }
 
-  get syllabusSubjectFormControll() {
-    return this.syllabusSubjectFormGroup.controls;
+  get timetableDetailsFormControll() {
+    return this.timetableDetailsFormGroup.controls;
   }
 
   ngOnInit() {
@@ -89,14 +91,14 @@ export class SyllabusComponent {
   }
 
   customInit() {
-    this.createSyllabusForm(new Syllabus());
-    this.createSyllabusRow(new SyllabusSubjectDetails());
+    this.createForm(new TimeTable());
+    this.createTimeTableRow(new TimeTableDetails());
 
     this.updateEditable();
     this.loadClass();
     this.loadAcademicyear();
     this.loadSubject();
-    this.getTableRecord();
+      this.getTableRecord();
   }
 
   private updateEditable(): void {
@@ -105,25 +107,27 @@ export class SyllabusComponent {
     });
   }
 
-  createSyllabusForm(syllabus: Syllabus) {
+  createForm(syllabus: TimeTable) {
     this.formGroup = this.formBuilder.group({
-      syllabusId: [syllabus.syllabusId],
+      timeTableId: [syllabus.timeTableId],
       standard: [syllabus.standard],
       academicYearCode: [syllabus.academicYearCode,[Validators.required]],
-      syllabusDetails: [syllabus.syllabusSubjectDetails,[]]
+      timeTableDetails: [syllabus.timeTableDetails,[]]
     });
   }
 
 
-createSyllabusRow(syllabusSubjectDetails: SyllabusSubjectDetails){
-   this.syllabusSubjectFormGroup = this.formBuilder.group({
-    subject: [syllabusSubjectDetails.subject, Validators.required],
-    fa1: [syllabusSubjectDetails.fa1, Validators.required],
-    fa2: [syllabusSubjectDetails.fa2, Validators.required],
-    sa1: [syllabusSubjectDetails.sa1, Validators.required],
-    fa3: [syllabusSubjectDetails.fa3, Validators.required],
-    fa4: [syllabusSubjectDetails.fa4, Validators.required],
-    sa2: [syllabusSubjectDetails.sa2, Validators.required]
+createTimeTableRow(timetableDetails: TimeTableDetails){
+   this.timetableDetailsFormGroup = this.formBuilder.group({
+    day: [timetableDetails.day, Validators.required],
+    subject1: [timetableDetails.subject1, Validators.required],
+    subject2: [timetableDetails.subject2, Validators.required],
+    subject3: [timetableDetails.subject3, Validators.required],
+    subject4: [timetableDetails.subject4, Validators.required],
+    subject5: [timetableDetails.subject5, Validators.required],
+    subject6: [timetableDetails.subject6, Validators.required],
+    subject7: [timetableDetails.subject7, Validators.required],
+    subject8: [timetableDetails.subject8, Validators.required]
   });
 }
 
@@ -169,9 +173,9 @@ createSyllabusRow(syllabusSubjectDetails: SyllabusSubjectDetails){
     };
   }
 
-   //To get Student List
+  //To get Student List
   async getTableRecord() {
-    this.posts = this.syllabusService.getAllSyllabus().pipe(
+    this.posts = this.timeTableService.getAllTimeTable().pipe(
       map((res) => {
         return res.data;
       })
@@ -188,26 +192,28 @@ createSyllabusRow(syllabusSubjectDetails: SyllabusSubjectDetails){
 
 
 resetForm() {
-    this.createSyllabusForm(new Syllabus())
+    this.createForm(new TimeTable())
     this.actionFlag = true;
 }
 
-editSyllabus(index: number) {
+editTimeTableRow(index: number) {
 
   this.editIndex = index;
   const item = this.List[index];
-  this.syllabusSubjectFormGroup.patchValue({
-    subject: item.subject,
-    fa1: item.fa1,
-    fa2: item.fa2,
-    sa1: item.sa1,
-    fa3: item.fa3,
-    fa4: item.fa4,
-    sa2: item.sa2
+  this.timetableDetailsFormGroup.patchValue({
+    day: item.day,
+    subject1: item.subject1,
+    subject2: item.subject2,
+    subject3: item.subject3,
+    subject4: item.subject4,
+    subject5: item.subject5,
+    subject6: item.subject6,
+    subject7: item.subject7,
+    subject8: item.subject8
   });
 }
 
-removeSyllabus(index: number) {
+removeTimeTableRow(index: number) {
 
   this.List.splice(index, 1);
 
@@ -216,35 +222,37 @@ removeSyllabus(index: number) {
   }
 }
 
-addSyllabus() {
-  const duplicate = this.checkDuplicateSubject(this.syllabusSubjectFormGroup.value.subject, this.List, this.editIndex);
+addTimeTableRow() {
+  const duplicate = this.checkDuplicateSubject(this.timetableDetailsFormGroup.value.day, this.List, this.editIndex);
   if (duplicate) {
-    this.sweetAlertService.showAlert(msgTypes.WARNING, "Subject already exists.", msgTypes.WARNING, msgTypes.OK_KEY);
+    this.sweetAlertService.showAlert(msgTypes.WARNING, "Day already exists.", msgTypes.WARNING, msgTypes.OK_KEY);
     return;
   }
-  const syllabus = new SyllabusSubjectDetails();
-  syllabus.subject = this.syllabusSubjectFormGroup.value.subject;
-  syllabus.fa1 = this.syllabusSubjectFormGroup.value.fa1;
-  syllabus.fa2 = this.syllabusSubjectFormGroup.value.fa2;
-  syllabus.sa1 = this.syllabusSubjectFormGroup.value.sa1;
-  syllabus.fa3 = this.syllabusSubjectFormGroup.value.fa3;
-  syllabus.fa4 = this.syllabusSubjectFormGroup.value.fa4;
-  syllabus.sa2 = this.syllabusSubjectFormGroup.value.sa2;
+  const timeTableDetails = new TimeTableDetails();
+  timeTableDetails.day = this.timetableDetailsFormGroup.value.day;
+  timeTableDetails.subject1 = this.timetableDetailsFormGroup.value.subject1;
+  timeTableDetails.subject2 = this.timetableDetailsFormGroup.value.subject2;
+  timeTableDetails.subject3 = this.timetableDetailsFormGroup.value.subject3;
+  timeTableDetails.subject4 = this.timetableDetailsFormGroup.value.subject4;
+  timeTableDetails.subject5 = this.timetableDetailsFormGroup.value.subject5;
+  timeTableDetails.subject6 = this.timetableDetailsFormGroup.value.subject6;
+  timeTableDetails.subject7 = this.timetableDetailsFormGroup.value.subject7;
+  timeTableDetails.subject8 = this.timetableDetailsFormGroup.value.subject8;
   if (this.editIndex > -1) {
-    this.List[this.editIndex] = syllabus;
+    this.List[this.editIndex] = timeTableDetails;
     this.editIndex = -1;
   } else {
-    this.List.push(syllabus);
+    this.List.push(timeTableDetails);
   }
-  this.clearSyllabusForm();
+  this.clearTimeTableForm();
 }
 
-checkDuplicateSubject(subject: string, list: SyllabusSubjectDetails[], editIndex: number): boolean {
-  return list.some((item, index) => item.subject === subject && index !== editIndex);
+checkDuplicateSubject(subject: string, list: TimeTableDetails[], editIndex: number): boolean {
+  return list.some((item, index) => item.day === subject && index !== editIndex);
 }
 
-clearSyllabusForm() {
-    this.syllabusSubjectFormGroup.reset();
+clearTimeTableForm() {
+    this.timetableDetailsFormGroup.reset();
 }
 
 
@@ -253,15 +261,15 @@ finalSubmit() {
     this.sweetAlertService.showAlert(msgTypes.WARNING, "Please add at least one subject to the syllabus.", msgTypes.WARNING, msgTypes.OK_KEY);
     return;
   }
-  const syllabus = new Syllabus();
-  syllabus.syllabusId = this.syllabusFormControll.syllabusId.value;
-  syllabus.standard = this.syllabusFormControll.standard.value;
-  syllabus.academicYearCode = this.syllabusFormControll.academicYearCode.value;
-  syllabus.syllabusSubjectDetails = this.List;
+  const timeTable = new TimeTable();
+  timeTable.timeTableId = this.timeTableFormControll.timeTableId.value;
+  timeTable.standard = this.timeTableFormControll.standard.value;
+  timeTable.academicYearCode = this.timeTableFormControll.academicYearCode.value;
+  timeTable.timeTableDetails = this.List;
 
-  this.syllabusService.insertSyllabus(syllabus).subscribe(res => {
+  this.timeTableService.insertTimeTable(timeTable).subscribe(res => {
     if (res.status === msgTypes.SUCCESS_MESSAGE) {
-      this.sweetAlertService.showAlert(msgTypes.SUCCESS, "Syllabus submitted successfully!", msgTypes.SUCCESS, msgTypes.OK_KEY);
+      this.sweetAlertService.showAlert(msgTypes.SUCCESS, "Time table submitted successfully!", msgTypes.SUCCESS, msgTypes.OK_KEY);
       // Optionally, you can reset the form and clear the list after submission.
       this.resetForm();
       this.List = [];
@@ -269,28 +277,30 @@ finalSubmit() {
       this.sweetAlertService.showAlert(msgTypes.ERROR, res.message, msgTypes.ERROR, msgTypes.OK_KEY);
     }
   }, error => {
-    this.sweetAlertService.showAlert(msgTypes.ERROR, "An error occurred while submitting the syllabus. Please try again.", msgTypes.ERROR, msgTypes.OK_KEY);
+    this.sweetAlertService.showAlert(msgTypes.ERROR, "An error occurred while submitting the time table. Please try again.", msgTypes.ERROR, msgTypes.OK_KEY);
   });
 }
 
 
 
+
   //change the status
-  async slideToggleChange(element: MatSlideToggleChange, data: Syllabus) {
+  async slideToggleChange(element: MatSlideToggleChange, data: TimeTable) {
     const flag = await this.alertService.updateAlert()
     if (flag) {
       data.active = !data.active;
-      this.syllabusService.insertSyllabus(data).subscribe();
+      this.timeTableService.insertTimeTable(data).subscribe();
     } else {
       element.source.checked = data.active;
     }
   }
 
   //set value in formfield to update
-  setValueToUpdate(data: Syllabus) {
-    this.createSyllabusForm(data);
-    this.List = data.syllabusSubjectDetails;
+  setValueToUpdate(data: TimeTable) {
+    this.createForm(data);
+    this.List = data.timeTableDetails;
     this.actionFlag = false;
   }
+
 
 }

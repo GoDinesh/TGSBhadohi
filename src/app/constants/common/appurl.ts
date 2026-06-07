@@ -1,9 +1,9 @@
 export const appurl={
     //Prod
-   // baseurl: 'https://api.tgsbhadohi.com',
+   baseurl: 'https://api.tgsbhadohi.com',
 
     //local
-    baseurl: 'http://localhost:8080',
+   // baseurl: 'http://localhost:8080',
 
 
 
@@ -26,6 +26,7 @@ export const appurl={
                 master_bookAndDressFees: '/book-dress-fees',
                 master_holiday: '/holiday',
                 master_syllabus: '/syllabus',
+                master_timetable: '/timetable',
 
         menuurl_student: '/student',
                 student_registration: '/registration',
@@ -68,6 +69,7 @@ export const appurl={
     endpoint_allActiveRecords:'/allActiveRecords',
     endpoint_findbyid: '/findbyid',
     endpoint_filter: '/filter',
+    endpoint_delete: '/delete',
 
 
 

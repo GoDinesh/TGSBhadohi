@@ -13,6 +13,7 @@ import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.compon
 import { HolidayComponent } from './holiday/holiday.component';
 import { SubjectComponent } from './subject/subject.component';
 import { SyllabusComponent } from './syllabus/syllabus.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 const routes: Routes = [
     {
@@ -105,6 +106,16 @@ const routes: Routes = [
                 data: {
                       breadcrumb: breadcrumb.HOLIDAY,
                       title: pageTitle.HOLIDAY,
+                      role: Object.values(ROLE_ADMIN)
+                }
+          },
+          {
+                path: 'time-table',
+                component: TimeTableComponent,
+                canActivate: [AuthGuard],
+                data: {
+                      breadcrumb: breadcrumb.TIME_TABLE,
+                      title: pageTitle.TIME_TABLE,
                       role: Object.values(ROLE_ADMIN)
                 }
           },

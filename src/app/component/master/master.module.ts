@@ -12,6 +12,7 @@ import { BookDressFeesComponent } from './book-dress-fees/book-dress-fees.compon
 import { HolidayComponent } from './holiday/holiday.component';
 import { SubjectComponent } from './subject/subject.component';
 import { SyllabusComponent } from './syllabus/syllabus.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SyllabusComponent } from './syllabus/syllabus.component';
     HolidayComponent,
     SubjectComponent,
     SyllabusComponent,
+    TimeTableComponent,
   ],
   imports: [
     CommonModule,

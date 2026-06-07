@@ -16,6 +16,7 @@ export const pageTitle = {
                 HOLIDAY         : 'Holiday',
                 SUBJECT         : 'Subject',
                 SYLLABUS        : 'Syllabus',
+                TIME_TABLE      : 'Time Table',
         STUDENT: 'Student',
                 REGISTRATION    : 'Registration',
                 STUDENT_LIST    : 'Student List',

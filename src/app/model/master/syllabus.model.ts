@@ -6,11 +6,13 @@ export class Syllabus {
   syllabusSubjectDetails: SyllabusSubjectDetails[];
   standard: string;
   academicYearCode: string;
+  active: boolean;
 
   constructor() {
     this.syllabusId = 0;
     this.standard = '';
     this.academicYearCode = '';
     this.syllabusSubjectDetails = [];
+    this.active = true;
   }
 }
