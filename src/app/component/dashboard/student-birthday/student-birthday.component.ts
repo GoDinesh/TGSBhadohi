@@ -64,7 +64,7 @@ export class StudentBirthdayComponent {
   async getStudentRecord() {
     this.registrationService.studentList(new Registration()).subscribe(res => {
       if (res.status === msgTypes.SUCCESS_MESSAGE) {
-        this.posts = res.data;
+        this.posts = res.data.filter((student: Registration) => student.isActive === true);
       }
 
       const today = new Date();

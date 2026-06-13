@@ -104,6 +104,7 @@
        <tr>
          <th>S.No</th>
          <th>Photo</th>
+         <th>Status</th>
          <th>Dropout</th>
          <th>Old/New</th>
          <th>Registration Number</th>
@@ -150,6 +151,7 @@
          <td class="td-sno">{{i+1}}</td>
          <td class="td-sno" *ngIf="post.profileImage == null"></td>
          <td class="td-sno" *ngIf="post.profileImage != null"><img class="avatar" src="{{baseurl}}{{post.profileImage.link}}" width="50" height="50"/></td>
+         <td class="td-small">{{post.isActive ? "Active" : "Inactive"}}</td>
          <td class="td-small" [ngClass]="{'dropout-text': post.dropout}">{{post.dropout ? "Dropout":""}}</td>
          <td class="td-large">{{post.enrollmentType}}</td>
          <td class="td-large">{{ post.registrationNo }}</td>

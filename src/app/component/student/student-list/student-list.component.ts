@@ -142,12 +142,19 @@ export class StudentListComponent {
 
     this.registrationService.studentList(studentInfo).subscribe(res=>{
         if(res.status === msgTypes.SUCCESS_MESSAGE){
-          this.posts = res.data;
+          const currentAcademicYear = this.getCurrentAcademicYear();
+          this.posts = res.data.filter((item: Registration) => !(item.isActive === false && item.academicYearCode === currentAcademicYear) );
           if(res.data.length == 0){
             this.sweetAlertService.showAlert(msgTypes.ERROR, msgTypes.NO_RECORD_FOUND, msgTypes.ERROR, msgTypes.OK_KEY);
           }
         }
       })
+  }
+
+  getCurrentAcademicYear(): string {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    return `${currentYear}${nextYear}`;
   }
 
   viewDetails(registration: Registration){
